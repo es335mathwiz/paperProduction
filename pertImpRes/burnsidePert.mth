@@ -1,0 +1,54 @@
+prepSCE2013[]
+Get["burnsideEqnsSubs.mth"]
+
+SetOptions["stdout",PageWidth->120]
+
+Clear[burnsideMod]
+
+constructFOFDrvsBDrvs[burnsideMod, burnsideEqns /. N[burnsideSubs], 
+  theInit=initSSGuess -> {.1, 5.}];
+
+nextOrderPerturbation[burnsideMod, theInit]
+
+
+genPolys[burnsideMod,theInit];
+
+
+
+
+(*
+ergodicMean[burnsideMod,5,3,{},theInit]
+
+<<pertComponents.m
+NestList[With[{res=nxtOne[burnsideMod,2,burnsideSubs,#]},Print[res];res]&,theInit,1]
+
+
+<<pertComponents.m
+FixedPoint[With[{res=nxtOne[burnsideMod,2,burnsideSubs,#]},Print[res];res]&,theInit,SameTest->(Abs[#1[[2,2]]-#2[[2,2]]]<10^-5 &)]
+
+
+NestList[With[{res=nxtOne[neoMod,4,#]},Print[res];res]&,theInit,30]
+
+2nd order
+hmatLinPtSubs -> {0.0179, 5.00932}
+4th order
+hmatLinPtSubs -> {0.0179, 5.315}
+
+*)
+
+
+
+(*
+
+(*
+
+<<perturbationAIM.m
+*)
+
+
+AIMSS[burnsideEqns/.burnsideSubs,AIMSSGuess->{.01,5}]
+
+theRes=AIMSeries[burnsideEqns/.burnsideSubs,2];
+
+
+*)

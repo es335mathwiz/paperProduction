@@ -1,0 +1,16 @@
+
+<<perturbationAIM.m
+<<burnsideEqnsSubs.mth
+
+
+AIMSS[burnMod=burnsideEqns/.burnsideSubs,AIMSSGuess->{.01,2.7}]
+
+
+
+
+theRes01=AIMSeries[burnMod,1]/.ericMoms/.Sigma->1
+theRes02=AIMSeries[burnMod,2]/.ericMoms/.Sigma->1
+theRes03=AIMSeries[burnMod,3]/.ericMoms/.Sigma->1
+theRes04=AIMSeries[burnMod,4]/.ericMoms/.Sigma->1
+theRes05=AIMSeries[burnMod,5]/.ericMoms/.Sigma->1
+

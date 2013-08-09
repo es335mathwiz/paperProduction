@@ -1,0 +1,13 @@
+prepSCE2013[]
+Get["burnsideEqnsSubs.mth"]
+
+(*formulae for burnside model, see jedc vol 22 paper*)
+a[i_]:= theta *i * xbar + (1/2)* (theta^2)*(sigma^2)/((1 - rho)^2)*(i - 2*(rho/(1-rho))*(1 - rho^i)+ rho^2*(1-rho^(2*i))/(1 - rho^2))
+b[i_]:=theta*rho/(1-rho)*(1 - rho^i)
+term[i_]:=((beta^i)E^(a[i]+b[i]*(xt-xbar)));
+
+
+forPaperFunc[xVal_]:=Sum[term[ii]/.
+		{sigma->sigVal,xt->xVal}/.N[burnsideSubs],{ii,1,800}]
+
+

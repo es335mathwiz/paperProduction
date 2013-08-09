@@ -1,0 +1,56 @@
+prepSCE2013[]
+Get["burnsideEqnsSubs.mth"]
+
+
+
+newWeightedStochasticBasis[burnsideModProj, (burnsideEqns) //. burnsideSubs];
+
+{{stateVars, nonStateVars, shocks}, modEqns} = 
+  GenerateModelCode[burnsideModProj];
+
+polyRanges = {{xLow = 0.01, xHigh = 1.},{zLow=-.1,zHigh=.1}};
+(*initial power of polynomial*)
+
+
+
+initPowers = {0};
+shockPowers = {0};
+shockMeans = {0};
+shockStDevs = {0348/10000.};
+intOrders = {10};
+
+
+burnsideBasis = 
+ GenerateBasis[stateVars, polyRanges, initPowers, shocks, 
+  shockMeans, shockStDevs, intOrders, shockPowers, nonStateVars]
+
+
+guessWts = {{0.202639}, {0.360247}};
+res00 = ComputeInitialCollocationWeights[burnsideBasis, guessWts,modEqns];
+projPoly00=genPolysFromChebWts[res00];
+ss00=FindRoot[{x,y}-projPoly00/.xx$Shock->0,{{x,.1},{y,5.}}]
+
+
+
+res11=ComputeCollocationWeightsToOrder[res00,{1,1}]
+(*polys11=genPolysFromChebWts[res11[getResWeights[]],{xx,eps},Join[polyRanges],{1,1}]//Expand;*)
+projPoly11=genPolysFromChebWts[res11];
+ss11=FindRoot[{x,y}-projPoly11/.xx$Shock->0,{{x,.1},{y,5.}}]
+
+
+res22=ComputeCollocationWeightsToOrder[res11,{2,2}]
+(*polys22=genPolysFromChebWts[res22[getResWeights[]],{xx,eps},Join[polyRanges,{{-.1,.1}}],{2,2}]/.compSubs//Expand;*)
+projPoly22=genPolysFromChebWts[res22];
+ss22=FindRoot[{x,y}-projPoly22/.xx$Shock->0,{{x,.1},{y,5.}}]
+
+res33=ComputeCollocationWeightsToOrder[res22,{3,3}]
+projPoly33=genPolysFromChebWts[res33];
+ss33=FindRoot[{x,y}-projPoly33/.xx$Shock->0,{{x,.1},{y,5.}}]
+
+res44=ComputeCollocationWeightsToOrder[res33,{4,4}]
+res66=ComputeCollocationWeightsToOrder[res44,{6,6}]
+projPoly66=genPolysFromChebWts[res66];
+ss66=FindRoot[{x,y}-projPoly66/.xx$Shock->0,{{x,.1},{y,5.}}]
+
+FindRoot[{x,y}-projPoly33/.xx$Shock->0,{{x,.1},{y,5.}}]
+(*genPolysFromChebWts[res[getResWeights[]],{xx,eps},Join[polyRanges,{{-.1,.1}}],{2,2}]/.compSubs//Expand;*)

@@ -1,0 +1,152 @@
+
+\newcommand{\va}[1]{\log(x_{1#1})}
+\newcommand{\vb}[1]{\log(y_{1#1})}
+\newcommand{\vc}[1]{\log(x_{2#1})}
+
+%\newcommand{\tlam}{\boldsymbol{\lambda}}
+%\newcommand{\tnu}{\boldsymbol{\nu}}
+\newcommand{\bz}{\boldsymbol{z}}
+\newcommand{\tmu}{\boldsymbol{\mu}}
+%\newcommand{\yell}{\mathbf{l}}
+%\newcommand{\kay}{\mathbf{k}}
+\newcommand{\compArg}{x_1,\ldots,x_d}
+\newcommand{\theComp}{
+f(y_1,\ldots,y_m),\,\, \text{and}\,\,  g^1(\compArg),\ldots,g^m(\compArg)\\
+h(\compArg) = f(g^1(\compArg),\ldots,g^m(\compArg))
+}
+\newcommand{\prt}[1]{\left(\frac{\partial }{\partial x_#1}\right )^{\psi_#1}}
+
+\newcommand{\xt}{\mathcal{E}_t}
+\newcommand{\omTerms}[1]{
+  \faDiPyr{2}{\bCompAug{#1}}   \gMultTerm{2}{\bCompAug{#1}}+ \ldots +
+  \faDiPyr{k-1}{\bCompAug{#1}} \gMultTerm{k-1}{\bCompAug{#1}}}
+\newcommand{\mma}{{\bf Mathematica}}
+\newcommand{\mlb}{{\bf MATLAB}}
+\newcommand{\bComp}[2]{\overset{\circlearrowleft(#1)}{\mathcal{B}_{#2}}}
+\newcommand{\bCompAug}[1]{\overset{\circlearrowleft(#1)}{\mathcal{B}_{Aug}}}
+\newcommand{\mkMat}[2]{\overset{\circlearrowleft(#2)}{
+\underset{(#1)}{\mathcal{M}}}}
+\newcommand{\nkMat}[2]{\overset{\circlearrowleft(#2)}{
+\underset{(#1)}{\mathcal{N}}}}
+\newcommand{\bmatObj}{\item[bMat] $B \in \rSpTwo{L}{L\cdot \tau}$}
+\newcommand{\bCompMultsObj}{\item[gMults] $M_k \in \rSpTwo{L \theta \dtg}{L \dtg}$}
+\newcommand{\gMultsObj}{\item[gMults] $W \in \rSpTwo{\idtg}{\dtg}$}
+\newcommand{\lilGMultsObj}{\item[lilGMults] $W \in \rSpTwo{\dtg}{\dtg}$}
+\newcommand{\bPyrsObj}{\item[bPyrs] $B_\Delta \in \rSpTwo{\fv}{s}$}
+\newcommand{\gPyrsObj}{\item[gPyrs] $G_\Delta \in \rSpTwo{\fv}{s}$}
+\newcommand{\vbar}{{\mid}}
+\newcommand{\rSpTwo}[2]{\mathcal{R}^{#1}\times\mathcal{R}^{#2}}
+\newcommand{\sdefLine}[4]{
+{ #1}{\small ($#3$)}&  #2&#4\\}
+\newcommand{\pscl}[2]{\frac{(#1+#2)!}{(#1!#2!)}}
+\newcommand{\fv}{\mathcal{N}}
+\newcommand{\theLeads}{\fv_+}
+
+\newcommand{\leadsNeededDef}{ List of ordered pairs. Ordered pair consists of variable number followd by the lead present. Each lead variable appearing in the model
+has an ordered pair. $\{ (v_1,l_1),\ldots,(v_{\fv_+},l_{\fv_+}) \}$
+}
+\newcommand{\neqDef}{$L$ -- the number of equations}
+\newcommand{\theInOuts}[2]{
+\centerline{{\bf#1}}
+\begin{description}
+#2
+\end{description}
+}
+
+\newcommand{\theIns}[2]{\theInOuts{#1 --- The Inputs}{#2}}
+\newcommand{\theOuts}[2]{\theInOuts{#1 --- The Outputs}{#2}}
+
+
+
+\newcommand{\algDef}[1]{
+\subsection{#1}
+\label{sec:#1}
+}
+\newcommand{\mstr}[2]{
+{ \scriptstyle #1}\overset{#2}{
+\begin{bmatrix}
+  \ 
+\end{bmatrix}
+}}
+\newcommand{\bk}[2]{B_{#1}^{#2}}
+\newcommand{\pyr}[2]{#1_{#2}}
+\newcommand{\altF}{\mathcal{F}}
+\newcommand{\dtg}{\mathcal{V}}
+\newcommand{\idtg}{\mathcal{V}_I}
+\newcommand{\gMult}{\mathcal{W}}
+\newcommand{\gMultTerm}[2]{\underset{(#1)}{\mathcal{W}} \left (#2 \right )}
+\newcommand{\tlam}{\boldsymbol{\lambda}}
+\newcommand{\tnu}{\boldsymbol{\nu}}
+\newcommand{\yell}{\mathbf{l}}
+\newcommand{\kay}{\mathbf{k}}
+
+
+
+%from practicalConsiderationsSeminar.tex
+\newcommand{\inv}[1]{#1^{-1}}
+
+\newcommand{\stitle}[1]{{\centerline{
+      \begin{minipage}{4.0in}
+        \begin{center}
+\large\bf #1
+        \end{center}
+      \end{minipage}
+}}} 
+
+\newcommand{\sdef}[3]{
+%\nwslide
+\stitle{#1$(#2)$}
+\begin{gather*}
+#2=
+#3
+\end{gather*}
+}
+
+\newcommand{\nlsys}{\mathcal{H}}
+\newcommand{\eqsys}{\mathcal{G}}
+\newcommand{\fprod}{\mathcal{Y}}
+\newcommand{\fga}[1]{\underset{(#1)}{\mathcal{F}}}
+\newcommand{\pyrStar}[1]{#1^\ast_{{\bf pyr}}}
+\newcommand{\pyrStarF}[1]{#1^\ast_{{\bf pyr_1}}}
+\newcommand{\pyrStarS}[1]{#1^\ast_{{\bf pyr_2}}}
+\newcommand{\eqcon}{\mathsf{m}}
+\newcommand{\eqsoln}{{h}}
+\newcommand{\seqsys}{\mathcal{G}_s}
+\newcommand{\seqcon}{\mathsf{m}_s}
+\newcommand{\seqsoln}{{h}_s}
+\newcommand{\olrm}{\mathcal{W}_l}
+\newcommand{\sfga}{\mathcal{F}_s}
+\newcommand{\solrm}{\mathcal{W}_{ls}}
+
+
+%from practicalConsiderationsSeminar.tex
+
+
+
+
+\newcommand{\bce}{B_{CE}}
+\newcommand{\bstoch}{B_{Stoch}}
+\newcommand{\bstsub}[1]{B_{Stoch,#1}}
+\newcommand{\pds}[1]{\frac{\partial #1}{\partial \sigma}}
+\newcommand{\pdds}[1]{\frac{\partial^2 #1}{\partial \sigma^2}}
+
+
+
+\newcommand{\bigB}{\mathcal{B}}
+\newcommand{\pdOne}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdTwo}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\pdOneOne}[3]{\frac{\partial^2 #1}{\partial #2\partial #3}}
+\newcommand{\doPyrOne}[2]{\Delta_{#1}(#2)}
+\newcommand{\doPyrTwo}[2]{\Delta^2_{#1}(#2)}
+\newcommand{\theVars}{\{\bar{x},\epsilon,\sigma\}}
+
+%\newcommand{\expt}[2]{\mathcal{E}_{#1} \left ( {#2} |\mathcal{I}_{#1}\right )}
+\newcommand{\expt}[2]{{E}_{#1} \left  [ {#2}  \right  ]}
+\newcommand{\theB}{\mathcal{B}}
+\newcommand{\justX}{x_{t-\tau},\ldots,x_{t-1}}
+%\newcommand{\theArg}[1]{x_{t-\tau},\ldots,x_{t-1},#1,\sigma}
+\newcommand{\theArg}[1]{\justX,#1,\sigma}
+\newcommand{\theArgVert}{x_{t-\tau} \\ \vdots \\ x_{t-1}}
+\newcommand{\real}[1]{\mathcal{R}^{#1}}
+\newcommand{\faDiPyr}[2]{\underset{(#1)}{\Delta} \left (#2 \right )}
+
