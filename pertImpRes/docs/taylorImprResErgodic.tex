@@ -47,7 +47,7 @@ impulse response functions and moment generating functions for the ergodic distr
 
 
 
-\section{Polynomial Time Series Functional Composition/Iteration}
+\subsection{Polynomial Time Series Functional Composition/Iteration}
 
 
   \begin{itemize}
@@ -63,40 +63,6 @@ x_{t+2}=  h_2(x_{t-1},\epsilon_t,\epsilon_{t+1},\epsilon_{t+2})= g(g(g(x_{t-1},\
 \item Perturbation solution technique exploits this relations to substitute out lead variables to get an approximation $\hat{g}$
   \end{itemize}
 
-
-\section{Taylor Series Expansion for ${\mathbf x_{t+k}}$}
-
-  \begin{itemize} 
- \item make the following substitutions  into \ref{neoEuler}
-\begin{gather*}
-E_t c_{t+1}(\hat{k}_{t-1},z_{t-1},\epsilon_{t},\sigma)= 
-\cFunc(\kFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),
-\zFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),\sigma \epsilon_{t+1})\\
-E_t k_{t+1}(\hat{k}_{t-1},z_{t-1},\epsilon_{t},\sigma)= 
-\kFunc(\kFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),
-\zFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),\sigma \epsilon_{t+1})\\
-E_t z_{t+1}(\hat{k}_{t-1},z_{t-1},\epsilon_{t},\sigma)= 
-\kFunc(\kFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),
-\zFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),\sigma \epsilon_{t+1})
-\end{gather*}
-  \end{itemize}
-
-  \begin{itemize}
-  \item Including auxiliary variables for each lead would be tedious
-  \item Fortunately it is unnecessary
-\item   The derivatives of g to nth order determine the derivatives of each
-$h_k$ to nth order
-\item Subsequent to the perturbation computation, we have all the components necessary for a {\bf Taylor Series Expansion} for $h_k$
-  \end{itemize}
-
-
-For any time invariant recursively applied polynomial function:
-\begin{itemize}
-\item $x_{t+k}=H_k(x_{t-1},\epsilon_t, \ldots,\epsilon_{t+k})$
-\item Given derivatives for $G$, the \faa\ formula provides derivatives for $H_k$
-\item perturbation methods generate the required derivatives
-\item projection methods derivatives available by inspection of terms
-\end{itemize}
 
 \subsection{Functional Composition via the \faa\ Formula}
   
@@ -124,9 +90,31 @@ Non linearity captured in the $\gMultTerm{m}{g}$.
   \item Scope of parallization
   \end{itemize}
 
+\subsection{Taylor Series Expansion for ${\mathbf x_{t+k}}$}
+
+  \begin{itemize}
+  \item Including auxiliary variables for each lead would be tedious
+  \item Fortunately it is unnecessary
+\item   The derivatives of g to nth order determine the derivatives of each
+$h_k$ to nth order
+\item Subsequent to the perturbation computation, we have all the components necessary for a {\bf Taylor Series Expansion} for $h_k$
+  \end{itemize}
 
 
-\subsection{Burnside Model}
+For any time invariant recursively applied polynomial function:
+\begin{itemize}
+\item $x_{t+k}=H_k(x_{t-1},\epsilon_t, \ldots,\epsilon_{t+k})$
+\item Given derivatives for $G$, the \faa\ formula provides derivatives for $H_k$
+\item perturbation methods generate the required derivatives
+\item projection methods derivatives available by inspection of terms
+\end{itemize}
+
+
+\subsection{Some Examples}
+\label{sec:some-examples}
+
+
+\subsubsection{Burnside Model}
 \label{sec:burnside-model}
 
   
@@ -141,7 +129,7 @@ y_t=\beta(\exp^{(\theta(x_{t+1}))} (1+y_{t+1}))\\
 
 
 
-\subsection{Neoclassical Growth Model}
+\subsubsection{Neoclassical Growth Model}
 \label{sec:neocl-growth-model}
 
 The first order conditions lead to 
@@ -157,6 +145,23 @@ z_t - ( \rho_zz_{t-1} +\epsilon_t)
 c^\ast = 0.360247, k^\ast=0.202639, z^\ast=0.
 \end{gather}
 \\
+
+
+
+  \begin{itemize} 
+ \item make the following substitutions  into \ref{neoEuler}
+\begin{gather*}
+E_t c_{t+1}(\hat{k}_{t-1},z_{t-1},\epsilon_{t},\sigma)= 
+\cFunc(\kFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),
+\zFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),\sigma \epsilon_{t+1})\\
+E_t k_{t+1}(\hat{k}_{t-1},z_{t-1},\epsilon_{t},\sigma)= 
+\kFunc(\kFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),
+\zFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),\sigma \epsilon_{t+1})\\
+E_t z_{t+1}(\hat{k}_{t-1},z_{t-1},\epsilon_{t},\sigma)= 
+\kFunc(\kFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),
+\zFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),\sigma \epsilon_{t+1})
+\end{gather*}
+  \end{itemize}
 
 
   \begin{itemize}
@@ -259,15 +264,16 @@ the derivative pyramids.\cite{neidinger02}
 \label{sec:some-pract-cons}
 
 
+\subsubsection{  Arbitrary order}
 
+
+  \subsubsection{ Arbitrary linearization point}
 
 
   \begin{itemize}
   \item Symbolic calculations compute moments without integration
-  \item Can generate a polynomial representation
-  \item Can compute Volterra series representation
-  \item Arbitrary order
-  \item Arbitrary linearization point
+
+
   \end{itemize}
 
 
@@ -296,7 +302,7 @@ the derivative pyramids.\cite{neidinger02}
 {intOut Mathematica Code}
 
 {\tiny
-\listinginput{1}{/msu/home/m1gsa00/RES2/conferences/sce13/code.mth}
+\listinginput{1}{../code/code.mth}
 }
 
 
@@ -328,6 +334,12 @@ x_{t+k}=  \hat{h}_k(x_{t-1},\epsilon_t,\epsilon_{t+1},\cdots,\epsilon_{t+k})= \h
 \subsection{Projection Method Applications}
 \label{sec:proj-meth-appl}
 
+\begin{itemize}
+\item Burnside Example
+\item Neoclassical Example
+\end{itemize}
+
+
 \subsection{Impulse Response Function Moments}
 \label{sec:impulse-resp-funct}
 
@@ -358,8 +370,9 @@ distribution over time
 
 {Perturbation at Arbitrary Point}
 {\small
-\listinginput{1}{neoPertSoln.mth}
+\listinginput{1}{../code/neoPertSoln.mth}
 }
+
 
 
 \subsection{Ergodic  Moments}
@@ -465,7 +478,7 @@ y_t(\sigma,\epsilon_{t},\epsilon_{t-1},\epsilon_{t-2},\ldots)\\
 \label{sec:future-work}
 
 \begin{itemize}
-\item Validate Burnside Formulae\section{}
+\item Validate Burnside Formulae
 \item Burnside-like results for neoclassical growth model
 \end{itemize}
 \bibliographystyle{authordate4}
