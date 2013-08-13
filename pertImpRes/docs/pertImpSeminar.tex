@@ -23,21 +23,6 @@
 % \usepackage{natbib}
 \usepackage{authordate1-4}
 \input{theNewCommands}
-\newcommand{\mi}[3]{#1[\{#2\}(#3)}
-\newcommand{\pDrv}[2]{\left ( \frac{\partial}{\partial #1} \right )^{#2}}
-\newcommand{\spDrv}[2]{\left ( \frac{\partial#1}{\partial #2} \right )}
-\newcommand{\vSum}[1]{\sum_{i_#1=0}^\infty}
-\newcommand{\vEps}[1]{\epsilon_{t-i_#1}}
-\newcommand{\faa}{Fa\`{a} di Bruno}
-\newcommand{\myamp}{&}
-\newcommand{\mywedge}{^}
-\newcommand{\cFunc}{{\bf c}}
-\newcommand{\kFunc}{{\bf k}}
-\newcommand{\zFunc}{{\bf z}}
-\newcommand{\fwt}[2]{\frame{\frametitle{#1} #2}}
-\theoremstyle{definition}
-\newtheorem{defn}{Definition}[section]
-
 \begin{document}
 \title[Taylor Series-Based Ergodic Distribution Moments]{A \st{Perturbation}Taylor Series-{Based} Method for Approximating Dynamic Nonlinear Model Impulse Response Functions and Ergodic Distribution Moments }
 \author{Gary S. Anderson}
@@ -233,6 +218,7 @@ state.%\footnote{For $\gamma=1=\delta$ there is no variance correction for time 
 
 
 
+
 \section{Polynomial Time Series Functional Composition/Iteration}
 
 
@@ -267,7 +253,6 @@ x_{t+k}=  \hat{h}_k(x_{t-1},\epsilon_t,\epsilon_{t+1},\cdots,\epsilon_{t+k})= \h
   \item alternatively one could consider approximating $\hat{h}_k$ at the same time as $\hat{g}$
   \end{itemize}
 }
-\newcommand{\sNum}[2]{(#1 \cdot 10^{#2})}
  \fwt{Example With a Long Lead}
  {
   \begin{itemize}

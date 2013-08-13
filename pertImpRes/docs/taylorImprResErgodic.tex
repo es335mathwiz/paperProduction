@@ -1,0 +1,475 @@
+\documentclass[12pt]{article}
+\usepackage{pseudocode}
+\usepackage{amsmath}
+\usepackage{authordate1-4}
+\usepackage{moreverb}
+\title{A Taylor Series-{Based} Method for Approximating Dynamic Nonlinear Model Impulse Response Functions and Ergodic Distribution Moments }
+\author{Gary S. Anderson}
+\date{\today} 
+
+\usepackage{amsthm}
+\input{theNewCommands}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+  This paper presents a perturbation based method for approximating
+impulse response functions and moment generating functions for the ergodic distribution of non linear time series models. The paper shows how to exploit the Fa di Bruno formula for derivatives of function compositions to efficiently compute perturbation approximations for the expected value of model variables arbitrarily far into the future. As this method is applicable for any system of polynomials iterated forward in time, one can apply the technique to projection method solutions as well as perturbation solutions for non-linear dynamic stochastic general equilibrium (DSGE) models. The paper also presents an iterative method for choosing a better stochastic equilibrium point for computing perturbation solutions. Interestingly, the technique also provides an alternative method for computing the Volterra Series described in a recent paper by Lan and Meyer-Gohde.
+\end{abstract}
+
+
+\newpage
+
+
+\tableofcontents
+
+
+\newpage
+
+\section{Time Invariant Polynomial Functions} 
+
+  \begin{itemize}
+  \item Consider functions of the form
+\begin{gather}
+  x_t= G(x_{t-\tau},\ldots,x_{t-1},\epsilon_t) \label{eqnSys}
+\end{gather}
+ where $G$ is a kth order polynomial in $x_{t-\tau},\ldots,x_{t-1},\epsilon_t$
+\item Assume 
+  \begin{itemize}
+  \item $x_t$ finite dimensional
+  \item $G$ time invariant
+  \item The system \ref{eqnSys} is stochastically stable\cite{tong90}
+  \end{itemize}
+
+
+  \end{itemize}
+
+
+
+
+\section{Polynomial Time Series Functional Composition/Iteration}
+
+
+  \begin{itemize}
+  \item Compositions of the G functions give leads of model variables
+  \item For scalar $x_t$:
+\begin{gather*}
+x_t=  g(x_{t-1},\epsilon_t)\\
+x_{t+1}=  h_1(x_{t-1},\epsilon_t,\epsilon_{t+1})= g(g(x_{t-1},\epsilon_t), \epsilon_{t+1})\\ 
+x_{t+2}=  h_2(x_{t-1},\epsilon_t,\epsilon_{t+1},\epsilon_{t+2})= g(g(g(x_{t-1},\epsilon_t), \epsilon_{t+1}) \epsilon_{t+2})\\
+\vdots
+\end{gather*}
+\item   The derivatives of $g$ to nth order determine the derivatives of $h_k$ to nth order
+\item Perturbation solution technique exploits this relations to substitute out lead variables to get an approximation $\hat{g}$
+  \end{itemize}
+
+
+\section{Taylor Series Expansion for ${\mathbf x_{t+k}}$}
+
+  \begin{itemize} 
+ \item make the following substitutions  into \ref{neoEuler}
+\begin{gather*}
+E_t c_{t+1}(\hat{k}_{t-1},z_{t-1},\epsilon_{t},\sigma)= 
+\cFunc(\kFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),
+\zFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),\sigma \epsilon_{t+1})\\
+E_t k_{t+1}(\hat{k}_{t-1},z_{t-1},\epsilon_{t},\sigma)= 
+\kFunc(\kFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),
+\zFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),\sigma \epsilon_{t+1})\\
+E_t z_{t+1}(\hat{k}_{t-1},z_{t-1},\epsilon_{t},\sigma)= 
+\kFunc(\kFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),
+\zFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),\sigma \epsilon_{t+1})
+\end{gather*}
+  \end{itemize}
+
+  \begin{itemize}
+  \item Including auxiliary variables for each lead would be tedious
+  \item Fortunately it is unnecessary
+\item   The derivatives of g to nth order determine the derivatives of each
+$h_k$ to nth order
+\item Subsequent to the perturbation computation, we have all the components necessary for a {\bf Taylor Series Expansion} for $h_k$
+  \end{itemize}
+
+
+For any time invariant recursively applied polynomial function:
+\begin{itemize}
+\item $x_{t+k}=H_k(x_{t-1},\epsilon_t, \ldots,\epsilon_{t+k})$
+\item Given derivatives for $G$, the \faa\ formula provides derivatives for $H_k$
+\item perturbation methods generate the required derivatives
+\item projection methods derivatives available by inspection of terms
+\end{itemize}
+
+\subsection{Functional Composition via the \faa\ Formula}
+  
+  \begin{itemize}
+\item Given
+ \begin{gather*}
+\theComp
+ \end{gather*}
+\begin{gather*}
+h_{\nu} = \sum_{m=1}^{{\vbar}\nu{\vbar}}\faDiPyr{m}{f} \gMultTerm{m}{g}
+\intertext{where}
+\gMultTerm{m}{g}=
+   (\tnu!) \sum_{s=1}^m 
+\sum_{p_s(\tnu,\tlam)}\prod_{j=1}^s \frac{(g_{\yell_j})^{\kay_j}}{(\kay_j!)((\yell_j!)^{{\vbar}\kay_j{\vbar}})}
+\end{gather*}
+\item 
+Non linearity captured in the $\gMultTerm{m}{g}$.
+
+
+  \end{itemize}
+
+
+  \begin{itemize}
+  \item Computational complexity
+  \item Scope of parallization
+  \end{itemize}
+
+
+
+\subsection{Burnside Model}
+\label{sec:burnside-model}
+
+  
+
+  \begin{itemize}
+  \item \cite{burnside}
+    \begin{gather*}
+y_t=\beta(\exp^{(\theta(x_{t+1}))} (1+y_{t+1}))\\
+(x_t-\bar{x}) = \rho (x_{t-1}-\bar{x})   + \epsilon_t 
+    \end{gather*}
+  \end{itemize}
+
+
+
+\subsection{Neoclassical Growth Model}
+\label{sec:neocl-growth-model}
+
+The first order conditions lead to 
+\begin{gather}
+E_t \label{neoEuler}
+\begin{bmatrix}
+1-\left (  \frac{c_{t+1}^{-\gamma}}{c_t^{-\gamma}}(\alpha e^{z_{t+1}} k_{t}^{\alpha-1} + (1 - \delta)) \right )\\
+ c_t +k_{t} - (e^{z_t}k_{t-1}^\alpha + (1-\delta)k_{t-1})\\
+z_t - ( \rho_zz_{t-1} +\epsilon_t)
+\end{bmatrix}
+\intertext{ With Parameter Values}
+\alpha = .36, \beta = .99, \delta =1, \gamma = 1,    \rho_z = .95\intertext{ the non-stochastic steady state is}
+c^\ast = 0.360247, k^\ast=0.202639, z^\ast=0.
+\end{gather}
+\\
+
+
+  \begin{itemize}
+  \item make the following substitutions  into \ref{neoEuler}
+\begin{gather*}
+E_t c_{t+1}(\hat{k}_{t-1},z_{t-1},\epsilon_{t},\sigma)= 
+\cFunc(\kFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),
+\zFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),\sigma \epsilon_{t+1})\\
+E_t k_{t+1}(\hat{k}_{t-1},z_{t-1},\epsilon_{t},\sigma)= 
+\kFunc(\kFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),
+\zFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),\sigma \epsilon_{t+1})\\
+E_t z_{t+1}(\hat{k}_{t-1},z_{t-1},\epsilon_{t},\sigma)= 
+\kFunc(\kFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),
+\zFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t}),\sigma \epsilon_{t+1})
+\end{gather*}
+  \end{itemize}
+
+
+One  easily obtains the second order 
+perturbation solution centered at the non-stochastic steady
+state.%\footnote{For $\gamma=1=\delta$ there is no variance correction for time t.}
+\begin{gather*}
+  \begin{bmatrix}
+    c_t\\k_t\\z_t
+  \end{bmatrix}=
+\begin{bmatrix}
+\cFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t})\\ 
+\kFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t})\\
+\zFunc(\hat{k}_{t-1},z_{t-1},\epsilon_{t})  
+\end{bmatrix}= 
+\\
+\begin{bmatrix}
+ 0.3602 + 0.64\hat{k}_{t-1} - 
+  1.0107\hat{k}_{t-1}^2 +  0.3422zz_{t-1} + \\0.608\hat{k}_{t-1}zz_{t-1} + 
+  0.16256zz_{t-1}^2 + \\0.3602\epsilon_{t} + 
+  0.64\hat{k}_{t-1}\epsilon_{t} + 0.34223zz_{t-1}\epsilon_{t} + 
+  0.18012\epsilon_{t}^2 \\
+0.2026 + 
+  0.36\hat{k}_{t-1} - 0.568\hat{k}_{t-1}^2 - 
+   + 0.1925zz_{t-1} + 
+  0.342\hat{k}_{t-1}zz_{t-1} +\\ 0.0914zz_{t-1}^2 + 
+  0.2026\epsilon_{t} + 0.36\hat{k}_{t-1}\\
+   \epsilon_{t} + 0.1925zz_{t-1}\epsilon_{t} + 
+  0.1013\epsilon_{t}^2\\
+  0.95zz_{t-1} + \epsilon_{t}
+\end{bmatrix}
+\end{gather*}
+
+
+\section{Some Practical Considerations}
+
+\subsection{Umbral Calculus}
+
+\begin{itemize}
+\item Umbral calculus techniques allow for more computationally efficient 
+implementation\cite{nardo11}
+\item No Normality assumption or integration required for computation of moments
+\item no simulation
+\item Note that the \faa\ Formula also applies for functions of future variables.
+\begin{gather*}
+  E_t(f(x_{t+k}))= E_t( f(h_k(g(x_{t-1},\epsilon_t),\epsilon_{t+1},\ldots,\epsilon_{t+k})))
+\end{gather*}
+\end{itemize}
+
+
+The presentation and the computer code use multi-indices for describing the
+coefficients and in the code for determining where the coefficients will
+be stored.\cite{neidinger02}
+
+
+\begin{gather*}
+\mi{f}{\psi_1,\ldots,\psi_n}{x_1,\ldots,x_n}= \left [  \pDrv{x_1}{\psi_1} \cdots  \pDrv{x_n}{\psi_n} f \right ](x_1,\ldots,x_n)
+\end{gather*}
+
+GB Folland
+A multi-index is an n-tuple of nonnegative integers. Multi-indices are generally denoted
+by the
+the Greek letters 
+
+
+If is a multi-index, we define
+\begin{gather*}
+  |\alpha|\ = \sum_{i=1}^n \alpha_i,  \alpha!= \Pi_{i=1}^n \alpha_i!\\
+x^\alpha = \Pi_{i=1}^n x_i^{\alpha_i} \intertext{ or }
+ \partial \alpha f = \partial_1^{\alpha_1} \partial_2^{\alpha_2} \cdots \partial_n^{\alpha_n}= \frac{\partial^{|\alpha|}}{\partial x_1^{\alpha_1} \partial x_2^{\alpha_2}\cdots \partial x_n^{\alpha_n}}
+\end{gather*}
+
+The number $|\alpha|$ is called the order or degree of $\alpha$ Thus, the order of $\alpha$ is the same as the order of $x^\alpha$  as a monomial or 
+the order of $\partial \alpha $ as a partial derivative.
+kth-order partial derivative of f can be written simply as $\partial^\alpha f$ with $|\alpha = k|$.
+Consequently, multi-indices are very useful for wiritn both polynomials and partial derivatives.
+
+Neidinger's Algorithm2 provides a way to systematically step through
+the derivative pyramids.\cite{neidinger02}
+
+
+
+
+\subsection{Advantages of Symbolic Computing}
+\label{sec:some-pract-cons}
+
+
+
+
+
+  \begin{itemize}
+  \item Symbolic calculations compute moments without integration
+  \item Can generate a polynomial representation
+  \item Can compute Volterra series representation
+  \item Arbitrary order
+  \item Arbitrary linearization point
+  \end{itemize}
+
+
+  \begin{itemize}
+  \item Code consists of Mathematica (with a small amount of Java)
+  \item No need for tensors or matrix derivative notation
+  \item Integration of polynomial function of independently and identically distributed shocks amounts to pattern matching
+  \item One could consider more complicated manipulation of shocks
+    \begin{itemize}
+    \item modes
+\item  medians 
+\item percentiles
+    \end{itemize}
+   \item Provides flexibility about transition from symbolic to numerical calculation
+  \end{itemize}
+
+
+{\small Code will soon be available on gitHub es335mathwiz }
+
+
+
+
+\subsubsection{Integration Through Pattern Matching}
+\label{sec:integr-thro-patt}
+
+{intOut Mathematica Code}
+
+{\tiny
+\listinginput{1}{/msu/home/m1gsa00/RES2/conferences/sce13/code.mth}
+}
+
+
+\subsection{Timing}
+\label{sec:timing}
+
+
+
+\section{Other Applications}
+\label{sec:other-applications}
+
+\subsection{Pruning}
+\label{sec:pruning}
+
+
+  \begin{itemize}
+  \item To compute impulse responses, researchers typically iterate using $\hat{g}$
+\begin{gather*}
+x_{t+2}=  \hat{h}_2(x_{t-1},\epsilon_t,\epsilon_{t+1},\epsilon_{t+1})= \hat{g}(\hat{g}(\hat{g}(x_{t-1},\epsilon_t), \epsilon_{t+1}) \epsilon_{t+2})\\
+\vdots \\
+x_{t+k}=  \hat{h}_k(x_{t-1},\epsilon_t,\epsilon_{t+1},\cdots,\epsilon_{t+k})= \hat{g}(\hat{g}(\hat{g}(x_{t-1},\epsilon_t), \epsilon_{t+1}) \epsilon_{t+2})\\
+\vdots
+\end{gather*}
+  \item Given this approach, the quality of the approximation for $h_k$ decreases dramatically with k
+  \item ``spurious'' steady states require pruning
+  \item alternatively one could consider approximating $\hat{h}_k$ at the same time as $\hat{g}$
+  \end{itemize}
+
+\subsection{Projection Method Applications}
+\label{sec:proj-meth-appl}
+
+\subsection{Impulse Response Function Moments}
+\label{sec:impulse-resp-funct}
+
+
+  \begin{itemize}
+\item Approximations for moments of future variables
+\item $E_t(Var(x_{t+k})) \sim E_t(x_{t+k}^2)   - (E_t({t+k}))^2$
+\item skewness
+$E\left [ \left ( \frac{X-\mu}{\sigma} \right )^3 \right ] = \frac{E[X^3] - 3 \mu \sigma^2 - \mu^3}{\sigma^3}$
+\item kurtosis
+$E\left [ \left ( \frac{X-\mu}{\sigma} \right )^4 \right ] -3$
+\item Can compute impulse response function characterizing the state variables 
+distribution over time
+\item Robustly characterize the evolution of qualitative and quantitative behavior
+\item These values do not explode over time -- no need for pruning
+
+  \end{itemize}
+
+
+
+\subsection{Choosing a Linearization Point}
+  \begin{itemize}
+  \item Best point depends on loss function
+  \item Uni-modal perhaps mode best
+  \item Ergodic Mean Good Candidate
+  \item Iterate on Linearization Point followed by Ergodic Mean calculation until convergence
+  \end{itemize}
+
+{Perturbation at Arbitrary Point}
+{\small
+\listinginput{1}{neoPertSoln.mth}
+}
+
+
+\subsection{Ergodic  Moments}
+\label{sec:impulse-resp-funct}
+
+  \begin{itemize}
+   \item Augment equation \ref{neoEuler} with $\mathbf{c}tp20_t = c_{t+20}, \mathbf{k}tp20_t = k_{t+20}$
+    \end{itemize}
+{\tiny
+ \begin{gather*} 
+E_t(     \mathbf{c}tp20_t)= 0.3602 + (9 \times  10^{-9}) k_{t-1} -1.9 \times 10^{-9} k_{t-1}^2 + 3.74533 \sigma^2 + .2 z_{t-1} +\sNum{8}{-9} k_{t-1} z_{t-1} +\\
+ .2 \epsilon_t  +\sNum{8}{-10} k_{t-1} z_t + \sNum{1.3}{-1} z_{t-1} \epsilon_t\\
+E_t(       \mathbf{k}tp20_t) = 0.2026 + (5 \times  10^{-9}) k_{t-1} -1.1 \times 10^{-9} k_{t-1}^2 + .108 \sigma^2 + .11 z_{t-1} +\sNum{4.5}{-9} k_{t-1} z_{t-1} +\\
+ .1 \epsilon_t  +\sNum{4.46}{-10} k_{t-1} z_t 
+ \end{gather*}
+}
+    \begin{itemize}
+  \item can provide a second order approximation for the
+mean in the distant future
+ \item Note how the initial conditions have a diminished 
+ impact on the expected future
+ values for the model variables.
+\item This could be a candidate for what
+some refer to as the stochastic steady state.
+
+
+% % Once using the stochastic steady state, it's possible to approximate variances and other moments.
+% % It's straightforward to compute the mean variance skewness 
+% % and kurtosis at any point in time.  And for any particular shock. 
+% % As a result it's possible to compute
+% % these values for the ergodic distribution.
+   \end{itemize}
+
+  \begin{itemize}
+  \item Compute expected values for increasing values of t
+  \item Note convergence characteristics
+    \begin{itemize}
+    \item $\parallel E_t(x_{t+k_1}) - E_t(x_{t+k_2}) \parallel , k_2>k_1$
+    \item $ \parallel \spDrv{x_{t+k_2}}{x_{t-1}}  \parallel $
+ %   \item $\left ( \spDrv{x_{t+k_2}}{x_{t-1}} \right ) $
+    \end{itemize}
+  \end{itemize}
+
+  \begin{itemize}
+  \item Compute expected values for increasing values of t
+  \item Note convergence characteristics
+    \begin{itemize}
+    \item $\parallel E_t(x_{t+k_1}) - E_t(x_{t+k_2}) \parallel , k_2>k_1$
+    \item $ \parallel \spDrv{x_{t+k_2}}{x_{t-1}}  \parallel $
+ %   \item $\left ( \spDrv{x_{t+k_2}}{x_{t-1}} \right ) $
+    \end{itemize}
+  \item ``Leapfrogging'' is useful
+  \end{itemize}
+
+
+{
+\begin{gather*}
+x_t=  g(x_{t-1},\epsilon_t)\\
+E_t x_{t+1}=  E_t g(g(x_{t-1},\epsilon_t) \epsilon_{t+1})\\
+E_t x_{t+2}=  E_t g(g(g(x_{t-1},\epsilon_t) \epsilon_{t+1}) \epsilon_{t+2})\\
+E_t x_{t+2}= E_t h^2(g(x_{t-1},\epsilon_t),\epsilon_{t+1},\epsilon_{t+2})\intertext{ where}
+h^2(x_t,\epsilon_{t+1},\epsilon_{t+2})
+=g(g(x_t \epsilon_{t+1}) \epsilon_{t+2})\\
+h^4(x_t,\epsilon_{t+1},\epsilon_{t+2},\epsilon_{t+3},\epsilon_{t+4})
+=h^2(h^2(x_t \epsilon_{t+1} \epsilon_{t+2}) \epsilon_{t+3} \epsilon_{t+4})\\
+\vdots\\
+h^{2^k}(x_t,\epsilon_{t+1},\epsilon_{t+2},\ldots \epsilon_{t+2^k})
+=h^{2^{k-1}}(h^{2^{k-1}}(x_t \epsilon_{t+1},\ldots  \epsilon_{t+2^{k-1}}) \epsilon_{t+2^{k-1}+1},\ldots  \epsilon_{t+2^k})\\
+E_t x_{t+2^k}= E_t h^{2^k}(g(x_{t-1},\epsilon_t),\epsilon_{t+1},\ldots,\epsilon_{t+2^k})
+\end{gather*}
+}
+
+
+
+
+\section{Computing a Volterra Series}
+
+
+{
+
+  \begin{itemize}
+  \item Recent paper\cite{meyer-gohde10,lan13} 
+  \end{itemize}
+    \begin{gather*}
+0=E_t [ f(y_{t+1}^{fwdendo},y_t,y_{t-1}^{state},\epsilon_t)]\\
+y_t(\sigma,\epsilon_{t},\epsilon_{t-1},\epsilon_{t-2},\ldots)\\
+      y_t= \sum_{m=0}^M\frac{1}{m!} \vSum{1}\vSum{2}\cdots\vSum{m}\left [ \sum_{n=0}^{M-m} \frac{1}{n!} y_{\sigma^n i_1 i_2\cdots i_m}\sigma^n\right ] \vEps{1}\otimes \vEps{2} \otimes \cdots \otimes \vEps{m}
+    \end{gather*}
+}
+
+
+{Mathematica Function}
+   \begin{itemize}
+   \item Compute a typical perturbation solution
+   \item Choose $m$ for the Volterra series
+   \item Compute a composition for the first time period
+   \item Compute 
+   \end{itemize}
+
+
+
+\section{Future Work}
+\label{sec:future-work}
+
+\begin{itemize}
+\item Validate Burnside Formulae\section{}
+\item Burnside-like results for neoclassical growth model
+\end{itemize}
+\bibliographystyle{authordate4}
+\bibliography{files,anderson}
+
+
+\end{document}

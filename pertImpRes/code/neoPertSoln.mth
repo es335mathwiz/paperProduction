@@ -1,0 +1,15 @@
+prepSCE2013[]
+(*construct symbolic bdrvs for 
+first perturbation step*)
+Clear[newNeoModel]; 
+(*specify {.1,.2,.1} as  linearization point*)
+aLinPt={.1,.2,.1}
+constructFOFDrvsBDrvs[neoMod,newNeoEqns/.newNeoSubs, 
+   hmatLinPtSubs -> aLinPt];
+(*to second order*)
+nextOrderPerturbation[neoMod,
+   hmatLinPtSubs -> aLinPt]
+(*to third order*)
+nextOrderPerturbation[neoMod,
+   hmatLinPtSubs -> aLinPt]
+notAtSSPoly=genPolys[neoMod,   hmatLinPtSubs->aLinPt];
