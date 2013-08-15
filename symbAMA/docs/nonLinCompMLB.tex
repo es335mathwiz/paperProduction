@@ -1,0 +1,48 @@
+\newcommand{\nlmlbtime}[5]{#1&#2&#3&#4&#5\\}
+%allLinCompMLB matlab program
+%breakeven   (P/tf)/(ts/tf-1)
+
+\begin{table}
+  \centering
+    
+
+  {
+\begin{minipage}{1.0\linewidth}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\multicolumn{1}{|c|}{Model}&  
+\multicolumn{1}{|c|}{Matlab Original}&  
+\multicolumn{1}{|c|}{Analytic Mex}&  
+\multicolumn{1}{|c|}{Speed Up}&  
+\multicolumn{1}{|c|}{Break Even}\\
+\hline
+\nlmlbtime{\text{kiyotakiMooreViegi}}
+%\text{Null}
+{1.96508}{0.021356}{92.0156}{262}
+\hline
+\nlmlbtime{\text{AssetPricingApproximation}}
+%\text{Null}
+{4.48572}{0.029729}{150.887}{43}
+\hline
+\nlmlbtime{\text{Fig1131}}
+%\text{Null}
+{3.81073}{0.022281}{171.03}{353}
+\hline
+\nlmlbtime{\text{Figv3$\_$1191}}
+%\text{Null}
+{4.40183}{0.03968}{110.933}{244}
+\hline
+\end{tabular}
+\end{minipage}
+}
+  \caption{Calculation Times}
+  \label{tab:nonLinMexTime}
+\end{table}
+
+
+
+
+
+
+
+

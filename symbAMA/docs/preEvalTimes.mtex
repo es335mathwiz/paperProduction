@@ -1,0 +1,214 @@
+\newcommand{\pretime}[6]{#1&#2&#3&#4&#5&#6\\}
+
+\begin{table}
+  \centering
+
+  {
+\begin{minipage}{1.0\linewidth}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\multicolumn{1}{|c|}{Model}&  
+\multicolumn{1}{|c|}{Parse}&  
+\multicolumn{1}{|c|}{$H$}&  
+\multicolumn{1}{|c|}{$Z_f, H_f$}&  
+\multicolumn{1}{|c|}{$A,a$}&
+\multicolumn{1}{|c|}{Total}\\
+\hline
+%<*theRow=1;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+%<*theRow++;*>
+\pretime{<*theMods[[theRow]]*>}
+{<*allPre[[theRow,1]]*>}
+{<*allPre[[theRow,2]]*>}
+{<*allPre[[theRow,3]]*>}
+{<*Plus @@ allPre[[theRow,{4,5}]]*>}
+{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+\hline
+\end{tabular}
+\end{minipage}
+}
+  \caption{Calculation Times}
+  \label{tab:preEvalTimes}
+\end{table}
+
+
+
+
+
+
+
+

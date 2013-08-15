@@ -1,0 +1,60 @@
+\newcommand{\lmlbtime}[5]{#1&#2&#3&#4&#5\\}
+%allLinCompMLB matlab program
+%breakeven   (P/tf)/(ts/tf-1)
+
+\begin{table}
+  \centering
+    
+
+  {
+\begin{minipage}{1.0\linewidth}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\multicolumn{1}{|c|}{Model}&  
+\multicolumn{1}{|c|}{Matlab Original}&  
+\multicolumn{1}{|c|}{Analytic Mex}&  
+\multicolumn{1}{|c|}{Speed Up}&  
+\multicolumn{1}{|c|}{Break Even}\\
+\hline
+\lmlbtime{\text{firmValue}}
+%<*theRow=1;numReps=1000;*>
+{<*linExeTimes[[theRow,1]]*>}{<*linExeTimes[[theRow,2]]*>}{<*linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))]*>}
+\hline
+\lmlbtime{\text{fuhrerMoore}}
+%<*theRow++;numReps=1000;*>
+{<*linExeTimes[[theRow,1]]*>}{<*linExeTimes[[theRow,2]]*>}{<*linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))]*>}
+\hline
+\lmlbtime{\text{hall1estimateBayes}}
+%<*theRow++;numReps=1000;*>
+{<*linExeTimes[[theRow,1]]*>}{<*linExeTimes[[theRow,2]]*>}{<*linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))]*>}
+\hline
+\lmlbtime{\text{lesothoViegi}}
+%<*theRow++;numReps=1000;*>
+{<*linExeTimes[[theRow,1]]*>}{<*linExeTimes[[theRow,2]]*>}{<*linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))]*>}
+\hline
+\lmlbtime{\text{lubikSchorfheide}}
+%<*theRow++;numReps=1000;*>
+{<*linExeTimes[[theRow,1]]*>}{<*linExeTimes[[theRow,2]]*>}{<*linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))]*>}
+\hline
+\lmlbtime{\text{rosenestimateBayes}}
+%<*theRow++;numReps=1000;*>
+{<*linExeTimes[[theRow,1]]*>}{<*linExeTimes[[theRow,2]]*>}{<*linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))]*>}
+\hline
+\lmlbtime{\text{simpleNeoViegi}}
+%<*theRow++;numReps=1000;*>
+{<*linExeTimes[[theRow,1]]*>}{<*linExeTimes[[theRow,2]]*>}{<*linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))]*>}
+\hline
+\end{tabular}
+\end{minipage}
+}
+  \caption{Calculation Times}
+  \label{tab:linMexTime}
+\end{table}
+
+
+
+
+
+
+
+

@@ -1,0 +1,48 @@
+\newcommand{\nlmlbtime}[5]{#1&#2&#3&#4&#5\\}
+%allLinCompMLB matlab program
+%breakeven   (P/tf)/(ts/tf-1)
+
+\begin{table}
+  \centering
+    
+
+  {
+\begin{minipage}{1.0\linewidth}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\multicolumn{1}{|c|}{Model}&  
+\multicolumn{1}{|c|}{Matlab Original}&  
+\multicolumn{1}{|c|}{Analytic Mex}&  
+\multicolumn{1}{|c|}{Speed Up}&  
+\multicolumn{1}{|c|}{Break Even}\\
+\hline
+\nlmlbtime{<*allNonLinearMods[[doThese10[[theRow]]]]*>}
+%<*theRow=1;numReps=1000;*>
+{<*nonLinExeTimes[[theRow,1]]*>}{<*nonLinExeTimes[[theRow,2]]*>}{<*nonLinExeTimes[[theRow,1]]/nonLinExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*nonLinTimes[[theRow,{1,2,3,4}]]/(nonLinExeTimes[[theRow,1]]-nonLinExeTimes[[theRow,2]]))]*>}
+\hline
+\nlmlbtime{<*allNonLinearMods[[doThese10[[theRow]]]]*>}
+%<*theRow++;numReps=1000;*>
+{<*nonLinExeTimes[[theRow,1]]*>}{<*nonLinExeTimes[[theRow,2]]*>}{<*nonLinExeTimes[[theRow,1]]/nonLinExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*nonLinTimes[[theRow,{1,2,3,4}]]/(nonLinExeTimes[[theRow,1]]-nonLinExeTimes[[theRow,2]]))]*>}
+\hline
+\nlmlbtime{<*allNonLinearMods[[doThese10[[theRow]]]]*>}
+%<*theRow++;numReps=1000;*>
+{<*nonLinExeTimes[[theRow,1]]*>}{<*nonLinExeTimes[[theRow,2]]*>}{<*nonLinExeTimes[[theRow,1]]/nonLinExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*nonLinTimes[[theRow,{1,2,3,4}]]/(nonLinExeTimes[[theRow,1]]-nonLinExeTimes[[theRow,2]]))]*>}
+\hline
+\nlmlbtime{<*allNonLinearMods[[doThese10[[theRow]]]]*>}
+%<*theRow++;numReps=1000;*>
+{<*nonLinExeTimes[[theRow,1]]*>}{<*nonLinExeTimes[[theRow,2]]*>}{<*nonLinExeTimes[[theRow,1]]/nonLinExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*nonLinTimes[[theRow,{1,2,3,4}]]/(nonLinExeTimes[[theRow,1]]-nonLinExeTimes[[theRow,2]]))]*>}
+\hline
+\end{tabular}
+\end{minipage}
+}
+  \caption{Calculation Times}
+  \label{tab:nonLinMexTime}
+\end{table}
+
+
+
+
+
+
+
+

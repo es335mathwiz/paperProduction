@@ -1,0 +1,111 @@
+%\usepackage{indentfirst}
+%\usepackage[dcucite]{harvard}
+%\usepackage{harvard}
+\usepackage{color}
+\usepackage{ifpdf}
+\usepackage{floatfig}
+\newlength{\matfieldwidth}
+\usepackage{multicol}
+%\usepackage[margin=1in]{geometry}
+\usepackage{wrapfig}
+\usepackage{theorem}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amscd}
+\usepackage{authordate1-4}
+
+\usepackage{pdftricks}
+\ifpdf
+\begin{psinputs}
+   \usepackage{pstricks}
+   \usepackage{pstcol}
+   \usepackage{pst-tree}
+   \usepackage{pst-node}
+   \usepackage{pspicture}
+\end{psinputs}
+\else
+   \usepackage{pstricks}
+   \usepackage{pstcol}
+   \usepackage{pst-tree}
+   \usepackage{pst-node}
+   \usepackage{pspicture}
+\fi
+
+
+
+
+
+\usepackage{program}
+\normalbaroutside%
+\newsavebox{\appbox}
+
+
+\setcounter{MaxMatrixCols}{20}
+\newcommand{\ugB}[1]{\mathcal{B}_{#1}}
+\newcommand{\ugBR}[1]{\mathcal{B}_{R#1}}
+\newcommand{\ugBL}[1]{\mathcal{B}_{L#1}}
+\newcommand{\sTransA}{\mathcal{A}}
+\newcommand{\sTransB}{\mathcal{B}}
+
+\newcommand{\us}{_}
+\newcommand{\mH}{\mathcal{H}}
+\newcommand{\mQ}{\mathcal{Q}}
+\newcommand{\mZ}{\mathcal{Z}}
+
+
+\newcommand{\longExpH}{\begin{bmatrix}
+0&U^k_Z \mH^k_\tau&\ldots&U^k_Z \mH^k_{\theta-1}\\
+U^k_N \mH^k_\tau&\multicolumn{2}{c}{\ldots}&U^k_N \mH^k_\theta%
+\end{bmatrix}}
+\newcommand{\longExpQ}{\begin{bmatrix}\multicolumn{3}{c}{\mZ^k}\\U^k_Z \mH^k_\tau&\ldots&U^k_Z \mH^k_{\theta-1}\end{bmatrix}}
+
+\newcommand{\anAmp}{&}
+\newcommand{\unds}{_}
+\newcommand{\matob}[2]{\mbox{$\left [  #1  \ldots  #2 \right ] $}} 
+
+\newenvironment{prf}{
+  \begin{quote}
+{\bf Proof   }
+}
+{{\hspace*{\fill}\nolinebreak[1]\hspace*{\fill}$\blacksquare$}
+  \end{quote}
+}
+%\newenvironment{exmpl}{}{}
+
+\newenvironment{exmpl}{
+%  \color{blue}\em%
+{ An example:   }
+\/}
+{
+}
+
+
+\newcommand{\boththrm}[2]{
+\begin{thrm}
+{#1    }
+\end{thrm}
+}
+\newtheorem{algrthm}{Algorithm}
+
+{\theoremstyle{plain}\theorembodyfont{\bfseries}
+\newtheorem{thrm}{Theorem}
+\newtheorem{crrlry}{Corollary}
+\newtheorem{rslt}{Algorithm}
+\newtheorem{pblm}{Problem Statement}
+\newtheorem{dfntn}{Definition}
+}
+\newcommand{\hmats}{H_{-\tau}&\hspace{0.25in}&\dots&\hspace{0.25in}&H_{\theta}}
+\newcommand{\hsh}{H^{\sharp\ast}_{-\tau}&\hspace{0.25in}&\dots&\hspace{0.25in}&H^{\sharp\ast}_{\theta}}
+\newcommand{\hshShort}{H^{\sharp\ast}_{-\tau}&\hspace{0.25in}&\dots&\hspace{0.25in}&H^{\sharp\ast}_{\theta-1}}
+\newcommand{\hShort}{H_{-\tau}&\hspace{0.25in}&\dots&\hspace{0.25in}&H_{\theta-1}}
+\newcommand{\hsht}{
+  \begin{bmatrix}
+    I&0
+  \end{bmatrix}
+H^{\sharp\ast}_{-\tau}&\hspace{0.25in}&\dots&\hspace{0.25in}&  \begin{bmatrix}
+    I&0
+  \end{bmatrix}H^{\sharp\ast}_{\theta}}
+\newcommand{\zsh}{Z^{\sharp\ast}_{-\tau}&\hspace{0.25in}&\dots&Z^{\sharp\ast}_{\theta-1}}
+\newcommand{\hfl}{H^{\flat\ast}_{-\tau}&\hspace{0.25in}&\dots&\hspace{0.25in}&H^{\flat\ast}_{\theta}}
+
+\definecolor{anewcolor}{rgb}{.30,.20,.60}

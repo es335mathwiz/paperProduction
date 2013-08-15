@@ -1,0 +1,60 @@
+\newcommand{\lmlbtime}[5]{#1&#2&#3&#4&#5\\}
+%allLinCompMLB matlab program
+%breakeven   (P/tf)/(ts/tf-1)
+
+\begin{table}
+  \centering
+    
+
+  {
+\begin{minipage}{1.0\linewidth}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\multicolumn{1}{|c|}{Model}&  
+\multicolumn{1}{|c|}{Matlab Original}&  
+\multicolumn{1}{|c|}{Analytic Mex}&  
+\multicolumn{1}{|c|}{Speed Up}&  
+\multicolumn{1}{|c|}{Break Even}\\
+\hline
+\lmlbtime{\text{firmValue}}
+%\text{Null}
+{2.44458}{0.029316}{83.3874}{\lceil \{\}[[1,\{1,2,3,4\}]]+414.033\rceil}
+\hline
+\lmlbtime{\text{fuhrerMoore}}
+%\text{Null}
+{5.07063}{0.029614}{171.224}{\lceil \{\}[[2,\{1,2,3,4\}]]+198.373\rceil}
+\hline
+\lmlbtime{\text{hall1estimateBayes}}
+%\text{Null}
+{3.90629}{0.022813}{171.231}{\lceil \{\}[[3,\{1,2,3,4\}]]+257.501\rceil}
+\hline
+\lmlbtime{\text{lesothoViegi}}
+%\text{Null}
+{4.5064}{0.039355}{114.506}{\lceil \{\}[[4,\{1,2,3,4\}]]+223.862\rceil}
+\hline
+\lmlbtime{\text{lubikSchorfheide}}
+%\text{Null}
+{4.5408}{0.027852}{163.033}{\lceil \{\}[[5,\{1,2,3,4\}]]+221.585\rceil}
+\hline
+\lmlbtime{\text{rosenestimateBayes}}
+%\text{Null}
+{9.41632}{0.032505}{289.689}{\lceil \{\}[[6,\{1,2,3,4\}]]+106.566\rceil}
+\hline
+\lmlbtime{\text{simpleNeoViegi}}
+%\text{Null}
+{4.11485}{0.026753}{153.809}{\lceil \{\}[[7,\{1,2,3,4\}]]+244.612\rceil}
+\hline
+\end{tabular}
+\end{minipage}
+}
+  \caption{Calculation Times}
+  \label{tab:linMexTime}
+\end{table}
+
+
+
+
+
+
+
+

@@ -1,0 +1,1487 @@
+% \usepackage[margin=
+\documentclass[12pt]{elsart}
+%\documentclass[12pt]{article}
+% \usepackage[margin=1.0in]{geometry}
+% \usepackage{authordate1-4}
+ \usepackage{pifont}
+% \usepackage{rotating}
+ \usepackage{hyperref}
+% \usepackage{moreverb}
+% \usepackage{amsmath}
+% \usepackage{amscd}
+% \usepackage{wrapfig}
+% \newcommand{\hShort}{H_{-\tau}&\hspace{0.25in}&\dots&\hspace{0.25in}&H_{\theta-1}}
+% \usepackage{pdftricks}
+
+% \usepackage{ifpdf}
+% \ifpdf
+% \begin{psinputs}
+%    \usepackage{pstricks}
+%    \usepackage{pstcol}
+%    \usepackage{pst-tree}
+%    \usepackage{pst-node}
+%    \usepackage{pspicture}
+% \end{psinputs}
+% \else
+%    \usepackage{pstricks}
+%    \usepackage{pstcol}
+%    \usepackage{pst-tree}
+%    \usepackage{pst-node}
+%    \usepackage{pspicture}
+% \fi
+\input{preamble}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{ Accelerating Linear Rational Expectations Model Estimation by
+Strategically Augmenting Symbolic Algebra Calculations with Numerical Approximation Methods}
+%Analytic Solutions for the Small, Hybrid Analytic Numeric 
+%for the Moderate Sized  Models
+
+\author{Gary S. Anderson}
+\thanks{I would like to thank George Moore, my now deceased mentor,
+friend and coauthor of\cite{ANDER:AIM2}.
+I am responsible for
+any remaining errors.
+The views expressed herein are mine and 
+do not necessarily represent the views of the Board of Governors of the Federal
+Reserve System.
+}
+\begin{abstract}
+\noindent
+The paper describes how to use symbolic algebra to compute 
+solutions for linear rational expectations models.
+The algorithm described in\cite{anderson10} consists of three distinct phases%:
+% \begin{enumerate}
+% \item Compute the auxiliary initial conditions and a transition matrix
+% \item Compute vectors spanning the left-invariant space associated with large eigenvalues to provide asymptotic convergence constraints
+% \item Combine the auxiliary initial conditions and asymptotic convergence 
+% constraints to produce a convergent auto-regressive representation
+% \end{enumerate}
+
+The paper demonstrates that it is often possible to 
+compute completely analytic solutions for each of these phases for small models.
+As the size of the model increases, analytic expressions for 
+left-invariant space vectors become impossible to compute
+even though analytic expressions for the
+remaining phases are still attainable.
+The paper shows how to incorporate Taylor Series expansions and  projection method
+numerical approximations for the left-invariant space vectors
+ into the remaining symbolic algebra calculations.
+
+The paper compares this hybrid symbolic/numeric technique with techniques that
+apply automatic differentiation\cite{bastani08}  as well as 
+ analytic techniques for computing solutions 
+and their derivatives\cite{ANDER:AIM3,zadrozny88,blake04}.
+The paper shows how the hybrid symbolic/numeric technique facilitates
+the estimation of the parameters in a moderate sized DSGE model.
+
+\end{abstract}
+
+This file is in
+
+/msu/res2/m1gsa00/conferences/sce11/hybridSymbolicProjectionAMA.tex
+
+\end{frontmatter}
+
+
+  \section{Problem Statement and Algorithm}
+  
+
+Consider linear models of the form:
+
+
+\begin{gather}
+\sum_{i=-\tau}^\theta{H_i x_{t+i}}= \Psi%\nonumber
+z_{t}, \,\, t = 0,\ldots,\infty\label{eq:canonical}\\ \intertext{with initial conditions, if any, given by constraints of the form}%\nonumber
+x_i  =  x^{data}_i,  i =  - \tau, \ldots, -1\label{eq:init}\\ \intertext{where both $\tau$ and $\theta$ are non-negative, and $x_t$ is an L dimensional vector 
+of endogenous variables with}%\nonumber
+\lim_{ t \rightarrow\infty} \|x_t\|   < \infty\label{eq:limit} %\nonumber
+\end{gather}
+{ and $z_t$ is a $k$ dimensional vector of exogenous variables.}
+
+
+\label{sec:basic}
+
+The uniqueness of solutions to 
+system~\ref{eq:canonical} requires that
+the transition matrix characterizing the dynamics of the 
+linear system have an appropriate
+number of explosive and stable eigenvalues\cite{blanchard80},
+and that a certain set of  asymptotic linear constraints 
+are linearly independent of explicit and certain other auxiliary initial 
+conditions\cite{ANDER:AIM2}.
+
+The solution methodology entails 
+\begin{enumerate}
+\item Manipulating the left hand side of equation~\ref{eq:canonical} to obtain
+ a state space transition matrix, $A$, along with
+a set of auxiliary initial conditions, $Z$ for the homogeneous solution.
+\begin{gather}
+  Z
+  \begin{bmatrix}
+    x_{-\tau}\\ \vdots \\ x_{\theta}
+  \end{bmatrix}=0 \,\,\,\,\text{and}\,   \begin{bmatrix}
+    x_{-\tau+1}\\ \vdots \\ x_{\theta}
+  \end{bmatrix}
+=A   \begin{bmatrix}
+    x_{-\tau}\\ \vdots \\ x_{\theta-1}
+  \end{bmatrix}
+\end{gather}
+See Section~\ref{sec:arzgev}.
+\item Computing the eigenvalues and vectors spanning 
+the left invariant space associated with
+large eigenvalues. See Section~\ref{asymQ}.
+\begin{gather}
+ V A =   \mathcal{M}  V 
+\end{gather}
+with the eigenvalues of $ \mathcal{M}$ all greater than one in absolute value.
+\item Assembling asymptotic
+constraints, $Q$, (See Section~\ref{asymQ}.)  by combining the:
+  \begin{enumerate}
+\item  auxiliary initial conditions identified in the computation of the transition matrix and 
+\item the invariant space vectors
+  \end{enumerate}
+\begin{gather}
+  Q= 
+  \begin{bmatrix}
+    Z\\V
+  \end{bmatrix}
+\end{gather}
+\item Investigating the rank of the linear space spanned by these asymptotic
+constraints and,  when a unique solution exists, 
+\begin{enumerate}
+\item Computing the auto-regressive 
+representation, $B$. See Section~\ref{conar}.
+\item Computing matrices, $\phi, F, \vartheta$ 
+for characterizing the impact of the inhomogeneous
+right hand side term. See Section~\ref{sec:inhomog}.
+\end{enumerate}
+\end{enumerate}
+
+%Figure \ref{fig:components} presents a  flowchart of the algorithm.
+
+
+
+
+% \begin{figure*}[!ht]
+%   \begin{center}
+%     \leavevmode
+% %\fbox{
+% \begin{picture} (10,23)
+%   \input{ aimComponentsOverall.tex}
+% \end{picture}
+% %}
+%     \caption{Algorithm  Components~}
+%     \label{flig:components}
+%   \end{center}
+% \end{figure*}
+
+
+
+
+
+
+
+\subsection{Homogeneous Solution Algorithms}
+\label{sec:homo}
+
+
+Suppose, for now, that $\Psi=0$:
+% \footnote{Note that there is no unique steady state requirement.
+% Steady state solutions, $x^\ast$ satisfying
+% \begin{gather}
+%  \sum_{i= - \tau}^\theta( H_i ) x^\ast= 0%
+% \end{gather}
+% lie in a linear subspace of $\mathcal{R}^L$. 
+% We will develop conditions that guarantee solutions 
+% that evolve from a given set of initial conditions to a single point in this
+% subspace. As a result, one can apply these routines to
+% models with unit roots, seasonal factors, cointegrating vectors
+% and error correction terms.
+% }
+\begin{gather}
+\sum_{i= - \tau}^\theta{ H_i  x_{ t + i } }= 0, t \geq0\label{eq:homo}\\
+\lim_{ t \rightarrow\infty} \|x_t\|   < \infty%\nonumber
+%\lim_{ t \rightarrow\infty} x_t  =  x^\ast \intertext{with}
+%\sum_{i= - \tau}^\theta{ H_i  x^\ast}= 0%
+\end{gather}
+
+%The homogeneous specification~\ref{eq:homo} is not restrictive.
+The next section provides a flexible 
+and computationally efficient alternative for 
+computing inhomogeneous solutions.
+
+
+
+
+
+
+
+
+\subsubsection{State Space Transition Matrix and Auxiliary Initial Conditions: $A, Z$}
+\label{sec:arzgev}
+
+This section describes how to determine a first-order state space
+representation of the equation system~\ref{eq:homo}. The method is an extension
+of the shuffling algorithm developed in\cite{luenberger78,luenberger77}.
+If $H_\theta$ is non-singular, we can immediately obtain $x_{t+\theta}$ 
+in terms of $x_{t-\tau} \ldots x_{t+\theta-1}$
+\begin{gather}
+-  H_{\theta}^{-1}\begin{bmatrix}
+    \hShort
+  \end{bmatrix}  
+\end{gather}
+However, the natural specification of many economic models has singular
+ $H_\theta$.
+
+This, first,  algorithm
+applies full rank linear transformations 
+to equations from the original linear system in order to express
+$x_{t+\theta}$ in terms of $x_{t-\tau} \ldots x_{t+\theta-1}$.
+It produces an unconstrained, typically explosive, 
+autoregressive representation for the evolution of the components of
+the state space vectors and a set of vectors 
+that provide important auxiliary initial conditions. 
+
+
+
+
+
+
+%\section{Graphical Characterization of Unconstrained Autoregression Computation}
+\label{sec:gfrr}
+%\placeWrap{}
+%\begin{multicols}{2}
+%\begin{wrapfigure}[31]{r}{3.5in}
+
+%\begin{floatingfigure}{6cm}
+% \begin{wrapfigure}[29]{r}{7cm}
+% \input{initTab}
+% \input{frAnnih}
+% \input{fRank}
+% \end{wrapfigure}
+
+\cite{anderson10} presents a proof that repeating 
+this process of annihilating and regrouping rows ultimately  produces 
+an $H^{\sharp,k}=H^{\sharp,\ast}$ with $H^{\sharp,\ast}_\theta$ non-singular.
+The proof identifies a benign rank condition 
+that guarantees that the algorithm will successfully compute
+the unconstrained autoregression and the auxiliary initial conditions.
+Algorithm \ref{alg:unconstrainedAR} on page \pageref{alg:unconstrainedAR} presents pseudo code for 
+an algorithm for computing the 
+components of the state space transition matrix and the auxiliary initial
+conditions.
+
+The algorithm terminates with:
+\begin{gather}\label{eq:easy}
+  \begin{bmatrix}
+    \hsh
+  \end{bmatrix} 
+  \begin{bmatrix}
+    x_{-\tau}\\ \vdots \\x_{\theta}
+  \end{bmatrix} =0%\nonumber
+   \\ \intertext{ with $H^{\sharp\ast}_{\theta}$ non singular. Let} 
+\Gamma^\sharp=-  (H^{\sharp\ast}_{\theta})^{-1}\begin{bmatrix}
+    \hshShort
+  \end{bmatrix} \\ \intertext{ Then }
+x_{\theta} = 
+ \Gamma^\sharp
+  \begin{bmatrix}
+    x_{-\tau}\\ \vdots \\x_{\theta-1}
+  \end{bmatrix}  %\nonumber
+\end{gather}
+
+This unconstrained auto-regression in $x_t$ provides exactly what one needs to
+construct the state space transition matrix. 
+
+
+
+\begin{gather}
+A^\sharp= 
+\begin{bmatrix}
+  \begin{matrix}
+    0&I
+  \end{matrix}\\ \Gamma^\sharp
+\end{bmatrix}\\ \intertext{ so that }
+  \begin{bmatrix}
+    x_{-\tau+1}\\ \vdots \\x_{\theta}
+  \end{bmatrix}  = A
+  \begin{bmatrix}
+    x_{-\tau}\\ \vdots \\x_{\theta-1}
+  \end{bmatrix} 
+\end{gather}
+
+
+
+
+
+
+
+\subsubsection{Asymptotic Linear Constraint Matrix: $Q$}
+\label{asymQ}
+
+\label{sec:invariantSpace}
+In order to compute solutions to equation~\ref{eq:homo} that converge, 
+one must rule out explosive trajectories. Blanchard and Kahn\cite{blanchard80} 
+used eigenvalue and eigenvector calculations to characterize the space in 
+which the solutions must lie. In contrast, our approach uses
+an orthogonality constraint to characterize regions which the solutions 
+must avoid.
+
+
+
+Each left  eigenvector associated with a given eigenvalue
+is orthogonal to each right eigenvector associated 
+with roots associated with  different eigenvalues.
+Since vectors in the left invariant space
+associated with roots outside the unit circle are orthogonal to right eigenvectors associated with roots 
+inside the
+unit circle, a given state vector that is part of a convergent trajectory
+must be orthogonal to each of these left invariant space vectors. See \cite{anderson10}.
+Thus, the algorithm can exploit bi-orthogonality and a
+less burdensome computation of vectors spanning the 
+left invariant space  in order to rule out explosive
+trajectories. 
+
+
+
+If the vectors in V span the invariant space associated with explosive
+roots,  trajectories satisfying equation~\ref{eq:homo} 
+are non-explosive if and only if
+
+\begin{gather}
+ V A =   \mathcal{M}  V 
+\end{gather}
+with the eigenvalues of $ \mathcal{M}$ similar to the 
+Jordan blocks of A associated with all eigenvalues
+greater than one in absolute value.
+\begin{gather}
+V 
+\begin{bmatrix}
+  x_{t-\tau}\\
+\vdots\\
+  x_{t+\theta-1}
+\end{bmatrix}=0
+\end{gather}
+for some $t$.\footnote{
+If $A$ has roots with magnitude $1$ then trajectories can converge to 
+either a limit cycle or a non-zero fixed point. Otherwise,
+non-explosive trajectories will converge to the origin.}
+
+
+
+
+
+Combining V and $Z^\sharp$  completely characterizes the space of 
+stable solutions satisfying the linear system~\ref{eq:homo}.
+Given
+\begin{gather}
+  Q= 
+  \begin{bmatrix}
+    Z^{\sharp}\\V
+  \end{bmatrix},
+Q
+\begin{bmatrix}
+  x_{-\tau} \\ \vdots \\ x_{\theta-1}
+\end{bmatrix}=0 
+\end{gather}
+guarantees that iterating the system forward will converge to the steady state.
+
+The first set of equations come from the equations in equation system 
+\ref{eq:homo} which do not appear in the transformed system 
+of Equation~\ref{eq:easy}
+but must nevertheless be satisfied. The second set of equations come from the
+constraint that the solutions are non-explosive.
+Algorithm \ref{alg:asymptoticConstraints} provides pseudo code for computing Q.
+  
+
+
+
+
+\subsubsection{Convergent Autoregressive Representation: $B$}
+\label{conar}
+
+The first two algorithms  together  produce a matrix $Q$ characterizing
+constraints guaranteeing that trajectories are not explosive.  See \cite{anderson10}  for a proof.
+\cite{anderson99} describes how to use 
+the matrix $Q$ from A theorem in \cite{anderson10}  to impose
+saddle point stability in non linear perfect foresight models.
+However, for linear models with unique  saddle point
+solutions it is often useful to 
+employ an autoregressive representation of the solution.
+A theorem in \cite{anderson10} 
+provides a fully general characterization
+of the existence and uniqueness of
+a saddle point solution.  
+
+  A summary for typical applications of the algorithm follows.
+Partition $Q=
+\begin{bmatrix}
+  Q_L & Q_R
+\end{bmatrix}$ where $Q_L$ has $L\tau$ columns.
+When $\eta =L \theta$, $Q_R$ is square.
+If  $Q_R$ is non-singular, the system has a unique solution\footnote{
+  If $Q_R$ is singular, the system has an infinity of solutions.
+  When $\eta <L \theta$,
+The system has an infinity of solutions.
+
+  When $Q$ has more than $L \theta$ rows,
+The system has a unique nontrivial 
+solution only for specific values of $x_{data}$.
+}
+\begin{gather}
+    \begin{bmatrix}
+    B \\\underset{1}{B}\\ \vdots \\ \underset{\theta-1}{B}  
+  \end{bmatrix}
+= Q_R^{-1} Q_L \,\,\text{ and solutions are of the form }\\
+\begin{matrix}
+x_t=B 
+\begin{bmatrix}
+  x_{t-\tau}\\
+\vdots\\
+  x_{t-1}
+\end{bmatrix},&
+x_{t+k}=\underset{k}{B} 
+\begin{bmatrix}
+  x_{t-\tau}\\
+\vdots\\
+  x_{t-1}
+\end{bmatrix}
+\end{matrix} 
+\end{gather}
+
+Algorithm \ref{alg:bmat} provides pseudo code for computing B.
+
+\subsection{Inhomogeneous Solution Algorithms}
+
+Now, suppose
+\begin{gather}\label{eq:inhomog}
+\sum_{i= - \tau}^\theta{ H_i  x_{ t + i } }= \Psi{} z_{t}, t \geq0\\
+\lim_{ t \rightarrow\infty} \|x_t\|   < \infty
+\end{gather}
+
+
+
+
+
+\subsubsection{Inhomogeneous Factor Matrices: $\phi, F$}
+\label{sec:inhomofactor}
+\label{sec:inhomog}
+
+\begin{thrm}\label{inHomo}
+Given structural model matrices, $H_i, i=-\tau,\ldots,\theta$ and $\Psi$,
+ convergent autoregression matrix $B$
+there exist 
+{\em inhomogeneous factor matrices}, $\phi$ and $F$ such that with 
+\begin{gather}
+\begin{bmatrix}
+  B_{-\tau}&\dots&B_{-1}
+\end{bmatrix}=B\\
+ \phi= \left (  H_0 +   \begin{bmatrix}
+    H_{1}\ldots H_\theta
+  \end{bmatrix} \begin{bmatrix}
+      B\\\vdots\\\ugB{\theta}
+    \end{bmatrix} \right )^{-1} \\
+ x_t=\sum_{i=-\tau}^{-1} B_i x_{t+i} + 
+  \begin{bmatrix}
+  0&\dots 0&I
+  \end{bmatrix}
+\sum_{s=0}^\infty%
+ (F^{s} 
+\begin{bmatrix}
+0\\
+\phi\Psi{}z_{t+s}  
+\end{bmatrix}) 
+\end{gather}
+will satisfy 
+the linear inhomogeneous system equation~\ref{eq:inhomog}.
+\end{thrm}
+
+See \cite{anderson10} for  derivations and formulae.
+Algorithm \ref{alg:inhomog} provides pseudo code for computing $\phi$ and $F$.
+
+
+\subsection{Other Useful Rational Expectations Solution Calculations}
+\label{sec:useful}
+
+
+Economists use linear rational expectations models in a wide array of
+application. 
+The following sections describe calculations which are 
+useful for optimal policy design, model simulation and estimation exercises.
+
+
+
+
+\subsection{Observable Structure:  $S$}
+
+\label{sec:applications}
+
+
+
+\label{sec:errorCalc}
+
+
+To compute the error term for estimation of the coefficients of these models,
+one must commit to a particular information set.
+Two typical choices are t and t-1 period expectations.
+
+
+
+
+
+Given structural model matrices, $H_i, i=-\tau,\ldots,\theta$ 
+and 
+ convergent autoregression matrices $B_i,i=-\tau,-1$
+there exists an 
+{ observable structure matrix,\/} $S$
+
+
+
+
+\begin{gather}
+  \epsilon_t= S \begin{bmatrix}
+ x_{t-\tau}\\\vdots\\x_{t}
+\end{bmatrix}
+\end{gather}
+
+See \cite{anderson10} for a derivation and formula for $S$.
+Algorithm \ref{alg:obs} provides pseudo code for computing S for a given lag, $k^\ast$ in the availability of information.
+
+
+\subsection{Stochastic Transition Matrices:  $\sTransA, \sTransB$}
+\label{sec:stochtrans}
+To compute covariances, practitioners will find it useful to  construct
+the stochastic transition matrices $\sTransA$ and $\sTransB$. 
+
+Given structural model matrices, $H_i, i=-\tau,\ldots,\theta$ 
+and 
+ convergent autoregression matrices $B_i,i=-\tau,-1$
+there exist  
+{\em stochastic transition
+matrices\/} $\sTransB$, $\sTransA$ such that
+
+
+
+
+  
+
+\begin{gather}
+\begin{bmatrix}
+ x_{t-\tau+1}\\\vdots\\x_{t}
+\end{bmatrix}= 
+\sTransA%
+\begin{bmatrix}
+ x_{t-\tau}\\\vdots\\x_{t-1}
+\end{bmatrix} +
+\sTransB%
+\begin{bmatrix}\epsilon_{t} +
+\Psi  (E[z_t|I_t]-E[z_t|I_{t-1}])
+\end{bmatrix}
+\end{gather}
+
+
+See \cite{anderson10} for  derivations and formulae for $\sTransA$
+and $\sTransB$.
+Algorithm \ref{alg:trans} provides pseudo code for computing $\sTransA$ and $\sTransB$
+
+
+
+
+\subsection{Numerical Implementations}
+\label{sec:imple}
+
+This set of algorithms has been implemented in a wide variety of languages.
+Two numerical implementations, a  Matlab, a ``C''are available from the author. %\footnote{\url{http://www.federalreserve.gov/pubs/oss/oss4/aimindex.html}.} 
+Each implementation avoids using a large matrix.
+They each  shift elements in the
+rows of a single copy of the matrix $H$. 
+Each implementation
+eliminates inessential lags from the autoregressive representation before
+constructing the state space transition matrix for invariant space 
+calculations.  
+
+
+
+The most widely used version is written in MATLAB. The MATLAB version
+has a convenient modeling language front end for specifying the model
+equations and generating the $H_i$ matrices. 
+
+The ``C'' version, designed especially for solving large scale
+models is by far the fastest implementation and most frugal with memory.
+It uses sparse linear algebra routines from SPARSKIT\cite{saad94} and
+HARWELL\cite{nag95} to economize on
+memory. It avoids costly eigenvector calculations by
+computing vectors spanning the left invariant space using ARPACK\cite{lehoucq96}.
+
+
+
+
+
+
+
+  \section{A Symbolic Algebra Implementation of AMA}
+  
+
+
+The author also provides a symbolic algebra implementation
+ written in Mathematica.
+For small models, one can employ this symbolic algebra version of the
+algorithms written in Mathematica. On present day computers this,
+code can easily construct symbolic state space transition matrices and compute 
+symbolic expressions for eigenvalues for models with 5 to 10 equations.
+The code can often obtain symbolic expressions for the invariant space
+vectors when the transition matrix is of dimension 10 or less.
+
+
+For larger models, the bottleneck is typically the computation of the
+invariant space vectors. This paper proposes a blending of symbolic and
+numerical compuations.
+
+  \subsection{A Simple Example}
+Consider the model given by
+  \begin{gather*}
+    (1+r)v_t=v_{t+1}+ d_{t+1}\\
+d_t=(1-\delta)d_{t-1}, \intertext{with} 0<r,\delta<1\\ \intertext{To apply the algorithms define}
+x=
+\begin{bmatrix}
+  d_t\\v_t
+\end{bmatrix}\,\,\,
+H=
+\begin{bmatrix}
+  0&0&(1+r)&0&-1&-1\\ 0&-(1-\delta)&0&1&0&0
+\end{bmatrix} 
+\end{gather*}
+
+  \subsection{Transition Matrix and Auxiliary Initial
+    Conditions}
+
+
+\begin{gather*}
+\intertext{The symbolic algebra implementation easily computes the symbolic matrices}
+Z=\begin{bmatrix}
+ 0&-(1-\delta)&0&1  
+\end{bmatrix},
+A=\begin{bmatrix}
+0& 0& 1& 0\\0& 0& 0& 1\\ 0& 0& 1 + r&  \delta-1\\ 0& 0& 0& 1 - \delta
+\end{bmatrix}
+  \end{gather*}
+
+
+  \subsection{Eigenvalues and Eigenvectors}
+ Two Simplifications facilitate the calculation
+    \begin{enumerate}
+    \item Reduction in the dimension of A before computing eigenvalues
+      \begin{gather*}
+        A=
+        \begin{bmatrix}
+0& 0& 1& 0\\0& 0& 0& 1\\ 0& 0& 1 + r&  \delta-1\\ 0& 0& 0& 1 - \delta
+        \end{bmatrix}
+\rightarrow  a =
+\begin{bmatrix}
+1 + r& \delta-1\\0& 1 - \delta
+\end{bmatrix} \intertext{The symbolic algebra implementation easily computes the two symbolic eigenvalues}
+\lambda_s=1-\delta,\lambda_L=1+r
+      \end{gather*}
+    \item Computing only the left eigenvector associated with the single large root
+      \begin{gather*} \intertext{The symbolic algebra implementation easily computes the left eigenvector, e}
+    NullSpace(    a^T-\lambda_L I) \rightarrow v=
+      \begin{bmatrix}
+                   \frac{\delta +r}{\delta -1} & 1        
+      \end{bmatrix}
+\intertext{ from which it is easy to construct the left eigenvector for $A$}
+V=      \begin{bmatrix}
+                  0&0& \frac{\delta +r}{\delta -1} & 1        
+      \end{bmatrix}
+      \end{gather*}
+    \end{enumerate}
+
+
+
+  \subsection{Assembling the Constraints and Computing the
+    Autoregressive Representation}
+  \begin{itemize}
+  \item The symbolic algebra implementation easily combines the constraints
+    \begin{gather*}
+      Q=
+      \begin{bmatrix}
+        Z\\V
+      \end{bmatrix}=
+      \begin{bmatrix}
+         0&-(1-\delta)&0&1  \\
+0&0&                   \frac{\delta +r}{\delta -1} & 1        
+      \end{bmatrix}
+    \end{gather*}
+  \item The symbolic algebra implementation easily computes the autoregressive representation
+    \begin{gather*}
+Q=
+\begin{bmatrix}
+  Q_L&Q_R
+\end{bmatrix}=
+\begin{bmatrix}
+         0&-(1-\delta)&0&1  \\
+0&0&                   \frac{\delta +r}{\delta -1} & 1        
+\end{bmatrix} \intertext{leads to }
+      B=
+      \begin{bmatrix}
+0& \frac{(\delta-1 )^2}{\delta + r}\\0& 1- \delta
+      \end{bmatrix}
+    \end{gather*}
+  \end{itemize}
+
+
+
+\newcommand{\java}{\ding{60}}  
+\newcommand{\mex}{\ding{117}}  
+\newcommand{\mlb}{\ding{110}}  
+%conflict preamble
+\newcommand{\yy}{\ding{52}}
+\newcommand{\stLine}[3]{#1&#2#3}
+\newcommand{\ssCodeHA}[4]{{#1}&{#2}&{#3}&{#4}&}  
+\newcommand{\evalsB}[5]{{#1}&{#2}&{#3}&{#4}&{#5}\\}  
+%\newcommand{\dimLine}[8]{{#1}&{#2}&{#3}&{#4}&{#5}&{#6}&{#7}&{#8}\\}  
+\newcommand{\dimLine}[8]{{#1}&{#2}&{#3}&{#4}&{#8}\\}  
+
+  \section{Assessing Practicality of Symbolic Computations }
+  
+To assess the practicality of obtaining symbolic solutions, I developed
+a Mathematica/Java program that
+reads linear Dynare 4.2 models, gleans the equations,  parameters, 
+variables and   initial values for parameters and 
+applies the symbolic algebra algoritims to compute analytic 
+autoregressive solutions for the model.
+I apply this program to a collection of representative models taken from 
+\href{http://www.dynare.org/documentation-and-support/faq/basics}{the Dynare distribution,}
+\href{http://www.nviegi.net/research/dsge.htm}{``Modelling and Simulating DSGE Models with Dynare in Octave'' by Nicola Viegis} and 
+\href{http://homepages.nyu.edu/~ts43/research/AP_tom16.pdf}{``Practicing Dynare''\cite{bhandari10}}
+
+
+    \subsection{The Models }
+As shown in table \ref{tab:noEst} the models vary in size and in the number of parameters used in their
+definition.
+
+\input{modDims.tex}
+
+  These nonlinear solutions have place holders for the steady state value.
+Table \ref{tab:preEvalTimes} presents computation times for the steps
+preceeding the eigenvalue calculations.
+The symbolic algebra programs can deliver analytic solutions for
+each of the transition matrices. This includes ifsi and fs2000ns which required
+about 3 minutes and a one half minute respectively. All the other models required less than a second.
+
+
+
+%\input{preEvalTimes.tex}
+
+{\bf Problems with {preEvalTimes.tex} }
+
+Symbolic algebra techniques deliver complete 
+analytic solutions for each of the
+models except for the BGGViegi model. 
+I set a maximum of one hour for each stage of the computation.
+For the BGGViegi model, the Eigenvector computation 
+step took more than an hour before aborting this and each of the subsequent 
+steps.
+
+\input{ssSolnTimes.tex}
+
+\input{allCompTimes.tex}
+
+Table \ref{tab:linCompTimes} presents the time required to compute analytic 
+solutions. The first column presents the time to compute the state space 
+transistion matrix, A. Column three presents the time required to determine
+the eigenvalues and eigenvectors that help characterize the asymptotic
+constraint matrix, Q. The fourth column presents the time required to
+compute the B matrix characterizing the linear rational expectation  model
+solution.  The fifth column characterizes the time required to compute
+the observable structure matrix, S.  The final column provides the
+total time needed to compute the symbolic solution. 
+
+FindRoot uses random numbers for variables not given by symbolic expression.
+On rare occasion these do not converge except for ifs1 and fs2000
+ which often has convergence problems. 
+FindRoot solution times were always trivially small.
+
+%\input{linearCompTimes.tex}
+
+Table \ref{tab:linMexTime} reports the number of seconds required for 1000 evaluations of
+the matlab implementation of the Anderson-Moore algorithm (SPAmalg).
+I have written a Mathematica program that creates a matlab executable file
+a MEX file for computing the
+Analytic mex reports the time required for computing the B matrix 1000 times.
+The fourth column presents  the second column  divided by column three.
+The fifth colum reports 
+the number of function values required before the speed of the
+symbolic computing makes up for the overhead of
+computing the symbolic solution.
+\begin{gather*}
+  N=\frac{P}{t_s-t_f}
+\end{gather*}
+The table shows that for small linear models, 
+the analytic mex file is generally more than 100 times
+faster than the fastest matlab implementation for solving linear rational
+expectations models and that the time for computing the analytic is
+made up for by this speed in under a dozen function evaluations.
+
+
+%\input{linCompMLB.tex}
+{\bf problems with {linCompMLB.tex}}
+
+Table \ref{tab:nonLinTimes} shows times to compute solutions for non linear
+models. Non linear model computations require computation of the steady state.
+I recomputed steady states for both the analytic and the matlab linear 
+rational expectations solution.
+
+
+
+\input{nonLinearCompTimes.tex}
+
+Table \ref{tab:nonLinMexTime} shows that
+speedups are comparable to speedups for linear models. But since the 
+initial computation overhead for computing the solutions is larger, the
+breakeven number of function evaluations is also larger for non liner models.
+
+    
+With nonlinear models comes the added complication of linearizing these models.
+This can also typically be done using symbolic algebra.
+
+One has the choice of simplifying the symbolic algebra code. This can be
+time consuming or impossible.  The benefit may outweigh the cost.
+One can compare the susequent execution times with and without Simplification.
+
+
+\input{nonLinCompMLB.tex}
+
+
+
+
+
+
+
+
+
+\newcommand{\bLine}[6]{#1&#2&#3&#4&#5&#6\\}
+   \subsection{Some Linear Model Results}
+    \begin{itemize}
+    \item Symbolic results for each linear model \ 
+
+
+      \begin{table}
+        \begin{center}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{1}{|c|}{Model}&  
+\multicolumn{1}{|c|}{SS}&  
+\multicolumn{1}{|c|}{SSCode}&  
+\multicolumn{1}{|c|}{H}&  
+\multicolumn{1}{|c|}{A}&  
+\multicolumn{1}{|c|}{EigenSys}&  
+\multicolumn{1}{|c|}{EigenVals}&
+\multicolumn{1}{|c|}{NullSpace}&
+\multicolumn{1}{|c|}{B}&
+\multicolumn{1}{|c|}{BCode\footnote{\java\ Java, \mex\ C mex, \mlb MATLAB}}\\
+\hline
+\multicolumn{10}{|c|}{Dynare Estimates Available}\\
+\hline
+\multicolumn{10}{|c|}{Linear}\\
+\hline
+\stLine{firmValue }{\ssCodeHA{\yy}{}{\yy}{\yy}}{\evalsB{}{\yy}{\yy}{\yy}{}}
+\hline
+\stLine{Fuhrer Moore}{\ssCodeHA{}{}{}{}}{\evalsB{}{}{}{}{}}
+\hline
+\stLine{hall1estimateBayes }{\ssCodeHA{\yy}{}{\yy}{\yy}}{\evalsB{}{\yy}{\yy}{\yy}{}}
+\hline
+\stLine{hall1estimateML }{\ssCodeHA{\yy}{}{\yy}{\yy}}{\evalsB{}{\yy}{\yy}{\yy}{}}
+\hline
+\stLine{Lubik Schorfheide}{\ssCodeHA{\yy}{}{\yy}{\yy}}{\evalsB{}{\yy}{\yy}{\yy}{}}
+\hline
+\stLine{rosenestimateBayes }{\ssCodeHA{\yy}{\yy}{\yy}{\yy}}{\evalsB{}{\yy}{\yy}{\yy}{\java\mex\mlb}}
+\hline
+\stLine{rosenestimateML}{\ssCodeHA{\yy}{\yy}{\yy}{\yy}}{\evalsB{}{\yy}{\yy}{\yy}{\java\mex\mlb}}
+\hline
+\end{tabular}
+        \caption{another}
+        \end{center}
+\label{tab:another}
+      \end{table}
+
+  \item  Expressions huge and largely uninterpretable. (Don't peek.)
+  \item Can generate efficient Java, Matlab, or C Mex code using Mathematica OptimizedExpressions\cite{sofroniou04,sofroniou04a}.
+  \item Computing analytic expressions for rosenestimateBayes requres .85 seconds.\ 
+
+   
+
+      \begin{table}
+        \begin{center}
+\begin{tabular}{|l|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{Model}&  
+\multicolumn{1}{|c|}{Evals}&  
+\multicolumn{1}{|c|}{Original Matlab}&  
+\multicolumn{1}{|c|}{Analytic Matlab}&  
+\multicolumn{1}{|c|}{Analytic Java}&  
+\multicolumn{1}{|c|}{Analytic C}\\
+\hline
+\bLine{rosenestimateBayes}{10054}{15.7418}{0.611311}{1.5446}{0.311267}
+\hline
+\bLine{rosenestimateML}{93}{0.642674}{0.0380156}{0.0681231}{0.00275175}
+\hline
+\end{tabular}
+        \caption{another}
+        \end{center}
+\label{tab:another}
+      \end{table}
+
+
+    \end{itemize}
+
+
+
+
+
+
+\subsection{Estimation Results}
+\label{sec:estimation-results}
+
+\begin{description}
+\item[Lubik and Schorfheide] Trouble estimating as algorithm fails with error 63. Nan or infinite A.  Algebraic solution unable to get eigenvalues.  Did not do any simplification or modification of the model to simplify the eigenvalue stage. No idea if Null Space will work.
+
+  \begin{itemize}
+\item Provides a mechanism for Dynare to estimate(optimize) nonlinear models.
+  ( Explore
+implication of linearity assumption for statistics and other calculations.)
+  \item parsed dynare model and computed steady state analytically.
+  \item computed transition matrix and lilMat
+  \end{itemize}
+\item[rosenestimateML] 
+Using desktop computer. By hand determined coeffs from jacobian\_.  For some reason sign of  first coefficient, a1,  opposite of the second coefficient, d1.
+Calling times for rosenBComp appear to increase with the number of iterations.
+The ML code has rosen faster than calling AMA but for Bayes the average time
+for AMA is about the same but rosenBComp deteriorates dramatically.  Not sure why.  Could be the coefficients, but I suspect it has to do with memory and
+loading (perhaps reparsing) the function. Perhaps Java better.  Times can vary from run to run.  Should normalize by dynare time. 
+\item[rosenestimateBayes]
+\item[GrowthApproximate] can't use aimsolver for order =2  (why not?)  Computes same steady state as dynare
+\item[GrowthEstimate] appears to work (order =1)  works on linux too
+\item[TwocountryEst] original and aimsolver run fine.
+\item[AssetPricingEstimate] Needs nonlinear computation of steady state for each of the 7 parameter settings. Dynare computes same steady state as I do, but check fails. Too many big roots. Using the steady state computation my improve things
+\item[BansalYaronBayes] Computes estimates successfully
+\item[BansalYaronML] Computes estimates successfully
+\item[hall1estimateML] linear fails at csminwell  singular matrix schur statespace transformation
+\item[hall1estimateBayes] linear fails fail BK condition   singular matrix
+\item[HSTBayes] fails BK condition singular matrices  
+\item[HSTBayes] warnings about singular but completes
+\item[sargent77ML] fails BK
+\item[sargent77Bayes] fails BK
+\item[sargent77] just computes steady and does stoch simul  no leads.
+\item[TwocountryEst] Computes estimates successfully
+\item[RBC\_Est] Failed to get steady
+\item[RBCMonopDet] computed stoch simul and BK successfully. no estimation. just simulation
+\item[RBCMonopJFV] computed stoch simul and BK successfully. no estimation. just simulation
+  \item[fs2000ns] no steady
+  \item[AltEx1] computes BK successfully. no estimation
+\end{description}
+
+\vspace{1cm}
+
+
+  \subsection{Nonlinear Models}
+  \begin{itemize}
+  \item Dynare can estimate linearized DSGE models
+  \item Steady state values appear in the linearized model
+  \item Symbolic computation available for these models too
+      \begin{itemize}
+      \item With analytic expressions for steady state, just substitute
+      \item Alternatively, proceed using  a symbolic variable for the 
+        steady state values
+      \end{itemize}
+  \end{itemize}
+
+
+
+
+
+  \section{Automating the Symbolic Calculations and the Approximations}
+  \begin{itemize}
+  \item Most steps straightforward 
+  \item Only eigensystem and steady state steps problematic
+  \item Small models are tractable, 
+  \item Approximation methods provide feasible fallback position 
+for larger models
+\item Mathematica code employs Java code to automate the generation of 
+Chebyshev polynomial approximations for
+\begin{itemize}
+\item steady state values
+\item eigenvalues 
+\item or component by component values of the autoregressive representation
+\end{itemize}
+  \end{itemize}
+
+
+
+
+
+  \subsection{Using the EquateAtGridPoints Class }
+For each case the user  must specify the parameters, their ranges and their maximum order in the polynomial
+
+
+ \begin{description}  
+\item[ Steady State Calculation] Specify a system of simultaneous equations that should be set to zero,
+\item[Root Calculation] Specify coefficient for a polynomial with the desired roots
+\item[Generic interpolation]
+ The code provides the user with the grid evaluation points.
+ The user provides the values of the vector of functions at the evaluation points.  \end{description}
+
+The code returns a family of polynomials approximating the 
+relationship between the parameters and the desired functions.
+
+
+
+
+
+
+  \subsection{Eigensystem Complications}
+  \begin{itemize}
+  \item Symbolic eigenvalue calculation may contain
+    \begin{itemize}
+    \item Symbolic steady state values
+    \item Root expressions (need specific parameter values in order to know which symbolic expressions provides the appropriate large roots)
+    \end{itemize}
+  \item Alternatively compute polynomial approximations 
+for each of the components eigenvectors
+  \end{itemize}
+
+
+
+
+
+
+
+  \subsection{Estimation Strategies }
+  \begin{itemize}
+  \item Analytic expressions(once in hand) much faster than recomputing autoregressive representation for different sets of parameters
+
+  \item When analytic expression unavailable trade-off for accuracy
+    \begin{itemize}
+    \item better approximations more expensive to compute and to use
+    \item Low order approximation to start in order to get close to solution
+    \item Higher order as get closer
+    \item Possible to parralelize these two operations and substitute better approx as they become available
+    \end{itemize}
+  \end{itemize}
+
+
+
+
+
+
+
+  \subsection{Things To Do}
+
+
+  \begin{itemize}
+  \item findroot init
+  \item SolveSS Null 1,2,6,10,20,23 Aborted 8 13
+  \item RBC needs yss HSTBayes needs mus
+  \item compiler optimization
+  \item replace mathematica specialized open source 
+  \item accuracy
+  \item evals check
+  \item robust wrt evals by substituting root into null space calc (Reduce)
+  \item anticpate inversion of right hand block of Q by QR on Zf.
+  \item Simplify strategically
+  \item Hernandez
+  \item log linear
+  \item estimation dynare
+  \item appendix for mod files
+\item Eigensystem Calculations most Problematic Step
+  \begin{itemize}
+  \item Most time consuming part but analytic results still often possible
+  \item Fortunately, computing all eigenvectors is unnecessary
+  \end{itemize}
+  \item {\em noName} a Mathematica/Java program along with a Dynare parser
+  \item  A Representative Collection of Models
+  \end{itemize}
+
+
+
+  \begin{itemize}
+  \item Fully automate production of routines usable in Dynare
+  \item Substitute an open source symbolic algebra package for Mathematica calculations
+  \item Speed up symbolic algebra calculation (Parallelize components of the algorithm.)
+  \item Other orthogonal polynomials
+\item Provide analytic derivatives along with symbolic and approximation
+\item Compute S, efficient likliehood evaluation
+\item Analytic derivatives
+\item Sparse java matrix
+\item \href{http://cstheory.stackexchange.com/questions/2611/complexity-of-finding-the-eigendecomposition-of-a-matrix}{Complexity Eigen computations}
+  \end{itemize}
+
+
+  \subsection{More To Do}
+  \begin{itemize}
+  \item Root example  to Java, MATLAB C
+  \item SS Code example to Java, MATLAB C
+  \item Timing
+  \item ModelEX XML parser,
+  \item PC laptop version
+  \end{itemize}
+
+
+
+
+
+Try optimizedexpression for lilMat.
+compute evals Then resub.
+Concrete small example.
+Beamer slides.
+Need param values or way to decide big ev's even if not in  Root.
+Try Eigensystem[xx,2]
+
+
+\begin{itemize}
+\item prepTimer before dynare
+\item Have to run dynare with noclearall option
+\item interpolate left eigenvectors
+\item 
+Estimate with certain degree approx.
+Check how good steady and b are. Redo approx at new point.
+Sent from my iPad
+
+\item EDO model
+
+\item locate all simplifies assess strategic simplification
+\item Taylor series vs projection
+\item Expansion point as variable
+\item Leave parameters in Root un expanded?
+\item handling branch cuts
+\item Also useful with fixed point calculations even in linearized nonlinear models
+
+\item Write out fortran c java function evaluation tradeoff symbolic vs all numeric
+\item ``Don't peek'' become comfortable manipulating with out trying to view expression
+\item Tradeoff Time and Speed
+\item Many more steps need nurturing
+\item When to simplify
+\item Dynamic programming view of navigating choices along the way
+\item Hybrids using polynomials evaluated at node points instead of just values
+\item apply this technique for steady states too
+\item Incorporate all into dynare
+\item only time polys change is when grid changes (ie ranges and order)
+\item have to flip back to real domain guaranteed for all calcs
+\item Can approximate Root or each or coeffs of evector with varying degrees of precision for each component. How to choose?
+\item Optimize.m\cite{sofroniou04} and Format.m\cite{sofroniou04a}
+\item \cite{bhandari10}
+\item Strategies for adjusting approximation as estimation evolves (shrinking the grid) grid constantly adapting Varying powers by parameter Parallelizing compu7tations by node
+\item Need to handle param init
+\item Need to handle shocks
+\item need to identify vartheta is it worth reducing prob size
+\item need nonlinear
+\item need init values for solve  nonlinear
+\item derivatives wrt params? where when?
+\item dyare plug and play replace (or augment) model evaluation m-file
+\item Gains for stochastic simulation and other model operations
+\item Simplify time  FullSimplify time Optimize
+\item OptimizeExpression has options including optimization level that could be explored
+\item Combine rts and bb in mex file for efficiency of OptimizedExpression
+\item Projection methods for nonlinear version of the algorithm
+\item undefine I
+\item Strange that maximum symbolic time often bigger than non symbolic time even with averages for symbolic smaller
+\item Handling complex numbers in B and Root matrix calculations
+\item Replace mathematica with mupad and or a stand alone open source symbolic algebra implementation
+\item In examples, estimate more parameters
+\item Robustness avoiding local mins
+\item Sequential refinement (parallel )  Use low order poly then while running compute next poly iterate till got enough precision. Final step with explicit calculation without approximation
+\item How to choose orders which parameters need high order?
+\item Numerical derivatives versus analytic derivatives (fix matwithdrvs)
+\item JBendge comparisons after Dynare speedups. Derivatives impact on evals
+\item Does dynare require linear in parameters too?
+\item why now aimsolver for order 2
+\item Report speedup for spamalg relative to original?
+\item can valcols ever be unequal to 1 in eqmaldrv applyrootfinderatpoints?
+\item At some point efficient model with unused variables eliminated from state non state.
+\item \href{Nicola Viegi}{http://www.nviegi.net/research/dsge.htm}
+\end{itemize}
+
+% msulx1(113)% grep -il estimation *mod|uniq
+% AssetPricingEstimate.mod
+% BansalYaronBayes.mod
+% BansalYaronML.mod
+% GrowthEstimate.mod
+% hall1estimateBayes.mod
+% hall1estimateML.mod
+% HSTBayes.mod
+% HSTML.mod
+% rosenestimateBayes.mod
+% rosenestimateML.mod
+% sargent77Bayes.mod
+% sargent77ML.mod
+% sargent77.mod
+% TwocountryEst.mod
+% msulx1(114)% 
+
+\bibliographystyle{authordate4}
+\bibliography{anderson,files}
+
+\newpage
+\appendix
+
+\section{Algorithm for computing Z and $H^f$}
+%\begin{figure}
+%  \centering
+  \label{sec:ucarflowpcode}
+\NumberProgramstrue
+\sfvariables
+\begin{algrthm}
+\label{alg:unconstrainedAR}
+\begin{program}
+\mbox{Given $H$,}
+\mbox{ compute the unconstrained autoregression.} 
+\FUNCT \mathcal{F}_{\ref{alg:unconstrainedAR}} (H) \BODY
+k:=0
+\mathcal{Z}^0:=\varnothing
+\mathcal{H}^0:=H
+\Gamma=\varnothing
+\WHILE \mathcal{H}^k_\theta \text{ is singular } \cap rows (\mathcal{Z}^k) < L (\tau+\theta) 
+\DO
+\mbox{{\em {\small Determine a Non-singular matrix that annihilates $ L-r(\mH^k_\theta) $ Rows of $\mH^k_\theta$}}}
+U^k=\begin{bmatrix}U^k_Z\\U^k_N\end{bmatrix}:=|rowAnnihilator| (\mH^k_\theta) 
+\mH^{k+1}:= \longExpH
+\mZ^{k+1}:= \longExpQ
+k:=k+1
+\OD
+\Gamma=- H_{\theta}^{-1}\begin{bmatrix} H_{-\tau}&\hspace{0.25in}&\dots&\hspace{0.25in}&H_{\theta-1}  \end{bmatrix}
+A= \begin{bmatrix}  \begin{matrix}    0&I  \end{matrix}\\ \Gamma\end{bmatrix}
+|return| \{ \begin{bmatrix}\mH^k_-\tau&\ldots&\mH^k_{\theta}\end{bmatrix},A,\mZ^k \}
+\ENDFUNCT
+\end{program}
+%  \caption{Unconstrained Autoregression Pseudocode}
+\end{algrthm}
+
+\section{Algorithm for Computing Q}
+\begin{algrthm}
+\label{alg:asymptoticConstraints}
+\begin{program}
+\mbox{Given $A,Z^{\sharp,\ast}$,}
+\FUNCT \mathcal{F}_{\ref{alg:asymptoticConstraints}} (A,Z^{\sharp,\ast})
+\text{Compute $V$, the vectors spanning the left}
+\text{ invariant space of $A$ associated with eigenvalues }
+\text{ greater than one in magnitude}
+Q:=\begin{bmatrix}Z^{\sharp,\ast}\\V\end{bmatrix}
+|return| \, Q
+\ENDFUNCT
+\end{program}
+\end{algrthm}
+
+
+
+%  \label{fig:ucar}
+%\end{figure}
+
+\section{Algorithm for Computing B}
+
+\begin{algrthm}
+\label{alg:bmat}
+\begin{program}
+\mbox{Given $Q$,}
+\FUNCT \mathcal{F}_{\ref{alg:bmat}} (Q)
+|cnt|=noRows (Q)
+|return|\begin{cases}
+\{Q,\infty\} &|cnt| < L\theta 
+\{Q,0\} &|cnt| > L\theta 
+\{Q,\infty\}& (Q_R singular) 
+\{B=-Q_R^{-1} Q_L,1\} &otherwise
+\end{cases}
+\ENDFUNCT
+\end{program}
+\end{algrthm}
+
+\section{Algorithm for Computing $\phi$ and F}
+
+\begin{algrthm}
+\label{alg:inhomog}
+\begin{program}
+\mbox{Given $H,  Q$}
+\FUNCT \mathcal{F}_{\ref{alg:inhomog}} (H,Q)
+Where
+%\begin{gather}
+B=  \begin{bmatrix}B_L&B_R
+\vdots&\vdots
+B_L^\theta&B_R^\theta  \end{bmatrix}= Q_R^{-1} Q_L
+%\end{gather}
+
+\phi= (H_0 + H_+  \begin{bmatrix}B_R
+\vdots
+\ugBR{\theta} \end{bmatrix})^{-1}
+F=\begin{bmatrix}0&I
+\vdots&&\ddots
+0&&&I
+-\phi H_+\begin{bmatrix}0
+ \vdots 
+ 0
+I  \end{bmatrix}&-\phi H_+\begin{bmatrix}0
+ \vdots
+I
+B_R  \end{bmatrix}&\ldots&-\phi H_+\begin{bmatrix}I
+B_R
+\vdots
+\ugB{\theta-1}  \end{bmatrix}\end{bmatrix}
+|return| (\phi,F)
+\ENDFUNCT
+\end{program}
+\end{algrthm}
+
+
+\section{Exogenous VAR Impact Matrix, $\vartheta{}$}
+
+Modelers can augment the homogeneous linear perfect foresight solutions with
+particular solutions characterizing  the impact of exogenous vector
+autoregressive variables.
+
+\begin{thrm}\label{var}
+  
+
+When 
+\begin{gather}
+  z_{t+1} = \Upsilon{} z_t\\ \intertext{one can show that}
+ x_{t} = \begin{bmatrix}
+B_L& B_R  
+\end{bmatrix}
+ \begin{bmatrix}
+%     (x_{t-\tau}-x^\ast)\\\vdots\\ (x_{t-1}-x^\ast)
+     x_{t-\tau}\\\vdots\\ x_{t-1}
+  \end{bmatrix} + \vartheta{} z_t
+\\
+\intertext{ where }
+vec(\vartheta{}) =   \begin{bmatrix}
+  0&\dots 0&I
+  \end{bmatrix}
+ (I - \Upsilon^T\otimes{} F)^{-1} vec
+\begin{bmatrix}
+0\\ \vdots \\ 0 \\
+\phi\Psi%
+\end{bmatrix}
+\end{gather}
+\end{thrm}
+
+See \cite{anderson10} for  derivations and formulae.
+
+
+
+\section{Algorithm for Computing S}
+
+\begin{algrthm}
+\label{alg:obs}
+\begin{program}
+\mbox{Given $B,k^\ast$}
+\FUNCT \mathcal{F}_{\ref{alg:obs}} (B,k^\ast)
+  \tilde{B}=  \begin{bmatrix}    \begin{matrix}0&I      
+    \end{matrix}
+B  \end{bmatrix}
+S=   \begin{bmatrix}0_{L\times L\max (0,k^\ast-1)}&    H_{-\tau}&\ldots&H_0  \end{bmatrix} +
+  \begin{bmatrix}  \begin{bmatrix}    H_{1}\ldots H_\theta  \end{bmatrix} \begin{bmatrix}      B
+\vdots
+\ugB{\theta}    \end{bmatrix} \tilde{B}^{k^\ast}   & 0_{L\times L\max (0,k^\ast-1)}  \end{bmatrix}
+|return| (S)
+\ENDFUNCT
+\end{program}
+\end{algrthm}
+
+\section{Algorithm for Computing A and $\psi$}
+\begin{algrthm}
+\label{alg:trans}
+\begin{program}
+\mbox{Given $H,\Psi,S$}
+\FUNCT \mathcal{F}_{\ref{alg:trans}} (H,S)
+\sTransA=\begin{bmatrix}  0 &I&&
+\vdots&&\ddots&
+0&&&I
+S_0^{-1} S_{t-\tau-\max  (k^\ast-1,0)+1} &\dots &\dots&S_0^{-1} S_{-1} \end{bmatrix}
+\sTransB=\begin{bmatrix}  0
+\vdots 
+ 0 
+ S_0^{-1} \end{bmatrix}
+|return| (\sTransA,\sTransB)
+\ENDFUNCT
+\end{program}
+\end{algrthm}
+
+
+
+
+\section{Numerical Analysis Concepts}
+\label{sec:numerical-concepts}
+
+
+\subsection{Condition Numbers}
+\label{sec:condition-numbers}
+
+\subsection{Definitions}
+\label{sec:condition-numbers-1}
+
+x is input for f.  y is output
+\begin{gather*}
+y=f(x)
+\end{gather*}
+
+f is a mapping from a normed vector space X to another normed vector space Y.\href{http://dafeda.wordpress.com/2010/10/06/condition-numbers-absolute-and-relative/}{DaFeda's Blog}
+
+We can define the Absolute condition number by
+\begin{gather*}
+Cond_x(f)  = \lim_{\epsilon\rightarrow 0}\sup_{\delta x \le \epsilon } \frac{\| f(x+\delta x) - f(x) \|}{\| \delta x \|} \intertext{if $\delta x$ is infitesimal}
+Cond_x(f)  = \sup_{\delta x  } \frac{\| f(x+\delta x) - f(x) \|}{\| \delta x \|} 
+\end{gather*}
+
+We can define the relativa condition number by
+\begin{gather*}
+Cond_x(f)  = \lim_{\epsilon\rightarrow 0}\sup_{\delta x \le \epsilon } \frac{\| f(x+\delta x) - f(x)\| /\| f(x) \|}{\| \delta x \|/\| x \|} \intertext{if $\delta x$ is infitesimal}
+Cond_x(f)  = \sup_{\delta x  } \frac{\| f(x+\delta x) - f(x) \|/\| f(x) \|}{\| \delta x \|/\| x \|} \intertext{If f is differentiable}
+\frac{ \| J \|}{\| f(x) \| / \| x \|}
+\end{gather*}
+
+\subsection{Numerical Stability}
+\label{sec:numerical-stability}
+
+\href{http://en.wikipedia.org/wiki/Numerical_stability}{Wikipedia}
+\href{http://livetoad.org/Courses/Documents/292d/Notes/perturbations_and_stability.pdf}{Lecture Notes}
+\subsection{Forward and Backward Error}
+\label{sec:error}
+The forward error of the algorithm is the difference between the result and the solution; in this case, $\Delta y = y^\ast - y$. The backward error is the smallest $x$ such that $f(x + \Delta x) = y^\ast$; in other words, the backward error tells us what problem the algorithm actually solved. The forward and backward error are related by the condition number: the forward error is at most as big in magnitude as the condition number multiplied by the magnitude of the backward error.
+
+\subsection{Foreward and Backward Stability}
+\label{sec:stability}
+The algorithm is said to be backward stable if the backward error is small for all inputs x.  An algorithm is forward stable if its forward error divided by the condition number of the problem is small. This means that an algorithm is forward stable if it has a forward error of magnitude similar to some backward stable algorithm.
+\subsection{Mixed Stability}
+\label{sec:mixed-stability}
+The usual definition of numerical stability uses a more general concept, called mixed stability, which combines the forward error and the backward error. An algorithm is stable in this sense if it solves a nearby problem approximately, i.e., if there exists a $\Delta x$ such that both $\Delta x$ is small and $f(x + \Delta x) - y^\ast $ is small. Hence, a backward stable algorithm is always stable.
+
+
+
+% \section{Rosen Programs}
+% \label{sec:rosen-programs}
+
+% \subsection{Rosen Dynare File}
+% \label{sec:rosen-dynare-file}
+
+% \listinginput{1}{dynareExamples/examples/rosenestimateBayes.mod}
+
+
+% \subsection{Analytic Matlab}
+% \label{sec:analytic-matlab}
+
+% \listinginput{1}{rosenBComp.m}
+
+% \subsection{Analytic Java}
+% \label{sec:analytic-java}
+
+% \listinginput{1}{RosenComps.java}
+
+
+% \subsection{Analytic C}
+% \label{sec:analytic-c}
+
+% \listinginput{1}{rosenBMexComp.c}
+
+
+\end{document}
