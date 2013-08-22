@@ -1,0 +1,45 @@
+\documentclass{article}
+\input tmp.inputs
+\pagestyle{empty}
+\begin{document}
+\input pst-eps
+\TeXtoEPS
+\begin{pspicture} (6.75,3.75)
+%\psgrid
+\psset{xunit=0.45,yunit=.35cm}
+
+%\psframe[fillstyle=solid,fillcolor=gray] (5,5) (11,4)
+%\psframe[fillstyle=solid,fillcolor=gray] (9,0) (15,1)
+\psframe[fillstyle=solid,fillcolor=gray] (5,8) (11,7)
+\psframe[fillstyle=solid,fillcolor=gray] (9,0) (15,1)
+
+
+\psline[linestyle=dashed]{<->}(9,6.5)(11,1.5)
+\psset{arrows=->}
+\rput(7.5,9.5){\rnode{A}{$\tau+\theta$}}
+\rput(5,9.5){\rnode{B}{}}
+\rput(10,9.5){\rnode{C}{}}
+\ncline{A}{B}
+\ncline{A}{C}
+% \psline[linestyle=dashed]{<->}(9,3.5)(11,1.5)
+% \psset{arrows=->}
+% \rput(7.5,8.0){\rnode{A}{$\tau+\theta$}}
+% \rput(5,8.0){\rnode{B}{}}
+% \rput(10,8.0){\rnode{C}{}}
+% \ncline{A}{B}
+% \ncline{A}{C}
+
+\rput(10.5,8.0){\rnode{D}{}}
+\rput(12.5,9.5){\rnode{E}{$H^{\sharp,0}$}}
+\nccurve[angleB=90,angleA=270]{E}{D}
+
+\psset{arrows=-}
+\psline[linewidth=0.6mm] (0,8) (15,8)
+\psline[linewidth=0.6mm] (5,0) (5,10)
+\psline[linewidth=0.6mm] (10,0) (10,10)
+
+
+\end{pspicture}
+\endTeXtoEPS
+  
+\end{document}

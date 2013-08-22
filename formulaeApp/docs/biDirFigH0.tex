@@ -1,0 +1,116 @@
+
+The initial matrix$H^{\sharp,0}$, for  the example model
+with variable order $\{ \epsilon,\nu,u,w,W\} $ is 
+%\Mvariable{Null}
+%\begin{figure*}[htbp]
+%\begin{center}
+%  \leavevmode
+  \begin{gather*}
+H^{\sharp,0}=  \begin{bmatrix}
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp -1 \anAmp \alpha \anAmp
+  1 \anAmp -{\frac{1}{2}} \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp
+  -{\frac{1}{2}}\\
+0 \anAmp 0 \anAmp 0 \anAmp -{\frac{1}{2}} \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0
+  \anAmp -{\frac{1}{2}} \anAmp 1 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0\\
+0 \anAmp 0 \anAmp -\vartheta \anAmp 0 \anAmp 0 \anAmp -1 \anAmp 0 \anAmp 1 \anAmp
+  0 \anAmp -\gamma \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0\\
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 1 \anAmp 0 \anAmp 0 \anAmp 0
+  \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0\\
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 1 \anAmp 0 \anAmp 0
+  \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0
+  \end{bmatrix}
+  \end{gather*}
+%  \caption{$H^{\sharp,0}$ for Example Model}
+%  \label{h0Example}
+%\end{center}
+%\end{figure*}
+%\Mvariable{Null}
+We would like to express the time $t+1$ variables in terms of the time $t$ and
+$t-1$ variables. 
+If the sub-matrix corresponding to the $t+1$ variables were non singular we
+could immediately write:
+\begin{gather*}
+\begin{bmatrix}
+{{\epsilon}\unds {t + 1}} \\ {{\nu}\unds {t + 1}} \\ {u\unds {t + 1}} \\
+  {w\unds {t + 1}} \\ {W\unds {t + 1}}  
+\end{bmatrix}
+ = (H^{\sharp,0}_\theta)^{-1} 
+\begin{bmatrix}
+  H^{\sharp,0}_{-1} &   H^{\sharp,0}_0
+\end{bmatrix}
+\begin{bmatrix}
+{{\epsilon}\unds {t - 1}} \\ {{\nu}\unds {t - 1}} \\ {u\unds {t - 1}} \\
+  {w\unds {t - 1}} \\ {W\unds {t - 1}}\\
+{{\epsilon}\unds t} \\ {{\nu}\unds t} \\ {u\unds t} \\ {w\unds t} \\ {W\unds
+  t}
+\end{bmatrix}
+\end{gather*}
+
+
+Since $(H^{\sharp,0}_\theta)$ is singular,
+ we use equations dated subsequent to the present 
+time period to construct a set of linear constraints where the leading block
+is non singular.
+
+%\begin{figure*}[htbp]
+%\begin{center}
+%  \leavevmode
+  \begin{gather}
+H^{\sharp,\star}=  \begin{bmatrix}
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp
+  -{\frac{1}{2}} \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp -{\frac{1}{2}}
+  \anAmp 1\\ \nonumber
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp -\vartheta \anAmp
+  0 \anAmp 0 \anAmp -1 \anAmp 0 \anAmp 1 \anAmp 0 \anAmp -\gamma\\ \nonumber
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0
+  \anAmp 0 \anAmp 1 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0\\ 
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0
+  \anAmp 0 \anAmp 0 \anAmp 1 \anAmp 0 \anAmp 0 \anAmp 0\\ \nonumber
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp -1 \anAmp \alpha \anAmp
+  1 \anAmp -{\frac{1}{2}} \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp
+  -{\frac{1}{2}} \nonumber
+  \end{bmatrix}
+  \end{gather}\label{h0StarExample}
+%  \caption{$H^{\sharp,\star}$ for Example Model}
+%  
+%\end{center}
+%\end{figure*}
+
+So that
+
+
+%\begin{figure*}[htbp]
+%\begin{center}
+%  \leavevmode
+  \begin{gather}
+A=  \begin{bmatrix}
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 1 \anAmp 0 \anAmp 0 \anAmp 0
+  \anAmp 0\\
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 1 \anAmp 0 \anAmp 0
+  \anAmp 0\\
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 1 \anAmp 0
+  \anAmp 0\\
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 1
+  \anAmp 0\\
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0
+  \anAmp 1\\
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0
+  \anAmp 0\\
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0
+  \anAmp 0\\
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp -2\gamma \anAmp \rho
+  \anAmp 2\gamma \anAmp -\gamma\\
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp -4 \anAmp 4\alpha \anAmp
+  3 \anAmp -2\\
+0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp 0 \anAmp -2 \anAmp 2\alpha \anAmp
+  2 \anAmp -1
+  \end{bmatrix}\label{AExample}\intertext{where}
+\rho= \theta + 2 \gamma \alpha
+  \end{gather}
+%  
+%\end{center}
+%\begin{center}
+%  \caption{$H^\sharp_\star$ for Example Model}  
+%\end{center}
+
+%\end{figure*}

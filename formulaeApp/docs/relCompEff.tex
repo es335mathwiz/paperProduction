@@ -1,0 +1,1968 @@
+\listfiles
+%gv -style "/opt/matlab-7.0/sys/ghostscript/ps_files/gs_init.ps" relCompEff.ps &
+%how to pdflatex pstricks http://rp.lip6.fr/~benbadis/tips/presentation.pdf
+%latex relCompEff;dvips -o relCompEff.ps relCompEff;ps2pdf relCompEff.ps relCompEff-pics.pdf ;pdflatex relCompEff;pdflatex relCompEff;pdflatex relCompEff
+%latex relCompEff;dvips -o relCompEff.ps relCompEff;ps2pdf relCompEff.ps
+
+%pdflatex relCompEff;pst2pdf relCompEff;pdflatex relCompEff
+%this should work but doesn't seem to
+%pdflatex -shell-escape relCompEff
+
+\newcommand{\myamp}{&}
+\newcommand{\mywedge}{^}
+
+
+%$Id: relCompEff.tex,v 1.20 2007/08/03 15:26:16 m1gsa00 Exp $
+\documentclass{elsart}
+\input{preamble}
+
+\begin{document}
+\initfloatingfigs
+%\bibliographystyle{econometrica}
+%\bibliographystyle{plain}
+\bibliographystyle{authordate1}
+\setlength{\unitlength}{2em}
+
+\begin{frontmatter}
+  
+
+
+
+\title{ A Reliable and Computationally Efficient Algorithm for 
+Imposing the Saddle Point Property in Dynamic Models
+%\footnote{
+%$Author: m1gsa00 $  $Date: 2007/08/03 15:26:16 $ $Revision: 1.20 $\newline $Source: /msu/res2/m1gsa00/cvsroot/algDesc/relCompEff.tex,v $    
+%}
+}
+
+
+
+\author{Gary S. Anderson}
+\thanks{First, I would like to thank George Moore, my now deceased mentor,
+friend and coauthor of\cite{ANDER:AIM2}.
+I also wish to thank Brian Madigan, Robert Tetlow, Andrew Levin,
+Jeff Fuhrer and Hoyt Bleakley for helpful comments.
+I am responsible for
+any remaining errors.
+The views expressed herein are mine and 
+do not necessarily represent the views of the Board of Governors of the Federal
+Reserve System.
+}
+
+\begin{abstract}
+This paper describes a set of 
+algorithms for quickly and reliably solving linear rational expectations 
+models.
+The utility, reliability and speed of these algorithms are a consequence of
+1) the algorithm for computing the minimal dimension state space 
+transition matrix for models with arbitrary numbers of  lags or leads,
+2) the availability of a simple modeling language for characterizing
+a linear model and
+3) the use of the QR Decomposition and 
+ Arnoldi type eigenspace calculations.
+The paper also presents new formulae  for
+computing and manipulating solutions for
+arbitrary exogenous processes.
+
+
+
+
+
+
+
+
+
+
+
+\end{abstract}
+
+
+\end{frontmatter}
+%\maketitle
+
+
+
+
+
+
+
+%\pagestyle{myheadings}
+
+%\markboth{\today \hfill }{\today \hfill }
+
+
+% \newpage
+% \tableofcontents
+% \newpage
+
+\section{Introduction and Summary}
+\label{sec:intro}
+\nocite{anderson06}
+
+
+% George Moore and I developed this group of algorithms to 
+% facilitate research and analysis activities   at the Federal 
+% Reserve.
+Economists at the Board have an operational need for tools
+that are useful for building, estimating and simulating moderate to large
+scale rational 
+expectations models.
+This context dictates a need for careful 
+attention to computational efficiency and
+numerical stability of the algorithms.
+
+
+These algorithms have proved very durable and 
+useful for staff at the central bank.
+Many economists at the Federal Reserve Board 
+have used the algorithms in their daily 
+work and their research.\footnote{
+See, 
+for example,\cite{bomfim96,persist,realrate,stab,zerobnd,fwlb,optpol,longrate,gmmml,learn,optsac,cr96,orphanides97,andrew98,orphanides98,orphanides98a,edge03,orphanides02}.}
+With the exception of researchers at other European
+central banks\cite{zagaglia02},
+ few  economists outside the US central bank seem to know about the 
+method.
+This paper attempts to make the method and approach more widely 
+available by describing the underlying theory along with a number of
+improvements on the original algorithm.\footnote{ At the Board, economists commonly refer to this family of
+algorithms as the 
+AIM algorithm. A metaphor relating our approach to the ``shooting method'' 
+inspired the name. }
+%The ``C'', Matlab and Mathematica code are available from the author at {\small\url{http://www.federalreserve.gov/pubs/oss/oss4/aimindex.html}.}
+
+The most distinctive features of this approach are:
+\begin{itemize}
+\item its algorithm for computing the minimal dimension state space 
+transition matrix 
+\item its
+use of bi-orthogonality to characterize the asymptotic constraints 
+that guarantee stability (See Section~\ref{sec:invariantSpace}).
+\item It's reliance on QR Decomposition and the real Schur Decomposition
+for speed and accuracy.
+\end{itemize}
+
+
+This unique combination of features 
+makes the algorithm especially effective 
+for large models.
+See~\cite{anderson06} for a systematic comparison of this algorithm with
+the alternatives procedures.
+
+The remainder of the paper is organized as follows.
+Section~\ref{sec:problem} states the saddle point problem.
+Section~\ref{sec:basic} describes the algorithms for solving
+the homogeneous and inhomogeneous 
+ versions of the problem and describes several implementations.
+Section~\ref{sec:useful} shows how to compute matrices often found useful
+for manipulating rational expectations model solutions:
+the observable structure(Section~\ref{sec:errorCalc}) and
+stochastic transition matrices(Section~\ref{sec:stochtrans}).
+ The Appendices contain  proofs for the
+linear algebra underlying the 
+algorithm and the solution of a simple example model.
+
+
+
+
+
+\section{Saddle Point Problem Statement}
+
+
+
+
+Consider linear models of the form:
+
+
+\begin{gather}
+\sum_{i=-\tau}^\theta{H_i x_{t+i}}= \Psi%\nonumber
+z_{t}, \,\, t = 0,\ldots,\infty\label{eq:canonical}\\ \intertext{with initial conditions, if any, given by constraints of the form}%\nonumber
+x_i  =  x^{data}_i,  i =  - \tau, \ldots, -1\label{eq:init}\\ \intertext{where both $\tau$ and $\theta$ are non-negative, and $x_t$ is an L dimensional vector 
+of endogenous variables with}%\nonumber
+\lim_{ t \rightarrow\infty} \|x_t\|   < \infty\label{eq:limit} %\nonumber
+\end{gather}
+{ and $z_t$ is a $k$ dimensional vector of exogenous variables.}
+
+    
+
+Section~\ref{alg} describes computationally efficient algorithms for
+determining the existence and uniqueness of solutions to this problem.
+
+
+\label{sec:problem}  
+
+\section{The Algorithms}
+
+\label{alg}
+
+\label{sec:basic}
+
+The uniqueness of solutions to 
+system~\ref{eq:canonical} requires that
+any transition matrix characterizing the dynamics of the 
+linear system have an appropriate
+number of explosive and stable eigenvalues\cite{blanchard80},
+and that a certain set of  asymptotic linear constraints 
+are linearly independent of explicit and certain other auxiliary initial 
+conditions\cite{ANDER:AIM2}.
+
+The solution methodology entails 
+\begin{enumerate}
+\item Manipulating the left hand side of equation~\ref{eq:canonical} to obtain
+ a state space transition matrix, $A$, along with
+a set of auxiliary initial conditions, $Z$ for the homogeneous solution.
+\begin{gather}
+  Z
+  \begin{bmatrix}
+    x_{-\tau}\\ \vdots \\ x_{\theta}
+  \end{bmatrix}=0 \,\,\,\,\text{and}\,   \begin{bmatrix}
+    x_{-\tau+1}\\ \vdots \\ x_{\theta}
+  \end{bmatrix}
+=A   \begin{bmatrix}
+    x_{-\tau}\\ \vdots \\ x_{\theta-1}
+  \end{bmatrix}
+\end{gather}
+See Section~\ref{sec:arzgev}.
+\item Computing the eigenvalues and vectors spanning 
+the left invariant space associated with
+large eigenvalues. See Section~\ref{asymQ}.
+\begin{gather}
+ V A =   \mathcal{M}  V 
+\end{gather}
+with the eigenvalues of $ \mathcal{M}$ all greater than one in absolute value.
+\item Assembling asymptotic
+constraints, $Q$, (See Section~\ref{asymQ}.)  by combining the:
+  \begin{enumerate}
+\item  auxiliary initial conditions identified in the computation of the transition matrix and 
+\item the invariant space vectors
+  \end{enumerate}
+\begin{gather}
+  Q= 
+  \begin{bmatrix}
+    Z\\V
+  \end{bmatrix}
+\end{gather}
+\item Investigating the rank of the linear space spanned by these asymptotic
+constraints and,  when a unique solution exists, 
+\begin{enumerate}
+\item Computing the auto-regressive 
+representation, $B$. See Section~\ref{conar}.
+\item Computing matrices, $\phi, F, \vartheta$ 
+for characterizing the impact of the inhomogeneous
+right hand side term. See Section~\ref{sec:inhomog}.
+\end{enumerate}
+\end{enumerate}
+
+Figure \ref{fig:components} presents a  flowchart of the algorithm.
+
+
+
+
+\begin{figure*}[!ht]
+  \begin{center}
+    \leavevmode
+%\fbox{
+\begin{picture} (10,23)
+  \input{ aimComponentsOverall.tex}
+\end{picture}
+%}
+    \caption{Algorithm  Components~}
+    \label{fig:components}
+  \end{center}
+\end{figure*}
+
+
+
+
+\subsection{Homogeneous Solution}
+\label{sec:homo}
+
+
+Suppose, for now, that $\Psi=0$:\footnote{Note that there is no unique steady state requirement.
+Steady state solutions, $x^\ast$ satisfying
+\begin{gather}
+ \sum_{i= - \tau}^\theta( H_i ) x^\ast= 0%
+\end{gather}
+lie in a linear subspace of $\mathcal{R}^L$. 
+We will develop conditions that guarantee solutions 
+that evolve from a given set of initial conditions to a single point in this
+subspace. As a result, one can apply these routines to
+models with unit roots, seasonal factors, cointegrating vectors
+and error correction terms.
+}
+\begin{gather}
+\sum_{i= - \tau}^\theta{ H_i  x_{ t + i } }= 0, t \geq0\label{eq:homo}\\
+\lim_{ t \rightarrow\infty} \|x_t\|   < \infty%\nonumber
+%\lim_{ t \rightarrow\infty} x_t  =  x^\ast \intertext{with}
+%\sum_{i= - \tau}^\theta{ H_i  x^\ast}= 0%
+\end{gather}
+
+The homogeneous specification~\ref{eq:homo} is not restrictive.
+Since the procedure can handle 
+inhomogeneous versions  of equation~\ref{eq:canonical}
+by recasting the problem in terms of  deviations from a steady state value.
+However,
+the next section provides a  more intuitive, flexible 
+and computationally efficient alternative for 
+computing inhomogeneous solutions.\footnote{The original algorithmic description and
+software implementation of these algorithms
+developed homogeneous solutions.
+Researchers obtained solutions for models with inhomogeneous systems
+by adding an equation of the form $\mathbf{i}_{t} =  \mathbf{i}_{t-1}$ with initial condition 
+$\mathbf{i}_{t-1}=1$ to 
+the system.}
+
+
+
+%\subsubsection{Unit Roots and  Cointegrating Factors}
+
+
+
+
+
+
+\subsubsection{State Space Transition Matrix and Auxiliary Initial Conditions: $A, Z$}
+\label{sec:arzgev}
+
+This section describes how to determine a first-order state space
+representation of the equation system~\ref{eq:homo}. The method is an extension
+of the shuffling algorithm developed in\cite{luenberger78,luenberger77}.
+If $H_\theta$ is non-singular, we can immediately obtain $x_{t+\theta}$ 
+in terms of $x_{t-\tau} \ldots x_{t+\theta-1}$
+\begin{gather}
+-  H_{\theta}^{-1}\begin{bmatrix}
+    \hShort
+  \end{bmatrix}  
+\end{gather}
+However, the natural specification of many economic models has singular
+ $H_\theta$.
+
+This, first,  algorithm
+applies full rank linear transformations 
+to equations from the original linear system in order to express
+$x_{t+\theta}$ in terms of $x_{t-\tau} \ldots x_{t+\theta-1}$.
+It produces an unconstrained, typically explosive, 
+autoregressive representation for the evolution of the components of
+the state space vectors and a set of vectors 
+that provide important auxiliary initial conditions. 
+
+
+
+
+
+
+%\section{Graphical Characterization of Unconstrained Autoregression Computation}
+\label{sec:gfrr}
+%\placeWrap{}
+%\begin{multicols}{2}
+%\begin{wrapfigure}[31]{r}{3.5in}
+
+%\begin{floatingfigure}{6cm}
+\begin{wrapfigure}[29]{r}{7cm}
+\input{initTab}
+\input{frAnnih}
+\input{fRank}
+\end{wrapfigure}
+
+Section~\ref{sec:uarproof} presents a proof that repeating 
+this process of annihilating and regrouping rows ultimately  produces 
+an $H^{\sharp,k}=H^{\sharp,\ast}$ with $H^{\sharp,\ast}_\theta$ non-singular.
+The proof identifies a benign rank condition 
+that guarantees that the algorithm will successfully compute
+the unconstrained autoregression and the auxiliary initial conditions.
+
+Figures~\ref{tableau}-\ref{fullRankFor} provide a graphical characterization
+of the linear algebraic transformations characterizing the algorithm.
+Figure~\ref{tableau}
+% on page~\pageref{tableau} 
+presents a graphical characterization of the relevant
+set of linear constraints for $t=0 \ldots (\tau{}+\theta{})$.
+The figure represents the regions where the coefficients 
+are potentially  non-zero as shaded gray. 
+If $H^{\sharp,0}_\theta$ is singular, one can find a linear 
+combination of its rows which  preserves the rank of $H^{\sharp,0}_\theta$ but
+which annihilates one or more of its rows.  
+
+
+Consequently, one can pre-multiply
+the matrices presented in Figure~\ref{tableau} by a unitary matrix 
+to get the distribution of
+zeros displayed in Figure~\ref{annihilation}.      Since the matrices
+repeat over time, one need
+only investigate the rank of the square matrix $H^{\sharp,0}_\theta$.
+$U_1 H^{\sharp,0}=\begin{bmatrix} F^{\sharp,1} U_1 H^{\sharp,0}_\theta\end{bmatrix}$.
+With some of the rows of $U_1 H^{\sharp,0}_\theta$ all zeros.
+One can  regroup the rows in the new tableau to get $H^{\sharp,1}$.
+By construction, the rank of $H^{\sharp,1}_\theta$ can be no less than
+the rank of $H^{\sharp,0}_\theta$.
+
+Note that  changing the order of the equations in
+$H^{\sharp,0}_\theta$ will not affect the rank of $H^{\sharp,0}_\theta$
+or the space spanned by the nonzero rows that will enter
+$H^{\sharp,1}_\theta$.  Since  $H^{\sharp,0}_\theta$ is not full rank, 
+a subset of the rows of $H^{\sharp,1}_\theta$ will
+span the same space as $H^{\sharp,0}_\theta$.  The other rows in
+ $H^{\sharp,1}_\theta$  will come
+from linear combinations of the original system of equations in effect
+``shifted forward'' in time.  
+
+One can think of
+the ``Full Rank Leading Block''
+matrix as the result of premultiplications of the
+``Initial Tableau'' by a sequence of unitary matrices. Implementations of
+the algorithm can take advantage of the fact that the rows of the
+matrices repeat. The regrouping can be done by ``shifting equations forward''
+in time in an $L \times L(\tau + 1 +\theta)$ version of the tableau.
+
+
+
+
+Section~\ref{sec:uarproof} presents a proof that repeating 
+this process of annihilating and regrouping rows ultimately  produces 
+an $H^{\sharp,k}=H^{\sharp,\ast}$ with $H^{\sharp,\ast}_\theta$ non-singular.
+Algorithm \ref{alg:unconstrainedAR} presents pseudo code for 
+an algorithm for computing the 
+components of the state space transition matrix and the auxiliary initial
+conditions.
+%\begin{figure}
+%  \centering
+  \label{sec:ucarflowpcode}
+\NumberProgramstrue
+\sfvariables
+\begin{algrthm}
+\label{alg:unconstrainedAR}
+\begin{program}
+\mbox{Given $H$,}
+\mbox{ compute the unconstrained autoregression.} 
+\FUNCT \mathcal{F}_{\ref{alg:unconstrainedAR}} (H) \BODY
+k:=0
+\mathcal{Z}^0:=\varnothing
+\mathcal{H}^0:=H
+\Gamma=\varnothing
+\WHILE \mathcal{H}^k_\theta \text{ is singular } \cap rows (\mathcal{Z}^k) < L (\tau+\theta) 
+\DO
+\mbox{{\em {\small Determine a Non-singular matrix that annihilates $ L-r(\mH^k_\theta) $ Rows of $\mH^k_\theta$}}}
+U^k=\begin{bmatrix}U^k_Z\\U^k_N\end{bmatrix}:=|rowAnnihilator| (\mH^k_\theta) 
+\mH^{k+1}:= \longExpH
+\mZ^{k+1}:= \longExpQ
+k:=k+1
+\OD
+\Gamma=- H_{\theta}^{-1}\begin{bmatrix} H_{-\tau}&\hspace{0.25in}&\dots&\hspace{0.25in}&H_{\theta-1}  \end{bmatrix}
+A= \begin{bmatrix}  \begin{matrix}    0&I  \end{matrix}\\ \Gamma\end{bmatrix}
+|return| \{ \begin{bmatrix}\mH^k_-\tau&\ldots&\mH^k_{\theta}\end{bmatrix},A,\mZ^k \}
+\ENDFUNCT
+\end{program}
+%  \caption{Unconstrained Autoregression Pseudocode}
+\end{algrthm}
+
+
+
+%  \label{fig:ucar}
+%\end{figure}
+
+The algorithm terminates with:
+\begin{gather}\label{eq:easy}
+  \begin{bmatrix}
+    \hsh
+  \end{bmatrix} 
+  \begin{bmatrix}
+    x_{-\tau}\\ \vdots \\x_{\theta}
+  \end{bmatrix} =0%\nonumber
+   \\ \intertext{ with $H^{\sharp\ast}_{\theta}$ non singular. Let} 
+\Gamma^\sharp=-  (H^{\sharp\ast}_{\theta})^{-1}\begin{bmatrix}
+    \hshShort
+  \end{bmatrix} \\ \intertext{ Then }
+x_{\theta} = 
+ \Gamma^\sharp
+  \begin{bmatrix}
+    x_{-\tau}\\ \vdots \\x_{\theta-1}
+  \end{bmatrix}  %\nonumber
+\end{gather}
+
+This unconstrained auto-regression in $x_t$ provides exactly what one needs to
+construct the state space transition matrix. 
+
+
+
+\begin{gather}
+A^\sharp= 
+\begin{bmatrix}
+  \begin{matrix}
+    0&I
+  \end{matrix}\\ \Gamma^\sharp
+\end{bmatrix}\\ \intertext{ so that }
+  \begin{bmatrix}
+    x_{-\tau+1}\\ \vdots \\x_{\theta}
+  \end{bmatrix}  = A
+  \begin{bmatrix}
+    x_{-\tau}\\ \vdots \\x_{\theta-1}
+  \end{bmatrix} 
+\end{gather}
+
+
+
+
+
+
+
+\subsubsection{Asymptotic Linear Constraint Matrix: $Q$}
+\label{asymQ}
+
+\label{sec:invariantSpace}
+In order to compute solutions to equation~\ref{eq:homo} that converge, 
+one must rule out explosive trajectories. Blanchard and Kahn\cite{blanchard80} 
+used eigenvalue and eigenvector calculations to characterize the space in 
+which the solutions must lie. In contrast, our approach uses
+an orthogonality constraint to characterize regions which the solutions 
+must avoid.
+
+
+
+Each left  eigenvector associated with a given eigenvalue
+is orthogonal to each right eigenvector associated 
+with roots associated with  different eigenvalues.
+Since vectors in the left invariant space
+associated with roots outside the unit circle are orthogonal to right eigenvectors associated with roots 
+inside the
+unit circle, a given state vector that is part of a convergent trajectory
+must be orthogonal to each of these left invariant space vectors. See theorem
+\ref{leftInv} on page \pageref{leftInv}.
+Thus, the algorithm can exploit bi-orthogonality and a
+less burdensome computation of vectors spanning the 
+left invariant space  in order to rule out explosive
+trajectories. 
+
+
+
+If the vectors in V span the invariant space associated with explosive
+roots,  trajectories satisfying equation~\ref{eq:homo} 
+are non-explosive if and only if
+
+\begin{gather}
+ V A =   \mathcal{M}  V 
+\end{gather}
+with the eigenvalues of $ \mathcal{M}$ similar to the 
+Jordan blocks of A associated with all eigenvalues
+greater than one in absolute value.
+\begin{gather}
+V 
+\begin{bmatrix}
+  x_{t-\tau}\\
+\vdots\\
+  x_{t+\theta-1}
+\end{bmatrix}=0
+\end{gather}
+for some $t$.\footnote{
+If $A$ has roots with magnitude $1$ then trajectories can converge to 
+either a limit cycle or a non-zero fixed point. Otherwise,
+non-explosive trajectories will converge to the origin.}
+
+
+
+
+
+Combining V and $Z^\sharp$  completely characterizes the space of 
+stable solutions satisfying the linear system~\ref{eq:homo}.
+\begin{gather}
+  Q= 
+  \begin{bmatrix}
+    Z^{\sharp}\\V
+  \end{bmatrix}
+\end{gather}
+
+
+The first set of equations come from the equations in equation system 
+\ref{eq:homo} which do not appear in the transformed system 
+of Equation~\ref{eq:easy}
+but must nevertheless be satisfied. The second set of equations come from the
+constraint that the solutions are non-explosive.
+Algorithm \ref{alg:asymptoticConstraints} provides pseudo code for computing Q.
+\begin{algrthm}
+\label{alg:asymptoticConstraints}
+\begin{program}
+\mbox{Given $A,Z^{\sharp,\ast}$,}
+\FUNCT \mathcal{F}_{\ref{alg:asymptoticConstraints}} (A,Z^{\sharp,\ast})
+\text{Compute $V$, the vectors spanning the left}
+\text{ invariant space of $A$ associated with eigenvalues }
+\text{ greater than one in magnitude}
+Q:=\begin{bmatrix}Z^{\sharp,\ast}\\V\end{bmatrix}
+|return| \, Q
+\ENDFUNCT
+\end{program}
+\end{algrthm}
+
+  
+
+
+
+
+\subsubsection{Convergent Autoregressive Representation: $B$}
+\label{conar}
+
+The first two algorithms  together  produce a matrix $Q$ characterizing
+constraints guaranteeing that trajectories are not explosive.  See theorem
+\ref{nonExp} and corollary \ref{cnvrg} for a proof.
+\cite{anderson99} describes how to use 
+the matrix $Q$ from Section~\ref{asymQ} to impose
+saddle point stability in non linear perfect foresight models.
+However, for linear models with unique  saddle point
+solutions it is often useful to 
+employ an autoregressive representation of the solution.
+Theorem \ref{qzthm} in Section \ref{sec:existunique} 
+provides a fully general characterization
+of the existence and uniqueness of
+a saddle point solution.  
+
+  A summary for typical applications of the algorithm follows.
+Partition $Q=
+\begin{bmatrix}
+  Q_L & Q_R
+\end{bmatrix}$ where $Q_L$ has $L\tau$ columns.
+When $\eta =L \theta$, $Q_R$ is square.
+If  $Q_R$ is non-singular, the system has a unique solution\footnote{
+  If $Q_R$ is singular, the system has an infinity of solutions.
+  When $\eta <L \theta$,
+The system has an infinity of solutions.
+
+  When $Q$ has more than $L \theta$ rows,
+The system has a unique nontrivial 
+solution only for specific values of $x_{data}$.
+}
+\begin{gather}
+    \begin{bmatrix}
+    B\\\underset{2}{B}\\ \vdots \\ \underset{\theta}{B}  
+  \end{bmatrix}
+= Q_R^{-1} Q_L \,\,\text{ and solutions are of the form }
+\begin{matrix}
+x_t=B 
+\begin{bmatrix}
+  x_{t-\tau}\\
+\vdots\\
+  x_{t-1}
+\end{bmatrix},&
+x_{t+k}=\underset{k}{B} 
+\begin{bmatrix}
+  x_{t-\tau}\\
+\vdots\\
+  x_{t-1}
+\end{bmatrix}
+\end{matrix} 
+\end{gather}
+
+Algorithm \ref{alg:bmat} provides pseudo code for computing B.
+\begin{algrthm}
+\label{alg:bmat}
+\begin{program}
+\mbox{Given $Q$,}
+\FUNCT \mathcal{F}_{\ref{alg:bmat}} (Q)
+|cnt|=noRows (Q)
+|return|\begin{cases}
+\{Q,\infty\} &|cnt| < L\theta 
+\{Q,0\} &|cnt| > L\theta 
+\{Q,\infty\}& (Q_R singular) 
+\{B=-Q_R^{-1} Q_L,1\} &otherwise
+\end{cases}
+\ENDFUNCT
+\end{program}
+\end{algrthm}
+
+\subsection{Inhomogeneous Solution}
+
+Now, suppose
+\begin{gather}\label{eq:inhomog}
+\sum_{i= - \tau}^\theta{ H_i  x_{ t + i } }= \Psi{} z_{t}, t \geq0\\
+\lim_{ t \rightarrow\infty} \|x_t\|   < \infty
+\end{gather}
+
+
+
+
+
+\subsubsection{Inhomogeneous Factor Matrices: $\phi, F$}
+\label{sec:inhomofactor}
+\label{sec:inhomog}
+
+\begin{thrm}\label{inHomo}
+Given structural model matrices, $H_i, i=-\tau,\ldots,\theta$ and $\Psi$,
+ convergent autoregression matrix $B$
+there exist 
+{\em inhomogeneous factor matrices}, $\phi$ and $F$ such that with 
+\begin{gather}
+\begin{bmatrix}
+  B_{-\tau}&\dots&B_{-1}
+\end{bmatrix}=B\\
+ \phi= \left (  H_0 +   \begin{bmatrix}
+    H_{1}\ldots H_\theta
+  \end{bmatrix} \begin{bmatrix}
+      B\\\vdots\\\ugB{\theta}
+    \end{bmatrix} \right )^{-1} \\
+ x_t=\sum_{i=-\tau}^{-1} B_i x_{t+i} + 
+  \begin{bmatrix}
+  0&\dots 0&I
+  \end{bmatrix}
+\sum_{s=0}^\infty%
+ (F^{s} 
+\begin{bmatrix}
+0\\
+\phi\Psi{}z_{t+s}  
+\end{bmatrix}) 
+\end{gather}
+will satisfy 
+the linear inhomogeneous system equation~\ref{eq:inhomog}.
+\end{thrm}
+
+See Section~\ref{sec:inhomoproof} for  derivations and formulae.
+Algorithm \ref{alg:inhomog} provides pseudo code for computing $\phi$ and $F$.
+\begin{algrthm}
+\label{alg:inhomog}
+\begin{program}
+\mbox{Given $H,  Q$}
+\FUNCT \mathcal{F}_{\ref{alg:inhomog}} (H,Q)
+Where
+%\begin{gather}
+B=  \begin{bmatrix}B_L&B_R
+\vdots&\vdots
+B_L^\theta&B_R^\theta  \end{bmatrix}= Q_R^{-1} Q_L
+%\end{gather}
+
+\phi= (H_0 + H_+  \begin{bmatrix}B_R
+\vdots
+\ugBR{\theta} \end{bmatrix})^{-1}
+F=\begin{bmatrix}0&I
+\vdots&&\ddots
+0&&&I
+-\phi H_+\begin{bmatrix}0
+ \vdots 
+ 0
+I  \end{bmatrix}&-\phi H_+\begin{bmatrix}0
+ \vdots
+I
+B_R  \end{bmatrix}&\ldots&-\phi H_+\begin{bmatrix}I
+B_R
+\vdots
+\ugB{\theta-1}  \end{bmatrix}\end{bmatrix}
+|return| (\phi,F)
+\ENDFUNCT
+\end{program}
+\end{algrthm}
+
+
+\subsubsection{Exogenous VAR Impact Matrix, $\vartheta{}$}
+
+Modelers can augment the homogeneous linear perfect foresight solutions with
+particular solutions characterizing  the impact of exogenous vector
+autoregressive variables.
+
+\begin{thrm}\label{var}
+  
+
+When 
+\begin{gather}
+  z_{t+1} = \Upsilon{} z_t\\ \intertext{one can show that}
+ x_{t} = \begin{bmatrix}
+B_L& B_R  
+\end{bmatrix}
+ \begin{bmatrix}
+%     (x_{t-\tau}-x^\ast)\\\vdots\\ (x_{t-1}-x^\ast)
+     x_{t-\tau}\\\vdots\\ x_{t-1}
+  \end{bmatrix} + \vartheta{} z_t
+\\
+\intertext{ where }
+vec(\vartheta{}) =   \begin{bmatrix}
+  0&\dots 0&I
+  \end{bmatrix}
+ (I - \Upsilon^T\otimes{} F)^{-1} vec
+\begin{bmatrix}
+0\\ \vdots \\ 0 \\
+\phi\Psi%
+\end{bmatrix}
+\end{gather}
+\end{thrm}
+
+See Section~\ref{sec:exogproof} for  derivations and formulae.
+
+
+\subsection{Implementations}
+\label{sec:imple}
+
+This set of algorithms has been implemented in a wide variety of languages.
+Three implementations, a  Matlab, a ``C'', and a Mathematica implementation,
+ are available from the author.%\footnote{\url{http://www.federalreserve.gov/pubs/oss/oss4/aimindex.html}.} 
+Each implementation avoids using the large tableau of Figure~\ref{tableau}.
+They each  shift elements in the
+rows of a single copy of the matrix $H$. 
+Each implementation
+eliminates inessential lags from the autoregressive representation before
+constructing the state space transition matrix for invariant space 
+calculations.  
+
+
+
+The most widely used version is written in MATLAB. The MATLAB version
+has a convenient modeling language front end for specifying the model
+equations and generating the $H_i$ matrices. 
+
+The ``C'' version, designed especially for solving large scale
+models is by far the fastest implementation and most frugal with memory.
+It uses sparse linear algebra routines from SPARSKIT\cite{saad94} and
+HARWELL\cite{nag95} to economize on
+memory. It avoids costly eigenvector calculations by
+computing vectors spanning the left invariant space using ARPACK\cite{lehoucq96}.
+
+For small models, one can employ a symbolic algebra version of the
+algorithms written in Mathematica. On present day computers this,
+code can easily construct symbolic state space transition matrices and compute 
+symbolic expressions for eigenvalues for models with 5 to 10 equations.
+The code can often obtain symbolic expressions for the invariant space
+vectors when the transition matrix is of dimension 10 or less.
+
+
+
+
+\section{Other Useful Rational Expectations Solution Calculations}
+\label{sec:useful}
+
+
+Economists use linear rational expectations models in a wide array of
+application. 
+The following sections describe calculations which are 
+useful for optimal policy design, model simulation and estimation exercises.
+
+
+
+
+\subsection{Observable Structure:  $S$}
+
+\label{sec:applications}
+
+
+
+\label{sec:errorCalc}
+
+
+To compute the error term for estimation of the coefficients of these models,
+one must commit to a particular information set.
+Two typical choices are t and t-1 period expectations.
+
+
+
+
+
+Given structural model matrices, $H_i, i=-\tau,\ldots,\theta$ 
+and 
+ convergent autoregression matrices $B_i,i=-\tau,-1$
+there exists an 
+{ observable structure matrix,\/} $S$
+
+
+
+
+\begin{gather}
+  \epsilon_t= S \begin{bmatrix}
+ x_{t-\tau}\\\vdots\\x_{t}
+\end{bmatrix}
+\end{gather}
+
+See Section~\ref{sec:obstrucproof} for a derivation and formula for $S$.
+Algorithm \ref{alg:obs} provides pseudo code for computing S for a given lag, $k^\ast$ in the availability of information.
+\begin{algrthm}
+\label{alg:obs}
+\begin{program}
+\mbox{Given $B,k^\ast$}
+\FUNCT \mathcal{F}_{\ref{alg:obs}} (B,k^\ast)
+  \tilde{B}=  \begin{bmatrix}    \begin{matrix}0&I      
+    \end{matrix}
+B  \end{bmatrix}
+S=   \begin{bmatrix}0_{L\times L\max (0,k^\ast-1)}&    H_{-\tau}&\ldots&H_0  \end{bmatrix} +
+  \begin{bmatrix}  \begin{bmatrix}    H_{1}\ldots H_\theta  \end{bmatrix} \begin{bmatrix}      B
+\vdots
+\ugB{\theta}    \end{bmatrix} \tilde{B}^{k^\ast}   & 0_{L\times L\max (0,k^\ast-1)}  \end{bmatrix}
+|return| (S)
+\ENDFUNCT
+\end{program}
+\end{algrthm}
+
+
+\subsection{Stochastic Transition Matrices:  $\sTransA, \sTransB$}
+\label{sec:stochtrans}
+To compute covariances, practitioners will find it useful to  construct
+the stochastic transition matrices $\sTransA$ and $\sTransB$. 
+
+Given structural model matrices, $H_i, i=-\tau,\ldots,\theta$ 
+and 
+ convergent autoregression matrices $B_i,i=-\tau,-1$
+there exist  
+{\em stochastic transition
+matrices\/} $\sTransB$, $\sTransA$ such that
+
+
+
+
+  
+
+\begin{gather}
+\begin{bmatrix}
+ x_{t-\tau+1}\\\vdots\\x_{t}
+\end{bmatrix}= 
+\sTransA%
+\begin{bmatrix}
+ x_{t-\tau}\\\vdots\\x_{t-1}
+\end{bmatrix} +
+\sTransB%
+\begin{bmatrix}\epsilon_{t} +
+\Psi  (E[z_t|I_t]-E[z_t|I_{t-1}])
+\end{bmatrix}
+\end{gather}
+
+
+See Section~\ref{sec:stochtransproof} for  derivations and formulae for $\sTransA$
+and $\sTransB$.
+Algorithm \ref{alg:trans} provides pseudo code for computing $\sTransA$ and $\sTransB$
+\begin{algrthm}
+\label{alg:trans}
+\begin{program}
+\mbox{Given $H,\Psi,S$}
+\FUNCT \mathcal{F}_{\ref{alg:trans}} (H,S)
+\sTransA=\begin{bmatrix}  0 &I&&
+\vdots&&\ddots&
+0&&&I
+S_0^{-1} S_{t-\tau-\max  (k^\ast-1,0)+1} &\dots &\dots&S_0^{-1} S_{-1} \end{bmatrix}
+\sTransB=\begin{bmatrix}  0
+\vdots 
+ 0 
+ S_0^{-1} \end{bmatrix}
+|return| (\sTransA,\sTransB)
+\ENDFUNCT
+\end{program}
+\end{algrthm}
+
+
+
+
+
+
+
+\section{Conclusions}
+\label{sec:conc}
+
+This paper describes a set of algorithms that have proved very durable and 
+useful for staff at the central bank.
+The most distinctive features of this approach are:
+\begin{itemize}
+\item its algorithm for computing the minimal dimension state space 
+transition matrix 
+\item its
+use of bi-orthogonality to characterize the asymptotic constraints 
+that guarantee stability.
+\item It's reliance on QR Decomposition and the real Schur Decomposition
+for speed and accuracy.
+\end{itemize}
+
+The unique combination of features 
+makes the algorithm more efficient than all the alternatives---especially
+for large models. 
+Staff at the 
+ Federal Reserves have developed a large scale linear rational
+expectations model consisting of 421 equations with one lead and one lag.
+This model provides an extreme example of the speed advantage of the 
+Anderson-Moore Algorithm(AMA).
+On an Intel(R) Xeon 2.80GHz CPU running Linux
+the MATLAB version of AMA
+computes the rational expectations 
+solution in 21 seconds while the the MATLAB version of gensys, a popular
+alternative procedure, requires 16,953 seconds.
+See~\cite{anderson06} for a systematic comparison of this algorithm with
+the alternative procedures.
+The code is available for download at
+\begin{verbatim}
+http://www.federalreserve.gov/Pubs/oss/oss4/aimindex.html
+\end{verbatim}
+
+
+\bibliography{files,anderson,paperstoget,aimUsers}
+%\bibliography{files,anderson,paperstoget}
+
+\clearpage
+\newpage
+
+
+
+
+\appendix
+
+\section{Proofs}
+\label{sec:proofs}
+
+
+\subsection{Unconstrained Autoregression}
+\label{sec:uarproof}
+
+{%\color{anewcolor}
+\begin{thrm}
+Let 
+{\small
+\begin{gather} \mathcal{H}=\left .
+  \begin{bmatrix}
+\hmats\\
+&\hmats\\
+&&\ddots\\
+&&&\hmats\\
+  \end{bmatrix} \right \} \text{${\scriptstyle\tau+\theta+1}$} 
+\end{gather}}
+There are two cases:
+\begin{itemize}
+\item When $\mathcal{H}$ is full rank the algorithm terminates with 
+ $Z^{\sharp\ast}$ ($Z^{\flat\ast}$) and non-singular
+ $H^{\sharp\ast}_{\theta}$ ($H^{\flat\ast}_{\tau}$)
+\item When $\mathcal{H}$ is not full rank the algorithm terminates when
+some row of $
+\begin{bmatrix}
+\mathcal{H}^k_{-\tau}\ldots\mathcal{H}^k_\theta 
+\end{bmatrix}$ is zero.
+\end{itemize}
+
+\end{thrm}
+}
+\begin{prf}
+Consider the case when $\mathcal{H}$ is full rank.
+  Each step of the algorithm applies a  rank preserving
+pre-multiplication by a non singular matrix. Each step of the algorithm
+where $H^{\sharp,k}_\theta$ is singular, increases the row rank of
+$Z^{\sharp,k}$ by at least one.  At each step $\mathcal{Z}^{\sharp,k}$ are full rank. The rank of $Z^{\sharp,k}$ cannot exceed $L (\tau + \theta)$.
+\end{prf}
+
+
+The following corollary indicates that models 
+with unique steady-states always terminate with non singular $\mathcal{H}^{\sharp,\ast}_{\theta}$.
+
+\begin{crrlry}
+If $  ( {\sum_{i= - \tau}^\theta { H_i}} )$ is non singular 
+then
+\begin{enumerate} 
+\item $\mathcal{H}$ is full rank.
+\item The origin is the unique steady state of equation \ref{eq:canonical}.
+\item there exists a sequence of elementary row
+operations that transforms $\mathcal{H}$ into $\mathcal{H}^\ast$
+\end{enumerate} 
+\end{crrlry}
+\begin{prf}
+  Suppose
+$\mathcal{H}$ is not full rank.
+ Then there is
+a non zero vector $V \text{ such that } V \mathcal{H}  =0$. Consequently,
+\begin{gather}
+  \begin{bmatrix}
+    V_{-\tau}\ldots V_{\theta}
+  \end{bmatrix}
+ \mathcal{H}  
+ \begin{bmatrix}
+   I&\ldots&I\\
+\vdots&\ldots&\vdots\\
+I&\ldots&I&\\
+ \end{bmatrix}=0\\ \intertext{ and }
+V_i  ({\sum_{j= - \tau}^\theta { H_j}})=0 \, \forall i
+\end{gather}
+So that $ ({\sum_{i= - \tau}^\theta { H_i}})$ must be singular.
+\end{prf}
+
+
+
+
+\subsection{Asymptotic Constraints}
+\label{sec:asymproof}
+
+
+\begin{thrm}\label{leftInv}
+  Consider a left invariant space and a right invariant space
+with no eigenvalues in common. Suppose
+$V_1$ spans the left invariant space and $W_2$ spans the right invariant space.
+  \begin{gather}
+V_1 A = T_1 V_1\\
+A W_2=  W_2 T_2
+  \end{gather}
+With eigenvalues of $T_1 \neq T_2$.
+Then  $V_1 W_2=0$
+\end{thrm}
+\begin{prf}
+A right eigenvector $x_i$ and a left-eigenvector $y_j$ corresponding to distinct
+eigenvalues $\lambda_i$ and $\lambda_j$ are orthogonal.\cite{NOBLE}
+Finite dimensional matrices have finite dimensional 
+Jordan blocks.
+Raising a given matrix to a power produces a matrix with
+smaller Jordan blocks. Raising the matrix to a high enough power
+ultimately eliminates all nontrivial Jordan Blocks.
+Consequently, the left invariant space vectors are linear combination of the
+left eigenvectors and the right invariant space vectors are a linear combination
+of the right eigenvectors of the transition matrix raised to some finite power.
+\begin{gather}
+  V_1 = \beta_{1} 
+  \begin{bmatrix}
+y_1\\ \vdots\\ y_J
+  \end{bmatrix}\\
+  W_2 = 
+  \begin{bmatrix}
+x_1& \dots &x_K
+  \end{bmatrix}
+\alpha_{2}\\
+V_1 W_2 =  \beta_{1} 
+  \begin{bmatrix}
+y_1\\ \vdots \\ y_J
+  \end{bmatrix}
+  \begin{bmatrix}
+x_1& \dots &x_K
+  \end{bmatrix}
+\alpha_{2} = 0
+\end{gather}
+\end{prf}
+
+\begin{thrm}\label{nonExp}
+Let $\{x^{conv}_t\}$, $t= -\tau,\ldots,\infty$ be a non explosive solution satisfying
+equation~\ref{eq:canonical}. Let $A$ be the state space transition matrix
+for equation
+\ref{eq:canonical} and $V$ be a set of
+invariant space vectors spanning the invariant space
+associated with roots of
+$A$ of magnitude bigger than $1$. Then for $t= 0,\ldots,\infty$
+\begin{gather}
+V 
+\begin{bmatrix}
+  x^{conv}_{t-\tau}\\
+\vdots\\
+  x^{conv}_{t+\theta-1}
+\end{bmatrix}=0
+\end{gather}
+\end{thrm}
+\begin{prf}
+Using  $W$, the left generalized eigenvectors of $A$, one can employ the
+ Jordan Canonical Form of A to write
+\begin{gather}
+  W^H A  = J W^H \\
+\intertext{ so that}
+A^t =  (W^H)^{-1} J^t W^H\\
+y_t = A^t y_0\\
+W^H y_t = J^t W^H y_0\\
+\lim_{t\rightarrow \infty} y_t =0 \Rightarrow
+\lim_{t\rightarrow \infty} W^H y_t =0 \\\intertext{Consequently,}
+W_i^H y_0 =0 \, \forall i \text{ such that } |J_{ii}| > 1.\\ \intertext{ so that }
+V y_0 = \alpha W^H y_0 = 0
+\end{gather}
+\end{prf}
+
+\begin{crrlry}\label{cnvrg}
+Let $\{x_t\}$, $t= -\tau,\ldots,\infty$ be a  solution satisfying
+equation~\ref{eq:homo}.  
+If $A$ has no roots with magnitude $1$ then the 
+path converges to the
+origin if and only if
+\begin{gather}
+V 
+\begin{bmatrix}
+  x_{t-\tau}\\
+\vdots\\
+  x_{t+\theta-1}
+\end{bmatrix}=0
+\end{gather}
+for some $t$.
+\end{crrlry}
+\begin{prf}
+  \begin{gather}
+W_i^H y_0 =0 \, \forall i \text{ such that } |J_{ii}| > 1.\\ \intertext{ means $y_t$ }
+    J_{ii} \ne 1.\\
+y_t = A^t y_0
+  \end{gather}
+\end{prf}
+
+
+\subsection{Existence and Uniqueness}
+\label{sec:existunique}
+
+\begin{thrm}
+  \label{qzthm}
+Identify $Q_L, Q_R$ from
+\begin{gather}
+  Q= 
+  \begin{bmatrix}
+    Z^{\sharp}\\V
+  \end{bmatrix}
+= 
+  \begin{bmatrix}
+    Q_L&Q_R
+  \end{bmatrix} 
+\end{gather}
+{with $Q_R$ an $(\eta \times L\theta)$ matrix, 
+$Q_L$ an $(\eta \times L\tau)$ matrix, where 
+$\eta$ represent the number of rows in the matrix $Q$.}
+
+The existence of convergent solutions depends on the magnitudes of the
+ranks of the augmented
+matrix 
+\begin{gather}
+r_1=rank \left (\begin{bmatrix}
+Q_R&-Q_L x_{data}
+  \end{bmatrix} 
+\right)
+\\ 
+\intertext{ and  }
+r_2=rank(Q_R).
+\end{gather}
+By construction,  $r_1 \ge r_2$ and $r_2 \le L\theta$.
+There are three cases.
+\begin{enumerate}
+\item If $r_1 > r_2$ there is no nontrivial convergent solution
+\item If $r_1 = r_2 = L  \theta$ there is a unique convergent solution
+\item If $r_1 = r_2 < L  \theta$ the system has an infinity of convergent 
+solutions
+\end{enumerate}
+
+\end{thrm}
+
+
+
+\begin{crrlry}
+  When $\eta =L \theta$, $Q_R$ is square.
+If  $Q_R$ is non-singular, the system has a unique solution
+\begin{gather}
+    \begin{bmatrix}
+    B\\\underset{2}{B}\\ \vdots \\ \underset{\theta}{B}  
+  \end{bmatrix}
+= Q_R^{-1} Q_L \intertext{ and solutions are of the form}
+\begin{matrix}
+x_t=B 
+\begin{bmatrix}
+  x_{t-\tau}\\
+\vdots\\
+  x_{t-1}
+\end{bmatrix},&
+x_{t+1}=\underset{2}{B} 
+\begin{bmatrix}
+  x_{t-\tau}\\
+\vdots\\
+  x_{t-1}
+\end{bmatrix},&\,\,\dots\,\,
+x_{t+\theta}=\underset{\theta}{B}
+\begin{bmatrix}
+  x_{t-\tau}\\
+\vdots\\
+  x_{t-1}
+\end{bmatrix}
+\end{matrix} 
+\end{gather}
+  If $Q_R$ is singular, the system has an infinity of solutions.
+
+  When $\eta <L \theta$,
+The system has an infinity of solutions.
+
+  When $Q$ has more than $L \theta$ rows,
+The system has a unique nontrivial 
+solution only for specific values of $x_{data}$
+\end{crrlry}
+
+
+% \begin{thrm}
+  
+% Let
+% \begin{gather}
+%   Q= 
+%   \begin{bmatrix}
+%     Z^{\sharp}\\V
+%   \end{bmatrix}
+% = 
+%   \begin{bmatrix}
+%     Q_L&Q_R
+%   \end{bmatrix}
+% \end{gather}
+% The existence of convergent solutions depends on the magnitude of the
+% rank of the augmented
+% matrix 
+% \begin{gather}
+% r_1=rank \left (\begin{bmatrix}
+%     I&0&x_{data}\\
+% Q_L&Q_R&0
+%   \end{bmatrix} 
+% \right)
+% \\ 
+% \intertext{ and  }
+% r_2=rank \left  (\begin{bmatrix}
+%     I&0\\
+% Q_L&Q_R
+%   \end{bmatrix} \right)
+% \end{gather}
+% and  $L (\tau+\theta)$, the number of unknowns.
+
+
+% \begin{enumerate}
+% \item If $r_1 > r_2$ there is no nontrivial convergent solution
+% \item If $r_1 = r_2 = L (\tau + \theta)$ there is a unique convergent solution
+% \item If $r_1 = r_2 < L (\tau + \theta)$ the system has an infinity of convergent 
+% solutions
+% \end{enumerate}
+
+% \end{thrm}
+
+
+
+
+Proof of rank of Q
+\begin{prf}
+The theorem applies well known 
+results on existence and uniqueness of solutions to 
+linear equation systems\cite{NOBLE}.
+If
+$\mathcal{M}_2=\begin{bmatrix}
+  x_{data}\\0
+\end{bmatrix}$ 
+does not lie in the column space of $\mathcal{M}_1=\begin{bmatrix}
+    I&0\\
+Q_L&Q_R
+  \end{bmatrix}$, then there is no solution.
+If $\mathcal{M}_2$ lies in the column space of  $ \mathcal{M}_1 $ and the latter matrix is full rank, then there is a unique
+solution.
+If $\mathcal{M}_2$ lies in the column space of  $ \mathcal{M}_1$ and the latter matrix is not full rank, then there are
+multiple solutions.
+\end{prf}
+
+
+%\begin{thrm}
+%If there exist S $\text{ such that }$
+%\begin{gather}
+%S A S^{-1} = 
+%\begin{bmatrix}
+%  A_u&0&0\\
+%\Upsilon_{um}&A_m&0\\
+%\Upsilon_{ul}&\Upsilon_{ml}&A_l
+%\end{bmatrix}\\ \intertext{ then one can compute eigenvalues and eigenvectors in matrices of smaller dimension. If }
+%x A_u = M_u x\\
+%y A_m = M_m y\\
+%z A_l = M_l z\\
+%S 
+%\begin{bmatrix}
+%  x & 0&0
+%\end{bmatrix} A = M_u S 
+%\begin{bmatrix}
+%  x&0&0
+%\end{bmatrix}\\
+%S 
+%\begin{bmatrix}
+%  x_y &y&0
+%\end{bmatrix} A = M_m S 
+%\begin{bmatrix}
+%  x_y&y&0
+%\end{bmatrix}\\ \intertext{ with }
+%vec (x_y)=-  ( (A^T_u \otimes I) -  (M_m \otimes I))^{-1}vec (y \Upsilon_{um})\\
+%S 
+%\begin{bmatrix}
+%  x_z &y_z&z
+%\end{bmatrix} A = M_l S 
+%\begin{bmatrix}
+%  x_z&y_z&z
+%\end{bmatrix}\\ \intertext{ with }
+%vec (y_z)=-  ( (A^T_m \otimes I) -  (M_m \otimes I))^{-1}vec (z \Upsilon_{ml})\\
+%vec (x_z)=-  ( (A^T_u \otimes I) -  (M_l \otimes I))^{-1}vec (y \Upsilon_{ul})
+%\end{gather}
+
+%\end{thrm}
+%\begin{prf}
+%  Under construction.
+%\end{prf}
+%\begin{thrm}
+%We can solve models with unit roots by computing the solution with no unit
+%roots and then inferring the result of including a unit root.
+%\end{thrm}
+%\begin{prf}
+%  Under construction.
+%\end{prf}
+
+
+\subsection{Proof of  Theorem \ref{inHomo}}
+\label{sec:inhomoproof}
+
+
+
+%\section{Proofs}
+
+\begin{prf}
+%\begin{multicols}{1}
+Construct the $L\tau{} \times L\tau$ matrix:
+\begin{gather}
+  \tilde{B}=
+  \begin{bmatrix}
+    \begin{matrix}
+0&I\\      
+    \end{matrix}\\
+B
+  \end{bmatrix}\\ \intertext{Define}
+\ugB{k+1} = \ugB{k} \tilde{B}
+\end{gather}
+
+Applying equation \ref{eq:homo} to the unique convergent 
+solution, it follows that
+\begin{gather}
+  \begin{bmatrix}
+    H_{-}&H_{0}&H_{+}
+  \end{bmatrix}
+  \begin{bmatrix}
+    I\\
+\begin{matrix}
+      B\\\vdots\\\ugB{\theta+1}
+    \end{matrix}
+  \end{bmatrix}=0\intertext{ where }
+H_-=
+\begin{bmatrix}
+  H_{-\tau} \ldots H_{-1}
+\end{bmatrix}
+H_+=
+\begin{bmatrix}
+  H_{1} \ldots H_{\theta}
+\end{bmatrix}
+\end{gather}
+
+Which can also be written as:
+\begin{gather}
+  \begin{bmatrix}
+    H_{-}&H_{0}&H_{+}
+  \end{bmatrix}
+  \begin{bmatrix}
+    I\\
+\begin{bmatrix}
+  \begin{matrix}
+0&I    
+  \end{matrix}\\
+      B\\\vdots\\\ugB{\theta}
+    \end{bmatrix}\tilde{B}
+  \end{bmatrix}=0
+\end{gather}
+
+So that:
+
+\begin{gather}
+  H_{-} + 
+ (  \begin{bmatrix}
+    0&H_0
+  \end{bmatrix} + H_+ 
+  \begin{bmatrix}
+    B\\\vdots\\ \ugB{\theta}
+  \end{bmatrix})\tilde{B} = 0\\
+  H_{-} + 
+ (  \begin{bmatrix}
+    0&H_0
+  \end{bmatrix} + H_+ 
+  \begin{bmatrix}
+    B_L&B_R\\\vdots&\vdots\\ \ugBL{\theta}&\ugBR{\theta}
+  \end{bmatrix})\tilde{B} = 0
+\end{gather}
+where the $B_R^k$ matrices are $L \times{} L$.
+
+Note that
+\begin{gather}
+    \begin{bmatrix}
+    B_L&B_R\\\vdots&\vdots\\ \ugBL{\theta}&\ugBR{\theta}
+  \end{bmatrix}\tilde{B} = 
+  \begin{bmatrix}
+    0&B_L\\\vdots&\vdots\\0&\ugBL{\theta}
+  \end{bmatrix}+
+  \begin{bmatrix}
+    B_R\\\vdots\\\ugBR{\theta}
+  \end{bmatrix}B
+\end{gather}
+Now
+\begin{gather}
+  H_- + H_+  \begin{bmatrix}
+    0&B_L\\\vdots&\vdots\\0&\ugBL{\theta}
+  \end{bmatrix}    +  (H_0 + H_+  \begin{bmatrix}
+    B_R\\\vdots\\\ugBR{\theta}
+  \end{bmatrix})B=0
+\end{gather}
+
+Define
+
+\begin{gather}
+  \phi=  (H_0 + H_+  \begin{bmatrix}\label{phiDef}
+    B_R\\\vdots\\\ugBR{\theta}
+  \end{bmatrix})^{-1}\\ \intertext{So that}
+\phi H_- + \phi H_+  \begin{bmatrix}
+    0&B_L\\\vdots&\vdots\\0&\ugBL{\theta}
+  \end{bmatrix}  +B = 0\label{phiUse}
+\end{gather}
+
+Consider the impact that the time $t+s$ value $z_{t+s}$ has on the
+value of $x_{t+s}$
+We can write
+\begin{gather}
+  \begin{bmatrix}
+    H_{-}&H_{0}&H_{+}
+  \end{bmatrix}
+  \begin{bmatrix}
+    I&&&0\\&\ddots&&\vdots&\\&&I&0\\
+0&\dots&0&I\\
+0&&
+\begin{matrix}
+      B_L\\\vdots\\B_L^\theta
+    \end{matrix}&
+\begin{matrix}
+      B_R\\\vdots\\B_R^\theta
+    \end{matrix}
+  \end{bmatrix}
+  \begin{bmatrix}
+    x_{t+s-\tau}\\\vdots\\x_{t+s}
+  \end{bmatrix}= \Psi z_{t+s}
+\end{gather}
+or equivalently,
+\begin{gather}
+  \begin{split}
+\phi\Psi z_{t+s}=&\\
+&\phi   (\begin{bmatrix}
+H_-&0
+  \end{bmatrix} + 
+  \begin{bmatrix}
+    0&H_0
+  \end{bmatrix} + \\
+&  \begin{bmatrix}
+    H_+ \begin{bmatrix}
+    0&B_L\\\vdots&\vdots\\0&\ugBL{\theta}
+  \end{bmatrix}& H_+\begin{bmatrix}
+    B_R\\\vdots\\\ugBR{\theta}
+  \end{bmatrix}
+  \end{bmatrix})  \begin{bmatrix}
+    x_{t+s-\tau}\\\vdots\\x_{t+s}
+  \end{bmatrix}
+  \end{split}
+  \end{gather}
+or
+\begin{gather}
+  \begin{split}
+\phi\Psi z_{t+s}=&\\
+&\phi   (\begin{bmatrix}
+H_-&0
+  \end{bmatrix} + \\
+&  \begin{bmatrix}
+    H_+ \begin{bmatrix}
+    0&B_L\\\vdots&\vdots\\0&\ugBL{\theta}
+  \end{bmatrix}& 0 
+  \end{bmatrix})  \begin{bmatrix}
+    x_{t+s-\tau}\\\vdots\\x_{t+s}
+  \end{bmatrix}+\\
+&\phi   (  \begin{bmatrix}
+    0&H_0
+  \end{bmatrix} + \\
+&  \begin{bmatrix}
+0& H_+\begin{bmatrix}
+    B_R\\\vdots\\\ugBR{\theta}
+  \end{bmatrix}
+  \end{bmatrix})  \begin{bmatrix}
+    x_{t+s-\tau}\\\vdots\\x_{t+s}
+  \end{bmatrix}
+  \end{split}
+  \end{gather}
+Which by equations~\ref{phiDef}~and~\ref{phiUse} can be written
+\begin{gather}
+  \begin{split}
+\phi\Psi z_{t+s}=&\\
+&\begin{bmatrix} -B&0\end{bmatrix}  \begin{bmatrix}
+    x_{t+s-\tau}\\\vdots\\x_{t+s}
+  \end{bmatrix}+\\
+& \begin{bmatrix}
+    0&I  \end{bmatrix}  \begin{bmatrix}
+    x_{t+s-\tau}\\\vdots\\x_{t+s}
+  \end{bmatrix}
+  \end{split}
+  \end{gather}
+So we have
+  \begin{gather}
+  \begin{bmatrix}
+    -B&I
+  \end{bmatrix}
+\begin{bmatrix}
+    x_{t+s-\tau}\\\vdots\\x_{t+s}
+  \end{bmatrix}= \phi\Psi z_{t+s}\\
+x_{t+s} = B \begin{bmatrix}
+    x_{t+s-\tau}\\\vdots\\x_{t+s-1} 
+  \end{bmatrix}+\phi\Psi z_{t+s}
+\end{gather}
+
+Now consider the impact of $z_{t+s}$ on $x_{t+s-1}$.
+We can write
+\begin{multline*}
+\phi   (\begin{bmatrix}
+H_-&0
+  \end{bmatrix} + 
+  \begin{bmatrix}
+    0&H_0
+  \end{bmatrix} + \\
+  \begin{bmatrix}
+    H_+ \begin{bmatrix}
+    0&B_L\\\vdots&\vdots\\0&\ugBL{\theta}
+  \end{bmatrix}& H_+\begin{bmatrix}
+    B_R\\\vdots\\\ugB{\theta}
+  \end{bmatrix}
+  \end{bmatrix})  \begin{bmatrix}
+    x_{t+s-\tau-1}\\\vdots\\x_{t+s-1}
+  \end{bmatrix}+ \\ \phi H_+\begin{bmatrix}
+I\\B_R\\\vdots\\\ugB{\theta-1}
+  \end{bmatrix} \phi \Psi z_{t+s}=0
+\end{multline*}
+where the last term captures the impact $z_{t+s}$ has on values of x $t+s$
+and later.
+Using equations~\ref{phiDef}~and~\ref{phiUse} we can write 
+\begin{gather}
+    \begin{bmatrix}
+    -B&I
+  \end{bmatrix}
+\begin{bmatrix}
+    x_{t+s-\tau-1}\\\vdots\\x_{t+s-1}
+  \end{bmatrix}+  \phi H_+\begin{bmatrix}
+I\\B_R\\\vdots\\\ugB{\theta-1}
+  \end{bmatrix} \phi\Psi z_{t+s}=0\\
+x_{t+s-1} = B \begin{bmatrix}
+    x_{t+s-\tau-1}\\\vdots\\x_{t+s-2} 
+  \end{bmatrix}  -\phi H_+\begin{bmatrix}
+I\\B_R\\\vdots\\\ugB{\theta-1}
+  \end{bmatrix} \phi\Psi z_{t+s}\\ \intertext{ and more generally}
+x_{t+s-i} = B \begin{bmatrix}
+    x_{t+s-\tau-1}\\\vdots\\x_{t+s-2} 
+  \end{bmatrix} +  (-\phi H_+\begin{bmatrix}
+I\\B_R\\\vdots\\\ugBR{\theta-1}
+  \end{bmatrix})^{i} \phi\Psi z_{t+s}
+\end{gather}
+
+
+
+
+To accommodate lagged expectations,
+suppose that information on all the endogenous variables becomes available with
+the same lag ($D^\ast$) in time: 
+$\exists K^\ast \text{ such that } x_{t-k} \in I_t, \forall K \ge K^\ast\\$ then set,
+\begin{gather}
+    \begin{bmatrix}
+    E [x_{t+1} |I_t] \\
+\vdots \\
+    E [x_{t+\theta}|I_t]
+  \end{bmatrix}  =
+\begin{bmatrix}
+      B\\\vdots\\\ugB{\theta}
+    \end{bmatrix}
+ \tilde{B}^{k^\ast}
+  \begin{bmatrix}
+    x^{data}_{t-\tau+1-k^\ast}\\
+\vdots \\ 
+   x^{data}_{t-k^\ast}
+  \end{bmatrix} +\\
+  \begin{bmatrix}
+\sum_{s=0}^\infty  (  (-\phi H_+\begin{bmatrix}
+I\\B_R\\\vdots\\\ugBR{\theta-1}
+  \end{bmatrix})^{s} \phi\Psi z_{t+s+1})\\
+  \vdots\\
+\sum_{s=0}^\infty  (  (-\phi H_+\begin{bmatrix}
+I\\B_R\\\vdots\\\ugBR{\theta-1}
+  \end{bmatrix})^{s} \phi\Psi z_{t+s+\theta})
+  \end{bmatrix}
+\end{gather}
+
+
+So that 
+
+\begin{equation*}
+  \begin{split}
+x_{t} = &\\
+&\begin{bmatrix}
+B_L& B_R  
+\end{bmatrix}
+\begin{bmatrix}
+     x_{t-\tau}\\ \vdots\\ x_{t-1}
+  \end{bmatrix} + \\
+&  \begin{bmatrix}
+  0&\dots 0&I
+  \end{bmatrix}
+\sum_{s=0}^\infty  ( F^{s} 
+\begin{bmatrix}
+0\\
+\phi \Psi z_{t+s}  
+\end{bmatrix})\label{basic}
+  \end{split}
+\end{equation*}
+
+Where
+\begin{gather}
+B=  \begin{bmatrix}
+B_L&B_R\\
+\vdots&\vdots\\
+B_L^\theta&B_R^\theta
+  \end{bmatrix}
+= Q_R^{-1} Q_L
+\end{gather}
+
+
+\begin{gather}
+  \phi=  (H_0 + H_+  \begin{bmatrix}
+    B_R\\\vdots\\\ugBR{\theta}
+  \end{bmatrix})^{-1}\\
+F=
+\begin{bmatrix}
+0&I\\
+\vdots&&\ddots\\
+0&&&I\\
+-\phi H_+\begin{bmatrix}
+0\\ \vdots \\ 0\\I
+  \end{bmatrix}&
+-\phi H_+\begin{bmatrix}
+0\\ \vdots\\I\\B_R
+  \end{bmatrix}&\ldots&
+-\phi H_+\begin{bmatrix}
+I\\B_R\\\vdots\\\ugBR{\theta-1}
+  \end{bmatrix}
+\end{bmatrix}
+\end{gather}
+
+\begin{gather}
+x_{t} = B \begin{bmatrix}
+    x_{t-\tau}\\\vdots\\x_{t-1} 
+  \end{bmatrix} +\sum_{s=0}^\infty  (  (-\phi H_+\begin{bmatrix}
+I\\B_R\\\vdots\\\ugBR{\theta-1}
+  \end{bmatrix})^{s} \phi\Psi z_{t+s})
+\end{gather}
+%\end{multicols}
+  
+\end{prf}
+  
+%\begin{multicols}{2}
+\ 
+%\end{multicols}
+\clearpage
+
+
+
+
+\subsection{Proof of Theorem \ref{var}}
+\label{sec:exogproof}
+
+
+\begin{prf}
+%\begin{multicols}{2}
+
+
+\begin{gather}
+\sum_{s=0}^\infty%
+ (F^{s} 
+\begin{bmatrix}
+0\\
+\phi\Psi{}z_{t+s}  
+\end{bmatrix}) 
+=\sum_{s=0}^\infty  ( F^s 
+  \begin{bmatrix}
+0\\    \phi \Psi
+  \end{bmatrix}
+\Upsilon^{s} )z_{t}=\vartheta{} z_t
+\intertext{ where }
+vec(\vartheta{}) =   \begin{bmatrix}
+  0&\dots 0&I
+  \end{bmatrix}
+ (I - \Upsilon^T\otimes{} F)^{-1} vec
+\begin{bmatrix}
+0\\ \vdots \\ 0 \\
+\phi\Psi%
+\end{bmatrix}
+\end{gather}
+%\end{multicols}
+\end{prf}  
+
+
+
+\subsection{Observable Structure}
+\label{sec:obstrucproof}
+
+Since one can write
+\begin{gather}
+  \epsilon_t =
+  \begin{bmatrix}
+    H_{-\tau}\ldots H_0
+  \end{bmatrix} 
+  \begin{bmatrix}
+    x^{data}_{t-\tau}\\
+\vdots \\ 
+   x^{data}_{t}
+  \end{bmatrix} +
+  \begin{bmatrix}
+    H_{1}\ldots H_\theta
+  \end{bmatrix} 
+  \begin{bmatrix}
+    E [x_{t+1} |I_t] \\
+\vdots \\
+    E [x_{t+\theta}|I_t]
+  \end{bmatrix} - \Psi z_t
+\end{gather}
+We find that
+
+\begin{gather}
+  \epsilon_t= S   \begin{bmatrix}
+    x^{data}_{t-\tau+1-\max (1,k^\ast)}\\
+\vdots \\ 
+   x^{data}_{t}
+  \end{bmatrix} - \Psi z_t\\ \intertext{ where }
+S=   \begin{bmatrix}
+0_{L\times L\max (0,k^\ast-1)}&    H_{-\tau}&\ldots&H_0
+  \end{bmatrix} +\\
+  \begin{bmatrix}
+  \begin{bmatrix}
+    H_{1}\ldots H_\theta
+  \end{bmatrix} 
+\begin{bmatrix}
+      B\\\vdots\\\ugB{\theta}
+    \end{bmatrix}
+ \tilde{B}^{k^\ast}
+   & 0_{L\times L\max (0,k^\ast-1)}
+  \end{bmatrix}
+\end{gather}
+
+Note that for $k^\ast \ge 1$
+\begin{gather}
+  \frac{\partial \epsilon_t}{\partial x^{data}_t} = H_0
+\end{gather}
+and for $k^\ast = 0$
+\begin{gather}
+  \frac{\partial \epsilon_t}{\partial x^{data}_t} = H_0 +   \begin{bmatrix}
+    H_{1}\ldots H_\theta
+  \end{bmatrix} \begin{bmatrix}
+      B\\\vdots\\\ugB{\theta}
+    \end{bmatrix} = \phi^{-1}
+\end{gather}
+
+
+
+\subsection{Stochastic Transition Matrices}
+\label{sec:stochtransproof}
+
+
+One can write
+\begin{gather}
+  \begin{bmatrix}
+    x_{t-\tau-\max  (k^\ast-1,0)+1}\\ \vdots \\ x_{t}
+  \end{bmatrix}=
+\sTransA   \begin{bmatrix}
+    x_{t-\tau-\max  (k^\ast-1,0)}\\ \vdots \\ x_{t-1}
+  \end{bmatrix}  + 
+\sTransB \epsilon_t\intertext{ where }
+\sTransA=
+\begin{bmatrix}
+  0 &I&&\\
+\vdots&&\ddots&\\
+0&&&I\\
+S_0^{-1} S_{t-\tau-\max  (k^\ast-1,0)+1} &\dots &\dots&S_0^{-1} S_{-1} 
+\end{bmatrix}\\
+\sTransB=
+\begin{bmatrix}
+  0\\\vdots \\ 0 \\ S_0^{-1} 
+\end{bmatrix}
+\end{gather}
+
+
+
+
+%\newpage
+
+% \section{The Algorithm Pseudo Code and Flow Charts}
+% \label{sec:fcrt}
+% \label{sec:pseudocode}
+
+
+%\subsection{Unconstrained Autoregression}
+
+% \begin{figure*}[htbp]
+%   \begin{center}
+%     \leavevmode
+% %\fbox{
+% \begin{picture} (20,24)
+%   \input{ unconstrainedAR.tex}
+% \end{picture}
+% %}
+%     \caption{Algorithm to Compute Unconstrained Auto-regression: Algorithm~\ref{alg:unconstrainedAR}:$\mathcal{F}_1 (\mathcal{H})$}
+%     \label{fig:unconstrained}
+%   \end{center}
+% \end{figure*}
+
+%\newpage
+
+
+%\subsection{Asymptotic Constraints}
+%\label{sec:asympCode}
+
+
+%\subsection{Existence and Uniqueness}
+%\label{sec:existpCode}
+
+
+  
+
+%\newpage
+
+%\subsection{Inhomogeneous Solution}
+%\label{sec:inhomopcode}
+
+%\newpage
+
+%\subsection{Stochastic Transition Matrices}
+%\label{sec:stochtranspcode}
+
+
+%\newpage
+
+\section{An Example}
+\label{sec:exampleapp}
+
+  
+
+  
+
+This section applies algorithms 1-3  to 
+ the following model with N=2.\cite{taylor79:stagg}
+
+\begin{gather}
+  w_t=\frac{1}{N}E_t[\sum_{i=0}^{N-1}W_{t+i}] - \alpha (u_t-u_n) + \nu_t\\
+W_t=\frac{1}{N}\sum_{i=0}^{N-1}w_{t-i} \\
+u_t=\vartheta u_{t-1}+\gamma W_t +\mu+\epsilon_t\\
+E_t[\nu_{t+i}]=E_t[\epsilon_{t+i}]=0 \,\forall i\ge0
+\end{gather}
+
+
+
+
+%  \input{betterSimsExample.tex}
+
+\input{biDirFigH0.tex}
+
+\input{simsQB.tex}
+%\begin{exmpl}
+  
+
+%\input{simsUnit.tex}
+%\end{exmpl}
+% \begin{exmpl}
+  
+
+% \input{simsSquash.tex}
+
+% \end{exmpl}
+
+
+% \section{Condition Numbers}
+% \label{sec:conditionNo}
+
+% \begin{gather}
+%    (H_- + \epsilon_1 F_1) + 
+%    (H_0 + \epsilon_2 F_2)B (\epsilon_1,\epsilon_2,\epsilon_3) + 
+%    (H_+ + \epsilon_3 F_3)B (\epsilon_1,\epsilon_2,\epsilon_3)^2 = 0\\
+% \parallel F_i \parallel_2 =1\\
+% \frac{\partial}{\partial \epsilon_i}
+% \end{gather}
+
+
+\setcounter{thrm}{0}
+\setcounter{crrlry}{0}
+
+
+
+
+
+
+
+
+
+\end{document}

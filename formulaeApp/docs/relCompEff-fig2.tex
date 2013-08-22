@@ -1,0 +1,64 @@
+\documentclass{article}
+\input tmp.inputs
+\pagestyle{empty}
+\begin{document}
+\input pst-eps
+\TeXtoEPS
+\begin{pspicture} (6.75,3.75)
+%\psgrid
+\psset{xunit=0.45,yunit=.35cm}
+
+\psframe[fillstyle=solid,fillcolor=gray] (5,8) (11,7)
+\psframe[fillstyle=solid,fillcolor=white] (10,7.5) (11,8)
+
+\psframe[fillstyle=solid,fillcolor=gray] (6,7) (12,6)
+\psframe[fillstyle=solid,fillcolor=white] (11,6.5) (12,7)
+
+\psframe[linestyle=dashed,linewidth=0.7mm] (5,6.5) (11,7.5)
+
+\psframe[fillstyle=solid,fillcolor=gray] (9,0) (15,1)
+\psframe[fillstyle=solid,fillcolor=white] (14,0.5) (15,1)
+
+
+
+
+% \psframe[fillstyle=solid,fillcolor=gray] (5,5) (11,4)
+% \psframe[fillstyle=solid,fillcolor=white] (10,4.5) (11,5)
+
+% \psframe[fillstyle=solid,fillcolor=gray] (6,4) (12,3)
+% \psframe[fillstyle=solid,fillcolor=white] (11,3.5) (12,4)
+
+% \psframe[linestyle=dashed,linewidth=0.7mm] (5,3.5) (11,4.5)
+
+% \psframe[fillstyle=solid,fillcolor=gray] (9,0) (15,1)
+% \psframe[fillstyle=solid,fillcolor=white] (14,0.5) (15,1)
+
+
+
+
+
+\psline[linestyle=dashed]{<->}(9,5.5)(11,1.5)
+
+% \psline(10,7.5) (11,7.5)
+% \psline(10,7.0) (11,7.0)
+% \psline(11,6.5) (12,6.5)
+% \psline(11,7.0) (11,7.0)
+% \psline(14,3.5) (15,3.5)
+% \psline(14,4.0) (14,4.0)
+\psset{arrows=->}
+\rput(10.5,7.5){\rnode{D}{}}
+\rput(12.5,9.5){\rnode{E}{$H^{\sharp,1}$}}
+\nccurve[angleB=90,angleA=270]{E}{D}
+\rput(5.0,7.75){\rnode{F}{}}
+\rput(2.5,8.5){\rnode{G}{$Z^{\sharp,1}=F^{\sharp,1}$}}
+\nccurve[angleB=180]{G}{F}
+
+\psset{arrows=-}
+\psline[linewidth=0.6mm] (0,8) (15,8)
+\psline[linewidth=0.6mm] (5,0) (5,10)
+\psline[linewidth=0.6mm] (10,0) (10,10)
+%above fixed%
+\end{pspicture}
+\endTeXtoEPS
+  
+\end{document}

@@ -1,0 +1,29 @@
+\documentclass{article}
+\usepackage[authoryear]{natbib}
+\usepackage{amsmath}
+\begin{document}
+\title{Using Formulae From ``Reliable and Computationally Efficient ... '' Paper}
+
+\author{Gary Anderson}
+
+\maketitle
+
+
+The paper \cite{anderson10} shows how to solve models of the form\footnote{The paper provides formulae for models with multiple leads and lags.}
+
+\begin{gather*}
+\sum_{-1}^1 H_i  x_{t+i} =\psi z_{t}.  \intertext{ Given the homogeneous solution ( $\psi=0$ ) }
+x_{t}=B x_{t-1}\intertext{ we can compute matrices $\phi$ and $F$ }
+\phi=(H_0 + H_1 B)^{-1}, \,\,  F=-\phi H_1 \intertext{ such that }
+x_t = B x_{t-1} + \sum_{s=0}^\infty( F^s \phi \psi z_{t+s}) \intertext{furthermore, one can show that if $z_{t+1}= \Upsilon z_t$}
+x_t=B x_{t-1} + \vartheta z_t\intertext{satisfies the inhomogenous system,  where }
+vec [\vartheta] = [ I-\Upsilon^T \otimes F ]^{-1}  vec[ \phi \psi]
+\end{gather*}
+
+This system would not require simulation 
+to get the  expected impact of an AR(1) shock.
+
+\bibliographystyle{plainnat}
+\bibliography{files,anderson}
+\end{document}
+

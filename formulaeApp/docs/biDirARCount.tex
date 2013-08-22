@@ -1,0 +1,41 @@
+
+The AIM algorithm  requires at most
+\begin{gather*}
+  {L^3}\,\left( {\frac{4}{3}} + 26\,\left( \tau + \theta \right)  + 
+    3\,{{\left( \tau + \theta \right) }^2} \right) 
+\end{gather*}
+ floating point operations
+to produce the autoregressive representation, $\Gamma$.
+Table \ref{tab:ARFlops} reports the floating point counts by type of operation.
+The rank of $H^{\sharp,0}_\theta$ can be at most $L$. For typical problems,
+the rank, after shifting obvious equations forward, is nearly L.  There
+can be at most $L(\tau+\theta)$ shifted equations but  this number is typically
+about equal to $L\theta$.
+
+\begin{table*}[htbp]
+\begin{minipage}{\textwidth}
+  \begin{center}
+    \leavevmode
+    \begin{tabular}{|l|c|}
+\hline
+\multicolumn{1}{|c|}{Operation}&
+\multicolumn{1}{|c|}{Floating Point Operations}\\
+\hline
+Initial QR Decomposition\footnote{$r$ matrix rank}&${\frac{4\,r\,\left( 3\,{L^2} - 3\,L\,r + {r^2} \right) }{3}}$\\
+\hline
+QR Rank One Update&$26\,{L^2}$\\
+\hline
+Multiplication to Annihilate Rows&${L^2}\,\left( \tau + \theta \right) $\\
+\hline
+Compute $\Gamma$&$2\,{L^2}\,\left( \tau + \theta \right) $\\
+\hline
+Max Total&${L^3}\,\left( {\frac{4}{3}} + 26\,\left( \tau + \theta \right)  + 
+    3\,{{\left( \tau + \theta \right) }^2} \right) $\\
+\hline
+    \end{tabular}
+    \caption{Floating Point Operations to Compute Autoregressive Representation}
+    \label{tab:ARFlops}
+  \end{center}
+\end{minipage}
+\end{table*}
+

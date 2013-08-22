@@ -482,6 +482,43 @@ y_t(\sigma,\epsilon_{t},\epsilon_{t-1},\epsilon_{t-2},\ldots)\\
 \item Validate Burnside Formulae
 \item Burnside-like results for neoclassical growth model
 \end{itemize}
+\appendix
+
+\section{Inhomogeneous Solution}
+\label{sec:inhom-solut}
+
+
+
+\subsection{First Order(Linear) Rational Expectations Solution}
+\label{sec:firstlinrat}
+The variables ordered so that the innovations  in the state vector come
+after the  non-innovation variables.
+
+
+The length of $nzCols$ corresponds to $\fv_-=s$,
+the length of $leadsNeeded$ corresponds to $\fv_+$,
+the routine generates a matrix conformable with the first order derivatives
+of the model equations with respect to each of the $\fv$ variables.
+
+We assume that all innovations have mean zero.\footnote{
+On could handle the impact of nonzero mean  can be handled a couple of ways
+\begin{gather*}
+\Delta x^\ast=(I-\sum_{i=-\tau}^{-1} B_i)(\sum_{i=-\tau}^\theta H_i)^{-1} \mu= (\sum_{s=0}^\infty F^s)\phi \mu
+\Delta x^\ast=(I-\sum_{i=-\tau}^{-1} B_i)(\sum_{i=-\tau}^\theta H_i)^{-1} \mu= (\sum_{s=0}^\infty F^s)\phi \mu
+\sigma \mu_A \intertext{since}
+[(I-\sum_{i=-\tau}^{-1} B_i)(\sum_{i=-\tau}^\theta H_i)^{-1}  -\phi ]
+\end{gather*}
+But to match certainty equivalence with time t errors one should take
+\begin{gather*}
+\Delta x^\ast= (\sum_{s=1}^\infty F^s)\phi \mu
+\end{gather*}
+
+}
+
+
+
+
+
 \bibliographystyle{authordate4}
 \bibliography{files,anderson}
 
