@@ -1,0 +1,6 @@
+[submodule "SPSolve"]
+	path = SPSolve
+	url = https://github.com/es335mathwiz/SPSolve.git
+[submodule "mathAMA"]
+	path = mathAMA
+	url = https://github.com/es335mathwiz/mathAMA.git
