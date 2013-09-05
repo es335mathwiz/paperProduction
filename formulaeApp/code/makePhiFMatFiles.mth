@@ -1,0 +1,51 @@
+
+<<prepNumericAMA.mth
+(*
+firm=allPhiF["dynareExamples/","firmValue",Directory[]<>"/"];
+theLot={firmH,firmB,firmPhi,firmF}=firm[[{-2,-6,-5,-4}]]/.firm[[-8]]
+*)
+makeMat[modName_String]:=
+Module[{dm=doMod["dynareExamples/",modName,Directory[]<>"/"]},
+With[{modEqns=getEqns[modName]},
+With[{lags=getLags[modEqns],leads=getLeads[modEqns]},
+Print["numEq=",Length[modEqns],",leads=",leads,",lags=",lags];
+mod=allPhiF["dynareExamples/",modName,Directory[]<>"/"];
+{modH,modB,modPhi,modF}=mod[[{-2,-6,-5,-4}]]/.mod[[-8]];
+Export[modName<>".mat",
+{
+modName<>"XXlags"->{{lags}},
+modName<>"XXleads"->{{leads}},
+modName<>"XXH"->modH,
+modName<>"XXB"->modB,
+modName<>"XXPhi"->modPhi,
+modName<>"XXF"->modF
+},"LabeledData"]]]]
+
+makeMat[dirName_String,modName_String]:=
+Module[{dm=doMod[dirName,modName,Directory[]<>"/"]},
+With[{modEqns=getEqns[modName]},
+With[{lags=getLags[modEqns],leads=getLeads[modEqns]},
+Print["numEq=",Length[modEqns],",leads=",leads,",lags=",lags];
+mod=allPhiF[dirName,modName,Directory[]<>"/"];
+{modH,modB,modPhi,modF}=mod[[{-2,-6,-5,-4}]]/.mod[[-8]];
+Export[modName<>".mat",
+{
+modName<>"XXlags"->{{lags}},
+modName<>"XXleads"->{{leads}},
+modName<>"XXH"->modH,
+modName<>"XXB"->modB,
+modName<>"XXPhi"->modPhi,
+modName<>"XXF"->modF
+},"LabeledData"]]]]
+
+
+(*
+makeMat/@ {"firmValue",  "fuhrerMoore", 
+ "hall1estimateBayes", "lesothoViegi", "lubikSchorfheide", 
+"rosenestimateBayes", "rosenestimateML"};
+
+
+
+
+ "hall1estimateML", find
+*)
