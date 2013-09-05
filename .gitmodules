@@ -4,3 +4,9 @@
 [submodule "mathAMA"]
 	path = mathAMA
 	url = https://github.com/es335mathwiz/mathAMA.git
+[submodule "DynareParsers"]
+	path = DynareParsers
+	url = https://github.com/es335mathwiz/DynareParsers.git
+[submodule "multiverse"]
+	path = multiverse
+	url = https://github.com/es335mathwiz/multiverse.git

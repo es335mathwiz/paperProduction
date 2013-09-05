@@ -31,6 +31,12 @@
 % \fi
 \input{preamble}
 
+\makeatletter
+\def\fullpath{\begingroup\everyeof{\noexpand}\@sanitize
+  \edef\x{\@@input|"find `pwd` -name \jobname.tex" }%
+  \edef\x{\endgroup\noexpand\zap@space\x\noexpand\@empty}\x}
+\makeatother
+
 \begin{document}
 
 \begin{frontmatter}
@@ -80,11 +86,14 @@ the estimation of the parameters in a moderate sized DSGE model.
 
 \end{abstract}
 
-This file is in
 
-/msu/res2/m1gsa00/conferences/sce11/hybridSymbolicProjectionAMA.tex
+
 
 \end{frontmatter}
+
+This file is in
+\footnote{\fullpath}
+
 
 
   \section{Problem Statement and Algorithm}

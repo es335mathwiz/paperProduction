@@ -1,6 +1,13 @@
 \documentclass{article}
 \usepackage[authoryear]{natbib}
 \usepackage{amsmath}
+
+\makeatletter
+\def\fullpath{\begingroup\everyeof{\noexpand}\@sanitize
+  \edef\x{\@@input|"find `pwd` -name \jobname.tex" }%
+  \edef\x{\endgroup\noexpand\zap@space\x\noexpand\@empty}\x}
+\makeatother
+
 \begin{document}
 \title{Using Formulae From ``Reliable and Computationally Efficient ... '' Paper}
 
@@ -8,6 +15,8 @@
 
 \maketitle
 
+
+file located in \footnote{\fullpath}
 
 The paper \cite{anderson10} shows how to solve models of the form\footnote{The paper provides formulae for models with multiple leads and lags.}
 
@@ -22,6 +31,11 @@ vec [\vartheta] = [ I-\Upsilon^T \otimes F ]^{-1}  vec[ \phi \psi]
 
 This system would not require simulation 
 to get the  expected impact of an AR(1) shock.
+
+For a constant we have
+\begin{gather*}
+  x_t=B x_{t-1} + (\sum_{s=0}^\infty  F^s) \phi \psi= B x_{t-1} + (I-  F)^{-1} \phi \psi= 
+\end{gather*}
 
 \bibliographystyle{plainnat}
 \bibliography{files,anderson}
