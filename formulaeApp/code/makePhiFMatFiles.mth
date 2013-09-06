@@ -1,11 +1,78 @@
 
 <<prepNumericAMA.mth
+
+makeMat[srcDir_String,modName_String,targDir_String]:=
+Module[{dm=parseToXMLMTH[srcDir,modName,targDir]},
+With[{modEqns=getEqns[FileBaseName[modName]]},
+With[{lags=getLags[modEqns],leads=getLeads[modEqns]},
+Print["For "<>modName<>" numEq=",Length[modEqns],",leads=",leads,",lags=",lags];
+mod=compTimeComponents[srcDir,modName,targDir,doParamSubs];
+{modH,modB,modPhi,modF}=mod[[{-2,-6,-5,-4}]]/.mod[[-8]];
+Export[targDir<>"/"<>FileBaseName[modName]<>".mat",
+{
+FileBaseName[modName]<>"XXlags"->{{lags}},
+FileBaseName[modName]<>"XXleads"->{{leads}},
+FileBaseName[modName]<>"XXH"->modH,
+FileBaseName[modName]<>"XXB"->modB,
+FileBaseName[modName]<>"XXPhi"->modPhi,
+FileBaseName[modName]<>"XXF"->modF
+},"LabeledData"]]]]
+
+
 (*
-firm=allPhiF["dynareExamples/","firmValue",Directory[]<>"/"];
-theLot={firmH,firmB,firmPhi,firmF}=firm[[{-2,-6,-5,-4}]]/.firm[[-8]]
+allDynareMods=
+StringReplace[#,"dynareExamples/"->""]&/@
+FileNames["*.mod","dynareExamples"]
+
+problemDynareMods={
+"AltEx1.mod","AssetPricingApproximation.mod"
+}
+
+makeMat["dynareExamples",#,"./resDir"]&/@Complement[allDynareMods,problemDynareMods]
+
+
+
+{ "AltEx1.mod","AssetPricingApproximation.mod", "BGGViegi.mod", 
+ "Fig1131.mod", "Figv3_1161.mod", "Figv3_1191.mod", "firmValue.mod", 
+ "fs2000.mod", "fuhrerMoore.mod", "GrowthApproximate.mod", 
+ "hall1estimateBayes.mod", "hall1estimateML.mod", "HSTBayes.mod", "ifs1.mod", 
+ "kiyotakiMooreViegi.mod", "lesothoViegi.mod", "lubikSchorfheide.mod", 
+ "RBCEst.mod", "RBCMonopDet.mod", "RBCMonopJFV.mod", "RBCViegi.mod", 
+ "rosenestimateBayes.mod", "simpleNeoViegi.mod", "TwocountryApprox.mod"}
+
+
+
+
+
+
+
+
+linear easy
+TimeConstrained[makeMat[#],10]&/@ {"firmValue",  "fuhrerMoore", 
+ "hall1estimateBayes"}
+linear hard
+TimeConstrained[makeMat[#],60]&/@ { 
+ "lubikSchorfheide", 
+"rosenestimateBayes", "lesothoViegi"};
+
 *)
+(*
+non linear easy
+
+{"AssetPricingApproximation"}
+
+hard but completes
+
+Fig1131
+*)
+
+
+
+(*
+
+
 makeMat[modName_String]:=
-Module[{dm=doMod["dynareExamples/",modName,Directory[]<>"/"]},
+Module[{dm=parseToXMLMTH["dynareExamples/",modName,Directory[]<>"/"]},
 With[{modEqns=getEqns[modName]},
 With[{lags=getLags[modEqns],leads=getLeads[modEqns]},
 Print["numEq=",Length[modEqns],",leads=",leads,",lags=",lags];
@@ -21,31 +88,6 @@ modName<>"XXPhi"->modPhi,
 modName<>"XXF"->modF
 },"LabeledData"]]]]
 
-makeMat[dirName_String,modName_String]:=
-Module[{dm=doMod[dirName,modName,Directory[]<>"/"]},
-With[{modEqns=getEqns[modName]},
-With[{lags=getLags[modEqns],leads=getLeads[modEqns]},
-Print["numEq=",Length[modEqns],",leads=",leads,",lags=",lags];
-mod=allPhiF[dirName,modName,Directory[]<>"/"];
-{modH,modB,modPhi,modF}=mod[[{-2,-6,-5,-4}]]/.mod[[-8]];
-Export[modName<>".mat",
-{
-modName<>"XXlags"->{{lags}},
-modName<>"XXleads"->{{leads}},
-modName<>"XXH"->modH,
-modName<>"XXB"->modB,
-modName<>"XXPhi"->modPhi,
-modName<>"XXF"->modF
-},"LabeledData"]]]]
 
 
-(*
-makeMat/@ {"firmValue",  "fuhrerMoore", 
- "hall1estimateBayes", "lesothoViegi", "lubikSchorfheide", 
-"rosenestimateBayes", "rosenestimateML"};
-
-
-
-
- "hall1estimateML", find
 *)

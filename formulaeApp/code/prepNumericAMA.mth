@@ -1,4 +1,4 @@
-$antlrPath="/msu/res1/Software/mavenRepositories/tryRep/org/antlr/antlr/3.1.3/antlr-3.1.3.jar"
+$antlrPath="/msu/res1/Software/functional/rootbeer1/lib/antlr-3.1.3.jar";
 
 $AMAModelPath="../../mathAMA/AMAModel";
 $AMAModelXSLPath="../../multiverse/forMultiverse/src/main/xsl/AMAModel2Mma.xsl"
@@ -12,100 +12,30 @@ Needs["NumericAMA`"];
 Needs["AMAModel`"];
 AddToClassPath[Directory[]<>"/../../DynareParsers/target/classes"];
 AddToClassPath[$antlrPath];
-preDo="";
+srcDir="";
 (*
 converts dynare models to xml then xml model to equations for mathematica
 creates an AMAModelDefinition
 *)
 
-doMod[preDo_String,fName_String]:=
-doMod[preDo,fName,Directory[]<>"/"]
+parseToXMLMTH::usage="parseToXMLMTH[srcDir_String,fName_String] parses a dynare model file to xml and then applies xslt to generate a .mth AMAModel file and reads in the .mth file"
+AMAModelDefinition::usage="AMAModelDefinition[modName_String] returns {{list of Vars},{list of params with default vals},{list of shocks with default distribution},{{list of eqnNames},{list of eqns}},{list of shock subs}}"
 
-doMod[preDo_String,fName_String,targDir_String]:=
+parseToXMLMTH[srcDir_String,fName_String]:=
+parseToXMLMTH[srcDir,fName,Directory[]]
+
+parseToXMLMTH[srcDir_String,fName_String,targDir_String]:=
 Module[{cmd},
-System`$Path=PrependTo[System`$Path,preDo];
-JavaNew["gov.frb.ma.msu.DynareToAMAModel",preDo<>fName<>".mod",targDir<>fName<>".xml",fName,Directory[]<>"/"];
+System`$Path=PrependTo[System`$Path,srcDir];
+JavaNew["gov.frb.ma.msu.DynareToAMAModel",srcDir<>"/"<>fName,targDir<>"/"<>FileBaseName[fName]<>".xml",FileBaseName[fName],Directory[]<>"/"];
 cmd=StringForm[
-"java org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL `4` -OUT `3``2`.mth",preDo,fName,targDir,$AMAModelXSLPath];
+"java org.apache.xalan.xslt.Process -IN `2`/`1`.xml  -XSL `3` -OUT `2`/`1`.mth",FileBaseName[fName],targDir,$AMAModelXSLPath];
 (*Print["here is cmd",cmd,"after"];*)
 Run[cmd];
-Get[fName<>".mth"];
-AMAModelDefinition[fName]]
+Get[targDir<>"/"<>FileBaseName[fName]<>".mth"];
+AMAModelDefinition[FileBaseName[fName]]]
 
 
-
-allLinear[theDir_String,modName_String,targDir_String]:=
-Module[{parseTime,vars,ig,params,eqns,notSubs,paramSubs,
-hmatTime,hmat,
-arTime,zf,hf,
-amatTime,amat,
-lilTime,lilMat,cols,
-evalsTime,evals,
-lilevecsTime,lilevecs,
-evecsTime,evecs,
-bmatTime,bmat,
-sTime,theS},
-Print["parsing " <>modName];
-{parseTime,{vars,ig,params,ig,{ig,eqns},notSubs,ig}}=
-Timing[doMod[theDir,modName,targDir]];
-paramSubs=#[[1]]->#[[2]]&/@params;
-Print["gen hmat"];
-{hmatTime,hmat}=Timing[equationsToMatrix[eqns,vars]];
-Print["gen symbolicAR"];
-{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];
-Print["gen amat"];
-{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];
-Print["shrink hmat"];
-{lilTime,{lilMat,cols}}=
-Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];
-Print["gen eigenvalues"];
-{evalsTime,evals}= Timing[Eigenvalues[Transpose[lilMat]]];
-Print["gen evecs"];
-{lilevecsTime,lilevecs}=Timing[compEigSpace[lilMat,evals,paramSubs]];
-{evecsTime,evecs}=Timing[toLarge[lilevecs,cols,Length[zf[[1]]]]];
-Print["compute bmat"];
-{bmatTime,bmat}=Timing[compB[zf,evecs,Length[hmat]]];
-Print["gen smat"];
-{sTime,theS}=Timing[obStruct[hmat,bmat]];
-{parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,paramSubs,eqns,bmat,theS,hmat,vars}
-]
-
-allPhiF[theDir_String,modName_String,targDir_String]:=
-Module[{parseTime,vars,ig,params,eqns,notSubs,paramSubs,
-hmatTime,hmat,qmat,phiMat,fMat,
-arTime,zf,hf,
-amatTime,amat,
-lilTime,lilMat,cols,
-evalsTime,evals,
-lilevecsTime,lilevecs,
-evecsTime,evecs,
-bmatTime,bmat,
-sTime,theS},
-Print["parsing " <>modName];
-{parseTime,{vars,ig,params,ig,{ig,eqns},notSubs,ig}}=
-Timing[doMod[theDir,modName,targDir]];
-paramSubs=#[[1]]->#[[2]]&/@params;
-Print["gen hmat"];
-{hmatTime,hmat}=Timing[equationsToMatrix[eqns,vars]];
-Print["gen symbolicAR"];
-{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];
-Print["gen amat"];
-{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];
-Print["shrink hmat"];
-{lilTime,{lilMat,cols}}=
-Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];
-Print["gen eigenvalues"];
-{evalsTime,evals}= Timing[Eigenvalues[Transpose[lilMat]]];
-Print["gen evecs"];
-{lilevecsTime,lilevecs}=Timing[compEigSpace[lilMat,evals,paramSubs]];
-{evecsTime,evecs}=Timing[toLarge[lilevecs,cols,Length[zf[[1]]]]];
-Print["compute bmat phimat fmat"];
-qmat=Join[zf,evecs];
-{bmatTime,{bmat,phiMat,fMat}}=Timing[symbolicComputeBPhiF[hmat,qmat]];
-Print["gen smat"];
-{sTime,theS}=Timing[obStruct[hmat,bmat]];
-{parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,paramSubs,eqns,bmat,phiMat,fMat,theS,hmat,vars}
-]
 
 
 largeLocs[theVals_List]:=
@@ -152,8 +82,15 @@ getLeads[eqns_List] := With[{},
      Max[lgld]]]
 
 getEqns[modName_String]:=
-With[{modDef=AMAModelDefinition[modName]},
+With[{modDef=AMAModelDefinition[FileBaseName[modName]]},
 If[Length[modDef]>=5,modDef[[5,2]],{}]]
+
+getShocksSubs[modName_String] := 
+With[{modDef=AMAModelDefinition[FileBaseName[modName]]},
+modDef[[-2]]]
+getShocksZeroSubs[modName_String] := 
+With[{modDef=AMAModelDefinition[FileBaseName[modName]]},
+(modDef[[-2]]/.eps[_][t]->0)]
 
 (*
 linear mods
@@ -162,6 +99,190 @@ linear mods
 "rosenestimateBayes", "rosenestimateML"};
 
 *)
+compTimeComponents::usage="compTimeComponents[theDir_String,modName_String,targDir_String,opts___] "<>"{parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,paramSubs,eqns,bmat,phiMat,fMat,theS,solveSoln,hmat,vars}"
+
+
+compTimeComponents[theDir_String,modName_String,targDir_String,opts___]:=
+Module[{parseTime,vars,ig,params,eqns,notSubs,paramSubs,
+hmatTime,hmat,
+arTime,zf,hf,
+amatTime,amat,
+lilTime,lilMat,cols,
+evalsTime,evals,
+lilevecsTime,lilevecs,
+evecsTime,evecs,
+bmatTime,bmat,
+sTime,theS},
+{parseTime,{vars,ig,params,ig,{ig,eqns},notSubs,ig}}=
+Timing[parseToXMLMTH[theDir,modName,targDir]];
+paramSubs=#[[1]]->#[[2]]&/@Rationalize[params,1/100000];
+earlySubs=If[MemberQ[Flatten[{opts}],doParamSubs],paramSubs,{}];
+Print["earlySubs=",earlySubs,Flatten[{opts}]];
+{solveTime,solveSoln}=Timing[trySolveSS[(eqns//.earlySubs)/.getShocksZeroSubs[FileBaseName[modName]],vars]];
+{fRootTime,fRootSoln}=Timing[makeSomeSSSubs[FileBaseName[modName]]];
+Print["solveSoln=",solveSoln];
+Print["fRootSoln=",fRootSoln];
+{hmatTime,hmat}=Timing[N[equationsToMatrix[(eqns//.earlySubs)/.solveSoln,vars]/.makeSSValSubs[vars]]];
+Print["hmat=",hmat];
+{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];Print["done ar"];
+{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];
+{lilTime,{lilMat,cols}}=
+Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];Print["done inessential"];
+{more,lilMat}=Timing[FullSimplify[lilMat,TimeConstraint->$tConst]];lilTime=lilTime+more;
+{evalsTime,evals}= Timing[TimeConstrained[Eigenvalues[Transpose[lilMat]],$tConst]];Print["done evals"];
+{lilevecsTime,lilevecs}=Timing[TimeConstrained[compEigSpace[lilMat,evals,Join[paramSubs,fRootSoln]],$tConst]];
+{evecsTime,evecs}=Timing[toLarge[lilevecs,cols,Length[zf[[1]]]]];
+Print["compute bmat phimat fmat"];
+qmat=Join[zf,evecs];
+Print["hmat=",hmat];
+Print["qmat=",qmat];
+{bmatTime,{bmat,phiMat,fMat}}=Timing[symbolicComputeBPhiF[hmat,qmat]];
+Print["gen smat"];
+{sTime,theS}=Timing[obStruct[hmat,bmat]];
+{parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,paramSubs,eqns,bmat,phiMat,fMat,theS,solveSoln,hmat,vars}
+]
+
+
+
+
+
+makeSSValSubs[vars_List]:=#[t_]->ToExpression[ToString[#]<>"SSVal"]&/@vars;
+
+makeSomeSSSubs[name_String]:=
+With[{ssEqns=makeSubbedEqns[name],
+try=makeTry[name]},
+FindRoot @@ {ssEqns,try}]
+
+makeSubbedEqns[name_String]:=
+With[{eqns=AMAModelDefinition[name][[5,2]],
+subs=Join[makeParamSubs[name],makeShockSubs[name]]},
+(eqns//.subs)/.ssValSubs]
+
+
+
+makeParamSubs[name_String]:=With[
+{params=AMAModelDefinition[name][[3]]},
+#[[1]]->#[[2]]&/@params]
+
+makeShockSubs[name_String]:=With[
+{shks=AMAModelDefinition[name][[-2]]},
+#[[1]]->0&/@shks]
+
+
+ssValSubs=(xx_)[t + (_.)] :> ToExpression[ToString[xx]<>"SSVal"]
+
+
+makeTry[name_String]:=
+With[{vars=AMAModelDefinition[name][[1]]},
+{ToExpression[ToString[#]<>"SSVal"],Random[]}&/@vars]
+
+
+
+trySolveSS[eqns_List,vars_List]:=
+Module[{},
+ssEqns=eqns//.ssSubs;
+someSSSubs=TimeConstrained[Solve[Thread[ssEqns==0],vars],$tConst];
+If[FreeQ[someSSSubs,Solve],(someSSSubs/.
+(#->ToExpression[ToString[#]<>"SSVal"]&/@vars))[[1]],{}
+]]
+
+
+ssSubs=xx_[t+_.]:>xx;
+
+
+
+
+$tConst=20
+
+
+
+
+
+
+
+
+
+(*
+allLinear[theDir_String,modName_String,targDir_String]:=
+Module[{parseTime,vars,ig,params,eqns,notSubs,paramSubs,
+hmatTime,hmat,
+arTime,zf,hf,
+amatTime,amat,
+lilTime,lilMat,cols,
+evalsTime,evals,
+lilevecsTime,lilevecs,
+evecsTime,evecs,
+bmatTime,bmat,
+sTime,theS},
+Print["parsing " <>modName];
+{parseTime,{vars,ig,params,ig,{ig,eqns},notSubs,ig}}=
+Timing[parseToXMLMTH[theDir,modName,targDir]];
+paramSubs=#[[1]]->#[[2]]&/@params;
+Print["gen hmat"];
+{hmatTime,hmat}=Timing[equationsToMatrix[eqns,vars]];
+Print["gen symbolicAR"];
+{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];
+Print["gen amat"];
+{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];
+Print["shrink hmat"];
+{lilTime,{lilMat,cols}}=
+Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];
+Print["gen eigenvalues"];
+{evalsTime,evals}= Timing[Eigenvalues[Transpose[lilMat]]];
+Print["gen evecs"];
+{lilevecsTime,lilevecs}=Timing[compEigSpace[lilMat,evals,paramSubs]];
+{evecsTime,evecs}=Timing[toLarge[lilevecs,cols,Length[zf[[1]]]]];
+Print["compute bmat"];
+{bmatTime,bmat}=Timing[compB[zf,evecs,Length[hmat]]];
+Print["gen smat"];
+{sTime,theS}=Timing[obStruct[hmat,bmat]];
+{parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,paramSubs,eqns,bmat,theS,hmat,vars}
+]
+
+
+
+
+
+
+
+allPhiF[theDir_String,modName_String,targDir_String]:=
+Module[{parseTime,vars,ig,params,eqns,notSubs,paramSubs,
+hmatTime,hmat,qmat,phiMat,fMat,
+arTime,zf,hf,
+amatTime,amat,
+lilTime,lilMat,cols,
+evalsTime,evals,
+lilevecsTime,lilevecs,
+evecsTime,evecs,
+bmatTime,bmat,
+sTime,theS},
+Print["parsing " <>modName];
+{parseTime,{vars,ig,params,ig,{ig,eqns},notSubs,ig}}=
+Timing[parseToXMLMTH[theDir,modName,targDir]];
+paramSubs=#[[1]]->#[[2]]&/@params;
+{solveTime,solveSoln}=Timing[trySolveSS[eqns,vars]];
+{fRootTime,fRootSoln}=Timing[makeSomeSSSubs[FileBaseName[modName]]];
+{hmatTime,hmat}=Timing[equationsToMatrix[eqns,vars]/.makeSSValSubs[vars]];
+Print["gen symbolicAR"];
+{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];
+Print["gen amat"];
+{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];
+Print["shrink hmat"];
+{lilTime,{lilMat,cols}}=
+Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];
+{more,lilMat}=Timing[FullSimplify[lilMat,TimeConstraint->$tConst]];lilTime=lilTime+more;
+Print["gen eigenvalues"];
+{evalsTime,evals}= Timing[Eigenvalues[Transpose[lilMat]]];
+Print["gen evecs"];
+{lilevecsTime,lilevecs}=Timing[compEigSpace[lilMat,evals,paramSubs]];
+{evecsTime,evecs}=Timing[toLarge[lilevecs,cols,Length[zf[[1]]]]];
+Print["compute bmat phimat fmat"];
+qmat=Join[zf,evecs];
+{bmatTime,{bmat,phiMat,fMat}}=Timing[symbolicComputeBPhiF[hmat,qmat]];
+Print["gen smat"];
+{sTime,theS}=Timing[obStruct[hmat,bmat]];
+{parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,paramSubs,eqns,bmat,phiMat,fMat,theS,hmat,vars}
+]
 
 
 allNonLinear[theDir_String,modName_String,targDir_String]:=
@@ -176,10 +297,10 @@ evecsTime,evecs,
 bmatTime,bmat,
 sTime,theS},
 {parseTime,{vars,ig,params,ig,{ig,eqns},notSubs,ig}}=
-Timing[doMod[theDir,modName,targDir]];
+Timing[parseToXMLMTH[theDir,modName,targDir]];
 paramSubs=#[[1]]->#[[2]]&/@params;
 {solveTime,solveSoln}=Timing[trySolveSS[eqns,vars]];
-{fRootTime,fRootSoln}=Timing[makeSomeSSSubs[modName]];
+{fRootTime,fRootSoln}=Timing[makeSomeSSSubs[FileBaseName[modName]]];
 {hmatTime,hmat}=Timing[equationsToMatrix[eqns,vars]/.makeSSValSubs[vars]];
 {arTime,{zf, hf}} = Timing[symbolicAR[hmat]];Print["done ar"];
 {amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];
@@ -193,7 +314,4 @@ Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];Print["done
 {sTime,theS}=Timing[obStruct[hmat,bmat]];
 {parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,solveTime,fRootTime,paramSubs,eqns,bmat,theS,solveSoln,fRootSoln,hmat,vars}
 ]
-
-makeSSValSubs[vars_List]:=#[t_]->ToExpression[ToString[#]<>"SSVal"]&/@vars;
-
-$tConst=20
+*)
