@@ -7,7 +7,7 @@ With[{modEqns=getEqns[FileBaseName[modName]]},
 With[{lags=getLags[modEqns],leads=getLeads[modEqns]},
 Print["For "<>modName<>" numEq=",Length[modEqns],",leads=",leads,",lags=",lags];
 mod=compTimeComponents[srcDir,modName,targDir,doParamSubs];
-{modH,modB,modPhi,modF}=mod[[{-2,-6,-5,-4}]]/.mod[[-8]];
+{modH,modB,modPhi,modF}=mod[[{-2,-7,-6,-5}]];
 Export[targDir<>"/"<>FileBaseName[modName]<>".mat",
 {
 FileBaseName[modName]<>"XXlags"->{{lags}},
@@ -16,7 +16,7 @@ FileBaseName[modName]<>"XXH"->modH,
 FileBaseName[modName]<>"XXB"->modB,
 FileBaseName[modName]<>"XXPhi"->modPhi,
 FileBaseName[modName]<>"XXF"->modF
-},"LabeledData"]]]]
+},"LabeledData"]]];mod]
 
 
 (*
@@ -25,7 +25,25 @@ StringReplace[#,"dynareExamples/"->""]&/@
 FileNames["*.mod","dynareExamples"]
 
 problemDynareMods={
-"AltEx1.mod","AssetPricingApproximation.mod"
+"AltEx1.mod",
+"AssetPricingApproximation.mod" problems with finding steady state
+"Figv3_1191.mod" trouble finding steady state
+fs2000 trouble steady state
+hstbayes problem compbphif  singular
+ifs1 gmpn_add_nc library
+kiyotakimooreviegi b wrong num rows
+
+rosen estimate bayes problems with  array flatten  (4 leads 4 lags )
+
+twocoountryapprox problems with singular
+
+
+parse problems cesa-bianchi  no graph
+
+SU03  library problem
+
+
+rbc parse problems
 }
 
 makeMat["dynareExamples",#,"./resDir"]&/@Complement[allDynareMods,problemDynareMods]
@@ -43,9 +61,62 @@ makeMat["dynareExamples",#,"./resDir"]&/@Complement[allDynareMods,problemDynareM
 
 
 
+*)
+(*
+
+check phi f
+
+res=makeMat["dynareExamples","firmValue.mod","./resDir"];
+hmat=res[[-2]];
+bmat=res[[-7]];
+phimat=res[[-6]];
+fmat=res[[-5]];
+psimat=IdentityMatrix[2];
+zpath={{aa},{bb},{cc},{dd}};
+xinit={{vv},{dd}}
+
+computeDelXPath[bmat,phimat,fmat,psimat,zpath]
+computeXNext[xinit,bmat,phimat,fmat,psimat,zpath]
+computeXPath[xinit,1,bmat,phimat,fmat,psimat,zpath]
+hmat .Join[xinit, computeXPath[xinit,2,bmat,phimat,fmat,psimat,zpath]]//Expand//Chop
+hmat . computeXPath[xinit,3,bmat,phimat,fmat,psimat,zpath]//Expand//Chop
 
 
 
+
+res=makeMat["dynareExamples","firmValue01x02.mod","./resDir"];
+hmat=res[[-2]];
+bmat=res[[-7,{1,2}]];
+phimat=res[[-6]];
+fmat=res[[-5]];
+psimat=IdentityMatrix[2];
+zpath={{aa},{bb},{cc},{dd}};
+xinit={{vv},{dd}}
+
+computeDelXPath[bmat,phimat,fmat,psimat,zpath]
+computeXNext[xinit,bmat,phimat,fmat,psimat,zpath]
+computeXPath[xinit,1,bmat,phimat,fmat,psimat,zpath]*
+hmat .Join[xinit, computeXPath[xinit,3,bmat,phimat,fmat,psimat,zpath]]//Expand//Chop
+hmat .computeXPath[xinit,4,bmat,phimat,fmat,psimat,zpath]//Expand//Chop
+
+
+
+res=makeMat["dynareExamples","rosenestimateBayes.mod","./resDir"];
+hmat=res[[-2]];
+bmat=res[[-7,{1,2,3,4}]];
+phimat=res[[-6]];
+fmat=res[[-5]];
+psimat=IdentityMatrix[4];
+zpath={{aa},{bb},{cc},{dd},{aaa},{abb},{acc},{add},{baa},{bbb},{bcc},{bdd},{caa},{cbb},{ccc},{cdd}};
+xinit={{vv},{dd},{xx},{ww},{vv1},{dd1},{xx1},{ww1},{vv2},{dd2},{xx2},{ww2},{vv3},{dd3},{xx3},{ww3}}
+
+computeDelXPath[bmat,phimat,fmat,psimat,zpath]
+computeXNext[xinit,bmat,phimat,fmat,psimat,zpath]
+computeXPath[xinit,1,bmat,phimat,fmat,psimat,zpath]
+hmat .Join[xinit, computeXPath[xinit,5,bmat,phimat,fmat,psimat,zpath]]//Expand//Chop
+long=Join[xinit,computeXPath[xinit,9,bmat,phimat,fmat,psimat,zpath]//Expand//Chop];
+
+hmat .long[[Range[36]]]//Expand//Chop
 
 linear easy
 TimeConstrained[makeMat[#],10]&/@ {"firmValue",  "fuhrerMoore", 
