@@ -27,7 +27,11 @@ var c k;
 
 // declares the exogenous variables consumption tax ('tauc'),
 // capital tax('tauk'), government spending('g')
-varexo tauc tauk g;
+//varexo tauc tauk g;
+parameters tauc tauk g;
+tauc=0;
+tauk=0;
+g=0;
 
 parameters bet gam del alpha A;
 

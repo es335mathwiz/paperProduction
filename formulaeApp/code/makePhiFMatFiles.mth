@@ -1,12 +1,12 @@
 
 <<prepNumericAMA.mth
 
-makeMat[srcDir_String,modName_String,targDir_String]:=
+makeMat[srcDir_String,modName_String,targDir_String,opts___]:=
 Module[{dm=parseToXMLMTH[srcDir,modName,targDir]},
 With[{modEqns=getEqns[FileBaseName[modName]]},
 With[{lags=getLags[modEqns],leads=getLeads[modEqns]},
 Print["For "<>modName<>" numEq=",Length[modEqns],",leads=",leads,",lags=",lags];
-mod=compTimeComponents[srcDir,modName,targDir,doParamSubs];
+mod=compTimeComponents[srcDir,modName,targDir,Join[{doParamSubs->True},Flatten[{opts}]]];
 {modH,modB,modPhi,modF}=mod[[{-2,-7,-6,-5}]];
 Export[targDir<>"/"<>FileBaseName[modName]<>".mat",
 {
@@ -24,9 +24,35 @@ allDynareMods=
 StringReplace[#,"dynareExamples/"->""]&/@
 FileNames["*.mod","dynareExamples"]
 
+
+
+res=makeMat["dynareExamples","AltEx1.mod","./resDir",ssInitVals->{1,1,1,1,1,1}];res[[-5]]
+res=makeMat["dynareExamples","AssetPricingApproximation.mod","./resDir",ssInitVals->{.0015,100,100,.0015,0}];res[[-5]]
+res=makeMat["dynareExamples","BGGViegi.mod","./resDir"];res[[-5]]
+res=makeMat["dynareExamples","Fig1131.mod","./resDir"];;res[[-5]]
+res=makeMat["dynareExamples","Figv3_1161.mod","./resDir"];;res[[-5]]
+res=makeMat["dynareExamples","Figv3_1191.mod","./resDir"];res[[-5]]
+res=makeMat["dynareExamples","firmValue.mod","./resDir"];res[[-5]]
+res=makeMat["dynareExamples","fs2000.mod","./resDir",ssInitVals->{E^(.003),E^(.003),.85,1,.45,E^(-.003),.19,.86,1.011,6,4,2.25,1.02,.6}](*problems with evals*);res[[-5]]
+res=makeMat["dynareExamples","fuhrerMoore.mod","./resDir"];res[[-5]]
+res=makeMat["dynareExamples","GrowthApproximate.mod","./resDir"];res[[-5]]
+res=makeMat["dynareExamples","hall1estimateBayes.mod","./resDir"];res[[-5]]
+res=makeMat["dynareExamples","HSTBayes.mod","./resDir"];res[[-5]]
+res=makeMat["dynareExamples","ifs1.mod","./resDir",ssInitVals->
+{0.010101,0,0.0696621,0.913657,0,.199608,.188,1.158,0.0337,0.0068,-0.076,.2611,0,0.029,1.058,.103,1.137}];res[[-5]](*singularity after ar*)
+
+res=makeMat["dynareExamples","kiyotakiMooreViegi.mod","./resDir"];res[[-5]](*failed after evals*)
+res=makeMat["dynareExamples","lesothoViegi.mod","./resDir"];res[[-5]]
+res=makeMat["dynareExamples", "lubikSchorfheide.mod","./resDir"];res[[-5]]
+res=makeMat["dynareExamples", "RBCEst.mod","./resDir"];res[[-5]]
+res=makeMat["dynareExamples", "RBCMonopDet.mod","./resDir"];res[[-5]]
+res=makeMat["dynareExamples", "RBCMonopJFV.mod","./resDir"];res[[-5]]
+res=makeMat["dynareExamples", "RBCViegi.mod","./resDir"];res[[-5]]
+res=makeMat["dynareExamples", "rosenestimateBayes.mod","./resDir"];res[[-5]]
+res=makeMat["dynareExamples", "simpleNeoViegi.mod","./resDir"];res[[-5]]
+res=makeMat["dynareExamples", "TwocountryApprox.mod","./resDir"];res[[-5]](*failed after evals*)(*no leads?*)
+
 problemDynareMods={
-"AltEx1.mod",
-"AssetPricingApproximation.mod" problems with finding steady state
 "Figv3_1191.mod" trouble finding steady state
 fs2000 trouble steady state
 hstbayes problem compbphif  singular
@@ -47,9 +73,6 @@ rbc parse problems
 }
 
 makeMat["dynareExamples",#,"./resDir"]&/@Complement[allDynareMods,problemDynareMods]
-
-
-
 { "AltEx1.mod","AssetPricingApproximation.mod", "BGGViegi.mod", 
  "Fig1131.mod", "Figv3_1161.mod", "Figv3_1191.mod", "firmValue.mod", 
  "fs2000.mod", "fuhrerMoore.mod", "GrowthApproximate.mod", 
