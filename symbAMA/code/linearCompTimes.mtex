@@ -1,0 +1,75 @@
+\newcommand{\ltime}[6]{#1&#2&#3&#4&#5&#6\\}
+%(*linTimes=allLinear["/msu/res2/m1gsa00/sce11/dynareExamples/examples/",#,"/tmp/"]& /@ smallLinearMods;*)
+  \begin{table}
+    \begin{center}
+      
+
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\multicolumn{1}{|c|}{Model}&  
+\multicolumn{1}{|c|}{A}&  
+\multicolumn{1}{|c|}{Q}&  
+\multicolumn{1}{|c|}{B}&  
+\multicolumn{1}{|c|}{S}&
+\multicolumn{1}{|c|}{Total}\\
+\hline
+%<*theRow=1;*>
+%<*col2=Plus @@ linTimes[[theRow,Range[4]]];*>
+%<*col3=Plus @@ linTimes[[theRow,4+Range[4]]];*>
+%<*col4=Plus @@ linTimes[[theRow,9]];*>
+%<*col5=Plus @@ linTimes[[theRow,10]];*>
+%<*col6=Plus @@ linTimes[[theRow,Range[10]]];*>
+\ltime{<*smallLinearMods[[theRow]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\hline
+%<*theRow=2;*>
+%<*col2=Plus @@ linTimes[[theRow,Range[4]]];*>
+%<*col3=Plus @@ linTimes[[theRow,4+Range[4]]];*>
+%<*col4=Plus @@ linTimes[[theRow,9]];*>
+%<*col5=Plus @@ linTimes[[theRow,10]];*>
+%<*col6=Plus @@ linTimes[[theRow,Range[10]]];*>
+\ltime{<*smallLinearMods[[theRow]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\hline
+%<*theRow=3;*>
+%<*col2=Plus @@ linTimes[[theRow,Range[4]]];*>
+%<*col3=Plus @@ linTimes[[theRow,4+Range[4]]];*>
+%<*col4=Plus @@ linTimes[[theRow,9]];*>
+%<*col5=Plus @@ linTimes[[theRow,10]];*>
+%<*col6=Plus @@ linTimes[[theRow,Range[10]]];*>
+\ltime{<*smallLinearMods[[theRow]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\hline
+%<*theRow=4;*>
+%<*col2=Plus @@ linTimes[[theRow,Range[4]]];*>
+%<*col3=Plus @@ linTimes[[theRow,4+Range[4]]];*>
+%<*col4=Plus @@ linTimes[[theRow,9]];*>
+%<*col5=Plus @@ linTimes[[theRow,10]];*>
+%<*col6=Plus @@ linTimes[[theRow,Range[10]]];*>
+\ltime{<*smallLinearMods[[theRow]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\hline
+%<*theRow=5;*>
+%<*col2=Plus @@ linTimes[[theRow,Range[4]]];*>
+%<*col3=Plus @@ linTimes[[theRow,4+Range[4]]];*>
+%<*col4=Plus @@ linTimes[[theRow,9]];*>
+%<*col5=Plus @@ linTimes[[theRow,10]];*>
+%<*col6=Plus @@ linTimes[[theRow,Range[10]]];*>
+\ltime{<*smallLinearMods[[theRow]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\hline
+%<*theRow=6;*>
+%<*col2=Plus @@ linTimes[[theRow,Range[4]]];*>
+%<*col3=Plus @@ linTimes[[theRow,4+Range[4]]];*>
+%<*col4=Plus @@ linTimes[[theRow,9]];*>
+%<*col5=Plus @@ linTimes[[theRow,10]];*>
+%<*col6=Plus @@ linTimes[[theRow,Range[10]]];*>
+\ltime{<*smallLinearMods[[theRow]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\hline
+%<*theRow=7;*>
+%<*col2=Plus @@ linTimes[[theRow,Range[4]]];*>
+%<*col3=Plus @@ linTimes[[theRow,4+Range[4]]];*>
+%<*col4=Plus @@ linTimes[[theRow,9]];*>
+%<*col5=Plus @@ linTimes[[theRow,10]];*>
+%<*col6=Plus @@ linTimes[[theRow,Range[10]]];*>
+\ltime{<*smallLinearMods[[theRow]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\hline
+\end{tabular}
+    \caption{Linear Model Computation Times}
+    \end{center}\label{tab:linCompTimes}
+  \end{table}

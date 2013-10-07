@@ -1,0 +1,36 @@
+ 
+STEADY-STATE RESULTS:
+ 
+y   		 0.892084
+c   		 0.707986
+k   		 8.00426
+i   		 0.184098
+l   		 0.302733
+y_l 		 2.94677
+w   		 1.7769
+r   		 0.033101
+ 
+EIGENVALUES:
+         Modulus             Real        Imaginary
+
+          0.9498           0.9498                0
+           1.071            1.071                0
+       4.621e+15       -4.621e+15                0
+
+
+There are 2 eigenvalue(s) larger than 1 in modulus 
+for 2 forward-looking variable(s)
+ 
+The rank condition is verified.
+ 
+-----------------------------------------------------
+MODEL SIMULATION :
+
+1 -     err = 7.0766e-08
+     Time of iteration       :0.33444
+
+ Total time of simulation        :0.33884
+
+ Convergency obtained.
+
+-----------------------------------------------------

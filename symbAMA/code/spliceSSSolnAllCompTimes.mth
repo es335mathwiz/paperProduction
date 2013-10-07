@@ -1,0 +1,29 @@
+Get["utilitiesSetUp.mth"]
+
+
+$tConst=10;
+allSolve10=(trySolve["dynareExamples/uniqueExamples/",#,"theLinRes/"]& /@theDynareMods)/.{_,yy:({}|$Aborted)}->{NA,yy};
+(*get rid of bad soln*)
+tmp=Global`getSolveSS["kiyotakiMooreViegi"];
+Global`getSolveSS["kiyotakiMooreViegi"]=tmp[[{2}]];
+
+
+
+
+
+$tConst=10;tryEvals10=(Catch[tryCompEvals["dynareExamples/uniqueExamples/",#,"theLinRes/"],"after evals"]& /@theDynareMods)/.$Aborted->{NA,NA};
+
+
+(*needed for evecs to find position of large evals* for representative coefficients *)
+(allFindRoot10=tryFindRoot["dynareExamples/uniqueExamples/",#,"theLinRes/"]& /@theDynareMods)/.{_,yy:({}|$Aborted)}->{NA,yy};
+(*8 and 13 may have problems*)s
+Print["computing eigenvecs"]
+
+
+allEvecs10=(Catch[tryCompEvecs["dynareExamples/uniqueExamples/",#,"theLinRes/"],"after evals"|"after evecs"]& /@theDynareMods)/.{$Aborted->{NA,NA,NA,$Aborted,$Aborted,$Aborted},compEigSpace[___]->{NA,NA,NA,$Aborted,$Aborted,$Aborted},{}->{NA,NA,NA,$Aborted,$Aborted,$Aborted}};
+
+tryEvals=tryEvals10;
+allEvecs=allEvecs10;
+
+Splice["ssSolnTimes.mtex"]
+Splice["allCompTimes.mtex"]

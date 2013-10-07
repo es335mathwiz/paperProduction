@@ -118,7 +118,7 @@ xinit={{vv},{dd}}
 
 computeDelXPath[bmat,phimat,fmat,psimat,zpath]
 computeXNext[xinit,bmat,phimat,fmat,psimat,zpath]
-computeXPath[xinit,1,bmat,phimat,fmat,psimat,zpath]*
+computeXPath[xinit,1,bmat,phimat,fmat,psimat,zpath]
 hmat .Join[xinit, computeXPath[xinit,3,bmat,phimat,fmat,psimat,zpath]]//Expand//Chop
 hmat .computeXPath[xinit,4,bmat,phimat,fmat,psimat,zpath]//Expand//Chop
 

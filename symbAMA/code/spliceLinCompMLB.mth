@@ -1,0 +1,14 @@
+Get["utilitiesSetUp.mth"]
+
+
+
+$tConst=10;
+
+forMex=allNonLinear["dynareExamples/uniqueExamples/",#,"theLinRes/"]& /@ smallLinearMods;
+doMexSplice /@ smallLinearMods;
+mexComp/@ smallLinearMods;
+expHMat/@ smallLinearMods;
+
+!matlab -nodesktop -nodisplay -nosplash -r linExeToMat
+{linExeTimes}=Import["linExeTimes.mat"];
+Splice["linCompMLB.mtex"]

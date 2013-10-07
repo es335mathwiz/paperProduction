@@ -1,0 +1,26 @@
+
+allNonLinearMods=Cases[theData,{xx_,{_,_,_,_,False},_}->xx];
+
+
+
+$tConst=10;
+doThese10={2,3,5,10};
+forMex10=allNonLinear["dynareExamples/uniqueExamples/",#,"theLinRes/"]& /@ allNonLinearMods[[doThese10]];
+doMexSplice /@ allNonLinearMods[[doThese10]];
+mexComp/@ allNonLinearMods[[doThese10]];
+expHMat/@ allNonLinearMods[[doThese10]];
+
+
+!matlab -nodesktop -nodisplay -nosplash -r nonLinExeToMat
+{nonLinExeTimes}=Import["nonLinExeTimes.mat"];
+Splice["nonLinCompMLB.mtex"]
+
+
+
+
+$tConst=20;
+doThese20={1};
+forMex11=allNonLinear["dynareExamples/uniqueExamples/",#,"theLinRes/"]& /@ allNonLinearMods[[doThese20]];
+doMexSplice /@ allNonLinearMods[[doThese20]];
+mexComp/@ allNonLinearMods[[doThese20]];
+expHMat/@ allNonLinearMods[[doThese20]];

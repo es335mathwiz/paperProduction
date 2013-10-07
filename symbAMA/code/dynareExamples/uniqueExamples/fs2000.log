@@ -1,0 +1,88 @@
+ 
+STEADY-STATE RESULTS:
+ 
+m                		 1.011
+P                		 2.25815
+c                		 0.447711
+e                		 1
+W                		 4.5959
+R                		 1.02121
+k                		 5.80121
+d                		 0.849425
+n                		 0.187216
+l                		 0.860425
+gy_obs           		 1.003
+gp_obs           		 1.00797
+y                		 0.580765
+dA               		 1.003
+ 
+EIGENVALUES:
+         Modulus             Real        Imaginary
+
+               0                0                0
+       3.531e-17        3.531e-17                0
+             0.7              0.7                0
+          0.9467           0.9467                0
+           1.067            1.067                0
+             Inf              Inf                0
+             Inf              Inf                0
+
+
+There are 3 eigenvalue(s) larger than 1 in modulus 
+for 3 forward-looking variable(s)
+ 
+The rank condition is verified.
+ 
+ 
+You did not declare endogenous variables after the estimation command.
+{Error using read_variables (line 84)
+Can't find datafile: fsdat_simul
+
+Error in dynare_estimation_init (line 289)
+rawdata =
+read_variables(options_.datafile,options_.varobs,[],options_.xls_sheet,options_.xls_range);
+
+Error in dynare_estimation_1 (line 37)
+  [data,rawdata,xparam1] = dynare_estimation_init(var_list_);
+
+Error in dynare_estimation (line 62)
+    dynare_estimation_1(var_list,varargin{:});
+
+Error in fs2000 (line 193)
+dynare_estimation(var_list_);
+
+Error in dynare (line 120)
+evalin('base',fname) ;
+} 
+dynare HSTBayes
+ 
+Configuring Dynare ...
+[mex] Generalized QZ.
+[mex] Sylvester equation solution.
+[mex] Kronecker products.
+[mex] Sparse kronecker products.
+[mex] Bytecode evaluation.
+[mex] k-order perturbation solver.
+[mex] k-order solution simulation.
+ 
+Starting Dynare (version 4.2.4).
+Starting preprocessing of the model file ...
+Substitution of endo lags >= 2: added 2 auxiliary variables and equations.
+Found 15 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+ - order 2
+Processing outputs ...done
+Preprocessing completed.
+Starting MATLAB/Octave computing.
+
+{Warning: The RandStream.setDefaultStream static method will be removed in a
+future release.  Use RandStream.setGlobalStream instead.} 
+{> In <a href="matlab: opentoline('/opt/MATLAB/R2012a/toolbox/matlab/randfun/@RandStream/RandStream.m',456,1)">RandStream.RandStream>RandStream.setDefaultStream at 456</a>
+  In <a href="matlab: opentoline('/mq/home/dynare-4.2.4/matlab/set_dynare_seed.m',35,1)">set_dynare_seed at 35</a>
+  In <a href="matlab: opentoline('/mq/home/dynare-4.2.4/matlab/global_initialization.m',319,1)">global_initialization at 319</a>
+  In <a href="matlab: opentoline('/a/msulx1/lcl/msu/res2/m1gsa00/sce11/dynareExamples/uniqueExamples/HSTBayes.m',16,1)">HSTBayes at 16</a>
+  In <a href="matlab: opentoline('/mq/home/dynare-4.2.4/matlab/dynare.m',120,1)">dynare at 120</a>} 

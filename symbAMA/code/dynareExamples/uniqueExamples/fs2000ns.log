@@ -1,0 +1,43 @@
+{Error using steady_ (line 132)
+STEADY: convergence problems
+
+Error in steady (line 54)
+steady_;
+
+Error in fs2000ns (line 166)
+steady;
+
+Error in dynare (line 120)
+evalin('base',fname) ;
+} 
+dynare fs2000
+ 
+Configuring Dynare ...
+[mex] Generalized QZ.
+[mex] Sylvester equation solution.
+[mex] Kronecker products.
+[mex] Sparse kronecker products.
+[mex] Bytecode evaluation.
+[mex] k-order perturbation solver.
+[mex] k-order solution simulation.
+ 
+Starting Dynare (version 4.2.4).
+Starting preprocessing of the model file ...
+Substitution of endo leads >= 2: added 1 auxiliary variables and equations.
+Found 15 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+Processing outputs ...done
+Preprocessing completed.
+Starting MATLAB/Octave computing.
+
+{Warning: The RandStream.setDefaultStream static method will be removed in a
+future release.  Use RandStream.setGlobalStream instead.} 
+{> In <a href="matlab: opentoline('/opt/MATLAB/R2012a/toolbox/matlab/randfun/@RandStream/RandStream.m',456,1)">RandStream.RandStream>RandStream.setDefaultStream at 456</a>
+  In <a href="matlab: opentoline('/mq/home/dynare-4.2.4/matlab/set_dynare_seed.m',35,1)">set_dynare_seed at 35</a>
+  In <a href="matlab: opentoline('/mq/home/dynare-4.2.4/matlab/global_initialization.m',319,1)">global_initialization at 319</a>
+  In <a href="matlab: opentoline('/a/msulx1/lcl/msu/res2/m1gsa00/sce11/dynareExamples/uniqueExamples/fs2000.m',16,1)">fs2000 at 16</a>
+  In <a href="matlab: opentoline('/mq/home/dynare-4.2.4/matlab/dynare.m',120,1)">dynare at 120</a>} 

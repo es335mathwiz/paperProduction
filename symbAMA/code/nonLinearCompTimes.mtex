@@ -1,0 +1,51 @@
+\newcommand{\nltime}[6]{#1&#2&#3&#4&#5&#6\\}
+%(*$tConst=60;nonLinTimes=(Print[#];allNonLinear["/msu/res2/m1gsa00/sce11/dynareExamples/examples/",#,"/tmp/"])& /@ allNonLinearMods;*)
+
+  \begin{table}
+    \begin{center}
+
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\multicolumn{1}{|c|}{Model}&  
+\multicolumn{1}{|c|}{A}&  
+\multicolumn{1}{|c|}{Q}&  
+\multicolumn{1}{|c|}{B}&  
+\multicolumn{1}{|c|}{S}&
+\multicolumn{1}{|c|}{Total}\\
+\hline
+%<*theRow=1;nonLinTimes=forMex10;*>
+%<*col2=Plus @@ nonLinTimes[[theRow,Range[4]]];*>
+%<*col3=Plus @@ nonLinTimes[[theRow,4+Range[4]]];*>
+%<*col4=Plus @@ nonLinTimes[[theRow,9]];*>
+%<*col5=Plus @@ nonLinTimes[[theRow,10]];*>
+%<*col6=Plus @@ nonLinTimes[[theRow,Range[10]]];*>
+\nltime{<*allNonLinearMods[[doThese10[[theRow]]]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\hline
+%<*theRow++;*>
+%<*col2=Plus @@ nonLinTimes[[theRow,Range[4]]];*>
+%<*col3=Plus @@ nonLinTimes[[theRow,4+Range[4]]];*>
+%<*col4=Plus @@ nonLinTimes[[theRow,9]];*>
+%<*col5=Plus @@ nonLinTimes[[theRow,10]];*>
+%<*col6=Plus @@ nonLinTimes[[theRow,Range[10]]];*>
+\nltime{<*allNonLinearMods[[doThese10[[theRow]]]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\hline
+%<*theRow++;*>
+%<*col2=Plus @@ nonLinTimes[[theRow,Range[4]]];*>
+%<*col3=Plus @@ nonLinTimes[[theRow,4+Range[4]]];*>
+%<*col4=Plus @@ nonLinTimes[[theRow,9]];*>
+%<*col5=Plus @@ nonLinTimes[[theRow,10]];*>
+%<*col6=Plus @@ nonLinTimes[[theRow,Range[10]]];*>
+\nltime{<*allNonLinearMods[[doThese10[[theRow]]]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\hline
+%<*theRow++;*>
+%<*col2=Plus @@ nonLinTimes[[theRow,Range[4]]];*>
+%<*col3=Plus @@ nonLinTimes[[theRow,4+Range[4]]];*>
+%<*col4=Plus @@ nonLinTimes[[theRow,9]];*>
+%<*col5=Plus @@ nonLinTimes[[theRow,10]];*>
+%<*col6=Plus @@ nonLinTimes[[theRow,Range[10]]];*>
+\nltime{<*allNonLinearMods[[doThese10[[theRow]]]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\hline
+\end{tabular}
+    \caption{Non Linear Model Computation Times}
+    \end{center}\label{tab:nonLinTimes}
+  \end{table}

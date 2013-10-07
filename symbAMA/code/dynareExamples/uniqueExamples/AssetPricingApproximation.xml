@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AMAModel modelName="AssetPricingApproximation">
+    <endogenousVariable name="dc"/>
+    <parameter name="THETA" defaultValue="(1-7.5)/(1-1/PSI)"/>
+    <endogenousVariable name="v$U$S$d"/>
+    <endogenousVariable name="v$U$S$c"/>
+    <parameter name="MU$U$S$C" defaultValue="0.0015"/>
+    <parameter name="MU$U$S$D" defaultValue="0.0015"/>
+    <innovation name="e$U$S$d"/>
+    <innovation name="e$U$S$c"/>
+    <parameter name="RHO$U$S$X" defaultValue=".979"/>
+    <endogenousVariable name="dd"/>
+    <parameter name="DELTA" defaultValue=".99"/>
+    <parameter name="LAMBDA$U$S$DX" defaultValue="3"/>
+    <parameter name="PSI" defaultValue="1.5"/>
+    <innovation name="e$U$S$x"/>
+    <endogenousVariable name="x"/>
+    <equation>v$U$S$c[t]-(((((DELTA^THETA)*Exp[((((-THETA)/PSI)*dc[t+1])+((THETA-1)*Log[(((1+v$U$S$c[t+1])*Exp[dc[t+1]])/v$U$S$c[t])]))])*(1+v$U$S$c[t+1]))*Exp[dc[t+1]]))</equation>
+    <equation>v$U$S$d[t]-(((((DELTA^THETA)*Exp[((((-THETA)/PSI)*dc[t+1])+((THETA-1)*Log[(((1+v$U$S$c[t+1])*Exp[dc[t+1]])/v$U$S$c[t])]))])*(1+v$U$S$d[t+1]))*Exp[dd[t+1]]))</equation>
+    <equation>dc[t]-(((MU$U$S$C+x[t-1])+e$U$S$c))</equation>
+    <equation>dd[t]-(((MU$U$S$D+(LAMBDA$U$S$DX*x[t-1]))+e$U$S$d))</equation>
+    <equation>x[t]-(((RHO$U$S$X*x[t-1])+e$U$S$x))</equation>
+</AMAModel>

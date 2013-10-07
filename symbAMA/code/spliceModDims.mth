@@ -1,0 +1,8 @@
+Get["utilitiesSetUp.mth"]
+
+Print["parsing all models now. this takes about 2 min"]
+theData={#,getModelDims["./dynareExamples/uniqueExamples/",#],src[#]}&/@theDynareMods;
+
+
+Splice["modDims.mtex"]
+

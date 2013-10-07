@@ -1,0 +1,8 @@
+Get["utilitiesSetUp.mth"]
+
+
+Print["computing pre eigenvalues computations"]
+
+allPre=preEvals["dynareExamples/uniqueExamples/",#,"theLinRes/"]& /@theDynareMods;
+Splice["preEvalTimes.mtex"]
+

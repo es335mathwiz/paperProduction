@@ -772,7 +772,7 @@ I apply this program to a collection of representative models taken from
 As shown in table \ref{tab:noEst} the models vary in size and in the number of parameters used in their
 definition.
 
-\input{modDims.tex}
+\input{../code/modDims.tex}
 
   These nonlinear solutions have place holders for the steady state value.
 Table \ref{tab:preEvalTimes} presents computation times for the steps
@@ -783,9 +783,9 @@ about 3 minutes and a one half minute respectively. All the other models require
 
 
 
-%\input{preEvalTimes.tex}
+\input{../code/preEvalTimes.tex}
 
-{\bf Problems with {preEvalTimes.tex} }
+
 
 Symbolic algebra techniques deliver complete 
 analytic solutions for each of the
@@ -795,9 +795,9 @@ For the BGGViegi model, the Eigenvector computation
 step took more than an hour before aborting this and each of the subsequent 
 steps.
 
-\input{ssSolnTimes.tex}
+\input{../code/ssSolnTimes.tex}
 
-\input{allCompTimes.tex}
+\input{../code/allCompTimes.tex}
 
 Table \ref{tab:linCompTimes} presents the time required to compute analytic 
 solutions. The first column presents the time to compute the state space 
@@ -814,7 +814,7 @@ On rare occasion these do not converge except for ifs1 and fs2000
  which often has convergence problems. 
 FindRoot solution times were always trivially small.
 
-%\input{linearCompTimes.tex}
+\input{../code/linearCompTimes.tex}
 
 Table \ref{tab:linMexTime} reports the number of seconds required for 1000 evaluations of
 the matlab implementation of the Anderson-Moore algorithm (SPAmalg).
@@ -836,7 +836,7 @@ expectations models and that the time for computing the analytic is
 made up for by this speed in under a dozen function evaluations.
 
 
-%\input{linCompMLB.tex}
+\input{../code/linCompMLB.tex}
 {\bf problems with {linCompMLB.tex}}
 
 Table \ref{tab:nonLinTimes} shows times to compute solutions for non linear
@@ -846,7 +846,7 @@ rational expectations solution.
 
 
 
-\input{nonLinearCompTimes.tex}
+%\input{../code/nonLinearCompTimes.tex}
 
 Table \ref{tab:nonLinMexTime} shows that
 speedups are comparable to speedups for linear models. But since the 

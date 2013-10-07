@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AMAModel modelName="AltEx1">
+    <innovation name="e"/>
+    <parameter name="theta" defaultValue="2.95"/>
+    <endogenousVariable name="b"/>
+    <endogenousVariable name="c"/>
+    <endogenousVariable name="a"/>
+    <parameter name="delta" defaultValue="0.025"/>
+    <parameter name="beta" defaultValue="0.99"/>
+    <endogenousVariable name="k"/>
+    <endogenousVariable name="h"/>
+    <innovation name="u"/>
+    <parameter name="psi" defaultValue="0"/>
+    <parameter name="tau" defaultValue="0.025"/>
+    <parameter name="alpha" defaultValue="0.36"/>
+    <parameter name="rho" defaultValue="0.95"/>
+    <parameter name="phi" defaultValue="0.1"/>
+    <endogenousVariable name="y"/>
+    <equation>((c[t]*theta)*(h[t]^(1+psi)))-(((1-alpha)*y[t]))</equation>
+    <equation>k[t]-((beta*(((Exp[b[t]]*c[t])/(Exp[b[t+1]]*c[t+1]))*(((Exp[b[t+1]]*alpha)*y[t+1])+((1-delta)*k[t])))))</equation>
+    <equation>y[t]-(((Exp[a[t]]*(k[t-1]^alpha))*(h[t]^(1-alpha))))</equation>
+    <equation>k[t]-(((Exp[b[t]]*(y[t]-c[t]))+((1-delta)*k[t-1])))</equation>
+    <equation>a[t]-((((rho*a[t-1])+(tau*b[t-1]))+e))</equation>
+    <equation>b[t]-((((tau*a[t-1])+(rho*b[t-1]))+u))</equation>
+</AMAModel>

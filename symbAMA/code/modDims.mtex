@@ -83,7 +83,8 @@
 \nimLine{<*theData[[tRow,1]]*>}{<*theData[[tRow,2,1]]*>}{<*theData[[tRow,2,2]]*>}{<*theData[[tRow,2,3]]*>}{<*theData[[tRow,2,4]]*>}{<*theData[[tRow,2,5]]*>}{<**>}{<*theData[[tRow,3]]*>}
 \hline
 \end{tabular}
-  \caption{Models }
+
+  \caption{The Model Dimensions }
   \label{tab:noEst}
 
     
