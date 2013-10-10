@@ -2,7 +2,7 @@
 
 \begin{table}
   \begin{center}
-\begin{tabular}{|l|r|r|r|r|c|c|p{2in}|}
+\begin{tabular}{|l|r|r|r|r|c|c|l|}
 \hline
 \multicolumn{1}{|c|}{Model}&  
 \multicolumn{1}{|c|}{L}&  
@@ -84,7 +84,7 @@
 \hline
 \end{tabular}
 
-  \caption{The Model Dimensions }
+  \caption{The Model Dimensions <*DateString[]*>}
   \label{tab:noEst}
 
     

@@ -1,35 +1,28 @@
-% \usepackage[margin=
-\documentclass[12pt]{elsart}
-%\documentclass[12pt]{article}
-% \usepackage[margin=1.0in]{geometry}
-% \usepackage{authordate1-4}
- \usepackage{pifont}
-% \usepackage{rotating}
- \usepackage{hyperref}
-% \usepackage{moreverb}
-% \usepackage{amsmath}
-% \usepackage{amscd}
-% \usepackage{wrapfig}
-% \newcommand{\hShort}{H_{-\tau}&\hspace{0.25in}&\dots&\hspace{0.25in}&H_{\theta-1}}
-% \usepackage{pdftricks}
-
-% \usepackage{ifpdf}
-% \ifpdf
-% \begin{psinputs}
-%    \usepackage{pstricks}
-%    \usepackage{pstcol}
-%    \usepackage{pst-tree}
-%    \usepackage{pst-node}
-%    \usepackage{pspicture}
-% \end{psinputs}
-% \else
-%    \usepackage{pstricks}
-%    \usepackage{pstcol}
-%    \usepackage{pst-tree}
-%    \usepackage{pst-node}
-%    \usepackage{pspicture}
-% \fi
+%\documentclass[12pt]{elsart}
+\documentclass[12pt]{article}
 \input{preamble}
+\begin{document}
+
+
+
+\title{ Accelerating Linear Rational Expectations Model Estimation by
+Strategically Augmenting Symbolic Algebra Calculations with Numerical Approximation Methods}
+%Analytic Solutions for the Small, Hybrid Analytic Numeric 
+%for the Moderate Sized  Models
+
+\author{Gary S. Anderson
+\thanks{I would like to thank George Moore, my now deceased mentor,
+friend and coauthor.% of\cite{ANDER:AIM2}.
+I am responsible for
+any remaining errors.
+The views expressed herein are mine and 
+do not necessarily represent the views of the Board of Governors of the Federal
+Reserve System.
+}}
+
+\maketitle
+
+
 
 \makeatletter
 \def\fullpath{\begingroup\everyeof{\noexpand}\@sanitize
@@ -37,28 +30,15 @@
   \edef\x{\endgroup\noexpand\zap@space\x\noexpand\@empty}\x}
 \makeatother
 
-\begin{document}
 
-\begin{frontmatter}
 
-\title{ Accelerating Linear Rational Expectations Model Estimation by
-Strategically Augmenting Symbolic Algebra Calculations with Numerical Approximation Methods}
-%Analytic Solutions for the Small, Hybrid Analytic Numeric 
-%for the Moderate Sized  Models
-
-\author{Gary S. Anderson}
-\thanks{I would like to thank George Moore, my now deceased mentor,
-friend and coauthor of\cite{ANDER:AIM2}.
-I am responsible for
-any remaining errors.
-The views expressed herein are mine and 
-do not necessarily represent the views of the Board of Governors of the Federal
-Reserve System.
-}
 \begin{abstract}
 \noindent
+
+
+
 The paper describes how to use symbolic algebra to compute 
-solutions for linear rational expectations models.
+linear rational expectations model solutions.
 The algorithm described in\cite{anderson10} consists of three distinct phases%:
 % \begin{enumerate}
 % \item Compute the auxiliary initial conditions and a transition matrix
@@ -73,27 +53,28 @@ As the size of the model increases, analytic expressions for
 left-invariant space vectors become impossible to compute
 even though analytic expressions for the
 remaining phases are still attainable.
-The paper shows how to incorporate Taylor Series expansions and  projection method
-numerical approximations for the left-invariant space vectors
- into the remaining symbolic algebra calculations.
+% The paper shows how to incorporate Taylor Series expansions and  projection method
+% numerical approximations for the left-invariant space vectors
+%  into the remaining symbolic algebra calculations.
 
-The paper compares this hybrid symbolic/numeric technique with techniques that
-apply automatic differentiation\cite{bastani08}  as well as 
- analytic techniques for computing solutions 
-and their derivatives\cite{ANDER:AIM3,zadrozny88,blake04}.
-The paper shows how the hybrid symbolic/numeric technique facilitates
-the estimation of the parameters in a moderate sized DSGE model.
+% The paper compares this hybrid symbolic/numeric technique with techniques that
+% apply automatic differentiation\cite{bastani08}  as well as 
+%  analytic techniques for computing solutions 
+% and their derivatives\cite{ANDER:AIM3,zadrozny88,blake04}.
+% The paper shows how the hybrid symbolic/numeric technique facilitates
+% the estimation of the parameters in a moderate sized DSGE model.
 
 \end{abstract}
 
 
 
 
-\end{frontmatter}
+
 
 This file is in
-\footnote{\fullpath}
 
+\noindent
+ {\tiny \fullpath }
 
 
   \section{Problem Statement and Algorithm}
@@ -194,10 +175,14 @@ right hand side term. See Section~\ref{sec:inhomog}.
 
 
 
-\subsection{Homogeneous Solution Algorithms}
+\subsection{Algorithms for Computing Homogeneous Solutions }
 \label{sec:homo}
 
 
+
+Section \ref{inhomo} provides a flexible 
+and computationally efficient alternative for 
+computing inhomogeneous solutions.
 Suppose, for now, that $\Psi=0$:
 % \footnote{Note that there is no unique steady state requirement.
 % Steady state solutions, $x^\ast$ satisfying
@@ -219,10 +204,6 @@ Suppose, for now, that $\Psi=0$:
 \end{gather}
 
 %The homogeneous specification~\ref{eq:homo} is not restrictive.
-The next section provides a flexible 
-and computationally efficient alternative for 
-computing inhomogeneous solutions.
-
 
 
 
@@ -246,7 +227,7 @@ in terms of $x_{t-\tau} \ldots x_{t+\theta-1}$
 However, the natural specification of many economic models has singular
  $H_\theta$.
 
-This, first,  algorithm
+The first  algorithm
 applies full rank linear transformations 
 to equations from the original linear system in order to express
 $x_{t+\theta}$ in terms of $x_{t-\tau} \ldots x_{t+\theta-1}$.
@@ -350,10 +331,10 @@ associated with roots outside the unit circle are orthogonal to right eigenvecto
 inside the
 unit circle, a given state vector that is part of a convergent trajectory
 must be orthogonal to each of these left invariant space vectors. See \cite{anderson10}.
-Thus, the algorithm can exploit bi-orthogonality and a
-less burdensome computation of vectors spanning the 
-left invariant space  in order to rule out explosive
-trajectories. 
+Thus, the algorithm can exploit bi-orthogonality and can use
+less burdensome computations of vectors spanning the 
+left invariant space.
+
 
 
 
@@ -404,7 +385,7 @@ The first set of equations come from the equations in equation system
 of Equation~\ref{eq:easy}
 but must nevertheless be satisfied. The second set of equations come from the
 constraint that the solutions are non-explosive.
-Algorithm \ref{alg:asymptoticConstraints} provides pseudo code for computing Q.
+Algorithm \ref{alg:asymptoticConstraints} on page \pageref{alg:asymptoticConstraints} provides pseudo code for computing Q.
   
 
 
@@ -416,17 +397,17 @@ Algorithm \ref{alg:asymptoticConstraints} provides pseudo code for computing Q.
 The first two algorithms  together  produce a matrix $Q$ characterizing
 constraints guaranteeing that trajectories are not explosive.  See \cite{anderson10}  for a proof.
 \cite{anderson99} describes how to use 
-the matrix $Q$ from A theorem in \cite{anderson10}  to impose
+the matrix $Q$  to impose
 saddle point stability in non linear perfect foresight models.
 However, for linear models with unique  saddle point
-solutions it is often useful to 
+solutions, it is often useful to 
 employ an autoregressive representation of the solution.
 A theorem in \cite{anderson10} 
 provides a fully general characterization
 of the existence and uniqueness of
 a saddle point solution.  
-
   A summary for typical applications of the algorithm follows.
+
 Partition $Q=
 \begin{bmatrix}
   Q_L & Q_R
@@ -462,10 +443,10 @@ x_{t+k}=\underset{k}{B}
 \end{matrix} 
 \end{gather}
 
-Algorithm \ref{alg:bmat} provides pseudo code for computing B.
+Algorithm \ref{alg:bmat} on \pageref{alg:bmat} provides pseudo code for computing B.
 
-\subsection{Inhomogeneous Solution Algorithms}
-
+\subsection{Algorithms for Computing Inhomogeneous Solutions }
+\label{inhomo}
 Now, suppose
 \begin{gather}\label{eq:inhomog}
 \sum_{i= - \tau}^\theta{ H_i  x_{ t + i } }= \Psi{} z_{t}, t \geq0\\
@@ -489,11 +470,26 @@ there exist
 \begin{bmatrix}
   B_{-\tau}&\dots&B_{-1}
 \end{bmatrix}=B\\
- \phi= \left (  H_0 +   \begin{bmatrix}
+\phi= (H_0 + H_+  \begin{bmatrix}B_R\\
+\vdots\\
+\ugBR{\theta} \end{bmatrix})^{-1} \intertext{where}
+H_+=\begin{bmatrix}
     H_{1}\ldots H_\theta
-  \end{bmatrix} \begin{bmatrix}
-      B\\\vdots\\\ugB{\theta}
-    \end{bmatrix} \right )^{-1} \\
+  \end{bmatrix} \\
+F=\begin{bmatrix}0&I\\
+\vdots&&\ddots\\
+0&&&I\\
+-\phi H_+\begin{bmatrix}0\\
+ \vdots \\
+ 0\\
+I  \end{bmatrix}&-\phi H_+\begin{bmatrix}0\\
+ \vdots\\
+I\\
+B_R  \end{bmatrix}&\ldots&-\phi H_+\begin{bmatrix}I\\
+B_R\\
+\vdots\\
+\ugB{\theta-1}  \end{bmatrix}\end{bmatrix}
+\\
  x_t=\sum_{i=-\tau}^{-1} B_i x_{t+i} + 
   \begin{bmatrix}
   0&\dots 0&I
@@ -510,7 +506,7 @@ the linear inhomogeneous system equation~\ref{eq:inhomog}.
 \end{thrm}
 
 See \cite{anderson10} for  derivations and formulae.
-Algorithm \ref{alg:inhomog} provides pseudo code for computing $\phi$ and $F$.
+Algorithm \ref{alg:inhomog} on \pageref{alg:inhomog}  provides pseudo code for computing $\phi$ and $F$.
 
 
 \subsection{Other Useful Rational Expectations Solution Calculations}
@@ -558,7 +554,7 @@ there exists an
 \end{gather}
 
 See \cite{anderson10} for a derivation and formula for $S$.
-Algorithm \ref{alg:obs} provides pseudo code for computing S for a given lag, $k^\ast$ in the availability of information.
+Algorithm \ref{alg:obs} on page \pageref{alg:obs} provides pseudo code for computing S for a given lag, $k^\ast$ in the availability of information.
 
 
 \subsection{Stochastic Transition Matrices:  $\sTransA, \sTransB$}
@@ -604,7 +600,7 @@ Algorithm \ref{alg:trans} provides pseudo code for computing $\sTransA$ and $\sT
 \label{sec:imple}
 
 This set of algorithms has been implemented in a wide variety of languages.
-Two numerical implementations, a  Matlab, a ``C''are available from the author. %\footnote{\url{http://www.federalreserve.gov/pubs/oss/oss4/aimindex.html}.} 
+Two numerical implementations, a Python, a  Matlab, a ``C''are available from the author. \footnote{\url{http://www.federalreserve.gov/pubs/oss/oss4/aimindex.html} and on gitHub .}   The code has been made available in Dynare and in Troll.
 Each implementation avoids using a large matrix.
 They each  shift elements in the
 rows of a single copy of the matrix $H$. 
@@ -637,7 +633,7 @@ computing vectors spanning the left invariant space using ARPACK\cite{lehoucq96}
 
 
 The author also provides a symbolic algebra implementation
- written in Mathematica.
+ written in Mathematica.\footnote{The program should work with versions 8 and 9.}
 For small models, one can employ this symbolic algebra version of the
 algorithms written in Mathematica. On present day computers this,
 code can easily construct symbolic state space transition matrices and compute 
@@ -647,7 +643,7 @@ vectors when the transition matrix is of dimension 10 or less.
 
 
 For larger models, the bottleneck is typically the computation of the
-invariant space vectors. This paper proposes a blending of symbolic and
+invariant space vectors. For this case, this paper proposes a blending of symbolic and
 numerical compuations.
 
   \subsection{A Simple Example}
@@ -695,7 +691,7 @@ A=\begin{bmatrix}
 \end{bmatrix} \intertext{The symbolic algebra implementation easily computes the two symbolic eigenvalues}
 \lambda_s=1-\delta,\lambda_L=1+r
       \end{gather*}
-    \item Computing only the left eigenvector associated with the single large root
+    \item and computing only the left eigenvector associated with the single large root
       \begin{gather*} \intertext{The symbolic algebra implementation easily computes the left eigenvector, e}
     NullSpace(    a^T-\lambda_L I) \rightarrow v=
       \begin{bmatrix}
@@ -770,7 +766,7 @@ I apply this program to a collection of representative models taken from
 
     \subsection{The Models }
 As shown in table \ref{tab:noEst} the models vary in size and in the number of parameters used in their
-definition.
+definition. Some of the models are nonlinear.
 
 \input{../code/modDims.tex}
 
@@ -793,7 +789,9 @@ models except for the BGGViegi model.
 I set a maximum of one hour for each stage of the computation.
 For the BGGViegi model, the Eigenvector computation 
 step took more than an hour before aborting this and each of the subsequent 
-steps.
+steps.  
+The machine is a 2.93GHz  24 core
+Intel(R) Xeon(R) CPU.\footnote{(peaklx13)}
 
 \input{../code/ssSolnTimes.tex}
 
@@ -837,7 +835,7 @@ made up for by this speed in under a dozen function evaluations.
 
 
 \input{../code/linCompMLB.tex}
-{\bf problems with {linCompMLB.tex}}
+
 
 Table \ref{tab:nonLinTimes} shows times to compute solutions for non linear
 models. Non linear model computations require computation of the steady state.
@@ -847,7 +845,7 @@ rational expectations solution.
 
 
 %\input{../code/nonLinearCompTimes.tex}
-
+{\bf problems with {nonLinearCompTimes.tex}}
 Table \ref{tab:nonLinMexTime} shows that
 speedups are comparable to speedups for linear models. But since the 
 initial computation overhead for computing the solutions is larger, the
@@ -1319,7 +1317,6 @@ B=  \begin{bmatrix}B_L&B_R
 \vdots&\vdots
 B_L^\theta&B_R^\theta  \end{bmatrix}= Q_R^{-1} Q_L
 %\end{gather}
-
 \phi= (H_0 + H_+  \begin{bmatrix}B_R
 \vdots
 \ugBR{\theta} \end{bmatrix})^{-1}
@@ -1491,6 +1488,73 @@ The usual definition of numerical stability uses a more general concept, called 
 % \label{sec:analytic-c}
 
 % \listinginput{1}{rosenBMexComp.c}
+
+\section{Splicing Programs}
+\label{sec:splicing-programs}
+
+All use code in utilitiesSetUp.mth.  This code should move to AccelerateAMA.m
+
+\begin{itemize}
+\item spliceModDims.mth
+
+Generates theData uses theDynareMods
+
+
+\listinginput{1}{../code/spliceModDims.mth}
+
+
+\item
+\item spliceLinearCompTimes.mth
+generates linTimes smallLinearMods
+
+uses theData
+
+\item spliceLinCompMLB.mth
+
+generates forMex, mexCode  and runs matlab to provde mex timing data
+
+uses linTimes smallLinearMods
+
+\listinginput{1}{../code/spliceLinCompMLB.mth}
+
+
+\item splicePreEvalTimes.mth
+
+generates allPre
+
+
+
+\listinginput{1}{../code/splicePreEvalTimes.mth}
+
+
+\item spliceSSSolnAllCompTimes.mth
+
+generates allSolve10 tryEvals10,tryEvals allFindRoot10 allEvecs10,allEvecs
+
+uses allPre 
+ 
+\listinginput{1}{../code/spliceSSSolnAllCompTimes.mth}
+
+
+\item spliceNonLinearCompTimes.mth
+
+generates nonLinTimes
+
+uses theData
+
+\listinginput{1}{../code/spliceNonLinearCompTimes.mth}
+
+
+\item spliceNonLinCompMLB.mth
+
+generates forMex10 forMex11  mexfiles runs matab collects nonLinExeTimes
+
+uses theData
+
+\listinginput{1}{../code/spliceNonLinCompMLB.mth}
+
+
+\end{itemize}
 
 
 \end{document}

@@ -201,7 +201,7 @@
 \end{tabular}
 \end{minipage}
 }
-  \caption{Calculation Times}
+  \caption{Calculation Times For Computing Transition Matrix  <*DateString[]*>}
   \label{tab:preEvalTimes}
 \end{table}
 

@@ -1,4 +1,6 @@
 (*
+!gfortran -c -fdefault-real-8 -fPIC /msu/res2/m1gsa00/conferences/sce11/generatedMexFiles/rpoly493.f 
+
 !gcc -c  rpoly.cpp -fPIC
 !gfortran -c  -fno-range-check rpoly493.f -fPIC
 !mex fuhrerMooreMexBRtsComp.c  -lgfortran rpoly493.o 
@@ -172,10 +174,11 @@ Map[ToString[StringForm["double `` ;\n",#]]&,ssVars]]
 
 
 defineSSValAssign[modName_String]:=
+If[isLin[modName],"",
 With[{ssVars=Sort[Last/@makeSSValSubs[getVars[modName]]]},
 StringJoin @@ 
 MapThread[ToString[StringForm[" `` = ``;\n",#1,#2]]&,{ssVars,Chop[ssVars/.
-getNonLinSSSoln[modName]]}]]
+getNonLinSSSoln[modName]]}]]]
 
 (*generic assign
 defineSSValAssign[modName_String]:=
@@ -278,3 +281,24 @@ evs=Eigenvalues[code02[[-1,-1]]];
 codeNow=ReleaseHold[code];
 evs]
 
+
+
+
+
+
+expHMat[modName_String]:=
+Module[{eqns=getEqns[modName],hmat=getHmat[modName],numhmat,prms,dims},
+With[{matName=modName<>"Hmat.mat",matNameDims=modName<>"Dims.mat",matNamePrms=modName<>"Prms.mat",matNameSS=modName<>"SS.mat"},
+numhmat=hmat//.getParamSubs[modName]/.getNonLinSSSoln[modName]/.makeShockSubs[modName];
+With[{ssSubsNow=makeSSValSubs[getVars[modName]]},
+With[{ssVars=(Last/@ssSubsNow)/.getNonLinSSSoln[modName]},
+dims={{neq=Length[hmat],nlags=getLags[eqns],nleads=getLeads[eqns]}};
+prms=(getExampleParams[modName]/.$noDefaultValue->0)//.getParamSubs[modName];
+Print["ss"];
+Export[matNameSS,{"ss"->ssVars},"LabeledData"];
+Print["params"];
+Export[matNamePrms,{"params"->prms},"LabeledData"];
+Print["hmat"];
+Export[matName,{"hmat"->numhmat},"LabeledData"];
+Print["dims"];
+Export[matNameDims,{"dims"->dims},"LabeledData"]]]]]

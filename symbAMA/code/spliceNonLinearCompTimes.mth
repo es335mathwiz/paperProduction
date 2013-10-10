@@ -1,12 +1,16 @@
-Get["utilitiesSetUp.mth"]
+Get["spliceSSSolnAllCompTimes.mth"]
+Get["spliceModDims.mth"]
+allNonLinearMods=Cases[theData,{xx_,{_,_,_,_,False},_}->xx];
 Print["computing allNonLinear"]
+Print["takes about 10 minutes"]
+
 $tConst=10;
 nonLinTimes=(Print[#];allNonLinear["dynareExamples/examples/",#,"/tmp/"])& /@ allNonLinearMods;
 
 
-
-getNonLinSSSoln[modName_String]:=With[{idx=Position[allNonLinearMods,modName][[1,1]]},
-nonLinTimes[[idx,18]]]
+(*
+getNonLinSSSoln[modName_String]:=If[isLin[modName],{},With[{idx=Position[allNonLinearMods,modName][[1,1]]},
+nonLinTimes[[idx,18]]]]
 
 getNonLinVars[modName_String]:=With[{idx=Position[allNonLinearMods,modName][[1,1]]},
 nonLinTimes[[idx,20]]]
@@ -21,5 +25,5 @@ nonLinTimes[[idx,16]]]
 getNonLinParamSubs[modName_String]:=With[{idx=Position[allNonLinearMods,modName][[1,1]]},
 nonLinTimes[[idx,13]]]
 getNonLinParams[modName_String]:=Sort[First /@ getNonLinParamSubs[modName]]
-
+*)
 Splice["nonLinearCompTimes.mtex"]

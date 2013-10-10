@@ -1,6 +1,19 @@
 %\usepackage{indentfirst}
 %\usepackage[dcucite]{harvard}
 %\usepackage{harvard}
+ \usepackage[yyyymmdd,hhmmss]{datetime}
+% \usepackage{datetime}
+ \usepackage{fancyhdr}
+\pagestyle{fancy}
+\rfoot{Compiled on \today\ at \currenttime}
+\cfoot{}
+\lfoot{Page \thepage}
+\lhead{}
+\chead{}
+\rhead{}
+\renewcommand{\headrulewidth}{0pt}
+ \usepackage{pifont}
+ \usepackage{hyperref}
 \usepackage{color}
 \usepackage{ifpdf}
 \usepackage{floatfig}

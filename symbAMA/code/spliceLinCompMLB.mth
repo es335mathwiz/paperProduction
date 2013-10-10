@@ -1,5 +1,5 @@
-Get["utilitiesSetUp.mth"]
 
+Get["spliceLinearCompTimes.mth"]
 
 
 $tConst=10;

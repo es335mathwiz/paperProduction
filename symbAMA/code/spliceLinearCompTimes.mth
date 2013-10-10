@@ -1,10 +1,6 @@
 Get["utilitiesSetUp.mth"]
 
-
-
-
-
-
+Get["spliceModDims.mth"]
 smallLinearMods=DeleteCases[Cases[theData,{xx_,{_,_,_,_,True},_}->xx],"BGGViegi"];
 linTimes=allLinear["dynareExamples/uniqueExamples/",#,"theLinRes/"]& /@ smallLinearMods;
 

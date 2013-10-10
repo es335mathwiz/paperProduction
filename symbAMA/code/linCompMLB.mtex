@@ -47,7 +47,7 @@
 \end{tabular}
 \end{minipage}
 }
-  \caption{Calculation Times}
+  \caption{Matlab Mex Calculation Times <*DateString[]*>}
   \label{tab:linMexTime}
 \end{table}
 

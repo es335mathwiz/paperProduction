@@ -220,6 +220,6 @@
 \alltime{<*theDynareMods[[theRow]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}
 \hline
 \end{tabular}
-    \caption{Non Linear Model Computation Times}
+    \caption{Components of Total Computation Times  <*DateString[]*>}
     \end{center}\label{tab:nonLinTimes}
   \end{table}
