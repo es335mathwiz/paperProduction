@@ -114,7 +114,11 @@
  This is a particular weakness of FortranForm.
  Suggestions for improvements and enhancements are welcome. *)
 
-BeginPackage["Format`", "Utilities`FilterOptions`"]
+BeginPackage["Format`"]
+isVersion8=StringMatchQ[$Version,RegularExpression["^8..*"]]
+
+If[isVersion8,
+Needs["Utilities`FilterOptions`"]]
 
 Assign::usage = "Assign[lhs,rhs,outputformat,options]\n
 Assign converts the assignment of lhs to rhs into specified
@@ -661,12 +665,16 @@ AssignOptimize->True, AssignPrecision->MachinePrecision,
 AssignRange->False, AssignReplace->{" "->""}, AssignTemporary->{"t",Array},
 AssignToArray->{}, AssignToFile->"", AssignTrig->True, AssignZero->True};
 
+myFilterOptions[theFunc_Symbol,theOpts_?OptionQ]:=
+If[isVersion8,FilterOptions[theFunc,theOpts],
+Sequence@@FilterRules[{theOpts},Options@theFunc]]
+
 CAssign[lhs_:"",expr_?(!OptionQ[#]&),opts___?OptionQ]:=
   Module[{optvals},
     optvals /; 
       And[
-        (optvals = OptionTest[expr,GetShape[lhs],CAssign,FilterOptions[CAssign,opts]])=!=$Failed,
-        optvals = CMain[lhs,expr,optvals,{FilterOptions[Experimental`OptimizeExpression,opts]}];
+        (optvals = OptionTest[expr,GetShape[lhs],CAssign,myFilterOptions[CAssign,opts]])=!=$Failed,
+        optvals = CMain[lhs,expr,optvals,{myFilterOptions[Experimental`OptimizeExpression,opts]}];
         True
       ]
   ];
@@ -867,8 +875,8 @@ FortranAssign[lhs_:"",expr_?(!OptionQ[#]&),opts___?OptionQ]:=
     optvals /;
       And[
         (optvals = OptionTest[expr,GetShape[lhs],FortranAssign,
-          FilterOptions[FortranAssign,opts]])=!=$Failed,
-        optvals = FMain[lhs,expr,optvals,{FilterOptions[Experimental`OptimizeExpression,opts]}];
+          myFilterOptions[FortranAssign,opts]])=!=$Failed,
+        optvals = FMain[lhs,expr,optvals,{myFilterOptions[Experimental`OptimizeExpression,opts]}];
         True
       ]
   ];

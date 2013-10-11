@@ -1,3 +1,5 @@
+Print["splicing linearcomptimes"]
+Print["requires 41 seconds"]
 Get["utilitiesSetUp.mth"]
 
 Get["spliceModDims.mth"]

@@ -1,0 +1,324 @@
+(* Mathematica Package *)
+
+BeginPackage["AccelerateAMA`", { "JLink`","SymbolicAMA`", "NumericAMA`", "AMAModel`","Experimental`", "Format`","AMAModelDefinition`"}]
+
+getModelDims::usage="getModelDims[modDir_String,modName_String]"
+
+parseMod::usage="parseMod[srcDir_String,fName_String,targDir_String]\n" <>
+"parse dynare model to xml to mathematia  AMAModelDefinition";
+
+
+
+sameEqns::usage = "sameEqns  "
+
+linearQ::usage = "linearQ  "
+
+mkNewDir::usage = "mkNewDir  "
+
+firstOnPath::usage = "firstOnPath  "
+
+collectData::usage = "collectData  "
+
+getLags::usage = "getLags  "
+
+getLeads::usage = "getLeads  "
+
+allLinear::usage = "allLinear  "
+
+allNonLinear::usage = "allNonLinear  "
+
+trySolveSS::usage = "trySolveSS  "
+
+makeSomeSSSubs::usage = "makeSomeSSSubs  "
+
+makeSSValSubs::usage = "makeSSValSubs  "
+
+compEigSpace::usage = "compEigSpace  "
+
+ssSubs::usage = "ssSubs  "
+
+preEvals::usage = "preEvals  "
+
+trySolve::usage = "trySolve  "
+
+tryFindRoot::usage = "tryFindRoot  "
+
+tryEvals::usage = "tryEvals  "
+
+tryCompEvals::usage = "tryCompEvals  "
+
+allSSSolvedQ::usage = "allSSSolvedQ  "
+
+uniqueSSSoln::usage = "uniqueSSSoln  "
+
+tryCompEvecs::usage = "tryCompEvecs  "
+
+genSSEqns::usage = "genSSEqns  "
+
+(* Exported symbols added here with SymbolName::usage *)  
+
+Begin["`Private`"] (* Begin Private Context *) 
+
+makeSSValSubs[vars_List]:=#[Global`t_]->ToExpression[ToString[#]<>"SSVal"]&/@vars;
+
+
+
+defineDouble[name_String]:=
+"double "<>name<>";\n"
+$defaultExamplesDir="dynareExamples/uniqueExamples/";
+$defaultResDir="theLinRes/";
+
+preEvals[modName_String]:=preEvals[$defaultExamplesDir,modName,$defaultResDir]
+
+preEvals[theDir_String,modName_String,targDir_String]:=
+Module[{parseTime,vars,ig,params,eqns,notSubs,paramSubs,
+hmatTime,hmat,
+arTime,zf,hf,
+amatTime,amat,
+lilTime,lilMat,cols},
+Print["analyzing ",modName];
+{parseTime,{vars,ig,params,ig,{ig,eqns},notSubs,ig}}=
+Timing[parseMod[theDir,modName,targDir]];
+Global`getAMAEqns[modName]=eqns;
+Global`getAMAVars[modName]=vars;
+paramSubs=#[[1]]->#[[2]]&/@params;
+Global`getParamSubs[modName]=paramSubs;
+Global`getParamNames[modName]=First/@params;
+Global`getExampleParams[modName]=(First /@params)//.paramSubs;
+{hmatTime,hmat}=Timing[equationsToMatrix[eqns,vars]/.makeSSValSubs[vars]];
+Global`getHmat[modName]=hmat;Print["done hmat"];
+{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];Print["done ar"];
+Global`getZf[modName]=zf;
+{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];Print["done amat"];
+{lilTime,{lilMat,cols}}=
+Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];Print["done inessential"];
+Global`getLilMat[modName]=lilMat;
+Global`getCols[modName]=cols;
+(*
+{more,lilMat}=Timing[FullSimplify[lilMat,TimeConstraint->Global`$tConst]];lilTime=lilTime+more;*)
+{parseTime,hmatTime,arTime,amatTime,lilTime,paramSubs,eqns,hmat,vars}
+]
+
+
+tryCompEvals[modName_String]:=tryCompEvals[$defaultExamplesDir,modName,$defaultResDir]
+
+
+tryCompEvals[theDir_String,modName_String,targDir_String]:=
+Module[{},	Print["working on ", modName];
+{evalsTime,evals}= Timing[TimeConstrained[
+	Eigenvalues[Transpose[Global`getLilMat[modName]//.With[{subs=Global`getSolveSS[modName]},
+		If[Or[subs==={},subs===$Aborted],{},subs[[1]]]]]],Global`$tConst]];
+	Global`getEvals[modName]=evals;giveUpQ[evals,"after evals"];
+	Print["done evals"];
+{evalsTime,evals}]
+
+
+tryCompEvecs[modName_String]:=tryCompEvecs[$defaultExamplesDir,modName,$defaultResDir]
+
+tryCompEvecs[theDir_String,modName_String,targDir_String]:=
+Module[{hmat=Global`getHmat[modName]},	Print["working on ", modName];
+	{lilevecsTime,lilevecs}=Timing[TimeConstrained[compEigSpace[Global`getLilMat[modName],Global`getEvals[modName],
+		Join[Global`getParamSubs[modName],Global`getFRootSS[modName]]],Global`$tConst]];giveUpQ[lilevecs,"after evecs"];
+{evecsTime,evecs}=Timing[toLarge[lilevecs,Global`getCols[modName],qRowLength[modName]]];
+Global`getEvecs[modName]=evecs;
+	Print["done evecs"];
+{bmatTime,bmat}=Timing[compB[Global`getZf[modName],evecs,Length[hmat]]];
+	Print["done bmat"];
+Global`getB[modName]=bmat;
+	{sTime,theS}=Timing[obStruct[hmat,bmat]];
+	Global`getS[modName]=theS;
+		Print["done obstruct"];
+{evecsTime,bmatTime,sTime,evecs,bmat,theS}]
+
+qRowLength[modName_String]:=With[{hm=Global`getHmat[modName]},Length[hm[[1]]]-Length[hm]]
+
+allSSSolvedQ[vars_List,soln_List]:=Length[vars]===Length[soln];
+uniqueSSSoln[solnS_List]:=Length[solnS]==1
+
+
+trySolve[modName_String]:=trySolve[$defaultExamplesDir,modName,$defaultResDir]
+
+
+trySolve[theDir_String,modName_String,targDir_String]:=
+Module[{},	Print["working on ", modName];
+{solveTime,solveSoln}=Timing[trySolveSS[Global`getAMAEqns[modName]/.Global`AMAModelDefinition[modName][[-2]],Global`getAMAVars[modName]]];
+Global`getSolveSS[modName]=solveSoln;
+{solveTime,solveSoln}]
+
+
+tryFindRoot[modName_String]:=tryFindRoot[$defaultExamplesDir,modName,$defaultResDir]
+
+tryFindRoot[theDir_String,modName_String,targDir_String]:=
+Module[{},
+Print["working on ", modName];
+{fRootTime,fRootSoln}=Timing[makeSomeSSSubs[modName]];
+Global`getFRootSS[modName]=fRootSoln;
+{fRootTime,fRootSoln}]
+
+giveUpQ[expr_,msg_String]:=If[Not[FreeQ[expr,$Aborted]],Throw[expr,msg]]
+
+zapInnovSubs=Global`eps[_][_]->0;
+
+trySolveSS[modName_String]:=trySolveSS[Global`getAMAEqns[modName],Global`getAMAVars[modName]]
+trySolveSS[eqns_List,vars_List]:=
+Module[{},
+ssEqns=eqns//.ssSubs;
+someSSSubs=TimeConstrained[Solve[Thread[ssEqns==0],vars],Global`$tConst];
+If[FreeQ[someSSSubs,Solve],someSSSubs/.
+(#->ToExpression[ToString[#]<>"SSVal"]&/@vars),{}
+]]
+
+
+ssSubs={Global`eps[_][_]->0,xx_[Global`t+_.]:>xx};
+
+
+genSSEqns[modName_String]:=With[{theVars=Sort[Global`getAMAVars[modName]]},
+	With[{ssValVarSubs=makeSSValSubs[theVars]},
+		With[{ssEqns=(Global`getAMAEqns[modName]/.ssValVarSubs)/.ssSubs,
+			ssEqnVars=Through[theVars[Global`t]]/.ssValVarSubs},
+		{ssEqnVars,ssEqns,diffRow[#,ssEqnVars]&/@ssEqns}]]]
+
+diffRow[aRow_,vars_List]:=D[aRow,#]&/@vars
+
+makeTry[name_String]:=
+With[{vars=Global`getAMAVars[name]},
+	With[{ssVarNames=Last/@makeSSValSubs[vars],
+	solveSS=(Global`getSolveSS[name])//.Global`getParamSubs[name]/.Global`AMAModelDefinition[name][[-2]]/.zapInnovSubs},
+	If[solveSS==={}||solveSS===$Aborted,
+{ToExpression[ToString[#]<>"SSVal"],Random[]}&/@vars,
+prepSolvesForFRoot[solveSS[[1]],ssVarNames]]]]
+
+prepSolvesForFRoot[theSubs_List,allVars_List]:=With[{subbed=theSubs/.Rule->List},
+	With[{unAssn=Complement[allVars,First/@subbed]},
+		With[{randAssn=#->Random[]& /@unAssn},Join[subbed/.randAssn,randAssn/.Rule->List]]]]
+
+makeSomeSSSubs[name_String]:=
+With[{ssEqns=makeSubbedEqns[name],
+try=makeTry[name]},
+FindRoot @@ {ssEqns,try}]
+
+
+
+
+doNullSpace[lilMat_?MatrixQ,eval_]:=
+If[eval==={},{},With[{theRes=
+NullSpace[Transpose[lilMat]-eval*IdentityMatrix[Length[lilMat]]]},
+	If[theRes==={},Throw[{},"after evals"],theRes]]]
+
+compEigSpace[lilMat_?MatrixQ,evals_List,paramSubs_List] := 
+   Join @@ (doNullSpace[lilMat, evals[[#1]]]) &  /@ 
+largeLocs[evals//.paramSubs]
+
+
+makeSSValSubs[vars_List]:=#[Global`t_]->ToExpression[ToString[#]<>"SSVal"]&/@vars;
+
+largeLocs[theVals_List]:=
+With[{mags=(#>1)&/@Abs[theVals]},Flatten[Position[mags,True]]]
+
+
+obStruct[hmat_?MatrixQ,bigB_?MatrixQ]:=
+With[{neq=Length[hmat],lTau=Length[bigB[[1]]],lTheta=Length[bigB]},
+With[{hMinus=hmat[[All,Range[lTau+neq]]],
+hPlus=hmat[[All,lTau+neq+Range[lTheta]]]},
+hMinus+blockMatrix[{{zeroMatrix[neq],hPlus . bigB}}]]]
+
+
+compB[zf_?MatrixQ,{},neq_Integer]:={}
+
+compB[zf_?MatrixQ,evs_?MatrixQ,neq_Integer]:=
+With[{qmat=Join[zf,evs]},
+With[{qcols=Length[qmat[[1]]],qrows=Length[qmat]},
+With[{qr=qmat[[All,qcols-qrows+Range[qrows]]],
+ql=qmat[[All,Range[qcols-qrows]]]},
+(-Inverse[qr].ql)]]]
+
+
+
+toLarge[{},lilCols_List,cols_Integer]:={}
+
+toLarge[lil_?MatrixQ,lilCols_List,cols_Integer]:=
+Module[{bigEvecs},
+bigEvecs=ConstantArray[0,{Length[lil],cols}];
+bigEvecs[[All,lilCols]]=lil;
+bigEvecs]
+
+getLags[eqns_List] := With[{}, 
+    With[{lgld = Union[Cases[eqns, (xx_)[yy:Global`t + (zz_.)] -> zz, Infinity]]}, 
+     -Min[lgld]]]
+getLeads[eqns_List] := With[{}, 
+    With[{lgld = Union[Cases[eqns, (xx_)[yy:Global`t + (zz_.)] -> zz, Infinity]]}, 
+     Max[lgld]]]
+
+
+
+parseMod[srcDir_String,fName_String,targDir_String]:=
+Module[{cmd},
+JavaNew["gov.frb.ma.msu.DynareToAMAModel",
+srcDir<>fName<>".mod",targDir<>fName<>".xml",fName];
+cmd=StringForm[
+"java org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL /msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/AMAModel2Mma.xsl -OUT `3``2`.mth",srcDir,fName,targDir];
+(*Print["here is cmd",cmd,"after"];*)
+Run[cmd];
+Get[targDir<>fName<>".mth"];
+Global`AMAModelDefinition[fName]]
+
+
+mkNewDir[dirName_String]:=If[Not[FileExistsQ[dirName]],CreateDirectory[dirName]]
+firstOnPath[dirName_String]:=If[System`$Path[[1]]=!=dirName,PrependTo[System`$Path,dirName]]
+
+
+getModelDims[modDir_String,modName_String]:=
+Module[{vars,ig,params,eqns,notSubs,tDir="/tmp/Gary/"},
+mkNewDir[tDir];firstOnPath[tDir];
+{vars,ig,params,ig,{ig,eqns},notSubs,ig}=parseMod[modDir,modName,tDir];
+System`$Path=Drop[System`$Path,1];
+{Length[vars],getLags[eqns],getLeads[eqns],Length[params],linearQ[eqns]}]
+
+
+
+
+doMod[preDo_String,fName_String]:=doMod[preDo,fName,preDo]
+
+
+doMod[preDo_String,fName_String,targDir_String]:=
+Module[{cmd},
+System`$Path=PrependTo[System`$Path,targDir];
+JavaNew["gov.frb.ma.msu.DynareToAMAModel",preDo<>fName<>".mod",targDir<>fName<>".xml",fName];
+homeDir=If[Global`windowsQ[],"g:","/msu/home/m1gsa00"];
+System.out.println("osname="+nameOS);
+cmd=StringForm[
+"java org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL `1`/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/AMAModel2Mma.xsl -OUT `3``2`.mth",homeDir,fName,targDir];
+(*Print["here is cmd",cmd,"after"];*)
+Run[cmd];
+Get[fName<>".mth"];
+Global`AMAModelDefinition[fName]]
+
+
+mkNewDir[dirName_String]:=If[Not[FileExistsQ[dirName]],CreateDirectory[dirName]]
+firstOnPath[dirName_String]:=If[System`$Path[[1]]=!=dirName,PrependTo[System`$Path,dirName]]
+
+
+collectData[modDir_String,modName_String]:=
+Module[{vars,ig,params,eqns,notSubs,tDir="/tmp/Gary/"},
+mkNewDir[tDir];firstOnPath[tDir];
+{vars,ig,params,ig,{ig,eqns},notSubs,ig}=parseMod[modDir,modName,tDir];
+System`$Path=Drop[System`$Path,1];
+{Length[vars],getLags[eqns],getLeads[eqns],Length[params],linearQ[eqns]}]
+
+
+linearQ[eqns_List]:=FreeQ[equationsToMatrix[eqns],Global`t]
+
+
+
+
+sameEqns[modDir_String,modNameA_String,modNameB_String]:=
+Module[{vars,ig,params,eqns,notSubs,tDir="/tmp/Gary/"},
+mkNewDir[tDir];firstOnPath[tDir];
+{vars,ig,params,ig,{ig,eqnsA},notSubs,ig}=parseMod[modDir,modNameA,tDir];
+{vars,ig,params,ig,{ig,eqnsB},notSubs,ig}=parseMod[modDir,modNameB,tDir];
+System`$Path=Drop[System`$Path,1];
+eqnsA === eqnsB]
+ 
+End[] (* End Private Context *)
+
+EndPackage[]

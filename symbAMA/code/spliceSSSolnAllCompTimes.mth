@@ -1,3 +1,4 @@
+Print["spliceSSSolnAllCompTimes takes about 10 minutes"]
 Get["utilitiesSetUp.mth"]
 Get["splicePreEvalTimes.mth"]
 

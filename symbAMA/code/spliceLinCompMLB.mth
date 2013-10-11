@@ -1,7 +1,9 @@
-
+Print["splicingLinearccompMLB"]
+Print["should take about 40 seconds"]
+(*Get["spliceLinearCompTimes.mth"]*)
+Get["spliceSSSolnAllCompTimes.mth"]
 Get["spliceLinearCompTimes.mth"]
-
-
+Get["spliceNonLinearCompTimes.mth"]
 $tConst=10;
 
 forMex=allNonLinear["dynareExamples/uniqueExamples/",#,"theLinRes/"]& /@ smallLinearMods;
