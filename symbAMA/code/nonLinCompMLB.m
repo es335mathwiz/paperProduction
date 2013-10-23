@@ -1,4 +1,4 @@
-BeginPackage["nonLinComMLB`",{"ssSolnAllCompTimes`","nonLinearCompTimes`","linearCompTimes`","genMexCode`"}]
+BeginPackage["nonLinCompMLB`",{"ssSolnAllCompTimes`","nonLinearCompTimes`","linearCompTimes`","genMexCode`"}]
 EndPackage[]
 
 
@@ -19,10 +19,12 @@ doThese10={2,3,5,10};
 (*
 forMex10=allNonLinear["dynareExamples/uniqueExamples/",#,
 "theLinRes/"]& /@ allNonLinearMods[[doThese10]];
-doMexSplice /@ allNonLinearMods[[doThese10]];
-mexComp/@ allNonLinearMods[[doThese10]];
-expHMat/@ allNonLinearMods[[doThese10]];
 *)
+Print["put formex10 back in!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"]
+doMexSplice /@ notAllNonLinearMods;
+mexComp/@ notAllNonLinearMods
+expHMat/@ notAllNonLinearMods
+(*
 forMex10=allNonLinear["dynareExamples/uniqueExamples/",#,
 "theLinRes/"]& /@ allNonLinearMods;
 doMexSplice /@ allNonLinearMods;
@@ -44,3 +46,4 @@ forMex11=allNonLinear["dynareExamples/uniqueExamples/",#,
 doMexSplice /@ allNonLinearMods[[doThese20]];
 mexComp/@ allNonLinearMods[[doThese20]];
 expHMat/@ allNonLinearMods[[doThese20]];
+*)

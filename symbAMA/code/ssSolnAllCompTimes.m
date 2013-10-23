@@ -1,7 +1,9 @@
+BeginPackage["ssSolnAllCompTimes`",{"preEvalTimes`"}]
+EndPackage[]
 Print["spliceSSSolnAllCompTimes takes about 10 minutes"]
-Print["takes 9 minutes"]
-Get["utilitiesSetUp.mth"]
-Get["splicePreEvalTimes.mth"]
+
+
+
 
 $tConst=10;
 allSolve10=(trySolve["dynareExamples/uniqueExamples/",#,"theLinRes/"]&/@

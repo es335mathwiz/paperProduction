@@ -1,6 +1,5 @@
-
-
-Get["utilitiesSetUp.mth"]
+BeginPackage["preEvalTimes`",{"utilitiesSetUp`"}]
+EndPackage[]
 
 
 Print["computing pre eigenvalues computations"]

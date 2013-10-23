@@ -844,7 +844,7 @@ rational expectations solution.
 
 
 
-%\input{../code/nonLinearCompTimes.tex}
+\input{../code/nonLinearCompTimes.tex}
 {\bf problems with {nonLinearCompTimes.tex}}
 Table \ref{tab:nonLinMexTime} shows that
 speedups are comparable to speedups for linear models. But since the 
@@ -860,7 +860,7 @@ time consuming or impossible.  The benefit may outweigh the cost.
 One can compare the susequent execution times with and without Simplification.
 
 
-\input{nonLinCompMLB.tex}
+\input{../code/nonLinCompMLB.tex}
 
 
 
@@ -1089,6 +1089,14 @@ for each of the components eigenvectors
 
 
   \begin{itemize}
+  \item genMexCode to AccelerateAMA
+  \item estimate a model
+  \item Use packages and needs to coordinate computation
+  \item fs2000 issue
+  \item Mma eclise debug
+  \item math9: filter options to filter rules
+  \item math9 slower
+  \item model oriented solution steps
   \item Compile mathematica
   \item findroot init
   \item SolveSS Null 1,2,6,10,20,23 Aborted 8 13
@@ -1493,69 +1501,90 @@ The usual definition of numerical stability uses a more general concept, called 
 \section{Splicing Programs}
 \label{sec:splicing-programs}
 
-All use code in utilitiesSetUp.mth.  This code should move to AccelerateAMA.m
+All use code in utilitiesSetUp.m.  This code should move to AccelerateAMA.m
+\newcommand{\listProg}[2]{\item #1
+
+#2
+
+\listinginput{1}{../code/#1}}
+
 
 \begin{itemize}
-\item spliceModDims.mth
+\listProg{utilitiesSetUp.m}{}
 
+\listProg{modDims.m}{
 Generates theData uses theDynareMods
+}
 
 
-\listinginput{1}{../code/spliceModDims.mth}
 
 
-\item
-\item spliceLinearCompTimes.mth
-generates linTimes smallLinearMods
-
-uses theData
-
-\listinginput{1}{../code/spliceLinearCompTimes.mth}
-
-
-\item spliceLinCompMLB.mth
-
-generates forMex, mexCode  and runs matlab to provde mex timing data
-
-uses linTimes smallLinearMods
-
-\listinginput{1}{../code/spliceLinCompMLB.mth}
-
-
-\item splicePreEvalTimes.mth
-
+\listProg{preEvalTimes.m}{
 generates allPre
 
+}
 
 
-\listinginput{1}{../code/splicePreEvalTimes.mth}
 
 
-\item spliceSSSolnAllCompTimes.mth
+\listProg{linearCompTimes.m}{
+generates linTimes smallLinearMods 
 
+uses theData}
+
+
+
+
+
+
+
+
+
+\listProg{ssSolnAllCompTimes.m}{
 generates allSolve10 tryEvals10,tryEvals allFindRoot10 allEvecs10,allEvecs
 
-uses allPre 
- 
-\listinginput{1}{../code/spliceSSSolnAllCompTimes.mth}
+uses allPre }
 
 
-\item spliceNonLinearCompTimes.mth
 
+
+\listProg{nonLinearCompTimes.m}{
 generates nonLinTimes
 
 uses theData
+}
 
-\listinginput{1}{../code/spliceNonLinearCompTimes.mth}
+
+\listProg{genMexCode.m}
+
+\listProg{linCompMLB.m}{
+generates forMex, mexCode  and runs matlab to provde mex timing data
+
+uses linTimes smallLinearMods
+}
 
 
-\item spliceNonLinCompMLB.mth
 
+
+
+
+
+
+ 
+
+
+
+
+
+
+\listProg{nonLinCompMLB.m}{
 generates forMex10 forMex11  mexfiles runs matab collects nonLinExeTimes
 
-uses theData
+uses theData}
 
-\listinginput{1}{../code/spliceNonLinCompMLB.mth}
+
+
+
 
 
 \end{itemize}

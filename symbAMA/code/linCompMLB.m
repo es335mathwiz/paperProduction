@@ -1,11 +1,9 @@
-Print["splicingLinearccompMLB"]
-Print["should take about 40 seconds"]
-(*Get["spliceLinearCompTimes.mth"]*)
-Get["spliceSSSolnAllCompTimes.mth"]
-Get["spliceLinearCompTimes.mth"]
-Get["spliceNonLinearCompTimes.mth"]
+BeginPackage["linCompMLB`",{"ssSolnAllCompTimes`","nonLinearCompTimes`","linearCompTimes`","genMexCode`"}]
+EndPackage[]
+
+
+
 $tConst=10;
-<<genMexCode.mth
 forMex=allNonLinear["dynareExamples/uniqueExamples/",#,"theLinRes/"]&/@ 
 smallLinearMods;
 doMexSplice /@ smallLinearMods;
