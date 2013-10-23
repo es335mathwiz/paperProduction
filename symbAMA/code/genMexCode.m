@@ -1,6 +1,6 @@
 BeginPackage["genMexCode`",{"Experimental`", "Format`","nonLinearCompTimes`","linearCompTimes`"}]
 
-
+!gfortran -c -fdefault-real-8 -fPIC rpoly493.f 
 
 (*
 !gfortran -c -fdefault-real-8 -fPIC /msu/res2/m1gsa00/conferences/sce11/generatedMexFiles/rpoly493.f 
@@ -42,12 +42,15 @@ mexComp::usage="mexComp[modName_String]";
 expHMat::usage="expHMat[modName_String]";
 foB::usage="target name for assignments";
 bb::usage="target name for assignments";
+forCoeffs::usage="used in splicing";
+coeff::usage="used in splicing";
+
 
 $modNameNow::usage="used in splicing";
-$bRowsNow::usage="used in splicing";;
-$bColsNow::usage="used in splicing";;
-$numRootsNow::usage="used in splicing";;
-$theMexCodeNow::usage="used in splicing";;
+$bRowsNow::usage="used in splicing";
+$bColsNow::usage="used in splicing";
+$numRootsNow::usage="used in splicing";
+$theMexCodeNow::usage="used in splicing";
 
 
 
@@ -122,7 +125,7 @@ makeShockSubs[name_String]:=With[
 
 getB[modName_String]:=If[utilitiesSetUp`isLin[modName],Global`getLinB[modName],
 If[utilitiesSetUp`isNonLin[modName],Global`getNonLinB[modName],"unknown model"]]
-getEqns[modName_String]:=If[utilitiesSetUp`isLin[modName],getLinEqns[modName],
+getEqns[modName_String]:=If[utilitiesSetUp`isLin[modName],Global`getLinEqns[modName],
 If[utilitiesSetUp`isNonLin[modName],Global`getNonLinEqns[modName],"unknown model"]]
 
 
