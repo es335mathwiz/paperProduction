@@ -12,7 +12,7 @@ Strategically Augmenting Symbolic Algebra Calculations with Numerical Approximat
 
 \author{Gary S. Anderson
 \thanks{I would like to thank George Moore, my now deceased mentor,
-friend and coauthor.% of\cite{ANDER:AIM2}.
+friend and coauthor.% of\cite{ANDER:AIM2}. 
 I am responsible for
 any remaining errors.
 The views expressed herein are mine and 
@@ -47,12 +47,15 @@ The algorithm described in\cite{anderson10} consists of three distinct phases%:
 % constraints to produce a convergent auto-regressive representation
 % \end{enumerate}
 
-The paper demonstrates that it is often possible to 
-compute completely analytic solutions for each of these phases for small models.
-As the size of the model increases, analytic expressions for 
-left-invariant space vectors become impossible to compute
-even though analytic expressions for the
-remaining phases are still attainable.
+The paper demonstrates that for small models it is often possible to 
+compute completely analytic solutions for each of these phases.
+These analytic solutions are much faster for simulation and estimation even
+when taking into account the cost of their construction.
+As the size of the model increases, two of the three phases continue to be analytically tractable, but analytic expressions for 
+left-invariant space vectors become impossible to compute.
+In this case one can employ numerical 
+techniques in connection with the symbolic algebra to deliver solution
+that remain more efficient than numerical techniques alone.
 % The paper shows how to incorporate Taylor Series expansions and  projection method
 % numerical approximations for the left-invariant space vectors
 %  into the remaining symbolic algebra calculations.
@@ -181,7 +184,7 @@ right hand side term. See Section~\ref{sec:inhomog}.
 
 
 Section \ref{inhomo} provides a flexible 
-and computationally efficient alternative for 
+and computationally efficient method for 
 computing inhomogeneous solutions.
 Suppose, for now, that $\Psi=0$:
 % \footnote{Note that there is no unique steady state requirement.
@@ -1089,6 +1092,10 @@ for each of the components eigenvectors
 
 
   \begin{itemize}
+  \item trap all messages
+  \item check validity of solutions when  warned
+  \item add to tables: math version, machine, load via /proc/loadavg
+  \item eliminate all non relative paths
   \item genMexCode to AccelerateAMA
   \item estimate a model
   \item Use packages and needs to coordinate computation

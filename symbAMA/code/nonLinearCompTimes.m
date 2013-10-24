@@ -9,7 +9,7 @@ doThese10={2,3,5,10};
 notAllNonLinearMods=allNonLinearMods[[doThese10]]
 
 $tConst=10;
-nonLinTimes=(Print[#];allNonLinear["dynareExamples/examples/",#,"/tmp/"])& /@ 
+nonLinTimes=(Print[#];allNonLinear["dynareExamples/uniqueExamples/",#,"/tmp/"])& /@ 
 notAllNonLinearMods;
 
 
