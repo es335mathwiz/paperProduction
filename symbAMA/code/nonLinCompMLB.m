@@ -32,7 +32,7 @@ mexComp/@ allNonLinearMods;
 expHMat/@ allNonLinearMods;
 
 
-!matlab -nodesktop -nodisplay -nosplash -r nonLinExeToMat
+Run["matlab -nodesktop -nodisplay -nosplash -r nonLinExeToMat"]
 {nonLinExeTimes}=Import["nonLinExeTimes.mat"];
 Splice["nonLinCompMLB.mtex"]
 

@@ -40,18 +40,19 @@ Reserve System.
 The paper describes how to use symbolic algebra to compute 
 linear rational expectations model solutions.
 The algorithm described in\cite{anderson10} consists of three distinct phases%:
-% \begin{enumerate}
-% \item Compute the auxiliary initial conditions and a transition matrix
-% \item Compute vectors spanning the left-invariant space associated with large eigenvalues to provide asymptotic convergence constraints
-% \item Combine the auxiliary initial conditions and asymptotic convergence 
-% constraints to produce a convergent auto-regressive representation
-% \end{enumerate}
+ % \begin{enumerate}
+ % \item Compute the auxiliary initial conditions and a transition matrix
+ % \item Compute vectors spanning the left-invariant space associated with large eigenvalues to provide asymptotic convergence constraints
+ % \item Combine the auxiliary initial conditions and asymptotic convergence 
+ % constraints to produce a convergent auto-regressive representation
+ % \end{enumerate}
 
 The paper demonstrates that for small models it is often possible to 
 compute completely analytic solutions for each of these phases.
 These analytic solutions are much faster for simulation and estimation even
-when taking into account the cost of their construction.
-As the size of the model increases, two of the three phases continue to be analytically tractable, but analytic expressions for 
+when taking into account the time required for their construction.
+
+For larger models, two of the three phases continue to be analytically tractable, but analytic expressions for 
 left-invariant space vectors become impossible to compute.
 In this case one can employ numerical 
 techniques in connection with the symbolic algebra to deliver solution
@@ -126,11 +127,12 @@ a set of auxiliary initial conditions, $Z$ for the homogeneous solution.
 See Section~\ref{sec:arzgev}.
 \item Computing the eigenvalues and vectors spanning 
 the left invariant space associated with
-large eigenvalues. See Section~\ref{asymQ}.
+large eigenvalues. 
 \begin{gather}
  V A =   \mathcal{M}  V 
 \end{gather}
 with the eigenvalues of $ \mathcal{M}$ all greater than one in absolute value.
+See Section~\ref{asymQ}.
 \item Assembling asymptotic
 constraints, $Q$, (See Section~\ref{asymQ}.)  by combining the:
   \begin{enumerate}
@@ -143,6 +145,7 @@ constraints, $Q$, (See Section~\ref{asymQ}.)  by combining the:
     Z\\V
   \end{bmatrix}
 \end{gather}
+See Section~\ref{asymQ}.
 \item Investigating the rank of the linear space spanned by these asymptotic
 constraints and,  when a unique solution exists, 
 \begin{enumerate}
@@ -150,8 +153,9 @@ constraints and,  when a unique solution exists,
 representation, $B$. See Section~\ref{conar}.
 \item Computing matrices, $\phi, F, \vartheta$ 
 for characterizing the impact of the inhomogeneous
-right hand side term. See Section~\ref{sec:inhomog}.
+right hand side term.
 \end{enumerate}
+See Section~\ref{sec:inhomog}.
 \end{enumerate}
 
 %Figure \ref{fig:components} presents a  flowchart of the algorithm.

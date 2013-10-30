@@ -10,6 +10,6 @@ doMexSplice /@ smallLinearMods;
 mexComp/@ smallLinearMods;
 expHMat/@ smallLinearMods;
 
-!matlab -nodesktop -nodisplay -nosplash -r linExeToMat
+Run["matlab -nodesktop -nodisplay -nosplash -r linExeToMat"]
 {linExeTimes}=Import["linExeTimes.mat"];
 Splice["linCompMLB.mtex"]
