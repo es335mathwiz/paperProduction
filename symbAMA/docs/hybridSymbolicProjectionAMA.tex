@@ -153,9 +153,9 @@ constraints and,  when a unique solution exists,
 representation, $B$. See Section~\ref{conar}.
 \item Computing matrices, $\phi, F, \vartheta$ 
 for characterizing the impact of the inhomogeneous
-right hand side term.
+right hand side term. See Section~\ref{sec:inhomog}.
+
 \end{enumerate}
-See Section~\ref{sec:inhomog}.
 \end{enumerate}
 
 %Figure \ref{fig:components} presents a  flowchart of the algorithm.
@@ -190,7 +190,7 @@ See Section~\ref{sec:inhomog}.
 Section \ref{inhomo} provides a flexible 
 and computationally efficient method for 
 computing inhomogeneous solutions.
-Suppose, for now, that $\Psi=0$:
+Suppose, for now, that we are interested in computing homogeneous soltions -- $\Psi=0$:
 % \footnote{Note that there is no unique steady state requirement.
 % Steady state solutions, $x^\ast$ satisfying
 % \begin{gather}
@@ -222,16 +222,19 @@ Suppose, for now, that $\Psi=0$:
 \label{sec:arzgev}
 
 This section describes how to determine a first-order state space
-representation of the equation system~\ref{eq:homo}. The method is an extension
+representation for the equation system~\ref{eq:homo}. The method is an extension
 of the shuffling algorithm developed in\cite{luenberger78,luenberger77}.
 If $H_\theta$ is non-singular, we can immediately obtain $x_{t+\theta}$ 
 in terms of $x_{t-\tau} \ldots x_{t+\theta-1}$
 \begin{gather}
--  H_{\theta}^{-1}\begin{bmatrix}
+x_{t+\theta} = -  H_{\theta}^{-1}\begin{bmatrix}
     \hShort
-  \end{bmatrix}  
+  \end{bmatrix}
+  \begin{bmatrix}
+    x_{t-\tau} \\ \vdots\\ x_{t+\theta-1}
+  \end{bmatrix}
 \end{gather}
-However, the natural specification of many economic models has singular
+However, the natural specification of most economic models has singular
  $H_\theta$.
 
 The first  algorithm
@@ -262,7 +265,7 @@ that provide important auxiliary initial conditions.
 % \end{wrapfigure}
 
 \cite{anderson10} presents a proof that repeating 
-this process of annihilating and regrouping rows ultimately  produces 
+a process of annihilating and regrouping rows ultimately  produces 
 an $H^{\sharp,k}=H^{\sharp,\ast}$ with $H^{\sharp,\ast}_\theta$ non-singular.
 The proof identifies a benign rank condition 
 that guarantees that the algorithm will successfully compute
@@ -606,8 +609,9 @@ Algorithm \ref{alg:trans} provides pseudo code for computing $\sTransA$ and $\sT
 \subsection{Numerical Implementations}
 \label{sec:imple}
 
-This set of algorithms has been implemented in a wide variety of languages.
-Two numerical implementations, a Python, a  Matlab, a ``C''are available from the author. \footnote{\url{http://www.federalreserve.gov/pubs/oss/oss4/aimindex.html} and on gitHub .}   The code has been made available in Dynare and in Troll.
+
+Numerical implementations written in Python,  Mathematica,  Matlab,  and  ``C'' are available from the author.\footnote{\url{http://www.federalreserve.gov/pubs/oss/oss4/aimindex.html} and via gitHub \url{https://github.com/es335mathwiz}.}   
+Numerical implementation are available in Dynare and in Troll.
 Each implementation avoids using a large matrix.
 They each  shift elements in the
 rows of a single copy of the matrix $H$. 
@@ -1096,6 +1100,7 @@ for each of the components eigenvectors
 
 
   \begin{itemize}
+  \item optimize the Needs dependencies
   \item trap all messages
   \item check validity of solutions when  warned
   \item add to tables: math version, machine, load via /proc/loadavg

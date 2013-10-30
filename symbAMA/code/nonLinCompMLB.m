@@ -20,16 +20,18 @@ doThese10={2,3,5,10};
 forMex10=allNonLinear["dynareExamples/uniqueExamples/",#,
 "theLinRes/"]& /@ allNonLinearMods[[doThese10]];
 *)
+(*
 Print["put formex10 back in!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"]
 doMexSplice /@ notAllNonLinearMods;
 mexComp/@ notAllNonLinearMods
 expHMat/@ notAllNonLinearMods
-(*
+*)
+
 forMex10=allNonLinear["dynareExamples/uniqueExamples/",#,
-"theLinRes/"]& /@ allNonLinearMods;
-doMexSplice /@ allNonLinearMods;
-mexComp/@ allNonLinearMods;
-expHMat/@ allNonLinearMods;
+"theLinRes/"]& /@ allNonLinearMods[[doThese10]];
+doMexSplice /@ allNonLinearMods[[doThese10]];
+mexComp/@ allNonLinearMods[[doThese10]];
+expHMat/@ allNonLinearMods[[doThese10]];
 
 
 Run["matlab -nodesktop -nodisplay -nosplash -r nonLinExeToMat"]
@@ -37,7 +39,7 @@ Run["matlab -nodesktop -nodisplay -nosplash -r nonLinExeToMat"]
 Splice["nonLinCompMLB.mtex"]
 
 
-
+(*
 
 $tConst=20;
 doThese20={1};
@@ -46,4 +48,5 @@ forMex11=allNonLinear["dynareExamples/uniqueExamples/",#,
 doMexSplice /@ allNonLinearMods[[doThese20]];
 mexComp/@ allNonLinearMods[[doThese20]];
 expHMat/@ allNonLinearMods[[doThese20]];
+
 *)

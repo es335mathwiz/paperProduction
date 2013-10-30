@@ -16,6 +16,9 @@ AbsoluteTiming[Timing[Needs["linCompMLB`"]]]
 AbsoluteTiming[Timing[Needs["linCompMLB`"]]]
 (*{83.751186, {73.7678, linCompMLB.mtex}}*)
 
+AbsoluteTiming[Timing[Needs["nonLinCompMLB`"]]]
+(*{632.406249, {609.888, {AssetPricingApproximationDims.matFig1131Dims.mat, Figv3_1191Dims.mat, kiyotakiMooreViegiDims.mat}}}*)
+
 
 (*
 AccelerateAMA.m       genMexCode.m	 nonLinCompMLB.m       timerLoop.m
