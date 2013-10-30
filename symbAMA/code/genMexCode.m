@@ -1,6 +1,6 @@
 BeginPackage["genMexCode`",{"Experimental`", "Format`","nonLinearCompTimes`","linearCompTimes`"}]
 
-!gfortran -c -fdefault-real-8 -fPIC rpoly493.f 
+Run["gfortran -c -fdefault-real-8 -fPIC rpoly493.f"]
 
 (*
 !gfortran -c -fdefault-real-8 -fPIC /msu/res2/m1gsa00/conferences/sce11/generatedMexFiles/rpoly493.f 
