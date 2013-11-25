@@ -14,7 +14,7 @@ Global`getSolveSS["kiyotakiMooreViegi"]=tmp[[{2}]];
 
 
 
-$tConst=10;tryEvals10=
+tryEvals10=
 (Catch[tryCompEvals["dynareExamples/uniqueExamples/",#,"theLinRes/"],
 "after evals"]& /@theDynareMods)/.$Aborted->{NA,NA};
 

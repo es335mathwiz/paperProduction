@@ -5,7 +5,7 @@
 
   {
 \begin{minipage}{1.0\linewidth}
-\begin{tabular}{|l|c|c|c|c|c|}
+\begin{tabular}{|l|D{.}{.}{3}|D{.}{.}{3}|D{.}{.}{3}|D{.}{.}{3}|D{.}{.}{3}|}
 \hline
 \multicolumn{1}{|c|}{Model}&  
 \multicolumn{1}{|c|}{Parse}&  
@@ -16,192 +16,201 @@
 \hline
 %<*theRow=1;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[NumberForm[allPre[[theRow,1]],{6,3}],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 %<*theRow++;*>
 \pretime{<*theDynareMods[[theRow]]*>}
-{<*allPre[[theRow,1]]*>}
-{<*allPre[[theRow,2]]*>}
-{<*allPre[[theRow,3]]*>}
-{<*Plus @@ allPre[[theRow,{4,5}]]*>}
-{<*Plus @@ allPre[[theRow,Range[5]]]*>}
+{<*NumberForm[allPre[[theRow,1]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,2]],{6,3}]*>}
+{<*NumberForm[allPre[[theRow,3]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,{4,5}]],{6,3}]*>}
+{<*NumberForm[Plus @@ allPre[[theRow,Range[5]]],{6,3}]*>}
 \hline
 \end{tabular}
+
+<*DateString[]*>.
+
+MathVersion <*$Version*>.
+
+Machine <*$MachineName*>. 
+
+/proc/loadavg <*ReadList["!cat /proc/loadavg",String][[1]]*>
+
 \end{minipage}
 }
-  \caption{Calculation Times For Computing Transition Matrix  <*DateString[]*>}
+  \caption{Calculation Times For Computing Transition Matrix  }
   \label{tab:preEvalTimes}
 \end{table}
 

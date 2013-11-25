@@ -34,9 +34,21 @@ to get the  expected impact of an AR(1) shock.
 
 For a constant we have
 \begin{gather*}
-  x_t=B x_{t-1} + (\sum_{s=0}^\infty  F^s) \phi \psi= B x_{t-1} + (I-  F)^{-1} \phi \psi= 
+  x_t=B x_{t-1} + (\sum_{s=0}^\infty  F^s) \phi \psi= B x_{t-1} + (I-  F)^{-1} \phi \psi
 \end{gather*}
+\newtheorem{cnj}{Conjecture}
 
+\begin{cnj}
+We can construct an exogenous process, $z_{t}(\epsilon_t,x_{t-1}), z_{t+1}(\epsilon_t,x_{t-1}), \ldots , z_{t+K}(\epsilon_t,x_{t-1})$ which   
+keeps the $x_t, x_{t+1} \ldots x_{t+K}$ from violating
+occasionally binding constraints where K can be arbitrarily large.
+\end{cnj}
+
+\begin{gather*}
+x_t = B x_{t-1} + \sum_{s=0}^\infty( F^s \phi \psi z_{t+s}(\epsilon_t,x_{t-1})) \\
+x_{t+k} = B x_{t+k-1} + \sum_{s=0}^\infty( F^s \phi \psi z_{t+k+s}(\epsilon_{t+k},x_{t+k-1})) \\
+g(x_t)\le 0\\
+\end{gather*}
 \bibliographystyle{plainnat}
 \bibliography{files,anderson}
 \end{document}

@@ -84,7 +84,15 @@
 \hline
 \end{tabular}
 
-  \caption{The Model Dimensions <*DateString[]*>}
+<*DateString[]*>. 
+
+MathVersion <*$Version*>. 
+
+Machine <*$MachineName*>. 
+
+/proc/loadavg <*ReadList["!cat /proc/loadavg",String][[1]]*>
+
+  \caption{The Model Dimensions }
   \label{tab:noEst}
 
     
