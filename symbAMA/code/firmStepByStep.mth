@@ -1,0 +1,47 @@
+Needs["stepByStep`"]
+
+$theModelDir="dynareExamples/uniqueExamples/";
+$theLinResDir="theLinRes/";
+$theModel="firmValue"
+
+
+
+firmModDims=getModelDims[$theModelDir,$theModel]
+
+
+firmPreEvals=preEvals[$theModelDir,$theModel,$theLinResDir];
+
+getVars[$theModel]=firmPreEvals[[-1]];
+$tConst=1;
+firmSSSoln=trySolve[$theModelDir,$theModel,$theLinResDir];
+getNonLinSSSoln[$theModel]=firmSSSoln[[-1,1]];
+
+
+
+
+firmCompEvals=Catch[tryCompEvals[$theModelDir,$theModel,$theLinResDir],
+"after evals"];
+
+
+
+firmFindRoot=tryFindRoot[$theModelDir,$theModel,$theLinResDir]
+
+
+firmCompEvecs=(Catch[tryCompEvecs[$theModelDir,$theModel,$theLinResDir],"after evals"|"after evecs"]);
+
+
+firmLinCompTimes=allLinear[$theModelDir,$theModel,$theLinResDir];
+
+getB[$theModel]=firmCompEvecs[[-2]];
+$tConst=1;
+firmForMex=allNonLinear[$theModelDir,$theModel,$theLinResDir];
+
+
+doMexSplice[$theModel]
+mexComp[$theModel]
+expHMat[$theModel]
+
+
+Run["matlab -nodesktop -nodisplay -nosplash -r linExeToMat"]
+{linExeTimes}=Import["linExeTimes.mat"];
+
