@@ -1,4 +1,4 @@
-BeginPackage["genMexCode`",{"Experimental`", "Format`","nonLinearCompTimes`","linearCompTimes`"}]
+BeginPackage["genMexCode`",{"Experimental`", "Format`"}]
 
 Run["gfortran -c -fdefault-real-8 -fPIC rpoly493.f"]
 
@@ -30,12 +30,6 @@ Times[aa___,(xx_-I yy_),oo___,(xx_+I yy_),zz___]->Times[aa,(xx^2+yy^2),oo,zz]
 try=(CRHO (-1 + LAMBDA) LAMBDA  (-2 + w1 - I w2) (w1 - I w2) (-2 + w1 + I w2) (w1 + I w2))
 *)
 
-(*
-getB::usage="getB[modName_String]"
-makeShockSubs::usage="makeShockSubs[name_String]"
-genCode::usage="genCode[modName_String]";
-getEqns::usage="getEqns[modName_String]"
-*)
 doMexSplice::usage="doMexSplice[modName_String]";
 
 mexComp::usage="mexComp[modName_String]";
@@ -103,7 +97,7 @@ MapIndexed[#1->ToExpression["rVal"<>ToString[#2[[1]]]]&,rVals]
 
 doMexSplice[modName_String]:=
 Module[{mexName=modName<>"MexBRtsComp.c",splicedCode,chnl,allCode,
-bMat=getB[modName]},
+bMat=Global`getB[modName]},
 With[{bRows=Length[bMat],bCols=Length[bMat[[1]]]},
 $modNameNow=modName;
 $bRowsNow=bRows;
@@ -123,15 +117,14 @@ makeShockSubs[name_String]:=With[
 {shks=Global`AMAModelDefinition[name][[-2]]},
 #[[1]]->0&/@shks]
 
-getB[modName_String]:=If[utilitiesSetUp`isLin[modName],Global`getLinB[modName],
-If[utilitiesSetUp`isNonLin[modName],Global`getNonLinB[modName],"unknown model"]]
-getEqns[modName_String]:=If[utilitiesSetUp`isLin[modName],Global`getLinEqns[modName],
-If[utilitiesSetUp`isNonLin[modName],Global`getNonLinEqns[modName],"unknown model"]]
+isLin[modName_String]:=With[{ssVars=getSSVars[modName]},
+And @@ (FreeQ[Global`getHmat[modName],#]& /@ssVars)]
+
 
 
 genLinAssigns[modName_String]:=
 Module[{prmDefs=defineLinParamsDouble[modName]},
-With[{linB=getB[modName]/.makeShockSubs[modName]},
+With[{linB=Global`getB[modName]/.makeShockSubs[modName]},
 With[{bSubbedPair=repRoots[linB]},
 With[{collected=collectedRts[bSubbedPair]},
 With[{rpolyStuff=If[Length[collected]==0,{"","",""},Transpose[
@@ -203,23 +196,29 @@ With[{toDef=Union[StringCases[theStr,RegularExpression["forCoeffs[0-9]+"]]]},
 "\n"<>(StringJoin @@ (defineDouble /@toDef))<>"\n"]
 
 
+getSSVars[modName_String]:=Sort[Last/@AccelerateAMA`makeSSValSubs[utilitiesSetUp`getVars[modName]]]
+
 defineSSValDouble[modName_String]:=
-With[{ssVars=Sort[Last/@AccelerateAMA`makeSSValSubs[utilitiesSetUp`getVars[modName]]]},
+With[{ssVars=getSSVars[modName]},
 StringJoin @@ 
 Map[ToString[StringForm["double `` ;\n",#]]&,ssVars]]
 
 
 
 defineSSValAssign[modName_String]:=
-If[utilitiesSetUp`isLin[modName],"",
-With[{ssVars=Sort[Last/@AccelerateAMA`makeSSValSubs[utilitiesSetUp`getVars[modName]]]},
+If[isLin[modName],"",
+With[{theSubs=Global`getNonLinSSSoln[modName]},
+If[theSubs==={},compSSStr[modName],
+With[{ssVars=getSSVars[modName]},
 StringJoin @@ 
 MapThread[ToString[StringForm[" `` = ``;\n",#1,#2]]&,{ssVars,Chop[ssVars/.
-Global`getNonLinSSSoln[modName]]}]]]
+theSubs]}]]]]]
+
+compSSStr[modName_String]:="/*no analytic ss soln*/\n"
 
 (*generic assign
 defineSSValAssign[modName_String]:=
-With[{ssVars=Sort[Last/@AccelerateAMA`makeSSValSubs[utilitiesSetUp`getVars[modName]]]},
+With[{ssVars=getSSVars[modName]},
 StringJoin @@ 
 MapIndexed[ToString[StringForm[" `` = ssVec[``];\n",#,#2[[1]]-1]]&,ssVars]]
 *)
@@ -231,7 +230,7 @@ ToString[StringForm["double ssVec[``];\n",Length[utilitiesSetUp`getVars[modName]
 genSSEqns[modName_String]:=
 With[{params=getParams[modName],vars=utilitiesSetUp`getVars[modName]},
 With[{ssSubsNow=AccelerateAMA`makeSSValSubs[vars]},
-With[{ssVars=Last/@ssSubsNow,eqns=(getEqns[modName]/.
+With[{ssVars=Last/@ssSubsNow,eqns=(AMAModelDefinition`getEqns[modName]/.
 ssSubsNow)/.makeShockSubs[modName]},
 With[{drvs=eqDrv[#,ssVars]&/@eqns},
 {eqns,drvs}]]]]
@@ -300,7 +299,7 @@ mexComp/@allNonLinearMods
 getExampleParams[modName_String]:=
 getParams[modName]/.Global`getParamSubs[modName]
 getExampleB[modName_String]:=
-getB[modName]//.Global`getParamSubs[modName]
+Global`getB[modName]//.Global`getParamSubs[modName]
 
 
 mexComp[modName_String]:=
@@ -324,11 +323,11 @@ evs]
 
 
 expHMat[modName_String]:=
-Module[{eqns=getEqns[modName],hmat=Global`getHmat[modName],numhmat,prms,dims},
+Module[{eqns=AMAModelDefinition`getEqns[modName],hmat=Global`getHmat[modName],numhmat,prms,dims},
 With[{matName=modName<>"Hmat.mat",matNameDims=modName<>"Dims.mat",matNamePrms=modName<>"Prms.mat",matNameSS=modName<>"SS.mat"},
 numhmat=hmat//.Global`getParamSubs[modName]/.Global`getNonLinSSSoln[modName]/.makeShockSubs[modName];
 With[{ssSubsNow=AccelerateAMA`makeSSValSubs[utilitiesSetUp`getVars[modName]]},
-With[{ssVars=DeleteCases[(Last/@ssSubsNow)/.Global`getNonLinSSSoln[modName],_Symbol]},
+With[{ssVars=DeleteCases[(Last/@ssSubsNow)/.Global`getNonLinSSSoln[modName]//.Global`getParamSubs[modName]/.Global`getNonLinSSSoln[modName]/.makeShockSubs[modName],_Symbol]},
 dims={{neq=Length[hmat],nlags=AccelerateAMA`getLags[eqns],nleads=AccelerateAMA`getLeads[eqns]}};
 prms=(getExampleParams[modName]/.$noDefaultValue->0)//.Global`getParamSubs[modName];
 Print["ss"];

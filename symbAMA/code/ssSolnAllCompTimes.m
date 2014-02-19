@@ -1,11 +1,12 @@
 BeginPackage["ssSolnAllCompTimes`",{"preEvalTimes`"}]
 EndPackage[]
-Print["spliceSSSolnAllCompTimes takes about 10 minutes"]
 
 
 
 
-$tConst=10;
+$tConst=60*60*10;
+
+Print[StringForm["Using $tConst=``",$tConst]]
 allSolve10=(trySolve["dynareExamples/uniqueExamples/",#,"theLinRes/"]&/@
 theDynareMods)/.{_,yy:({}|$Aborted)}->{NA,yy};
 (*get rid of bad soln*)
@@ -16,7 +17,7 @@ Global`getSolveSS["kiyotakiMooreViegi"]=tmp[[{2}]];
 
 
 
-$tConst=10;tryEvals10=
+tryEvals10=
 (Catch[tryCompEvals["dynareExamples/uniqueExamples/",#,"theLinRes/"],
 "after evals"]& /@theDynareMods)/.$Aborted->{NA,NA};
 

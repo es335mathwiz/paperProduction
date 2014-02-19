@@ -19,7 +19,7 @@
 %<*col4=Plus @@ linTimes[[theRow,9]];*>
 %<*col5=Plus @@ linTimes[[theRow,10]];*>
 %<*col6=Plus @@ linTimes[[theRow,Range[10]]];*>
-\ltime{<*smallLinearMods[[theRow]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\ltime{<*smallLinearMods[[theRow]]*>}{<*NumberForm[col2,{6,3}]*>}{<*NumberForm[col3,{6,3}]*>}{<*NumberForm[col4,{6,3}]*>}{<*NumberForm[col5,{6,3}]*>}{<*NumberForm[col6,{6,3}]*>}
 \hline
 %<*theRow=2;*>
 %<*col2=Plus @@ linTimes[[theRow,Range[4]]];*>
@@ -27,7 +27,7 @@
 %<*col4=Plus @@ linTimes[[theRow,9]];*>
 %<*col5=Plus @@ linTimes[[theRow,10]];*>
 %<*col6=Plus @@ linTimes[[theRow,Range[10]]];*>
-\ltime{<*smallLinearMods[[theRow]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\ltime{<*smallLinearMods[[theRow]]*>}{<*NumberForm[col2,{6,3}]*>}{<*NumberForm[col3,{6,3}]*>}{<*NumberForm[col4,{6,3}]*>}{<*NumberForm[col5,{6,3}]*>}{<*NumberForm[col6,{6,3}]*>}
 \hline
 %<*theRow=3;*>
 %<*col2=Plus @@ linTimes[[theRow,Range[4]]];*>
@@ -35,7 +35,7 @@
 %<*col4=Plus @@ linTimes[[theRow,9]];*>
 %<*col5=Plus @@ linTimes[[theRow,10]];*>
 %<*col6=Plus @@ linTimes[[theRow,Range[10]]];*>
-\ltime{<*smallLinearMods[[theRow]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\ltime{<*smallLinearMods[[theRow]]*>}{<*NumberForm[col2,{6,3}]*>}{<*NumberForm[col3,{6,3}]*>}{<*NumberForm[col4,{6,3}]*>}{<*NumberForm[col5,{6,3}]*>}{<*NumberForm[col6,{6,3}]*>}
 \hline
 %<*theRow=4;*>
 %<*col2=Plus @@ linTimes[[theRow,Range[4]]];*>
@@ -43,7 +43,7 @@
 %<*col4=Plus @@ linTimes[[theRow,9]];*>
 %<*col5=Plus @@ linTimes[[theRow,10]];*>
 %<*col6=Plus @@ linTimes[[theRow,Range[10]]];*>
-\ltime{<*smallLinearMods[[theRow]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\ltime{<*smallLinearMods[[theRow]]*>}{<*NumberForm[col2,{6,3}]*>}{<*NumberForm[col3,{6,3}]*>}{<*NumberForm[col4,{6,3}]*>}{<*NumberForm[col5,{6,3}]*>}{<*NumberForm[col6,{6,3}]*>}
 \hline
 %<*theRow=5;*>
 %<*col2=Plus @@ linTimes[[theRow,Range[4]]];*>
@@ -51,7 +51,7 @@
 %<*col4=Plus @@ linTimes[[theRow,9]];*>
 %<*col5=Plus @@ linTimes[[theRow,10]];*>
 %<*col6=Plus @@ linTimes[[theRow,Range[10]]];*>
-\ltime{<*smallLinearMods[[theRow]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\ltime{<*smallLinearMods[[theRow]]*>}{<*NumberForm[col2,{6,3}]*>}{<*NumberForm[col3,{6,3}]*>}{<*NumberForm[col4,{6,3}]*>}{<*NumberForm[col5,{6,3}]*>}{<*NumberForm[col6,{6,3}]*>}
 \hline
 %<*theRow=6;*>
 %<*col2=Plus @@ linTimes[[theRow,Range[4]]];*>
@@ -59,7 +59,7 @@
 %<*col4=Plus @@ linTimes[[theRow,9]];*>
 %<*col5=Plus @@ linTimes[[theRow,10]];*>
 %<*col6=Plus @@ linTimes[[theRow,Range[10]]];*>
-\ltime{<*smallLinearMods[[theRow]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\ltime{<*smallLinearMods[[theRow]]*>}{<*NumberForm[col2,{6,3}]*>}{<*NumberForm[col3,{6,3}]*>}{<*NumberForm[col4,{6,3}]*>}{<*NumberForm[col5,{6,3}]*>}{<*NumberForm[col6,{6,3}]*>}
 \hline
 %<*theRow=7;*>
 %<*col2=Plus @@ linTimes[[theRow,Range[4]]];*>
@@ -67,9 +67,35 @@
 %<*col4=Plus @@ linTimes[[theRow,9]];*>
 %<*col5=Plus @@ linTimes[[theRow,10]];*>
 %<*col6=Plus @@ linTimes[[theRow,Range[10]]];*>
-\ltime{<*smallLinearMods[[theRow]]*>}{<*col2*>}{<*col3*>}{<*col4*>}{<*col5*>}{<*col6*>}
+\ltime{<*smallLinearMods[[theRow]]*>}{<*NumberForm[col2,{6,3}]*>}{<*NumberForm[col3,{6,3}]*>}{<*NumberForm[col4,{6,3}]*>}{<*NumberForm[col5,{6,3}]*>}{<*NumberForm[col6,{6,3}]*>}
 \hline
 \end{tabular}
-    \caption{Linear Model Computation Times  <*DateString[]*>}
-    \end{center}\label{tab:linCompTimes}
+
+
+
+<*DateString[]*>.
+
+MathVersion <*$Version*>.
+
+Machine <*$MachineName*>. 
+
+/proc/loadavg <*ReadList["!cat /proc/loadavg",String][[1]]*>
+
+Time Limit <*$tConst*>
+
+
+This file is in
+
+\noindent
+ {\tiny \fullpath }
+
+
+
+
+    \caption{Linear Model Computation Times  }
+
+\label{tab:linCompTimes}
+
+
+    \end{center}
   \end{table}

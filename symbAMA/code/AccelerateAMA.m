@@ -57,6 +57,7 @@ tryCompEvecs::usage = "tryCompEvecs  "
 
 genSSEqns::usage = "genSSEqns  "
 
+
 (* Exported symbols added here with SymbolName::usage *)  
 
 Begin["`Private`"] (* Begin Private Context *) 
@@ -103,6 +104,7 @@ Global`getCols[modName]=cols;
 {more,lilMat}=Timing[FullSimplify[lilMat,TimeConstraint->Global`$tConst]];lilTime=lilTime+more;*)
 {parseTime,hmatTime,arTime,amatTime,lilTime,paramSubs,eqns,hmat,vars}
 ]
+
 
 
 tryCompEvals[modName_String]:=tryCompEvals[$defaultExamplesDir,modName,$defaultResDir]

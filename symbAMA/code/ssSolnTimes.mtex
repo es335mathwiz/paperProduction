@@ -211,9 +211,9 @@ Machine <*$MachineName*>.
 
 Time Limit <*$tConst*>
 \end{minipage}
-}
+}  \label{tab:ssSolnTimes}
   \caption{Steady State and Eigenspace Calculation Times }
-  \label{tab:preEvalTimes}
+
 \end{table}
 
 

@@ -1,8 +1,8 @@
-\newcommand{\nimLine}[8]{{#1}&{#2}&{#3}&{#4}&{#5}&{#6}&{#7}&{#8}\\}  
+\newcommand{\nimLine}[8]{{#1}&{#2}&{#3}&{#4}&{#5}&{#6}&{#8}\\}  
 
 \begin{table}
   \begin{center}
-\begin{tabular}{|l|r|r|r|r|c|c|l|}
+\begin{tabular}{|l|r|r|r|r|c|l|}
 \hline
 \multicolumn{1}{|c|}{Model}&  
 \multicolumn{1}{|c|}{L}&  
@@ -10,7 +10,7 @@
 \multicolumn{1}{|c|}{$\theta$}&  
 \multicolumn{1}{|c|}{p}&
 \multicolumn{1}{|c|}{Linear?}&  
-\multicolumn{1}{|c|}{Estimated?}&  
+%\multicolumn{1}{|c|}{Estimated?}&  
 \multicolumn{1}{|c|}{Source}\\
 \hline
 %<*tRow=1*>

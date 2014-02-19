@@ -48,7 +48,7 @@ The algorithm described in\cite{anderson10} consists of three distinct phases%:
  % \end{enumerate}
 
 The paper demonstrates that for small models it is often possible to 
-compute completely analytic solutions for each of these phases.
+compute  analytic solutions for each of these phases.
 These analytic solutions are much faster for simulation and estimation even
 when taking into account the time required for their construction.
 
@@ -187,10 +187,10 @@ right hand side term. See Section~\ref{sec:inhomog}.
 
 
 
-Section \ref{inhomo} provides a flexible 
+
+Suppose, for now, that we are interested in computing homogeneous soltions -- $\Psi=0$/footnote{Section \ref{inhomo} provides a flexible 
 and computationally efficient method for 
-computing inhomogeneous solutions.
-Suppose, for now, that we are interested in computing homogeneous soltions -- $\Psi=0$:
+computing inhomogeneous solutions.}
 % \footnote{Note that there is no unique steady state requirement.
 % Steady state solutions, $x^\ast$ satisfying
 % \begin{gather}
@@ -222,8 +222,7 @@ Suppose, for now, that we are interested in computing homogeneous soltions -- $\
 \label{sec:arzgev}
 
 This section describes how to determine a first-order state space
-representation for the equation system~\ref{eq:homo}. The method is an extension
-of the shuffling algorithm developed in\cite{luenberger78,luenberger77}.
+representation for the equation system~\ref{eq:homo}. 
 If $H_\theta$ is non-singular, we can immediately obtain $x_{t+\theta}$ 
 in terms of $x_{t-\tau} \ldots x_{t+\theta-1}$
 \begin{gather}
@@ -314,6 +313,13 @@ A^\sharp=
   \end{bmatrix} 
 \end{gather}
 
+Implementations of the algorithm can  avoids using a large matrix by
+shifting  elements in the
+rows of a single copy of the matrix $H$. 
+Implementations can also reduce the size of the transition matrix by
+eliminating  inessential lags from the autoregressive representation before
+constructing the state space transition matrix for invariant space 
+calculations.  
 
 
 
@@ -342,7 +348,7 @@ inside the
 unit circle, a given state vector that is part of a convergent trajectory
 must be orthogonal to each of these left invariant space vectors. See \cite{anderson10}.
 Thus, the algorithm can exploit bi-orthogonality and can use
-less burdensome computations of vectors spanning the 
+less burdensome computations of vectors spanning the explosive
 left invariant space.
 
 
@@ -366,29 +372,31 @@ V
   x_{t+\theta-1}
 \end{bmatrix}=0
 \end{gather}
-for some $t$.\footnote{
-If $A$ has roots with magnitude $1$ then trajectories can converge to 
-either a limit cycle or a non-zero fixed point. Otherwise,
-non-explosive trajectories will converge to the origin.}
-
 
 
 
 
 Combining V and $Z^\sharp$  completely characterizes the space of 
 stable solutions satisfying the linear system~\ref{eq:homo}.
-Given
-\begin{gather}
-  Q= 
+Given $  Q= 
   \begin{bmatrix}
     Z^{\sharp}\\V
   \end{bmatrix},
+$
+\begin{gather}
 Q
 \begin{bmatrix}
   x_{-\tau} \\ \vdots \\ x_{\theta-1}
 \end{bmatrix}=0 
 \end{gather}
-guarantees that iterating the system forward will converge to the steady state.
+guarantees that iterating the system forward will converge to the steady 
+state.\footnote{
+To be precise, if $A$ has roots with magnitude 
+$1$ then trajectories can converge to 
+either a limit cycle or a non-zero fixed point. Otherwise,
+non-explosive trajectories will converge to the origin.}
+
+
 
 The first set of equations come from the equations in equation system 
 \ref{eq:homo} which do not appear in the transformed system 
@@ -406,10 +414,7 @@ Algorithm \ref{alg:asymptoticConstraints} on page \pageref{alg:asymptoticConstra
 
 The first two algorithms  together  produce a matrix $Q$ characterizing
 constraints guaranteeing that trajectories are not explosive.  See \cite{anderson10}  for a proof.
-\cite{anderson99} describes how to use 
-the matrix $Q$  to impose
-saddle point stability in non linear perfect foresight models.
-However, for linear models with unique  saddle point
+For linear models with unique  saddle point
 solutions, it is often useful to 
 employ an autoregressive representation of the solution.
 A theorem in \cite{anderson10} 
@@ -610,15 +615,9 @@ Algorithm \ref{alg:trans} provides pseudo code for computing $\sTransA$ and $\sT
 \label{sec:imple}
 
 
-Numerical implementations written in Python,  Mathematica,  Matlab,  and  ``C'' are available from the author.\footnote{\url{http://www.federalreserve.gov/pubs/oss/oss4/aimindex.html} and via gitHub \url{https://github.com/es335mathwiz}.}   
-Numerical implementation are available in Dynare and in Troll.
-Each implementation avoids using a large matrix.
-They each  shift elements in the
-rows of a single copy of the matrix $H$. 
-Each implementation
-eliminates inessential lags from the autoregressive representation before
-constructing the state space transition matrix for invariant space 
-calculations.  
+Numerical implementations written in Python,  Mathematica,  Matlab,  and  ``C'' are available from the author.\footnote{\url{http://www.federalreserve.gov/pubs/oss/oss4/aimindex.html} and via gitHub \url{https://github.com/es335mathwiz}.}  The econometric modeling packages 
+Dynare and  Troll use a numerical implementation of the homogeneous solution
+algorithms.
 
 
 
@@ -644,7 +643,7 @@ computing vectors spanning the left invariant space using ARPACK\cite{lehoucq96}
 
 
 The author also provides a symbolic algebra implementation
- written in Mathematica.\footnote{The program should work with versions 8 and 9.}
+ written in Mathematica.\footnote{The programs  work with versions 8 and 9.}
 For small models, one can employ this symbolic algebra version of the
 algorithms written in Mathematica. On present day computers this,
 code can easily construct symbolic state space transition matrices and compute 
@@ -655,7 +654,7 @@ vectors when the transition matrix is of dimension 10 or less.
 
 For larger models, the bottleneck is typically the computation of the
 invariant space vectors. For this case, this paper proposes a blending of symbolic and
-numerical compuations.
+numerical compuations. See section \ref{sec:larger}.
 
   \subsection{A Simple Example}
 Consider the model given by
@@ -700,7 +699,7 @@ A=\begin{bmatrix}
 \begin{bmatrix}
 1 + r& \delta-1\\0& 1 - \delta
 \end{bmatrix} \intertext{The symbolic algebra implementation easily computes the two symbolic eigenvalues}
-\lambda_s=1-\delta,\lambda_L=1+r
+\lambda_S=1-\delta,\lambda_L=1+r
       \end{gather*}
     \item and computing only the left eigenvector associated with the single large root
       \begin{gather*} \intertext{The symbolic algebra implementation easily computes the left eigenvector, e}
@@ -765,10 +764,14 @@ Q=
   
 To assess the practicality of obtaining symbolic solutions, I developed
 a Mathematica/Java program that
-reads linear Dynare 4.2 models, gleans the equations,  parameters, 
+reads  Dynare 4.2 models, gleans the equations,  parameters, 
 variables and   initial values for parameters and 
 applies the symbolic algebra algoritims to compute analytic 
 autoregressive solutions for the model.
+For nonlinear models, the Mathematica  code attempts to symbolically computes 
+steady states. The code 
+linearizes non-linear models using either the symbolic solution or a 
+symbolic representation of a non-analytic steady state value.
 I apply this program to a collection of representative models taken from 
 \href{http://www.dynare.org/documentation-and-support/faq/basics}{the Dynare distribution,}
 \href{http://www.nviegi.net/research/dsge.htm}{``Modelling and Simulating DSGE Models with Dynare in Octave'' by Nicola Viegis} and 
@@ -782,10 +785,11 @@ definition. Some of the models are nonlinear.
 \input{../code/modDims.tex}
 
   These nonlinear solutions have place holders for the steady state value.
+The Mathematica code linearizes nonlinear models about a symbolic steady state.
 Table \ref{tab:preEvalTimes} presents computation times for the steps
 preceeding the eigenvalue calculations.
 The symbolic algebra programs can deliver analytic solutions for
-each of the transition matrices. This includes ifsi and fs2000ns which required
+each of the transition matrices. This includes 17 equation ifsi and and 14 equation fs2000ns which required
 about 3 minutes and a one half minute respectively. All the other models required less than a second.
 
 
@@ -795,9 +799,9 @@ about 3 minutes and a one half minute respectively. All the other models require
 
 
 Symbolic algebra techniques deliver complete 
-analytic solutions for each of the
+analytic solutions for each of the linear
 models except for the BGGViegi model. 
-I set a maximum of one hour for each stage of the computation.
+I set a maximum of ???one hour??? for each stage of the computation.
 For the BGGViegi model, the Eigenvector computation 
 step took more than an hour before aborting this and each of the subsequent 
 steps.  
@@ -809,14 +813,14 @@ Intel(R) Xeon(R) CPU.\footnote{(peaklx13)}
 \input{../code/allCompTimes.tex}
 
 Table \ref{tab:linCompTimes} presents the time required to compute analytic 
-solutions. The first column presents the time to compute the state space 
+solutions. 
+The second column presents the time to compute the state space 
 transistion matrix, A. Column three presents the time required to determine
 the eigenvalues and eigenvectors that help characterize the asymptotic
-constraint matrix, Q. The fourth column presents the time required to
+constraint matrix, Q. The fifth column presents the time required to
 compute the B matrix characterizing the linear rational expectation  model
-solution.  The fifth column characterizes the time required to compute
-the observable structure matrix, S.  The final column provides the
-total time needed to compute the symbolic solution. 
+solution.  The sixth column characterizes the time required to compute
+the observable structure matrix, S.  
 
 FindRoot uses random numbers for variables not given by symbolic expression.
 On rare occasion these do not converge except for ifs1 and fs2000
@@ -832,12 +836,16 @@ a MEX file for computing the
 Analytic mex reports the time required for computing the B matrix 1000 times.
 The fourth column presents  the second column  divided by column three.
 The fifth colum reports 
-the number of function values required before the speed of the
+the number of function evaluations required before the speed of the
 symbolic computing makes up for the overhead of
 computing the symbolic solution.
 \begin{gather*}
-  N=\frac{P}{t_s-t_f}
+  N=\frac{P}{t_N-t_S}
 \end{gather*}
+where $t_N$ is the time for the numeric computation of the $B$ matrix,
+$t_S$ is the time for the symbolic computation of the $B$ matrix, and
+$P$ is the time needed to compute the symbolic B matrix.
+]
 The table shows that for small linear models, 
 the analytic mex file is generally more than 100 times
 faster than the fastest matlab implementation for solving linear rational
@@ -856,7 +864,7 @@ rational expectations solution.
 
 
 \input{../code/nonLinearCompTimes.tex}
-{\bf problems with {nonLinearCompTimes.tex}}
+
 Table \ref{tab:nonLinMexTime} shows that
 speedups are comparable to speedups for linear models. But since the 
 initial computation overhead for computing the solutions is larger, the
@@ -885,124 +893,17 @@ One can compare the susequent execution times with and without Simplification.
    \subsection{Some Linear Model Results}
     \begin{itemize}
     \item Symbolic results for each linear model \ 
-
-
-      \begin{table}
-        \begin{center}
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|}
-\hline
-\multicolumn{1}{|c|}{Model}&  
-\multicolumn{1}{|c|}{SS}&  
-\multicolumn{1}{|c|}{SSCode}&  
-\multicolumn{1}{|c|}{H}&  
-\multicolumn{1}{|c|}{A}&  
-\multicolumn{1}{|c|}{EigenSys}&  
-\multicolumn{1}{|c|}{EigenVals}&
-\multicolumn{1}{|c|}{NullSpace}&
-\multicolumn{1}{|c|}{B}&
-\multicolumn{1}{|c|}{BCode\footnote{\java\ Java, \mex\ C mex, \mlb MATLAB}}\\
-\hline
-\multicolumn{10}{|c|}{Dynare Estimates Available}\\
-\hline
-\multicolumn{10}{|c|}{Linear}\\
-\hline
-\stLine{firmValue }{\ssCodeHA{\yy}{}{\yy}{\yy}}{\evalsB{}{\yy}{\yy}{\yy}{}}
-\hline
-\stLine{Fuhrer Moore}{\ssCodeHA{}{}{}{}}{\evalsB{}{}{}{}{}}
-\hline
-\stLine{hall1estimateBayes }{\ssCodeHA{\yy}{}{\yy}{\yy}}{\evalsB{}{\yy}{\yy}{\yy}{}}
-\hline
-\stLine{hall1estimateML }{\ssCodeHA{\yy}{}{\yy}{\yy}}{\evalsB{}{\yy}{\yy}{\yy}{}}
-\hline
-\stLine{Lubik Schorfheide}{\ssCodeHA{\yy}{}{\yy}{\yy}}{\evalsB{}{\yy}{\yy}{\yy}{}}
-\hline
-\stLine{rosenestimateBayes }{\ssCodeHA{\yy}{\yy}{\yy}{\yy}}{\evalsB{}{\yy}{\yy}{\yy}{\java\mex\mlb}}
-\hline
-\stLine{rosenestimateML}{\ssCodeHA{\yy}{\yy}{\yy}{\yy}}{\evalsB{}{\yy}{\yy}{\yy}{\java\mex\mlb}}
-\hline
-\end{tabular}
-        \caption{another}
-        \end{center}
-\label{tab:another}
-      \end{table}
-
   \item  Expressions huge and largely uninterpretable. (Don't peek.)
   \item Can generate efficient Java, Matlab, or C Mex code using Mathematica OptimizedExpressions\cite{sofroniou04,sofroniou04a}.
   \item Computing analytic expressions for rosenestimateBayes requres .85 seconds.\ 
 
    
 
-      \begin{table}
-        \begin{center}
-\begin{tabular}{|l|r|r|r|r|r|}
-\hline
-\multicolumn{1}{|c|}{Model}&  
-\multicolumn{1}{|c|}{Evals}&  
-\multicolumn{1}{|c|}{Original Matlab}&  
-\multicolumn{1}{|c|}{Analytic Matlab}&  
-\multicolumn{1}{|c|}{Analytic Java}&  
-\multicolumn{1}{|c|}{Analytic C}\\
-\hline
-\bLine{rosenestimateBayes}{10054}{15.7418}{0.611311}{1.5446}{0.311267}
-\hline
-\bLine{rosenestimateML}{93}{0.642674}{0.0380156}{0.0681231}{0.00275175}
-\hline
-\end{tabular}
-        \caption{another}
-        \end{center}
-\label{tab:another}
-      \end{table}
-
-
     \end{itemize}
 
 
 
 
-
-
-\subsection{Estimation Results}
-\label{sec:estimation-results}
-
-\begin{description}
-\item[Lubik and Schorfheide] Trouble estimating as algorithm fails with error 63. Nan or infinite A.  Algebraic solution unable to get eigenvalues.  Did not do any simplification or modification of the model to simplify the eigenvalue stage. No idea if Null Space will work.
-
-  \begin{itemize}
-\item Provides a mechanism for Dynare to estimate(optimize) nonlinear models.
-  ( Explore
-implication of linearity assumption for statistics and other calculations.)
-  \item parsed dynare model and computed steady state analytically.
-  \item computed transition matrix and lilMat
-  \end{itemize}
-\item[rosenestimateML] 
-Using desktop computer. By hand determined coeffs from jacobian\_.  For some reason sign of  first coefficient, a1,  opposite of the second coefficient, d1.
-Calling times for rosenBComp appear to increase with the number of iterations.
-The ML code has rosen faster than calling AMA but for Bayes the average time
-for AMA is about the same but rosenBComp deteriorates dramatically.  Not sure why.  Could be the coefficients, but I suspect it has to do with memory and
-loading (perhaps reparsing) the function. Perhaps Java better.  Times can vary from run to run.  Should normalize by dynare time. 
-\item[rosenestimateBayes]
-\item[GrowthApproximate] can't use aimsolver for order =2  (why not?)  Computes same steady state as dynare
-\item[GrowthEstimate] appears to work (order =1)  works on linux too
-\item[TwocountryEst] original and aimsolver run fine.
-\item[AssetPricingEstimate] Needs nonlinear computation of steady state for each of the 7 parameter settings. Dynare computes same steady state as I do, but check fails. Too many big roots. Using the steady state computation my improve things
-\item[BansalYaronBayes] Computes estimates successfully
-\item[BansalYaronML] Computes estimates successfully
-\item[hall1estimateML] linear fails at csminwell  singular matrix schur statespace transformation
-\item[hall1estimateBayes] linear fails fail BK condition   singular matrix
-\item[HSTBayes] fails BK condition singular matrices  
-\item[HSTBayes] warnings about singular but completes
-\item[sargent77ML] fails BK
-\item[sargent77Bayes] fails BK
-\item[sargent77] just computes steady and does stoch simul  no leads.
-\item[TwocountryEst] Computes estimates successfully
-\item[RBC\_Est] Failed to get steady
-\item[RBCMonopDet] computed stoch simul and BK successfully. no estimation. just simulation
-\item[RBCMonopJFV] computed stoch simul and BK successfully. no estimation. just simulation
-  \item[fs2000ns] no steady
-  \item[AltEx1] computes BK successfully. no estimation
-\end{description}
-
-\vspace{1cm}
 
 
   \subsection{Nonlinear Models}
@@ -1022,6 +923,7 @@ loading (perhaps reparsing) the function. Perhaps Java better.  Times can vary f
 
 
   \section{Automating the Symbolic Calculations and the Approximations}
+\label{sec:larger}
   \begin{itemize}
   \item Most steps straightforward 
   \item Only eigensystem and steady state steps problematic
@@ -1100,6 +1002,10 @@ for each of the components eigenvectors
 
 
   \begin{itemize}
+  \item computing evals for transition structure for B equating evals along with plugging into equation system provides a bounty of equations for solving for coeffs.  perhaps S and phi or F may be useful too.  check homogeneous this way
+  \item parallelize
+  \item organize and change splice and computations to per model
+  \item each doc should aggregate, splice to mtex file
   \item unit testing
   \item init val for steady state
   \item optimize the Needs dependencies

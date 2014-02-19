@@ -18,36 +18,49 @@
 \hline
 \lmlbtime{\text{firmValue}}
 %<*theRow=1;numReps=1000;*>
-{<*linExeTimes[[theRow,1]]*>}{<*linExeTimes[[theRow,2]]*>}{<*linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))]*>}
+{<*NumberForm[linExeTimes[[theRow,1]],{6,3}]*>}{<*NumberForm[linExeTimes[[theRow,2]],{6,3}]*>}{<*NumberForm[linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]],{6,3}]*>}{<*NumberForm[Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))],{6,0}]*>}
 \hline
 \lmlbtime{\text{fuhrerMoore}}
 %<*theRow++;numReps=1000;*>
-{<*linExeTimes[[theRow,1]]*>}{<*linExeTimes[[theRow,2]]*>}{<*linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))]*>}
+{<*NumberForm[linExeTimes[[theRow,1]],{6,3}]*>}{<*NumberForm[linExeTimes[[theRow,2]],{6,3}]*>}{<*NumberForm[linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]],{6,3}]*>}{<*NumberForm[Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))],{6,0}]*>}
 \hline
 \lmlbtime{\text{hall1estimateBayes}}
 %<*theRow++;numReps=1000;*>
-{<*linExeTimes[[theRow,1]]*>}{<*linExeTimes[[theRow,2]]*>}{<*linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))]*>}
+{<*NumberForm[linExeTimes[[theRow,1]],{6,3}]*>}{<*NumberForm[linExeTimes[[theRow,2]],{6,3}]*>}{<*NumberForm[linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]],{6,3}]*>}{<*NumberForm[Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))],{6,0}]*>}
 \hline
 \lmlbtime{\text{lesothoViegi}}
 %<*theRow++;numReps=1000;*>
-{<*linExeTimes[[theRow,1]]*>}{<*linExeTimes[[theRow,2]]*>}{<*linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))]*>}
+{<*NumberForm[linExeTimes[[theRow,1]],{6,3}]*>}{<*NumberForm[linExeTimes[[theRow,2]],{6,3}]*>}{<*NumberForm[linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]],{6,3}]*>}{<*NumberForm[Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))],{6,0}]*>}
 \hline
 \lmlbtime{\text{lubikSchorfheide}}
 %<*theRow++;numReps=1000;*>
-{<*linExeTimes[[theRow,1]]*>}{<*linExeTimes[[theRow,2]]*>}{<*linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))]*>}
+{<*NumberForm[linExeTimes[[theRow,1]],{6,3}]*>}{<*NumberForm[linExeTimes[[theRow,2]],{6,3}]*>}{<*NumberForm[linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]],{6,3}]*>}{<*NumberForm[Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))],{6,0}]*>}
 \hline
 \lmlbtime{\text{rosenestimateBayes}}
 %<*theRow++;numReps=1000;*>
-{<*linExeTimes[[theRow,1]]*>}{<*linExeTimes[[theRow,2]]*>}{<*linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))]*>}
+{<*NumberForm[linExeTimes[[theRow,1]],{6,3}]*>}{<*NumberForm[linExeTimes[[theRow,2]],{6,3}]*>}{<*NumberForm[linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]],{6,3}]*>}{<*NumberForm[Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))],{6,0}]*>}
 \hline
 \lmlbtime{\text{simpleNeoViegi}}
 %<*theRow++;numReps=1000;*>
-{<*linExeTimes[[theRow,1]]*>}{<*linExeTimes[[theRow,2]]*>}{<*linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]]*>}{<*Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))]*>}
+{<*NumberForm[linExeTimes[[theRow,1]],{6,3}]*>}{<*NumberForm[linExeTimes[[theRow,2]],{6,3}]*>}{<*NumberForm[linExeTimes[[theRow,1]]/linExeTimes[[theRow,2]],{6,3}]*>}{<*NumberForm[Ceiling[Plus @@(numReps*linTimes[[theRow,{1,2,3,4}]]/(linExeTimes[[theRow,1]]-linExeTimes[[theRow,2]]))],{6,0}]*>}
 \hline
 \end{tabular}
+
+
+
+<*DateString[]*>.
+
+MathVersion <*$Version*>.
+
+Machine <*$MachineName*>. 
+
+/proc/loadavg <*ReadList["!cat /proc/loadavg",String][[1]]*>
+
+Time Limit <*$tConst*>
+
 \end{minipage}
 }
-  \caption{Matlab Mex Calculation Times <*DateString[]*>}
+  \caption{Matlab Mex Calculation Times }
   \label{tab:linMexTime}
 \end{table}
 
