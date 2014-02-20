@@ -325,8 +325,8 @@ evs]
 expHMat[modName_String]:=
 Module[{eqns=AMAModelDefinition`getEqns[modName],hmat=Global`getHmat[modName],numhmat,prms,dims},
 With[{matName=modName<>"Hmat.mat",matNameDims=modName<>"Dims.mat",matNamePrms=modName<>"Prms.mat",matNameSS=modName<>"SS.mat"},
-numhmat=hmat//.Global`getParamSubs[modName]/.Global`getNonLinSSSoln[modName]/.makeShockSubs[modName];
 With[{ssSubsNow=AccelerateAMA`makeSSValSubs[utilitiesSetUp`getVars[modName]]},
+numhmat=(hmat/.ssSubsNow)//.Global`getParamSubs[modName]/.Global`getNonLinSSSoln[modName]/.makeShockSubs[modName];
 With[{ssVars=DeleteCases[(Last/@ssSubsNow)/.Global`getNonLinSSSoln[modName]//.Global`getParamSubs[modName]/.Global`getNonLinSSSoln[modName]/.makeShockSubs[modName],_Symbol]},
 dims={{neq=Length[hmat],nlags=AccelerateAMA`getLags[eqns],nleads=AccelerateAMA`getLeads[eqns]}};
 prms=(getExampleParams[modName]/.$noDefaultValue->0)//.Global`getParamSubs[modName];
