@@ -1,0 +1,69 @@
+theSubs={theta -> 2.95, delta -> 0.025, beta -> 0.99, psi -> .1, tau -> 0.025, 
+    alpha -> 0.36, rho -> 0.95}
+
+
+
+
+makeRanges[pSubs_List]:=
+With[{names=First/@theSubs},
+With[{oding=Ordering[names]},
+With[{theRngs={.9,1.1}*#[[2]]&/@pSubs},
+{names[[oding]],theRngs[[oding]]}]]]
+
+makeSSFinderClass["AltEx1",zapShocks[1]]
+
+ReinstallJava[]
+ssFinder = JavaNew["AltEx1"];
+aSolver = JavaNew[pre <> "NewtonSolver"];
+
+{nms,notTheRanges} = makeRanges[theSubs];
+
+
+theRanges={{0.324, 0.396}, {0.891, .99}, {0.0225, 0.0275}, {0.09, 0.11}, 
+     {0.855, .99}, {0.0225, 0.0275}, {2.655, 3.245}}
+theOrds = ConstantArray[0,{Length[theSubs]}];
+paramGPSs = 
+  MapThread[
+   JavaNew[pre <> "GridVarSpec", 
+     ToString[#1], #2[[1]], #2[[2]]] &, {nms,theRanges}];
+theVars = JavaNew[pre <> "GridVars", paramGPSs];
+theGS = JavaNew[pre <> "GridPointsSpec", theVars, theOrds];
+sseq = JavaNew[pre <> "SSEqns", theGS, ssFinder, {0, 0, 0.80359242014163, 0.29175631001732, 11.083664053958842, 
+ 1.08068253095672}]
+
+theRes=aSolver[solveAtPts[sseq, ConstantArray[0,{Length[getEqns[1]],numPolys[theOrds]}]]]
+genPolys[theRes,nms,theRanges,theOrds]
+
+
+
+theOrds = {0,1,0,0,0,0,0}
+{nms,notTheRanges} = makeRanges[theSubs];
+paramGPSs = 
+  MapThread[
+   JavaNew[pre <> "GridVarSpec", 
+     ToString[#1], #2[[1]], #2[[2]]] &, {nms,theRanges}]
+theVars = JavaNew[pre <> "GridVars", paramGPSs];
+theGS = JavaNew[pre <> "GridPointsSpec", theVars, theOrds];
+sseq = JavaNew[pre <> "SSEqns", theGS, ssFinder, {0, 0, 0.80359242014163, 0.29175631001732, 11.083664053958842, 
+ 1.08068253095672}]
+
+theRes=aSolver[solveAtPts[sseq, ConstantArray[1,{Length[getEqns[1]],numPolys[theOrds]}]]]
+genPolys[theRes,nms,theRanges,theOrds]
+
+
+
+
+
+theOrds = {1,1,1,1,1,1,1}
+{nms,notTheRanges} = makeRanges[theSubs];
+paramGPSs = 
+  MapThread[
+   JavaNew[pre <> "GridVarSpec", 
+     ToString[#1], #2[[1]], #2[[2]]] &, {nms,theRanges}]
+theVars = JavaNew[pre <> "GridVars", paramGPSs];
+theGS = JavaNew[pre <> "GridPointsSpec", theVars, theOrds];
+sseq = JavaNew[pre <> "SSEqns", theGS, ssFinder, {0, 0, 0.80359242014163, 0.29175631001732, 11.083664053958842, 
+ 1.08068253095672}]
+
+theRes=aSolver[solveAtPts[sseq, ConstantArray[1,{Length[getEqns[1]],numPolys[theOrds]}]]]
+genPolys[theRes,nms,theRanges,theOrds]

@@ -1,0 +1,55 @@
+prepSCE2011[]
+If[windowsQ[],homeDir="g:";scratchDir="s:",
+homeDir="/msu/home/m1gsa00";scratchDir="/msu/scratch/m1gsa00"];
+AddToClassPath[homeDir <>"/RES2/ProjectionMethodTools/projection/target/test-classes", homeDir <>"/RES2/ProjectionMethodTools/projection/target/classes", homeDir <>"/RES2/dynareAntlr/target/classes", scratchDir<>"/tryRep/gov/frb/ma/msu/commons-math/1.0-SNAPSHOT/commons-math-1.0-SNAPSHOT.jar", scratchDir<>"/tryRep/gov/frb/ma/msu/Jama-1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar"(*,scratchDir<>"/tryRep/gov/frb/ma/msu/projection/1.0-SNAPSHOT/projection-1.0-SNAPSHOT.jar"*)];
+AddToClassPath[homeDir <>"/RES2/dynareAntlr/target/test-classes", 
+  homeDir <>"/RES2/dynareAntlr/target/classes", 
+  scratchDir<>"/tryRep/org/antlr/antlr-runtime/3.1.2-1/antlr-runtime-3.1.2-1.jar"];
+Needs["AccelerateAMA`"]; 
+Needs["MexCodeGen`"]; 
+
+<<modelParams.mth
+
+
+allPre=preEvals["/msu/res2/m1gsa00/sce11/dynareExamples/uniqueExamples/",#,"/msu/res2/m1gsa00/sce11/theLinRes/"]& /@theMods;
+Splice["preEvalTimes.mtex"]
+
+
+$tConst=10;
+allSolve10=(trySolve["/msu/res2/m1gsa00/sce11/dynareExamples/uniqueExamples/",#,"/msu/res2/m1gsa00/sce11/theLinRes/"]& /@theMods)/.{_,yy:({}|$Aborted)}->{NA,yy};
+(*get rid of bad soln*)
+tmp=Global`getSolveSS["kiyotakiMooreViegi"];
+Global`getSolveSS["kiyotakiMooreViegi"]=tmp[[{2}]];
+
+$tConst=10;tryEvals10=(Catch[tryCompEvals["/msu/res2/m1gsa00/sce11/dynareExamples/uniqueExamples/",#,"/msu/res2/m1gsa00/sce11/theLinRes/"],"after evals"]& /@theMods)/.$Aborted->{NA,NA};
+
+
+(*needed for evecs to find position of large evals* for representative coefficients *)
+(allFindRoot10=tryFindRoot["/msu/res2/m1gsa00/sce11/dynareExamples/uniqueExamples/",#,"/msu/res2/m1gsa00/sce11/theLinRes/"]& /@theMods)/.{_,yy:({}|$Aborted)}->{NA,yy};
+(*8 and 13 may have problems*)
+
+
+allEvecs10=(Catch[tryCompEvecs["/msu/res2/m1gsa00/sce11/dynareExamples/uniqueExamples/",#,"/msu/res2/m1gsa00/sce11/theLinRes/"],"after evecs"]& /@theMods)/.{$Aborted->{NA,NA,NA,$Aborted,$Aborted,$Aborted},compEigSpace[___]->{NA,NA,NA,$Aborted,$Aborted,$Aborted}};
+
+Splice["ssSolnTimes.mtex"]
+
+Splice["allCompTimes.mtex"]
+
+
+doMexSplice /@ theMods;
+mexBRes=mexBComp/@ theMods;
+expHMat/@ theMods;
+
+
+
+doLilAMexSplice /@ theMods;
+mexLilRes=mexLilAComp/@ theMods;
+
+
+
+smallLinearMods=DeleteCases[Cases[theData,{xx_,{_,_,_,_,True},_}->xx],"BGGViegi"];
+linTimes=allLinear["/msu/res2/m1gsa00/sce11/dynareExamples/uniqueExamples/",#,"/msu/res2/m1gsa00/sce11/theLinRes/"]& /@ smallLinearMods;
+Splice["linearCompTimes.mtex"]
+
+<<prepLinearMex.mth
+

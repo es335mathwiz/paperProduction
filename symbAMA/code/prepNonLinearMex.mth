@@ -1,0 +1,37 @@
+prepSCE2011[]
+If[windowsQ[],homeDir="g:";scratchDir="s:",
+homeDir="/msu/home/m1gsa00";scratchDir="/msu/scratch/m1gsa00"];
+AddToClassPath[homeDir <>"/RES2/ProjectionMethodTools/projection/target/test-classes", homeDir <>"/RES2/ProjectionMethodTools/projection/target/classes", homeDir <>"/RES2/dynareAntlr/target/classes", scratchDir<>"/tryRep/gov/frb/ma/msu/commons-math/1.0-SNAPSHOT/commons-math-1.0-SNAPSHOT.jar", scratchDir<>"/tryRep/gov/frb/ma/msu/Jama-1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar"(*,scratchDir<>"/tryRep/gov/frb/ma/msu/projection/1.0-SNAPSHOT/projection-1.0-SNAPSHOT.jar"*)];
+AddToClassPath[homeDir <>"/RES2/dynareAntlr/target/test-classes", 
+  homeDir <>"/RES2/dynareAntlr/target/classes", 
+  scratchDir<>"/tryRep/org/antlr/antlr-runtime/3.1.2-1/antlr-runtime-3.1.2-1.jar"];
+Needs["AccelerateAMA`"]; 
+
+
+<<modelParams.mth
+
+allNonLinearMods=Cases[theData,{xx_,{_,_,_,_,False},_}->xx];
+
+
+
+$tConst=10;
+doThese10={2,3,5,10};
+forMex10=allNonLinear["/msu/res2/m1gsa00/sce11/dynareExamples/uniqueExamples/",#,"/msu/res2/m1gsa00/sce11/theLinRes/"]& /@ allNonLinearMods[[doThese10]];
+doMexSplice /@ allNonLinearMods[[doThese10]];
+mexComp/@ allNonLinearMods[[doThese10]];
+expHMat/@ allNonLinearMods[[doThese10]];
+
+
+!matlab -nodesktop -nosplash -r nonLinExeToMat
+{nonLinExeTimes}=Import["nonLinExeTimes.mat"];
+Splice["nonLinCompMLB.mtex"]
+
+
+
+
+$tConst=20;
+doThese20={1};
+forMex11=allNonLinear["/msu/res2/m1gsa00/sce11/dynareExamples/uniqueExamples/",#,"/msu/res2/m1gsa00/sce11/theLinRes/"]& /@ allNonLinearMods[[doThese20]];
+doMexSplice /@ allNonLinearMods[[doThese20]];
+mexComp/@ allNonLinearMods[[doThese20]];
+expHMat/@ allNonLinearMods[[doThese20]];

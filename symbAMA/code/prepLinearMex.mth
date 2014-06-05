@@ -1,0 +1,25 @@
+prepSCE2011[]
+If[windowsQ[],homeDir="g:";scratchDir="s:",
+homeDir="/msu/home/m1gsa00";scratchDir="/msu/scratch/m1gsa00"];
+AddToClassPath[homeDir <>"/RES2/ProjectionMethodTools/projection/target/test-classes", homeDir <>"/RES2/ProjectionMethodTools/projection/target/classes", homeDir <>"/RES2/dynareAntlr/target/classes", scratchDir<>"/tryRep/gov/frb/ma/msu/commons-math/1.0-SNAPSHOT/commons-math-1.0-SNAPSHOT.jar", scratchDir<>"/tryRep/gov/frb/ma/msu/Jama-1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar"(*,scratchDir<>"/tryRep/gov/frb/ma/msu/projection/1.0-SNAPSHOT/projection-1.0-SNAPSHOT.jar"*)];
+AddToClassPath[homeDir <>"/RES2/dynareAntlr/target/test-classes", 
+  homeDir <>"/RES2/dynareAntlr/target/classes", 
+  scratchDir<>"/tryRep/org/antlr/antlr-runtime/3.1.2-1/antlr-runtime-3.1.2-1.jar"];
+Needs["AccelerateAMA`"]; 
+
+
+<<modelParams.mth
+
+smallLinearMods=DeleteCases[Cases[theData,{xx_,{_,_,_,_,True},_}->xx],"BGGViegi"];
+
+
+$tConst=10;
+
+forMex=allNonLinear["/msu/res2/m1gsa00/sce11/dynareExamples/uniqueExamples/",#,"/msu/res2/m1gsa00/sce11/theLinRes/"]& /@ smallLinearMods;
+doMexSplice /@ smallLinearMods;
+mexComp/@ smallLinearMods;
+expHMat/@ smallLinearMods;
+
+!matlab -nodesktop -nosplash -r linExeToMat
+{linExeTimes}=Import["linExeTimes.mat"];
+Splice["linCompMLB.mtex"]

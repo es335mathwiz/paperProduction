@@ -1,0 +1,25 @@
+(*
+{parseTime,{vars,ig,params,ig,{ig,eqns},notSubs,ig}}=
+Timing[doMod["/msu/res2/m1gsa00/sce11/dynareExamples/examples/","GLSSELB","/msu/res2/m1gsa00/sce11/theLinRes/"]];
+Global`getAMAVars["GLSSELB"]=vars;
+paramSubs=#[[1]]->#[[2]]&/@params;
+{solveTime,solveSoln}=Timing[trySolveSS[eqns,vars]];
+{fRootTime,fRootSoln}=Timing[makeSomeSSSubs["GLSSELB"]];
+{hmatTime,hmat}=Timing[(equationsToMatrix[eqns,vars]/.makeSSValSubs[vars])/.notSubs/.Global`eps[_][_]->0];
+{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];Print["done ar"];
+{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];
+{lilTime,{lilMat,cols}}=
+Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];Print["done inessential"];
+{more,lilMat}=Timing[FullSimplify[lilMat,TimeConstraint->Global`$tConst]];lilTime=lilTime+more;
+{evalsTime,evals}= Timing[TimeConstrained[Eigenvalues[Transpose[lilMat]],Global`$tConst]];Print["done evals"];
+{lilevecsTime,lilevecs}=Timing[TimeConstrained[compEigSpace[lilMat,evals,Join[paramSubs,fRootSoln]],Global`$tConst]];
+Global`getFindRootSoln["GLSSELB"]=fRootSoln;
+{evecsTime,evecs}=Timing[toLarge[lilevecs,cols,Length[zf[[1]]]]];
+{bmatTime,bmat}=Timing[compB[zf,evecs,Length[hmat]]];
+Global`getB["GLSSELB"]=bmat;
+	{sTime,theS}=Timing[obStruct[hmat,bmat]];
+
+
+eqns00=eqns//.makeSSValSubs[vars];
+
+*)

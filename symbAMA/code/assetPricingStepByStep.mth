@@ -35,7 +35,7 @@ assetCompEvecs=(Catch[tryCompEvecs[$theModelDir,$theModel,$theLinResDir],"after 
 assetLinCompTimes=allLinear[$theModelDir,$theModel,$theLinResDir];
 
 getB[$theModel]=assetCompEvecs[[-2]];
-$tConst=1;
+$tConst=10;
 assetForMex=allNonLinear[$theModelDir,$theModel,$theLinResDir];
 
 
@@ -47,3 +47,10 @@ expHMat[$theModel]
 Run["matlab -nodesktop -nodisplay -nosplash -r linExeToMat"]
 {linExeTimes}=Import["linExeTimes.mat"];
 
+(*
+build steady state calculation
+<<genMexCode`
+doMexSSSplice[$theModel]
+mexSSComp[$theModel]
+
+*)

@@ -1,0 +1,54 @@
+(*
+allLinearMods={"firmValue",  "fuhrerMoore", 
+ "hall1estimateBayes", "hall1estimateML", "lesothoViegi", "lubikSchorfheide", 
+"rosenestimateBayes", "rosenestimateML"};
+*)
+
+allLinearMods=DeleteCases[Cases[theData,{xx_,{_,_,_,_,True},_}->xx],"BGGViegi"];
+
+(*
+tryOne=partLinear["/msu/res2/m1gsa00/sce11/dynareExamples/uniqueExamples/",#,"/msu/res2/m1gsa00/sce11/theLinRes/"]& /@ allLinearMods[[{1}]];
+*)
+
+
+(*paramSubs,hmat,zf,hf,amat,lilMat,cols,evals,lilevecs,evecs,*)
+
+
+(*
+
+(*
+rosen.mat from DynareAIMsolver1.m
+
+save rosen.mat  theAIM_H lli flli jacobia_
+
+
+{jacob,theH,lli,flli}=Import["dynareExamples/examples/rosen.mat"];
+
+*)
+
+
+
+
+(*
+
+
+
+
+allMods {"AltEx1", "AssetPricingApproximation", "AssetPricingEstimate", 
+ "BansalYaronBayes", "BansalYaronML", "BGGViegi", "Fig1131commented", 
+ "Fig1131", "Fig1132", "Fig1151", "Fig1152", "Fig1171", "Fig1172", 
+ "Figv3_1161", "Figv3_1162", "Figv3_1163", "Figv3_1164", "Figv3_1165", 
+ "Figv3_1166", "Figv3_1191", "Figv3_1192", "Figv3_1193", "firmValue", 
+ "fs2000ns", "fuhrerMoore", "GrowthApproximate", "GrowthEstimate", 
+ "hall1estimateBayes", "hall1estimateML", "hall1", "HSTBayes", "HSTML", 
+ "ifs1", "kiyotakiMooreViegi", "lesothoViegi", "lubikSchorfheide", "RBC_Est", 
+ "RBCEst", "RBCMonopDet", "RBCMonopJFV", "RBCViegi", "rosenestimateBayes", 
+ "rosenestimateML", "rosen", "sargent77Bayes", "sargent77ML", "sargent77", 
+ "simpleNeoViegi", "simp", "TwocountryApprox", "TwocountryEst"}
+
+*)
+
+
+linTimes=allLinear["dynareExamples/uniqueExamples/",#,"theLinRes/"]& /@ allLinearMods;
+Splice["linearCompTimes.mtex"]
+*)

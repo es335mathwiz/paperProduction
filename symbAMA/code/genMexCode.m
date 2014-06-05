@@ -30,15 +30,21 @@ Times[aa___,(xx_-I yy_),oo___,(xx_+I yy_),zz___]->Times[aa,(xx^2+yy^2),oo,zz]
 try=(CRHO (-1 + LAMBDA) LAMBDA  (-2 + w1 - I w2) (w1 - I w2) (-2 + w1 + I w2) (w1 + I w2))
 *)
 
+doMexSSSplice::usage="doMexSSSplice[modname_String]"
+genSSAssn::usage="genSSAssn[modName_String]"
+
 doMexSplice::usage="doMexSplice[modName_String]";
 
 mexComp::usage="mexComp[modName_String]";
+mexSSComp::usage="mexComp[modName_String]";
 expHMat::usage="expHMat[modName_String]";
 foB::usage="target name for assignments";
 bb::usage="target name for assignments";
 forCoeffs::usage="used in splicing";
 coeff::usage="used in splicing";
 
+fJVals::usage="target name for assignments";
+preSS::usage="target name for assignments";
 
 $modNameNow::usage="used in splicing";
 $bRowsNow::usage="used in splicing";
@@ -87,6 +93,22 @@ With[{prms=getParams[modName]},
 StringJoin @@ 
 MapIndexed[ToString[StringForm["double `` = params[``];\n",#,#2[[1]]-1]]&,prms]]
 
+defineParamsInStructDouble[modName_String]:=
+With[{prms=getParams[modName]},
+StringJoin @@ 
+ToString[StringForm["double `` ;\n",#]]&/@prms]
+
+defineSetParamsInStructDouble[modName_String]:=
+With[{prms=getParams[modName]},
+StringJoin @@ 
+ToString[StringForm["const double `1` =(params->`1`);\n",#]]&/@prms]
+
+defineSSValsDouble[modName_String]:=
+With[{ssV=getSSVars[modName]},
+StringJoin @@ 
+MapIndexed[ToString[StringForm["const double `` = gsl_vector_get(ssVec,``);\n",#,#2[[1]]-1]]&,ssV]]
+
+
 repRoots[eqns_List]:=With[{rVals=Union[Cases[eqns,Root[___],Infinity]]},
 With[{rSubs=makeRootSubs[rVals]},
 {rSubs,eqns/.rSubs}]]
@@ -112,6 +134,24 @@ chnl=OpenWrite[mexName];
 WriteString[chnl,allCode];
 allCode
 ]]
+
+
+
+doMexSSSplice[modName_String]:=
+Module[{mexName=modName<>"MexSSComp.c",splicedCode,chnl,allCode},
+$modNameNow=modName;
+$theMexCodeNow=genSSAssn[modName];
+Splice["multiRootTemplate.mc",mexName,PageWidth->800000,FormatType->OutputForm];
+str=OpenRead[mexName];
+splicedCode=ReadList[str,Record,RecordSeparators->{}];
+allCode=$theMexCodeNow <> splicedCode;
+Close[str];Close[mexName];
+chnl=OpenWrite[mexName];
+WriteString[chnl,allCode];
+allCode
+]
+
+
 
 makeShockSubs[name_String]:=With[
 {shks=Global`AMAModelDefinition[name][[-2]]},
@@ -144,12 +184,42 @@ defineSSValAssign[modName]<>
 assns<>theStr}
 ]]]]]]
 
+defFDFStr[modName_String]:="int "<> modName<>"_fdf \n  (const gsl_vector * ssVec, void * theParams,\n  gsl_vector * fVec, gsl_matrix * jMat) {\n"
+
+genSSAssn[modName_String]:=Module[{numVars=Length[getSSVars[modName]],
+ssTriple=genSSEqns[modName],someCode},
+SetOptions[$Output,PageWidth->500000];
+someCode=ToString[CAssign[fJVals,Flatten[ssTriple],OptimizationSymbol->preSS]];
+SetOptions[$Output,PageWidth->80];
+"#include \"gsl/gsl_multiroots.h\"\n"<>
+mexHeader<>
+"struct "<> modName<>"_params { \n"<>
+defineParamsInStructDouble[modName]<>
+" };\n"<>
+defFDFStr[modName]<>
+defineSSValsDouble[modName]<>
+"struct "<>modName<>"_params * params 
+     = (struct "<>modName<>"_params *)theParams;\n"<>
+defineSetParamsInStructDouble[modName]<>
+genPreSSDefns[someCode]<>
+"double fJVals["<>ToString[numVars*(numVars+1)]<>"];\n"<>
+someCode<>
+bCompEnd
+]
+
+
+
 genRValDefns[theSubs_List]:=
 (StringJoin @@ (defineComplex[ToString[#[[2]]]]&/@theSubs))<>"\n"
 
 genFoBDefns[theStr_String]:=
 With[{toDef=Union[StringCases[theStr,RegularExpression["foB[0-9]+"]]]},
 "\n"<>(StringJoin @@ (defineComplex /@toDef))<>"\n"]
+
+genPreSSDefns[theStr_String]:=
+With[{toDef=Union[StringCases[theStr,RegularExpression["preSS[0-9]+"]]]},
+"\n"<>(StringJoin @@ (defineDouble /@toDef))<>"\n"]
+
 
 (*genRtAssigns[rtSubs_List]:=*)
 
@@ -305,6 +375,12 @@ Global`getB[modName]//.Global`getParamSubs[modName]
 mexComp[modName_String]:=
 With[{cmd=ToString[StringForm["mex ``MexBRtsComp.c  -lgfortran rpoly493.o ",modName]]},
 Run[cmd]]
+
+
+mexSSComp[modName_String]:=
+With[{cmd=ToString[StringForm["mex -I/msu/res2/Shared_Projects/ARCHPC/gsl-1.16/ ``MexSSComp.c   -L/msu/res1/Software/garyUsr/local/lib -lgsl -lgslcblas -lgfortran  ",modName]]},
+Run[cmd]]
+
 
 compEigen[mat_?MatrixQ]:=
 Module[{code,vars,seq,optExp,locals},

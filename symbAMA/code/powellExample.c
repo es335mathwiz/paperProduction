@@ -1,6 +1,5 @@
-#include "gsl_multiroots.h"
+#include "gsl/gsl_multiroots.h"
 struct powell_params { double A; };
-gsl_multiroot_function F;
 int
 powell_fdf (const gsl_vector * x, void * theParams, 
             gsl_vector * fVec, gsl_matrix * jMat) {

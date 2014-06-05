@@ -1,0 +1,52 @@
+Needs["stepByStep`"]
+
+$theModelDir="dynareExamples/uniqueExamples/";
+$theLinResDir="theLinRes/";
+$theModel="lesothoViegi"
+
+
+
+lesothoViegiModDims=getModelDims[$theModelDir,$theModel]
+
+
+lesothoViegiPreEvals=preEvals[$theModelDir,$theModel,$theLinResDir];
+hmat=getHmat["lesothoViegi"];
+getVars[$theModel]=lesothoViegiPreEvals[[-1]];
+$tConst=5;
+
+(*why ar done, what else?*)
+
+
+lesothoViegiSSSoln=trySolve[$theModelDir,$theModel,$theLinResDir];
+getNonLinSSSoln[$theModel]=lesothoViegiSSSoln[[-1,1]];
+
+
+
+
+lesothoViegiCompEvals=Catch[tryCompEvals[$theModelDir,$theModel,$theLinResDir],
+"after evals"];
+
+
+
+lesothoViegiFindRoot=tryFindRoot[$theModelDir,$theModel,$theLinResDir]
+
+
+lesothoViegiCompEvecs=(Catch[tryCompEvecs[$theModelDir,$theModel,$theLinResDir],"after evals"|"after evecs"]);
+
+
+lesothoViegiLinCompTimes=allLinear[$theModelDir,$theModel,$theLinResDir];
+
+getB[$theModel]=lesothoViegiCompEvecs[[-2]];
+$tConst=5;
+lesothoViegiForMex=allNonLinear[$theModelDir,$theModel,$theLinResDir];
+
+
+doMexSplice[$theModel]
+mexComp[$theModel]
+expHMat[$theModel]
+
+
+Run["matlab -nodesktop -nodisplay -nosplash -r linExeToMat"]
+{linExeTimes}=Import["linExeTimes.mat"];
+(*
+*)

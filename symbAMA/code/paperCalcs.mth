@@ -1,0 +1,6 @@
+Get["splice[modDims.mtex"]
+Get["splicePreEvalTimes"]
+Get["spliceSSSolnAllCompTimes.mth"]
+Get["spliceLinearCompTimes.mth"]
+Get["spliceLinCompMLB.mth"]
+Get["spliceNonLinearCompTimes.mth"]

@@ -1,0 +1,93 @@
+
+allNonLinearMods={ 
+"AssetPricingApproximation",
+"Fig1131", 
+"Fig1132", 
+"Fig1151",
+"Figv3_1164",  
+"Fig1152", 
+"Fig1171", 
+"Fig1172", 
+"Figv3_1191",  
+"HSTML", 
+"kiyotakiMooreViegi", 
+"simpleNeoViegi",
+"TwocountryApprox", 
+"TwocountryEst"};
+
+$tConst=1;
+
+
+
+
+
+
+
+timeoutevals60={
+"RBCViegi",
+"GrowthEstimate",
+"BGGViegi",
+"RBCEst",
+"RBCMonopJFV",
+"AltEx1", 
+"RBCMonopDet",
+"GrowthApproximate"}
+
+
+slowtoar={"ifs1"}
+
+singularjacobian={"fs2000ns"}
+
+
+(*
+$tConst=60;nonLinTimes=(Print[#];allNonLinear["/msu/res2/m1gsa00/sce11/dynareExamples/examples/",#,"/msu/res2/m1gsa00/sce11/"])& /@ allNonLinearMods;
+
+
+
+
+$tConst=120;out60Times=(Print[#];allNonLinear["/msu/res2/m1gsa00/sce11/dynareExamples/examples/",#,"/msu/res2/m1gsa00/sce11/"])& /@ timeoutevals60;
+none successful
+
+$tConst=600;out60Times=(Print[#];allNonLinear["/msu/res2/m1gsa00/sce11/dynareExamples/examples/",#,"/msu/res2/m1gsa00/sce11/"])& /@ timeoutevals60;
+
+{parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,bmat,theS}
+
+{hmatTime,hmat}=Timing[equationsToMatrix[eqns,vars]];
+{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];
+{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];
+{lilTime,{lilMat,cols}}=
+Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];
+{evalsTime,evals}= Timing[compEigen[Transpose[lilMat]]];
+{lilevecsTime,lilevecs}=Timing[compEigSpace[lilMat,evals,paramSubs]];
+{evecsTime,evecs}=Timing[toLarge[lilevecs,cols,Length[zf[[1]]]]];
+{bmatTime,bmat}=Timing[compB[zf,evecs,Length[hmat]]];
+{sTime,theS}=Timing[obStruct[hmat,bmat]];
+
+
+
+
+
+Splice["nonLinearCompTimes.mtex"]
+
+allMods {"AltEx1", "AssetPricingApproximation", "AssetPricingEstimate", 
+ "BansalYaronBayes", "BansalYaronML", "BGGViegi", "Fig1131commented", 
+ "Fig1131", "Fig1132", "Fig1151", "Fig1152", "Fig1171", "Fig1172", 
+ "Figv3_1161", "Figv3_1162", "Figv3_1163", "Figv3_1164", "Figv3_1165", 
+ "Figv3_1166", "Figv3_1191", "Figv3_1192", "Figv3_1193", "firmValue", 
+ "fs2000ns", "fuhrerMoore", "GrowthApproximate", "GrowthEstimate", 
+ "hall1estimateBayes", "hall1estimateML", "hall1", "HSTBayes", "HSTML", 
+ "ifs1", "kiyotakiMooreViegi", "lesothoViegi", "lubikSchorfheide", "RBC_Est", 
+ "RBCEst", "RBCMonopDet", "RBCMonopJFV", "RBCViegi", "rosenestimateBayes", 
+ "rosenestimateML", "rosen", "sargent77Bayes", "sargent77ML", "sargent77", 
+ "simpleNeoViegi", "simp", "TwocountryApprox", "TwocountryEst"}*)
+(*
+
+ReinstallJava[JVMArguments->"-Xmx512m"]
+
+*)
+
+
+{parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,solveTime,fRootTime,
+paramSubs,eqns,bmat,theS,solveSoln,fRootSoln,hmat}
+
+

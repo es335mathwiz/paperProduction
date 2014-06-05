@@ -1,0 +1,70 @@
+theEtc=makeVarsEqnsEtc["/msu/res2/m1gsa00/sce11/dynareExamples/examples/",
+#1,"/msu/res2/m1gsa00/sce11/doneParsing/"<>#1<>"ExeFiles/"]&/@allMods;
+
+
+
+theLinearHmats=Timing[
+generateMathAMAModel["/msu/res2/m1gsa00/sce11/dynareExamples/examples/"<>#<>".xml"]/.betterSSSubs]&/@allLinearMods;
+
+theSSHA=makeSSHA["/msu/res2/m1gsa00/sce11/doneParsing/"<>#<>"ExeFiles/",#]&/@allMods;
+
+theBLin=TimeConstrained[doBLinear[#],100]&/@Range[Length[allMods]];
+
+theBNonLin=TimeConstrained[doBNonLinear[#],100]&/@Range[Length[allMods]];
+
+
+
+
+(*
+theEvalNum=MapThread[{#1[[-1]],#2[[2]],(#2[[-1]]//.#2[[2]])//.#1[[-1]]}&,{theEtc[[{1}]],theSSHA[[{1}]]}]
+
+allMods[[{23, 31, 32, 34, 37}]]
+Out[170]= {fs2000ns, RBC_Est, RBCEst, RBCMonopJFV, rosen}
+
+In[46]:= Flatten[Position[Length[#]==2&/@(Dimensions/@theBLin),True]]
+
+
+Out[46]= {{26}, {27}, {28}, {31}, {36}, {37}, {38}}
+
+
+In[47]:= Flatten[Position[Length[#]==2&/@(Dimensions/@theBNonLin),True]]
+
+
+
+Out[47]= {{2}, {3}, {20}, {21}, {26}, {27}, {28}, {29}, {30}, {31}, {36}, 
+    {37}, {38}}
+
+
+CreateDirectory["/msu/res2/m1gsa00/sce11/ssClasses"]
+SetDirectory["/msu/res2/m1gsa00/sce11/ssClasses"]
+AddToClassPath["/msu/res2/m1gsa00/sce11/ssClasses"]
+makeSSFinderClass[allMods[[#]],zapShocks[#]]&/@Range[Length[allMods]]
+
+
+getShocksSubs[indx_Integer]:=theEtc[[indx,-2]]
+
+
+
+zapShocks[indx_Integer]:=
+With[{eqs=getEqns[indx],rawSubs=getShocksSubs[indx]},
+With[{rghtSubs=fixSubs[rawSubs]},eqs//.rghtSubs]]
+
+
+fixSubs[badSubs_List]:=#->0&/@Through[(First/@badSubs)[t]]
+
+
+(*
+
+rosetc=Timing[makeVarsEqnsEtc["/msu/res2/m1gsa00/sce11/dynareExamples/examples/",
+"rosenestimateBayes","/msu/res2/m1gsa00/sce11/doneParsing/rosenestimateBayesExeFiles/"]];
+rosssha=Timing[makeSSHA["/msu/res2/m1gsa00/sce11/dynareExamples/examples/",
+"rosenestimateBayes","/msu/res2/m1gsa00/sce11/doneParsing/rosenestimateBayesExeFiles/"]];
+
+
+Timing[makeVarsEqnsEtc["/msu/res2/m1gsa00/sce11/dynareExamples/examples/",
+"rosenestimateBayes","/msu/res2/m1gsa00/sce11/doneParsing/"<>#1<>"ExeFiles/"]]
+makeSSHA["/msu/res2/m1gsa00/sce11/dynareExamples/examples/",
+"rosenestimateBayes","/msu/res2/m1gsa00/sce11/doneParsing/"<>#1<>"ExeFiles/"]
+
+
+*)

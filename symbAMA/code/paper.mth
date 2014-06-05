@@ -1,0 +1,529 @@
+(*prepSCE2011[]*)
+(*
+		preDo="/msu/home/m1gsa00/RES2/sce11/dynareExamples/dynare-4.2.0/examples/";
+		preDo="/msu/home/m1gsa00/RES2/sce11/dynareExamples/examples/";
+*)
+preDo="";
+(*
+converts dynare models to xml then xml model to equations for mathematica
+creates an AMAModelDefinition
+*)
+doMod[preDo_String,fName_String]:=
+Module[{cmd},
+System`$Path=PrependTo[System`$Path,preDo];
+JavaNew["gov.frb.ma.msu.DynareToAMAModel",preDo<>fName<>".mod",preDo<>fName<>".xml",fName];
+cmd=StringForm[
+"java org.apache.xalan.xslt.Process -IN `1``2`.xml  -XSL /msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/AMAModel2Mma.xsl -OUT `1``2`.mth",preDo,fName];
+(*Print["here is cmd",cmd,"after"];*)
+Run[cmd];
+Get[fName<>".mth"];
+AMAModelDefinition[fName]]
+
+doMod[preDo_String,fName_String,targDir_String]:=
+Module[{cmd},
+System`$Path=PrependTo[System`$Path,preDo];
+JavaNew["gov.frb.ma.msu.DynareToAMAModel",preDo<>fName<>".mod",targDir<>fName<>".xml",fName];
+cmd=StringForm[
+"java org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL /msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/AMAModel2Mma.xsl -OUT `3``2`.mth",preDo,fName,targDir];
+(*Print["here is cmd",cmd,"after"];*)
+Run[cmd];
+Get[fName<>".mth"];
+AMAModelDefinition[fName]]
+(*
+allMods are just the example mods in dynareExmples directory for sce11
+*)
+allMods=FileBaseName/@FileNames[{"*.mod"},{"/msu/res2/m1gsa00/sce11/dynareExamples/examples"}];
+
+makeVarsEqnsEtc[modDir_String,modName_String,targDir_String]:=
+Module[{pSubs,vars,ig,params,eqns},
+Print["parsing model"];
+CreateDirectory[targDir];
+System`$Path=PrependTo[System`$Path,modDir];
+System`$Path=PrependTo[System`$Path,targDir];
+SetDirectory[targDir];
+{vars,ig,params,ig,{ig,eqns},notSubs,ig}=doMod[modDir,modName,targDir];
+Print[{Length[eqns],Length[vars],Length[params],
+Union[Cases[eqns,xx_[yy:t+_.]->yy,Infinity]]}];
+pSubs=#[[1]]->#[[2]]&/@params;
+{vars,ig,params,ig,{ig,eqns},notSubs,pSubs}]
+getVars[indx_Integer]:=theEtc[[indx,1]]
+
+
+
+makeSSHA[targDir_String,modName_String]:=
+Module[{vars,ig,params,eqns,notSubs,amat,lilMat,cols,zf,hf,betterSSSubsNum,betterSSSubs,betterRootSubs},
+PrependTo[System`$Path,targDir];Get[modName<>".mth"];
+{vars,ig,params,ig,{ig,eqns},notSubs,ig}=AMAModelDefinition[modName];
+ssEqns=eqns//.ssSubs;
+someSSSubs=TimeConstrained[Solve[Thread[ssEqns==0],vars],100];
+If[FreeQ[someSSSubs,Solve],
+betterSSSubsNum=modSubs[someSSSubs,Length[vars]];
+Print["whynot",betterSSSubsNum];
+betterSSSubs=Join[#[[1]][t_]->ToExpression[ToString[#[[1]]]<>"SSVal"]&/@someSSSubs,#[t_]->ToExpression[ToString[#]<>"SSVal"]&/@vars];
+betterRootSubs=ToExpression[ToString[#[[1]]]<>"SSVal"]->#[[2]]&/@someSSSubs,
+betterSSSubsNum=betterSSSubs=betterRootSubs={};
+betterSSSubs=#[t_]->ToExpression[ToString[#]<>"SSVal"]&/@vars
+];
+hmat=
+(withT=generateMathAMAModel[targDir<>modName<>".xml"])/.betterSSSubs;
+Print["Compute the Transition Matrix and Auxiliary Initial Conditions"];
+{zf, hf} = symbolicAR[hmat];
+amat = symbolicTransitionMatrix[hf];
+{lilMat,cols}=symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}];
+Print["Compute Eigenvalues"];
+evals= TimeConstrained[Eigenvalues[Transpose[lilMat]],100];
+Save[targDir<>modName<>"SSH.mth",{someSSSubs,betterSSSubsNum,hmat,zf,hf,amat,lilMat,cols,evals}];
+{someSSSubs,betterSSSubsNum,hmat,zf,hf,amat,lilMat,cols,evals}
+]
+
+getEvals[indx_Integer]:=theSSHA[[indx,-1]]
+getHmat[indx_Integer]:=theSSHA[[indx,3]]
+getLilMat[indx_Integer]:=theSSHA[[indx,-3]]
+
+getZf[indx_Integer]:=theSSHA[[indx,4]]
+getAmat[indx_Integer]:=theSSHA[[indx,6]]
+getSolveSubs[indx_Integer]:=theSSHA[[indx,1]]
+pos[name_String]:=Position[allMods,name][[1,1]]
+
+modSubs[someSubs_List,numVars_Integer]:=
+If[FreeQ[someSubs,Solve],
+If[Head[someSubs[[1]]]===List,
+Map[chkVars[#,numVars]&,someSubs],
+chkVars[someSubs,numVars]],{}]
+
+chkVars[someSubs_List,numVars_Integer]:=
+If[Length[someSubs]===numVars,
+Map[
+ToExpression[ToString[#[[1]]]<>"SSVal"]->#[[2]]&,someSSSubs],{}]
+
+
+compEvalLinear[theIndx_Integer]:=
+Flatten[(getEvals[theIndx])//.getParamSubs[theIndx]]
+
+
+
+getEtcParams[indx_Integer]:=theEtc[[indx,3]]
+
+
+
+chkLinear[theIndx_Integer]:=
+{allMods[[theIndx]],
+Complement[getParams[getHmat[theIndx]],First/@getEtcParams[theIndx]]}
+
+largeLocs[theVals_List]:=
+With[{mags=(#>1)&/@Abs[theVals]},Flatten[Position[mags,True]]]
+
+compEigSpace[indx_Integer]:=Join @@
+(doNullSpace[getLilMat[indx],getEvals[indx][[#]]]&/@ 
+largeLocs[compEvalLinear[indx]]);
+
+doNullSpace[lilMat_?MatrixQ,eval_]:=
+If[eval==={},{},
+NullSpace[Transpose[lilMat]-eval*IdentityMatrix[Length[lilMat]]]]
+
+doBLinear[indx_Integer]:=
+Module[{es,zf,theCols,biges,qmat,qcols,brows},
+With[{es=compEigSpace[indx],zf=getZf[indx],
+theCols=theSSHA[[indx,-2]]},
+With[{biges=toLarge[es,theCols,Length[zf[[1]]]]},
+With[{qmat=Join[zf,biges]},
+With[{qcols=Length[qmat[[1]]],qrows=Length[qmat]},Print[{Dimensions[qmat],Dimensions[es],Dimensions[zf]}];
+With[{qr=qmat[[All,qcols-qrows+Range[qrows]]],
+ql=qmat[[All,Range[qcols-qrows]]]},Print[Dimensions /@{qr,ql}];
+(-Inverse[qr].ql)[[Range[getNeq[indx]]]]]]]]]]
+
+
+toLarge[{},lilCols_List,cols_Integer]:={}
+
+toLarge[lil_?MatrixQ,lilCols_List,cols_Integer]:=
+Module[{bigEvecs},
+bigEvecs=ConstantArray[0,{Length[lil],cols}];
+bigEvecs[[All,lilCols]]=lil;
+bigEvecs]
+
+getNeq[indx_Integer]:=Length[getTheH[indx]];
+getTheH[indx_Integer]:=theSSHA[[indx,5]];
+getEqns[indx_Integer]:=theEtc[[indx,5,2]];
+getLags[indx_Integer]:=With[{eqns=getEqns[indx]},
+With[{lgld=Union[Cases[eqns,xx_[yy:t+zz_.]->zz,Infinity]]},
+-Min[lgld]]]
+getLeads[indx_Integer]:=With[{eqns=getEqns[indx]},
+With[{lgld=Union[Cases[eqns,xx_[yy:t+zz_.]->zz,Infinity]]},
+Max[lgld]]]
+
+
+(*
+PrependTo[System`$Path,"/msu/res2/m1gsa00/sce11/"]
+*)
+ssSubs=xx_[t+_.]:>xx;
+
+
+
+makeParamSubs[name_String]:=With[
+{params=AMAModelDefinition[name][[3]]},
+#[[1]]->#[[2]]&/@params]
+
+makeShockSubs[name_String]:=With[
+{shks=AMAModelDefinition[name][[-2]]},
+#[[1]]->0&/@shks]
+
+makeSubbedEqns[name_String]:=
+With[{eqns=AMAModelDefinition[name][[5,2]],
+subs=Join[makeParamSubs[name],makeShockSubs[name]]},
+(eqns//.subs)/.ssValSubs]
+
+ssValSubs=(xx_)[t + (_.)] :> ToExpression[ToString[xx]<>"SSVal"]
+
+makeTry[name_String]:=
+With[{vars=AMAModelDefinition[name][[1]]},
+{ToExpression[ToString[#]<>"SSVal"],Random[]}&/@vars]
+
+makeSomeSSSubs[name_String]:=
+With[{ssEqns=makeSubbedEqns[name],
+try=makeTry[name]},
+FindRoot @@ {ssEqns,try}]
+
+
+compEvalNonLinear[theIndx_Integer]:=
+With[{ssSubsNow=makeSomeSSSubs[allMods[[theIndx]]]},
+Flatten[(getEvals[theIndx])//.getParamSubs[theIndx]]//.ssSubsNow]
+
+
+getParamSubs[indx_Integer]:=
+theEtc[[indx,-1]]
+
+
+doBNonLinear[indx_Integer]:=
+Module[{es,zf,theCols,biges,qmat,qcols,brows},
+With[{es=compEigSpaceNonLinear[indx],zf=getZf[indx],
+theCols=theSSHA[[indx,-2]]},
+With[{biges=toLarge[es,theCols,Length[zf[[1]]]]},
+With[{qmat=Join[zf,biges]},Print[Dimensions/@{es,biges,zf,qmat}];
+With[{qcols=Length[qmat[[1]]],qrows=Length[qmat]},Print[{Dimensions[qmat],Dimensions[es],Dimensions[zf]}];
+With[{qr=qmat[[All,qcols-qrows+Range[qrows]]],
+ql=qmat[[All,Range[qcols-qrows]]]},Print[Dimensions /@{qr,ql}];
+(Inverse[qr].ql)[[Range[getNeq[indx]]]]]]]]]]
+
+
+getZf[indx_Integer]:=theSSHA[[indx,4]]
+
+compEigSpaceNonLinear[indx_Integer]:=Join @@
+(doNullSpace[getLilMat[indx],theSSHA[[indx,-1]][[#]]]&/@ 
+largeLocs[compEvalNonLinear[indx]]);
+
+
+
+(*
+
+
+Select[huh,And[FreeQ[#,FindRoot],FreeQ[#,$noDefaultValue],Variables[#]==={}]&]
+*)
+
+(*
+try={{dc, 0.0015}, {v$U$S$d, 105}, {v$U$S$c, 105}, {dd, 0.0015}, {x, 0}};
+
+
+zeroShocksSubs={e$U$S$d->0, e$U$S$c->0, e$U$S$x->0};
+ssEqns=(eqns/.zeroShocksSubs//.ssSubs//.assetPricingSubs)/.notSubs/.eps[_][_]->0;
+
+betterSSSubsNum=ToExpression[ToString[#[[1]]]<>"SSVal"]->#[[2]]&/@someSSSubs;
+betterSSSubs=#[[1]][t_]->ToExpression[ToString[#[[1]]]<>"SSVal"]&/@someSSSubs;
+assetPricingSymbolicHmat=
+(withT=generateMathAMAModel["AssetPricingEstimate.xml"])/.betterSSSubs;
+betterRootSubs=ToExpression[ToString[#[[1]]]<>"SSVal"]->#[[2]]&/@someSSSubs
+
+
+
+*)
+pre = "gov.frb.ma.msu.";
+
+
+
+(*from modelParams.mth*)
+mkNewDir[dirName_String]:=If[Not[FileExistsQ[dirName]],CreateDirectory[dirName]]
+firstOnPath[dirName_String]:=If[System`$Path[[1]]=!=dirName,PrependTo[System`$Path,dirName]]
+
+
+collectData[modDir_String,modName_String]:=
+Module[{vars,ig,params,eqns,notSubs,tDir="/tmp/Gary/"},
+mkNewDir[tDir];firstOnPath[tDir];
+{vars,ig,params,ig,{ig,eqns},notSubs,ig}=doMod[modDir,modName,tDir];
+System`$Path=Drop[System`$Path,1];
+{Length[vars],getLags[eqns],getLeads[eqns],Length[params],linearQ[eqns]}]
+
+
+linearQ[eqns_List]:=FreeQ[equationsToMatrix[eqns],t]
+
+
+sameEqns[modDir_String,modNameA_String,modNameB_String]:=
+Module[{vars,ig,params,eqns,notSubs,tDir="/tmp/Gary/"},
+mkNewDir[tDir];firstOnPath[tDir];
+{vars,ig,params,ig,{ig,eqnsA},notSubs,ig}=doMod[modDir,modNameA,tDir];
+{vars,ig,params,ig,{ig,eqnsB},notSubs,ig}=doMod[modDir,modNameB,tDir];
+System`$Path=Drop[System`$Path,1];
+eqnsA === eqnsB]
+ 
+(* from parseLinear.mth*)
+
+allLinear[theDir_String,modName_String,targDir_String]:=
+Module[{parseTime,vars,ig,params,eqns,notSubs,paramSubs,
+hmatTime,hmat,
+arTime,zf,hf,
+amatTime,amat,
+lilTime,lilMat,cols,
+evalsTime,evals,
+lilevecsTime,lilevecs,
+evecsTime,evecs,
+bmatTime,bmat,
+sTime,theS},
+Print["parsing " <>modName];
+{parseTime,{vars,ig,params,ig,{ig,eqns},notSubs,ig}}=
+Timing[doMod[theDir,modName,targDir]];
+paramSubs=#[[1]]->#[[2]]&/@params;
+Print["gen hmat"];
+{hmatTime,hmat}=Timing[equationsToMatrix[eqns,vars]];
+Print["gen symbolicAR"];
+{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];
+Print["gen amat"];
+{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];
+Print["shrink hmat"];
+{lilTime,{lilMat,cols}}=
+Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];
+Print["gen eigenvalues"];
+{evalsTime,evals}= Timing[Eigenvalues[Transpose[lilMat]]];
+Print["gen evecs"];
+{lilevecsTime,lilevecs}=Timing[compEigSpace[lilMat,evals,paramSubs]];
+{evecsTime,evecs}=Timing[toLarge[lilevecs,cols,Length[zf[[1]]]]];
+Print["compute bmat"];
+{bmatTime,bmat}=Timing[compB[zf,evecs,Length[hmat]]];
+Print["gen smat"];
+{sTime,theS}=Timing[obStruct[hmat,bmat]];
+{parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,paramSubs,eqns,bmat,theS,hmat,vars}
+]
+
+allPhiF[theDir_String,modName_String,targDir_String]:=
+Module[{parseTime,vars,ig,params,eqns,notSubs,paramSubs,
+hmatTime,hmat,qmat,phiMat,fMat,
+arTime,zf,hf,
+amatTime,amat,
+lilTime,lilMat,cols,
+evalsTime,evals,
+lilevecsTime,lilevecs,
+evecsTime,evecs,
+bmatTime,bmat,
+sTime,theS},
+Print["parsing " <>modName];
+{parseTime,{vars,ig,params,ig,{ig,eqns},notSubs,ig}}=
+Timing[doMod[theDir,modName,targDir]];
+paramSubs=#[[1]]->#[[2]]&/@params;
+Print["gen hmat"];
+{hmatTime,hmat}=Timing[equationsToMatrix[eqns,vars]];
+Print["gen symbolicAR"];
+{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];
+Print["gen amat"];
+{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];
+Print["shrink hmat"];
+{lilTime,{lilMat,cols}}=
+Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];
+Print["gen eigenvalues"];
+{evalsTime,evals}= Timing[Eigenvalues[Transpose[lilMat]]];
+Print["gen evecs"];
+{lilevecsTime,lilevecs}=Timing[compEigSpace[lilMat,evals,paramSubs]];
+{evecsTime,evecs}=Timing[toLarge[lilevecs,cols,Length[zf[[1]]]]];
+Print["compute bmat phimat fmat"];
+qmat=Join[zf,evecs];
+{bmatTime,{bmat,phiMat,fMat}}=Timing[symbolicComputeBPhiF[hmat,qmat]];
+Print["gen smat"];
+{sTime,theS}=Timing[obStruct[hmat,bmat]];
+{parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,paramSubs,eqns,bmat,phiMat,fMat,theS,hmat,vars}
+]
+
+
+
+partLinear[theDir_String,modName_String,targDir_String]:=
+Module[{parseTime,vars,ig,params,eqns,notSubs,paramSubs,
+hmatTime,hmat,
+arTime,zf,hf,
+amatTime,amat,
+lilTime,lilMat,cols,
+evalsTime,evals,
+lilevecsTime,lilevecs,
+evecsTime,evecs,
+bmatTime,bmat,
+sTime,theS},
+Print["parsing"];
+{parseTime,{vars,ig,params,ig,{ig,eqns},notSubs,ig}}=
+Timing[doMod[theDir,modName,targDir]];
+paramSubs=#[[1]]->#[[2]]&/@params;
+Print["making hmat"];
+{hmatTime,hmat}=Timing[equationsToMatrix[eqns,vars]];
+Print["symbolicAR"];
+{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];
+Print["transition matrix"];
+{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];
+Print["inessential lags"];
+{lilTime,{lilMat,cols}}=
+Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];
+Print["eigenvalues"];
+{evalsTime,evals}= Timing[Eigenvalues[Transpose[lilMat]]];(*
+Print["eigenvecs"];
+{lilevecsTime,lilevecs}=Timing[compEigSpace[lilMat,evals,paramSubs]];
+{evecsTime,evecs}=Timing[toLarge[lilevecs,cols,Length[zf[[1]]]]];
+Print["bmat"];
+{bmatTime,bmat}=Timing[compB[zf,evecs,Length[hmat]]];
+Print["smat"];
+{sTime,theS}=Timing[obStruct[hmat,bmat]];
+*)
+{parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,paramSubs,eqns,bmat,theS,hmat,vars,lilMat,evals,paramSubs}
+]
+
+
+extendB[bigB_?MatrixQ,neq_Integer]:=
+With[{lTau=Length[bigB[[1]]],lTheta=Length[bigB]},
+With[{botRange=Range[lTau]+lTheta},
+With[{b1=bigB[[Range[neq]]],iMat=IdentityMatrix[lTau]},
+With[{preMultB=Join[iMat,bigB]},
+With[{bBot=b1 . preMultB[[botRange]]},
+Join[preMultB,bBot]]]]]]
+
+obStruct[hmat_?MatrixQ,bigB_?MatrixQ]:=
+With[{neq=Length[hmat],lTau=Length[bigB[[1]]],lTheta=Length[bigB]},
+With[{hMinus=hmat[[All,Range[lTau+neq]]],
+hPlus=hmat[[All,lTau+neq+Range[lTheta]]]},
+hMinus+blockMatrix[{{zeroMatrix[neq],hPlus . bigB}}]]]
+
+
+
+
+compEigSpace[lilMat_?MatrixQ,evals_List,paramSubs_List] := 
+   Join @@ (doNullSpace[lilMat, evals[[#1]]]) &  /@ 
+largeLocs[evals//.paramSubs]
+
+
+compB[zf_?MatrixQ,{},neq_Integer]:={}
+
+compB[zf_?MatrixQ,evs_?MatrixQ,neq_Integer]:=
+With[{qmat=Join[zf,evs]},
+With[{qcols=Length[qmat[[1]]],qrows=Length[qmat]},
+With[{qr=qmat[[All,qcols-qrows+Range[qrows]]],
+ql=qmat[[All,Range[qcols-qrows]]]},
+(-Inverse[qr].ql)]]]
+
+
+
+
+(*linBToC[linB_?MatrixQ,params_List]:=*)
+
+
+getLinVars[modName_String]:=With[{idx=Position[allLinearMods,modName][[1,1]]},
+linTimes[[idx,16]]]
+getLinEqns[modName_String]:=With[{idx=Position[allLinearMods,modName][[1,1]]},
+linTimes[[idx,12]]]
+getLinHmat[modName_String]:=With[{idx=Position[allLinearMods,modName][[1,1]]},
+linTimes[[idx,15]]]
+getLinB[modName_String]:=With[{idx=Position[allLinearMods,modName][[1,1]]},
+linTimes[[idx,13]]]
+getLinS[modName_String]:=With[{idx=Position[allLinearMods,modName][[1,1]]},
+linTimes[[idx,14]]]
+getLinParamSubs[modName_String]:=With[{idx=Position[allLinearMods,modName][[1,1]]},
+linTimes[[idx,11]]]
+getLinParams[modName_String]:=Sort[First /@ getLinParamSubs[modName]]
+
+<<genMexCode.mth
+(*from parseNonLinear.mth*)
+
+allNonLinear[theDir_String,modName_String,targDir_String]:=
+Module[{parseTime,vars,ig,params,eqns,notSubs,paramSubs,
+hmatTime,hmat,
+arTime,zf,hf,
+amatTime,amat,
+lilTime,lilMat,cols,
+evalsTime,evals,
+lilevecsTime,lilevecs,
+evecsTime,evecs,
+bmatTime,bmat,
+sTime,theS},
+{parseTime,{vars,ig,params,ig,{ig,eqns},notSubs,ig}}=
+Timing[doMod[theDir,modName,targDir]];
+paramSubs=#[[1]]->#[[2]]&/@params;
+{solveTime,solveSoln}=Timing[trySolveSS[eqns,vars]];
+{fRootTime,fRootSoln}=Timing[makeSomeSSSubs[modName]];
+{hmatTime,hmat}=Timing[equationsToMatrix[eqns,vars]/.makeSSValSubs[vars]];
+{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];Print["done ar"];
+{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];
+{lilTime,{lilMat,cols}}=
+Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];Print["done inessential"];
+{more,lilMat}=Timing[FullSimplify[lilMat,TimeConstraint->$tConst]];lilTime=lilTime+more;
+{evalsTime,evals}= Timing[TimeConstrained[Eigenvalues[Transpose[lilMat]],$tConst]];Print["done evals"];
+{lilevecsTime,lilevecs}=Timing[TimeConstrained[compEigSpace[lilMat,evals,Join[paramSubs,fRootSoln]],$tConst]];
+{evecsTime,evecs}=Timing[toLarge[lilevecs,cols,Length[zf[[1]]]]];
+{bmatTime,bmat}=Timing[compB[zf,evecs,Length[hmat]]];
+{sTime,theS}=Timing[obStruct[hmat,bmat]];
+{parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,solveTime,fRootTime,paramSubs,eqns,bmat,theS,solveSoln,fRootSoln,hmat,vars}
+]
+
+trySolveSS[eqns_List,vars_List]:=
+Module[{},
+ssEqns=eqns//.ssSubs;
+someSSSubs=TimeConstrained[Solve[Thread[ssEqns==0],vars],$tConst];
+If[FreeQ[someSSSubs,Solve],someSSSubs/.
+(#->ToExpression[ToString[#]<>"SSVal"]&/@vars),{}
+]]
+
+
+
+makeSSValSubs[vars_List]:=#[t_]->ToExpression[ToString[#]<>"SSVal"]&/@vars;
+
+
+getLags[eqns_List] := With[{}, 
+    With[{lgld = Union[Cases[eqns, (xx_)[yy:t + (zz_.)] -> zz, Infinity]]}, 
+     -Min[lgld]]]
+getLeads[eqns_List] := With[{}, 
+    With[{lgld = Union[Cases[eqns, (xx_)[yy:t + (zz_.)] -> zz, Infinity]]}, 
+     Max[lgld]]]
+
+getNonLinSSSoln[modName_String]:=With[{idx=Position[allNonLinearMods,modName][[1,1]]},
+nonLinTimes[[idx,18]]]
+
+getNonLinVars[modName_String]:=With[{idx=Position[allNonLinearMods,modName][[1,1]]},
+nonLinTimes[[idx,20]]]
+getNonLinEqns[modName_String]:=With[{idx=Position[allNonLinearMods,modName][[1,1]]},
+nonLinTimes[[idx,14]]]
+getNonLinHmat[modName_String]:=With[{idx=Position[allNonLinearMods,modName][[1,1]]},
+nonLinTimes[[idx,19]]]
+getNonLinB[modName_String]:=With[{idx=Position[allNonLinearMods,modName][[1,1]]},
+nonLinTimes[[idx,15]]]
+getNonLinS[modName_String]:=With[{idx=Position[allNonLinearMods,modName][[1,1]]},
+nonLinTimes[[idx,16]]]
+getNonLinParamSubs[modName_String]:=With[{idx=Position[allNonLinearMods,modName][[1,1]]},
+nonLinTimes[[idx,13]]]
+getNonLinParams[modName_String]:=Sort[First /@ getNonLinParamSubs[modName]]
+
+
+
+isLin[modName_String]:=Not[FreeQ[allLinearMods,modName]]
+isNonLin[modName_String]:=Not[FreeQ[allNonLinearMods,modName]]
+
+
+
+getVars[modName_String]:=If[isLin[modName],getLinVars[modName],
+If[isNonLin[modName],getNonLinVars[modName],"unknown model"]]
+
+getEqns[modName_String]:=If[isLin[modName],getLinEqns[modName],
+If[isNonLin[modName],getNonLinEqns[modName],"unknown model"]]
+
+getHmat[modName_String]:=If[isLin[modName],getLinHmat[modName],
+If[isNonLin[modName],getNonLinHmat[modName],"unknown model"]]
+
+
+getB[modName_String]:=If[isLin[modName],getLinB[modName],
+If[isNonLin[modName],getNonLinB[modName],"unknown model"]]
+
+getS[modName_String]:=If[isLin[modName],getLinS[modName],
+If[isNonLin[modName],getNonLinS[modName],"unknown model"]]
+
+getParamSubs[modName_String]:=If[isLin[modName],getLinParamSubs[modName],
+If[isNonLin[modName],getNonLinParamSubs[modName],"unknown model"]]
+
+getParams[modName_String]:=Sort[First /@ getParamSubs[modName]]
+
