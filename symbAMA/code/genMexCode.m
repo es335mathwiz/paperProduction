@@ -1,6 +1,6 @@
 BeginPackage["genMexCode`",{"Experimental`", "Format`"}]
 
-Run["gfortran -c -fdefault-real-8 -fPIC rpoly493.f"]
+Run["gfortran -c -fdefault-real-8 -fPIC /msu/home/m1gsa00/git/paperProduction/symbAMA/code/rpoly493.f"]
 
 (*
 !gfortran -c -fdefault-real-8 -fPIC /msu/res2/m1gsa00/conferences/sce11/generatedMexFiles/rpoly493.f 
@@ -124,14 +124,16 @@ With[{bRows=Length[bMat],bCols=Length[bMat[[1]]]},
 $modNameNow=modName;
 $bRowsNow=bRows;
 $bColsNow=bCols;
-$theMexCodeNow=genCode[modName];
-Splice["mexTemplate.mc",mexName,PageWidth->800000,FormatType->OutputForm];
-str=OpenRead[mexName];
+$theMexCodeNow=genCode[modName];$spliceRes="tmpFileNameForSplice";
+Splice["/msu/home/m1gsa00/git/paperProduction/symbAMA/code/mexTemplate.mc",
+$spliceRes,PageWidth->800000,FormatType->OutputForm];
+str=OpenRead[$spliceRes];
 splicedCode=ReadList[str,Record,RecordSeparators->{}];
 allCode=$theMexCodeNow <> splicedCode;
 Close[str];Close[mexName];
 chnl=OpenWrite[mexName];
 WriteString[chnl,allCode];
+DeleteFile[$spliceRes];
 allCode
 ]]
 
@@ -403,10 +405,10 @@ Module[{eqns=AMAModelDefinition`getEqns[modName],hmat=Global`getHmat[modName],nu
 With[{matName=modName<>"Hmat.mat",matNameDims=modName<>"Dims.mat",matNamePrms=modName<>"Prms.mat",matNameSS=modName<>"SS.mat"},
 With[{ssSubsNow=AccelerateAMA`makeSSValSubs[utilitiesSetUp`getVars[modName]]},
 numhmat=(hmat/.ssSubsNow)//.Global`getParamSubs[modName]/.Global`getNonLinSSSoln[modName]/.makeShockSubs[modName];
-With[{ssVars=DeleteCases[(Last/@ssSubsNow)/.Global`getNonLinSSSoln[modName]//.Global`getParamSubs[modName]/.Global`getNonLinSSSoln[modName]/.makeShockSubs[modName],_Symbol]},
+With[{ssVars=(DeleteCases[(Last/@ssSubsNow)/.Global`getNonLinSSSoln[modName]//.Global`getParamSubs[modName]/.Global`getNonLinSSSoln[modName]/.makeShockSubs[modName],_Symbol])/.Global`ONESSVal->1},
 dims={{neq=Length[hmat],nlags=AccelerateAMA`getLags[eqns],nleads=AccelerateAMA`getLeads[eqns]}};
 prms=(getExampleParams[modName]/.$noDefaultValue->0)//.Global`getParamSubs[modName];
-Print["ss"];
+Print["ss",ssVars,Context/@Variables[ssVars]];
 Export[matNameSS,{"ss"->ssVars},"LabeledData"];
 Print["params"];
 Export[matNamePrms,{"params"->prms},"LabeledData"];

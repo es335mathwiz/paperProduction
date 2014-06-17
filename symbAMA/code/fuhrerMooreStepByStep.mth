@@ -1,0 +1,46 @@
+Needs["stepByStep`"]
+
+$theModelDir="/msu/home/m1gsa00/git/paperProduction/symbAMA/code/dynareExamples/uniqueExamples/";
+$theLinResDir="theLinRes/";
+$theModel="fuhrerMoore"
+
+
+
+fuhrerMooreModDims=getModelDims[$theModelDir,$theModel]
+
+
+fuhrerMoorePreEvals=preEvals[$theModelDir,$theModel,$theLinResDir];
+
+getVars[$theModel]=fuhrerMoorePreEvals[[-1]];
+$tConst=10;
+fuhrerMooreSSSoln=trySolve[$theModelDir,$theModel,$theLinResDir];
+getNonLinSSSoln[$theModel]=fuhrerMooreSSSoln[[-1,1]];
+
+
+
+
+fuhrerMooreCompEvals=Catch[tryCompEvals[$theModelDir,$theModel,$theLinResDir],
+"after evals"];
+
+
+fuhrerMooreFindRoot=tryFindRoot[$theModelDir,$theModel,$theLinResDir]
+
+
+fuhrerMooreCompEvecs=(Catch[tryCompEvecs[$theModelDir,$theModel,$theLinResDir],"after evals"|"after evecs"]);
+
+
+fuhrerMooreLinCompTimes={parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,phifmatTime,paramSubs,eqns,bmat,theS,hmat,vars,phimat,fmat}=allLinear[$theModelDir,$theModel,$theLinResDir];
+
+getB[$theModel]=fuhrerMooreCompEvecs[[-2]];
+$tConst=1;
+fuhrerMooreForMex=allNonLinear[$theModelDir,$theModel,$theLinResDir];
+
+doMexSplice[$theModel]
+mexComp[$theModel]
+expHMat[$theModel]
+
+
+Run["matlab -nodesktop -nodisplay -nosplash -r linExeToMat"]
+
+{linExeTimes}=Import["linExeTimes.mat"];
+

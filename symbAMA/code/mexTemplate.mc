@@ -1,4 +1,4 @@
-/* the gateway function */
+/* the gateway function the one i think?*/
 void mexFunction( int nlhs, mxArray *plhs[],
                   int nrhs, const mxArray *prhs[])
 {

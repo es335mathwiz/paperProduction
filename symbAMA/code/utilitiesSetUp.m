@@ -3,6 +3,7 @@ $antlrPath=
 "org/antlr/antlr-runtime/3.2/antlr-runtime-3.2.jar";
 $dynareParserPath="../../DynareParsers/target/classes/";
 $dynareParserPath="/msu/home/m1gsa00/git/DynareParsers/target/classes/";
+$dynareParserPath="/msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/dynareAntlr/1.0/dynareAntlr-1.0.jar"
 Print["utilitiesSetUp.m: after parser stable go back to relative path"]
 
 $symPath="../../mathAMA/SymbolicAMA/SymbolicAMA/";

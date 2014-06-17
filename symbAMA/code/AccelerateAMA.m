@@ -2,7 +2,7 @@
 
 BeginPackage["AccelerateAMA`", { "JLink`","SymbolicAMA`", "NumericAMA`", "AMAModel`","Experimental`", "Format`","AMAModelDefinition`"}]
 
-getModelDims::usage="getModelDims[modDir_String,modName_String]"
+getModelDims::usage="getModelDims[modDir_String,modName_String] returns {Length[vars],getLags[eqns],getLeads[eqns],Length[params],linearQ[eqns]}"
 
 getParams::usage="getParams[modName_String]"
 
@@ -45,7 +45,6 @@ trySolve::usage = "trySolve  "
 
 tryFindRoot::usage = "tryFindRoot  "
 
-tryEvals::usage = "tryEvals  "
 
 tryCompEvals::usage = "tryCompEvals  "
 
@@ -128,8 +127,8 @@ Module[{hmat=Global`getHmat[modName]},	Print["working on ", modName];
 		Join[Global`getParamSubs[modName],Global`getFRootSS[modName]]],Global`$tConst]];giveUpQ[lilevecs,"after evecs"];
 {evecsTime,evecs}=Timing[toLarge[lilevecs,Global`getCols[modName],qRowLength[modName]]];
 Global`getEvecs[modName]=evecs;
-	Print["done evecs"];
-{bmatTime,bmat}=Timing[compB[Global`getZf[modName],evecs,Length[hmat]]];
+	Print["done evecs"];qmat=compQ[Global`getZf[modName],evecs];
+{bmatTime,bmat}=Timing[compB[qmat]];
 	Print["done bmat"];
 Global`getB[modName]=bmat;
 	{sTime,theS}=Timing[obStruct[hmat,bmat]];
@@ -230,14 +229,20 @@ hPlus=hmat[[All,lTau+neq+Range[lTheta]]]},
 hMinus+blockMatrix[{{zeroMatrix[neq],hPlus . bigB}}]]]
 
 
-compB[zf_?MatrixQ,{},neq_Integer]:={}
+compQ[zf_?MatrixQ,{}]:=zf
 
-compB[zf_?MatrixQ,evs_?MatrixQ,neq_Integer]:=
-With[{qmat=Join[zf,evs]},
+compQ[zf_?MatrixQ,evs_?MatrixQ]:=
+With[{qmat=Join[zf,evs]},qmat]
+
+compB[qmat_?MatrixQ]:=
 With[{qcols=Length[qmat[[1]]],qrows=Length[qmat]},
 With[{qr=qmat[[All,qcols-qrows+Range[qrows]]],
 ql=qmat[[All,Range[qcols-qrows]]]},
-(-Inverse[qr].ql)]]]
+(-Inverse[qr].ql)]]
+
+
+
+
 
 
 
@@ -356,11 +361,12 @@ Print["gen eigenvalues"];
 Print["gen evecs"];
 {lilevecsTime,lilevecs}=Timing[compEigSpace[lilMat,evals,paramSubs]];
 {evecsTime,evecs}=Timing[toLarge[lilevecs,cols,Length[zf[[1]]]]];
-Print["compute bmat"];
-{bmatTime,bmat}=Timing[compB[zf,evecs,Length[hmat]]];
+Print["compute bmat"];qmat=compQ[zf,evecs];
+{bmatTime,bmat}=Timing[compB[qmat]];
+{phifmatTime,{bagain,phimat,fmat}}=Timing[symbolicComputeBPhiF[hmat,qmat]];
 Print["gen smat"];
 {sTime,theS}=Timing[obStruct[hmat,bmat]];
-{parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,paramSubs,eqns,bmat,theS,hmat,vars}
+{parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,phifmatTime,paramSubs,eqns,bmat,theS,hmat,vars,phimat,fmat}
 ]
 
 allNonLinear[theDir_String,modName_String,targDir_String]:=
@@ -388,7 +394,8 @@ Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];Print["done
 {evalsTime,evals}= Timing[TimeConstrained[Eigenvalues[Transpose[lilMat]],Global`$tConst]];Print["done evals"];
 {lilevecsTime,lilevecs}=Timing[TimeConstrained[compEigSpace[lilMat,evals,Join[paramSubs,fRootSoln]],Global`$tConst]];
 {evecsTime,evecs}=Timing[toLarge[lilevecs,cols,Length[zf[[1]]]]];
-{bmatTime,bmat}=Timing[compB[zf,evecs,Length[hmat]]];
+qmat=compQ[zf,evecs];
+{bmatTime,bmat}=Timing[compB[qmat]];
 {sTime,theS}=Timing[obStruct[hmat,bmat]];
 {parseTime,hmatTime,arTime,amatTime,lilTime,evalsTime,lilevecsTime,evecsTime,bmatTime,sTime,solveTime,fRootTime,paramSubs,eqns,bmat,theS,solveSoln,fRootSoln,hmat,vars}
 ]

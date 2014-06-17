@@ -1,0 +1,259 @@
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Symbolic AMA Coding Examples", "Title",
+ TextAlignment->Center],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+  "Get", "[", "\"\</msu/home/m1gsa00/.Mathematica/Kernel/init.m\>\"", "]"}], 
+  ";", 
+  RowBox[{"PrependTo", "[", 
+   RowBox[{
+   "$Path", ",", 
+    "\"\</a/msulx1/lcl/msu/home/m1gsa00/git/paperProduction/symbAMA/code/\>\"\
+"}], "]"}], ";", 
+  RowBox[{"Needs", "[", "\"\<stepByStep`\>\"", "]"}], ";", 
+  RowBox[{
+  "$theModDir", "=", 
+   "\"\</msu/home/m1gsa00/git/paperProduction/symbAMA/code/dynareExamples/\
+uniqueExamples/\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"$theResDir", "=", "\"\<theRes/\>\""}], ";"}]}], "Input",
+ InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["\<\"linux environment: executing commands in init.m  \
+/msu/home/m1gsa00/.Mathematica/Kernel/init.m\"\>"], "Print"],
+
+Cell[BoxData["\<\"utilitiesSetUp.m: after parser stable go back to relative \
+path\"\>"], "Print"],
+
+Cell[BoxData["\<\"done reading SymbolicAMA\"\>"], "Print"],
+
+Cell[BoxData["\<\"done reading NumericAMA\"\>"], "Print"],
+
+Cell[BoxData["\<\"done reading AMAModel\"\>"], "Print"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Firm Value Example", "Section"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"$theModel", "=", "\"\<firmValue\>\""}], ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+    "nEqns", ",", "nLeads", ",", "nLeads", ",", "nParams", ",", "isLinearQ"}],
+     "}"}], "=", 
+   RowBox[{"getModelDims", "[", 
+    RowBox[{"$theModDir", ",", "$theModel"}], "]"}]}], ";"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["$ContextPath"], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\<\"Predictions`\"\>", ",", "\<\"stepByStep`\"\>", 
+   ",", "\<\"genMexCode`\"\>", ",", "\<\"utilitiesSetUp`\"\>", 
+   ",", "\<\"AccelerateAMA`\"\>", ",", "\<\"AMAModelDefinition`\"\>", 
+   ",", "\<\"Format`\"\>", ",", "\<\"Experimental`\"\>", 
+   ",", "\<\"AMAModel`\"\>", ",", "\<\"NumericAMA`\"\>", 
+   ",", "\<\"SymbolicAMA`\"\>", ",", "\<\"console`\"\>", 
+   ",", "\<\"JLink`\"\>", ",", "\<\"PacletManager`\"\>", 
+   ",", "\<\"QuantityUnits`\"\>", ",", "\<\"WebServices`\"\>", 
+   ",", "\<\"System`\"\>", ",", "\<\"Global`\"\>"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+    "ig", ",", "ig", ",", "ig", ",", "ig", ",", "ig", ",", "paramSubs", ",", 
+     "eqns", ",", "hmat", ",", "vars"}], "}"}], "=", 
+   RowBox[{"preEvals", "[", 
+    RowBox[{"$theModDir", ",", "$theModel", ",", "$theResDir"}], "]"}]}], 
+  ";"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"analyzing \"\>", "\[InvisibleSpace]", "\<\"firmValue\"\>"}],
+  SequenceForm["analyzing ", "firmValue"],
+  Editable->False]], "Print"],
+
+Cell[BoxData["\<\"done hmat\"\>"], "Print"],
+
+Cell[BoxData["\<\"done ar\"\>"], "Print"],
+
+Cell[BoxData["\<\"done amat\"\>"], "Print"],
+
+Cell[BoxData["\<\"done inessential\"\>"], "Print"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["hmat"], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", 
+     RowBox[{"1", "+", "rr"}], ",", "0", ",", 
+     RowBox[{"-", "1"}], ",", 
+     RowBox[{"-", "1"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     RowBox[{
+      RowBox[{"-", "1"}], "+", "delta"}], ",", "0", ",", "1", ",", "0", ",", 
+     "0"}], "}"}]}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"zf", ",", "hf"}], "}"}], "=", 
+   RowBox[{"symbolicAR", "[", "hmat", "]"}]}], ";"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["zf"], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"0", ",", 
+    RowBox[{
+     RowBox[{"-", "1"}], "+", "delta"}], ",", "0", ",", "1"}], "}"}], 
+  "}"}]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"amat", "=", 
+   RowBox[{"symbolicTransitionMatrix", "[", "hf", "]"}]}], ";"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["amat"], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", "1", ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", 
+     RowBox[{"1", "+", "rr"}], ",", 
+     RowBox[{
+      RowBox[{"-", "1"}], "+", "delta"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", "0", ",", 
+     RowBox[{"1", "-", "delta"}]}], "}"}]}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"psimat", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", "1", "}"}], ",", 
+     RowBox[{"{", "0", "}"}]}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"bigpsimat", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "1"}], "}"}]}], "}"}]}], ";"}]}], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"evls", ",", "evcs"}], "}"}], "=", 
+   RowBox[{"Eigensystem", "[", 
+    RowBox[{"Transpose", "[", "amat", "]"}], "]"}]}], ";"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["evls"], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0", ",", "0", ",", 
+   RowBox[{"1", "-", "delta"}], ",", 
+   RowBox[{"1", "+", "rr"}]}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"\n", 
+  RowBox[{
+   RowBox[{"qmat", "=", 
+    RowBox[{"Join", "[", 
+     RowBox[{"zf", ",", 
+      RowBox[{"evcs", "[", 
+       RowBox[{"[", 
+        RowBox[{"{", "4", "}"}], "]"}], "]"}]}], "]"}]}], ";"}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"bmat", ",", "phimat", ",", "fmat"}], "}"}], "=", 
+    RowBox[{
+     RowBox[{"symbolicComputeBPhiF", "[", 
+      RowBox[{"hmat", ",", "qmat"}], "]"}], "//", "FullSimplify"}]}], ";"}], 
+  "\n"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["bmat"], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     FractionBox[
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"-", "1"}], "+", "delta"}], ")"}], "2"], 
+      RowBox[{"delta", "+", "rr"}]]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     RowBox[{"1", "-", "delta"}]}], "}"}]}], "}"}]], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{756, 818},
+WindowMargins->{{Automatic, 394}, {Automatic, 0}},
+ShowSelection->True,
+FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 7, 2013)",
+StyleDefinitions->"Default.nb"
+]
+
