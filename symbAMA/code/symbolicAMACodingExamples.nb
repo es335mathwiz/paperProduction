@@ -43,6 +43,28 @@ Cell[BoxData["\<\"done reading AMAModel\"\>"], "Print"]
 
 Cell[CellGroupData[{
 
+Cell[BoxData[
+ RowBox[{"FindFile", "[", "\"\<Format`\>\"", "]"}]], "Input"],
+
+Cell[BoxData["\<\"/a/msulx1/lcl/msu/home/m1gsa00/git/paperProduction/\
+FormatOptimize/Format.m\"\>"], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FindFile", "[", "\"\<SymbolicAMA`\>\"", "]"}]], "Input"],
+
+Cell[BoxData["\<\"/a/msulx1/lcl/msu/home/m1gsa00/git/paperProduction/mathAMA/\
+SymbolicAMA/SymbolicAMA/SymbolicAMA.m\"\>"], "Output"]
+}, Open  ]],
+
+Cell[BoxData["FindFile"], "Input"],
+
+Cell[BoxData["Foin"], "Input"],
+
+Cell[CellGroupData[{
+
 Cell["Firm Value Example", "Section"],
 
 Cell[BoxData[
@@ -65,15 +87,15 @@ Cell[BoxData["$ContextPath"], "Input"],
 
 Cell[BoxData[
  RowBox[{"{", 
-  RowBox[{"\<\"Predictions`\"\>", ",", "\<\"stepByStep`\"\>", 
-   ",", "\<\"genMexCode`\"\>", ",", "\<\"utilitiesSetUp`\"\>", 
-   ",", "\<\"AccelerateAMA`\"\>", ",", "\<\"AMAModelDefinition`\"\>", 
-   ",", "\<\"Format`\"\>", ",", "\<\"Experimental`\"\>", 
-   ",", "\<\"AMAModel`\"\>", ",", "\<\"NumericAMA`\"\>", 
-   ",", "\<\"SymbolicAMA`\"\>", ",", "\<\"console`\"\>", 
-   ",", "\<\"JLink`\"\>", ",", "\<\"PacletManager`\"\>", 
-   ",", "\<\"QuantityUnits`\"\>", ",", "\<\"WebServices`\"\>", 
-   ",", "\<\"System`\"\>", ",", "\<\"Global`\"\>"}], "}"}]], "Output"]
+  RowBox[{"\<\"stepByStep`\"\>", ",", "\<\"genMexCode`\"\>", 
+   ",", "\<\"utilitiesSetUp`\"\>", ",", "\<\"AccelerateAMA`\"\>", 
+   ",", "\<\"AMAModelDefinition`\"\>", ",", "\<\"Format`\"\>", 
+   ",", "\<\"Experimental`\"\>", ",", "\<\"AMAModel`\"\>", 
+   ",", "\<\"NumericAMA`\"\>", ",", "\<\"SymbolicAMA`\"\>", 
+   ",", "\<\"console`\"\>", ",", "\<\"JLink`\"\>", 
+   ",", "\<\"PacletManager`\"\>", ",", "\<\"QuantityUnits`\"\>", 
+   ",", "\<\"WebServices`\"\>", ",", "\<\"System`\"\>", 
+   ",", "\<\"Global`\"\>"}], "}"}]], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -246,12 +268,570 @@ Cell[BoxData[
    RowBox[{"{", 
     RowBox[{"0", ",", 
      RowBox[{"1", "-", "delta"}]}], "}"}]}], "}"}]], "Output"]
-}, Open  ]]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "*", "User", " ", "Mathematica", " ", "initialization", " ", "file"}], 
+   "**)"}], 
+  RowBox[{
+   RowBox[{"SetOptions", "[", 
+    RowBox[{"Trace", ",", 
+     RowBox[{"TraceForward", "\[Rule]", "True"}]}], "]"}], 
+   "\[IndentingNewLine]", "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"windowsQ", "[", "]"}], ":=", 
+     RowBox[{"Not", "[", 
+      RowBox[{
+       RowBox[{"StringPosition", "[", 
+        RowBox[{"$Version", ",", "\"\<Windows\>\""}], "]"}], "===", 
+       RowBox[{"{", "}"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{"windowsQ", "[", "]"}], ",", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<windows environment: executing commands in init.m\>\"", "<>", 
+       RowBox[{"FindFile", "[", "\"\<init.m\>\"", "]"}]}], "]"}], ",", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<linux environment: executing commands in init.m  \>\"", "<>", 
+       RowBox[{"FindFile", "[", "\"\<init.m\>\"", "]"}]}], "]"}]}], "]"}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{"Needs", "[", "\"\<JLink`\>\"", "]"}], "\n", 
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{"windowsQ", "[", "]"}], ",", 
+     RowBox[{"ReinstallJava", "[", 
+      RowBox[{
+      "CommandLine", "\[Rule]", 
+       "\"\<C:/RSMA/Java/jdk1.7.0/bin  -showversion\>\""}], "]"}], ",", 
+     RowBox[{"ReinstallJava", "[", 
+      RowBox[{
+      "CommandLine", "\[Rule]", 
+       "\"\</msu/scratch2/m1gsa00/jdk1.7.0/bin/java  -showversion\>\""}], 
+      "]"}]}], "]"}], "\n", 
+   RowBox[{
+    RowBox[{"Off", "[", 
+     RowBox[{"Syntax", "::", "sntufn"}], "]"}], ";"}], "\n", 
+   RowBox[{"Needs", "[", "\"\<console`\>\"", "]"}], "\n", 
+   RowBox[{
+    RowBox[{"On", "[", 
+     RowBox[{"Syntax", "::", "sntufn"}], "]"}], ";"}], "\[IndentingNewLine]", 
+   
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+     "When", " ", "you", " ", "first", " ", "install", " ", "Mathematica", 
+      " ", 
+      RowBox[{"it", "'"}], "s", " ", "configured", " ", "so", " ", "that", 
+      " ", "when", " ", "you", " ", "start", " ", "up", " ", "the", " ", 
+      "program"}], ",", 
+     RowBox[{
+     "the", " ", "Welcome", " ", "screen", " ", "comes", " ", "up", " ", "as",
+       " ", "well", " ", "as", " ", "the", " ", "Documentation", " ", 
+      "Center", " ", 
+      RowBox[{"dialog", ".", "Having"}], " ", "to", " ", "close", " ", "both",
+       " ", "of", " ", "these", " ", "windows", " ", "every", " ", "time", 
+      " ", "Mathematica", " ", "starts", " ", "is", " ", 
+      RowBox[{"annoying", ".", "You"}], " ", "can", " ", "prevent", " ", 
+      "these", " ", "windows", " ", "from", " ", "opening", " ", "by", " ", 
+      "adding", " ", "the", " ", "following", " ", "two", " ", "lines", " ", 
+      "to", " ", "the", " ", "Mathematica", " ", "initialization", " ", 
+      RowBox[{"file", ":"}]}]}], "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"$FrontEnd", "=!=", "Null"}], ",", 
+      RowBox[{
+       RowBox[{"SetOptions", "[", 
+        RowBox[{"$FrontEnd", ",", 
+         RowBox[{"DockedCells", "\[Rule]", 
+          RowBox[{"{", "}"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"SetOptions", "[", 
+        RowBox[{"$FrontEnd", ",", 
+         RowBox[{"AutoOpenNotebooks", "\[Rule]", 
+          RowBox[{"{", "}"}]}]}], "]"}]}]}], "]"}], "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", "\[IndentingNewLine]", 
+   
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{"windowsQ", "[", "]"}], ",", 
+     RowBox[{
+      RowBox[{
+      "$pertPath", "=", 
+       "\"\<G:/scratch/tryBenchWindows3.5/Perturbation/\>\""}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+      "$umbraPath", "=", 
+       "\"\<C:/gitHome/git/forUmbraCalculus/umbraCalculus/umbraCalculus/\>\""}\
+], ";", "\[IndentingNewLine]", 
+      RowBox[{
+      "$AMAPath", "=", "\"\<G:/RES2/mathAMA/AndersonMooreAlgorithm/\>\""}], 
+      ";", "\[IndentingNewLine]", 
+      RowBox[{"$FormatPath", "=", "\"\<S:/learnProjection/proto/\>\""}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+      "$projPath", "=", "\"\<G:/RES2/ProjectionMethodTools/projection/\>\""}],
+       ";", "\[IndentingNewLine]", 
+      RowBox[{"$projCPath", "=", 
+       RowBox[{"{", 
+        RowBox[{
+        "\"\<G:/RES2/ProjectionMethodTools/projection/target/test-classes\>\"\
+", ",", "\"\<G:/RES2/ProjectionMethodTools/projection/target/classes\>\"", 
+         ",", "\"\<r:/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\"", ",", 
+         "\"\<r:/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-1.0.2/\
+1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\"", ",", 
+         "\"\<r:/Software/mavenRepositories/tryRep/gov/frb/ma/msu/projection/\
+1.0-SNAPSHOT/projection-1.0-SNAPSHOT.jar\>\""}], "}"}]}]}], ",", 
+     RowBox[{
+      RowBox[{
+      "$pertPath", "=", 
+       "\"\</msu/home/m1gsa00/scratch/tryBenchWindows3.5/Perturbation/\>\""}],
+       ";", "\[IndentingNewLine]", 
+      RowBox[{
+      "$umbraPath", "=", 
+       "\"\</msu/home/m1gsa00/git/umbralCalculus/umbralCalculus\>\""}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"$eigProjPath", "=", "\"\</msu/res2/m1gsa00/dynareAntlr/\>\""}],
+       ";", "\[IndentingNewLine]", 
+      RowBox[{"$eigProjCPath", "=", 
+       RowBox[{"{", 
+        RowBox[{
+        "\"\</msu/res2/m1gsa00/dynareAntlr/target/test-classes\>\"", ",", 
+         "\"\</msu/res2/m1gsa00/dynareAntlr/target/classes\>\"", ",", 
+         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\"", ",", 
+         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-\
+1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\"", ",", 
+         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\""}], "}"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+      "$AMAPath", "=", 
+       "\"\</msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/\>\""}], 
+      ";", "\[IndentingNewLine]", 
+      RowBox[{
+      "$FormatPath", "=", 
+       "\"\</msu/scratch/m1gsa00/learnProjection/proto/\>\""}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+      "$projPath", "=", 
+       "\"\</msu/home/m1gsa00/RES2/ProjectionMethodTools/projection/\>\""}], 
+      ";", "\[IndentingNewLine]", 
+      RowBox[{"$projCPath", "=", 
+       RowBox[{"{", 
+        RowBox[{
+        "\"\</msu/home/m1gsa00/RES2/ProjectionMethodTools/projection/target/\
+test-classes\>\"", ",", 
+         "\"\</msu/home/m1gsa00/RES2/ProjectionMethodTools/projection/target/\
+classes\>\"", ",", 
+         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\"", ",", 
+         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-\
+1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\"", ",", 
+         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+projection/1.0-SNAPSHOT/projection-1.0-SNAPSHOT.jar\>\""}], "}"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"$eigProjPath", "=", "\"\</msu/res2/m1gsa00/dynareAntlr/\>\""}],
+       ";", "\[IndentingNewLine]", 
+      RowBox[{"$eigProjCPath", "=", 
+       RowBox[{"{", 
+        RowBox[{
+        "\"\</msu/res2/m1gsa00/dynareAntlr/target/test-classes\>\"", ",", 
+         "\"\</msu/res2/m1gsa00/dynareAntlr/target/classes\>\"", ",", 
+         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\"", ",", 
+         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-\
+1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\"", ",", 
+         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+dynareAntlr/1.0-SNAPSHOT/dynareAntlr-1.0-SNAPSHOT.jar\>\"", ",", 
+         "\"\</msu/home/m1gsa00/scratch/tryRep/org/antlr/antlr-runtime/3.2/\
+antlr-runtime-3.2.jar\>\""}], "}"}]}], ";"}]}], "]"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "prep", " ", "for", " ", "2011", " ", "sce", " ", "presentation", " ", 
+     "calcs"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"prepSCE2011", "[", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", 
+      RowBox[{
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$pertPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$umbraPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$AMAPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$projPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$eigProjPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$FormatPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"<<", "SymbolicAMA`"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"<<", "NumericAMA`"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"<<", "AndersonMooreAlgorithm`AMAModel`"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"Not", "[", 
+          RowBox[{"StringQ", "[", "$installDir", "]"}], "]"}], ",", 
+         RowBox[{"$installDir", "=", 
+          RowBox[{"StringReplace", "[", 
+           RowBox[{
+            RowBox[{
+            "FindFile", "[", "\"\<AndersonMooreAlgorithm`AMAModel`\>\"", 
+             "]"}], ",", 
+            RowBox[{"\"\<AMAModel.m\>\"", "\[Rule]", "\"\<\>\""}]}], 
+           "]"}]}]}], "]"}], ";", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"SetDirectory", "[", 
+          RowBox[{"StringReplace", "[", 
+           RowBox[{
+            RowBox[{"FindFile", "[", "\"\<paper.mth\>\"", "]"}], ",", 
+            RowBox[{"\"\<paper.mth\>\"", "\[Rule]", "\"\<\>\""}]}], "]"}], 
+          "]"}], ";"}], "*)"}], 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{
+         "SetDirectory", "[", "\"\<dynareExamples/examples\>\"", "]"}], ";"}],
+         "*)"}], 
+       RowBox[{"Needs", "[", "\"\<SSProjection`\>\"", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Needs", "[", "\"\<RootProjection`\>\"", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Needs", "[", "\"\<EigenspaceProjection`\>\"", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Needs", "[", "\"\<Format`\>\"", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Needs", "[", "\"\<Experimental`\>\"", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"ReinstallJava", "[", 
+        RowBox[{"JVMArguments", "\[Rule]", "\"\<-Xmx1080m\>\""}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"AddToClassPath", "[", 
+        RowBox[{
+        "\"\</msu/res2/m1gsa00/sce11/\>\"", ",", 
+         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+projection/1.0-SNAPSHOT/projection-1.0-SNAPSHOT.jar\>\"", ",", 
+         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+commons-math/1.0-SNAPSHOT/commons-math-1.0-SNAPSHOT.jar\>\"", ",", 
+         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-\
+1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\""}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"AddToClassPath", "/@", "$projCPath"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"AddToClassPath", "/@", "$eigProjCPath"}], ";"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"prep", " ", "for", " ", "dynare", " ", "calculations"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"prepDynare", "[", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", 
+      RowBox[{
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$AMAPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$projPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$eigProjPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$FormatPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"<<", "AndersonMooreAlgorithm`SymbolicAMA`"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"<<", "AndersonMooreAlgorithm`NumericAMA`"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"<<", "AndersonMooreAlgorithm`AMAModel`"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"Not", "[", 
+          RowBox[{"StringQ", "[", "$installDir", "]"}], "]"}], ",", 
+         RowBox[{"$installDir", "=", 
+          RowBox[{"StringReplace", "[", 
+           RowBox[{
+            RowBox[{
+            "FindFile", "[", "\"\<AndersonMooreAlgorithm`AMAModel`\>\"", 
+             "]"}], ",", 
+            RowBox[{"\"\<AMAModel.m\>\"", "\[Rule]", "\"\<\>\""}]}], 
+           "]"}]}]}], "]"}], ";", 
+       RowBox[{"(*", 
+        RowBox[{"(*", 
+         RowBox[{
+          RowBox[{"SetDirectory", "[", 
+           RowBox[{"StringReplace", "[", 
+            RowBox[{
+             RowBox[{"FindFile", "[", "\"\<paper.mth\>\"", "]"}], ",", 
+             RowBox[{"\"\<paper.mth\>\"", "\[Rule]", "\"\<\>\""}]}], "]"}], 
+           "]"}], ";"}], "*)"}], 
+        RowBox[{
+         RowBox[{
+         "SetDirectory", "[", "\"\<dynareExamples/examples\>\"", "]"}], ";"}],
+         "*)"}], 
+       RowBox[{"Needs", "[", "\"\<RootProjection`\>\"", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Needs", "[", "\"\<EigenspaceProjection`\>\"", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Needs", "[", "\"\<Format`\>\"", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Needs", "[", "\"\<Experimental`\>\"", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"ReinstallJava", "[", 
+        RowBox[{"JVMArguments", "\[Rule]", "\"\<-Xmx1080m\>\""}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"AddToClassPath", "/@", "$projCPath"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"AddToClassPath", "/@", "$eigProjCPath"}], ";"}]}], "]"}]}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"computeLSFullSymbolic", "[", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", 
+      RowBox[{
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "\"\</msu/home/m1gsa00/RES2/sce11/\>\""}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Get", "[", "\"\<computeLSFullSymbolic.mth\>\"", "]"}], 
+       ";"}]}], "]"}]}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"prepForLSProjection", "[", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", 
+      RowBox[{
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "\"\</msu/home/m1gsa00/RES2/sce11/\>\""}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Get", "[", "\"\<prepForLSProjection.mth\>\"", "]"}]}]}], 
+     "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "prep", " ", "for", " ", "2011", " ", "sce", " ", "presentation", " ", 
+     "calcs"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"prepSCE2011", "[", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", 
+      RowBox[{
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$pertPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$umbraPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$AMAPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$projPath"}], "]"}]}], ";"}]}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$eigProjPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$FormatPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"<<", "SymbolicAMA`"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"<<", "NumericAMA`"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"<<", "AndersonMooreAlgorithm`AMAModel`"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"Not", "[", 
+          RowBox[{"StringQ", "[", "$installDir", "]"}], "]"}], ",", 
+         RowBox[{"$installDir", "=", 
+          RowBox[{"StringReplace", "[", 
+           RowBox[{
+            RowBox[{
+            "FindFile", "[", "\"\<AndersonMooreAlgorithm`AMAModel`\>\"", 
+             "]"}], ",", 
+            RowBox[{"\"\<AMAModel.m\>\"", "\[Rule]", "\"\<\>\""}]}], 
+           "]"}]}]}], "]"}], ";", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"SetDirectory", "[", 
+          RowBox[{"StringReplace", "[", 
+           RowBox[{
+            RowBox[{"FindFile", "[", "\"\<paper.mth\>\"", "]"}], ",", 
+            RowBox[{"\"\<paper.mth\>\"", "\[Rule]", "\"\<\>\""}]}], "]"}], 
+          "]"}], ";"}], "*)"}], 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{
+         "SetDirectory", "[", "\"\<dynareExamples/examples\>\"", "]"}], ";"}],
+         "*)"}], 
+       RowBox[{"Needs", "[", "\"\<SSProjection`\>\"", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Needs", "[", "\"\<RootProjection`\>\"", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Needs", "[", "\"\<EigenspaceProjection`\>\"", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Needs", "[", "\"\<Format`\>\"", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Needs", "[", "\"\<Experimental`\>\"", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"ReinstallJava", "[", 
+        RowBox[{"JVMArguments", "\[Rule]", "\"\<-Xmx1080m\>\""}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"AddToClassPath", "[", 
+        RowBox[{
+        "\"\</msu/res2/m1gsa00/sce11/\>\"", ",", 
+         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+projection/1.0-SNAPSHOT/projection-1.0-SNAPSHOT.jar\>\"", ",", 
+         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+commons-math/1.0-SNAPSHOT/commons-math-1.0-SNAPSHOT.jar\>\"", ",", 
+         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-\
+1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\""}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"AddToClassPath", "/@", "$projCPath"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"AddToClassPath", "/@", "$eigProjCPath"}], ";"}], "*)"}], 
+     "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "prep", " ", "for", " ", "2013", " ", "sce", " ", "presentation", " ", 
+     "calcs"}], "*)"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"$gitDir", "=", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"windowsQ", "[", "]"}], ",", "\"\<g:/git/\>\"", ",", 
+       "\"\</msu/home/m1gsa00/git/\>\""}], "]"}]}], ";"}], "\n", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"$pertPath", "=", 
+     RowBox[{"$gitDir", "<>", "\"\<MatPert/MatPert\>\""}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"$umbraPath", "=", 
+     RowBox[{"$gitDir", "<>", "\"\<umbralCalculus/umbralCalculus\>\""}]}], 
+    ";"}], "\n", 
+   RowBox[{
+    RowBox[{"$impPath", "=", 
+     RowBox[{
+     "$gitDir", "<>", 
+      "\"\<ImpulseResponseErgodic/ImpulseResponseErgodic\>\""}]}], ";"}], 
+   "\n", 
+   RowBox[{
+    RowBox[{"$nAMAPath", "=", 
+     RowBox[{"$gitDir", "<>", "\"\<mathAMA/NumericAMA/NumericAMA\>\""}]}], 
+    ";"}], "\n", 
+   RowBox[{
+    RowBox[{"$sAMAPath", "=", 
+     RowBox[{"$gitDir", "<>", "\"\<mathAMA/SymbolicAMA/SymbolicAMA\>\""}]}], 
+    ";"}], "\n", 
+   RowBox[{
+    RowBox[{"$oldPertPath", "=", 
+     RowBox[{"$gitDir", "<>", "\"\<mathAMA/Perturbation/Perturbation\>\""}]}],
+     ";"}], "\n", 
+   RowBox[{
+    RowBox[{"$projPath", "=", 
+     RowBox[{
+     "$gitDir", "<>", 
+      "\"\<ProjectionMethodTools/ProjectionMethodTools\>\""}]}], ";"}], "\n", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"prepSCE2013", "[", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", 
+      RowBox[{
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$pertPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$umbraPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$impPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$nAMAPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$sAMAPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$oldPertPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$Path", "=", 
+        RowBox[{"PrependTo", "[", 
+         RowBox[{"$Path", ",", "$projPath"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Needs", "[", "\"\<ImpulseResponseErgodic`\>\"", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Needs", "[", "\"\<ProjectionMethodTools`\>\"", "]"}], ";", 
+       RowBox[{"pre", "=", "\"\<gov.frb.ma.msu.\>\""}], ";", 
+       RowBox[{"InstallJava", "[", "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Get", "[", "\"\<neoKeynesianEqnsSubs.mth\>\"", "]"}], " ", 
+        RowBox[{"AddToClassPath", "[", 
+         RowBox[{
+         "\"\</msu/res2/m1gsa00/sce13/\>\"", ",", 
+          "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+ProjectionMethodToolsJava/0.0.1-SNAPSHOT/ProjectionMethodToolsJava-0.0.1-\
+SNAPSHOT.jar\>\"", ",", 
+          "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+commons-math/1.0-SNAPSHOT/commons-math-1.0-SNAPSHOT.jar\>\"", ",", 
+          "\"\</msu/res1/Software/mavenRepositories/tryRep/math/nist/gov/Jama/\
+1.0.3/Jama-1.0.3.jar\>\""}], "]"}]}], ";"}]}], "]"}]}], "\n"}]}]], "Input",
+ InitializationCell->True]
 }, Open  ]]
 }, Open  ]]
 },
 WindowSize->{756, 818},
-WindowMargins->{{Automatic, 394}, {Automatic, 0}},
+WindowMargins->{{180, Automatic}, {Automatic, 47}},
 ShowSelection->True,
 FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 7, 2013)",
 StyleDefinitions->"Default.nb"
