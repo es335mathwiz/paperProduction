@@ -1,4 +1,8 @@
-%pdflatex -shell-escape  -interaction=nonstopmode "\input" hybridSymbolicProjectionAMA.tex
+%TEXINPUTS=.;q:/Emacs_x86_234/emacs-23.4/site-lisp/auctex/latex;
+%set TEXINPUTS=.;../../bibFiles;../../texFiles;q:/Emacs_x86_234/emacs-23.4/site-lisp/auctex/latex;;
+%
+%pdflatex  -shell-escape  -interaction=nonstopmode "\input" hybridSymbolicProjectionAMA.tex
+
 %\documentclass[12pt]{elsart}
 \documentclass[12pt]{article}
 \input{preamble}
@@ -783,7 +787,7 @@ I apply this program to a collection of representative models taken from
 As shown in table \ref{tab:noEst} the models vary in size and in the number of parameters used in their
 definition. Some of the models are nonlinear.
 
-\input{../code/modDims.tex}
+%\input{../code/modDims.tex}
 
   These nonlinear solutions have place holders for the steady state value.
 The Mathematica code linearizes nonlinear models about a symbolic steady state.
@@ -795,7 +799,7 @@ about 3 minutes and a one half minute respectively. All the other models require
 
 
 
-\input{../code/preEvalTimes.tex}
+%\input{../code/preEvalTimes.tex}
 
 
 
@@ -809,9 +813,9 @@ steps.
 The machine is a 2.93GHz  24 core
 Intel(R) Xeon(R) CPU.\footnote{(peaklx13)}
 
-\input{../code/ssSolnTimes.tex}
+%\input{../code/ssSolnTimes.tex}
 
-\input{../code/allCompTimes.tex}
+%\input{../code/allCompTimes.tex}
 
 Table \ref{tab:linCompTimes} presents the time required to compute analytic 
 solutions. 
@@ -828,7 +832,7 @@ On rare occasion these do not converge except for ifs1 and fs2000
  which often has convergence problems. 
 FindRoot solution times were always trivially small.
 
-\input{../code/linearCompTimes.tex}
+%\input{../code/linearCompTimes.tex}
 
 Table \ref{tab:linMexTime} reports the number of seconds required for 1000 evaluations of
 the matlab implementation of the Anderson-Moore algorithm (SPAmalg).
@@ -854,7 +858,7 @@ expectations models and that the time for computing the analytic is
 made up for by this speed in under a dozen function evaluations.
 
 
-\input{../code/linCompMLB.tex}
+%\input{../code/linCompMLB.tex}
 
 
 Table \ref{tab:nonLinTimes} shows times to compute solutions for non linear
@@ -864,7 +868,7 @@ rational expectations solution.
 
 
 
-\input{../code/nonLinearCompTimes.tex}
+%\input{../code/nonLinearCompTimes.tex}
 
 Table \ref{tab:nonLinMexTime} shows that
 speedups are comparable to speedups for linear models. But since the 
@@ -880,7 +884,7 @@ time consuming or impossible.  The benefit may outweigh the cost.
 One can compare the susequent execution times with and without Simplification.
 
 
-\input{../code/nonLinCompMLB.tex}
+%\input{../code/nonLinCompMLB.tex}
 
 
 
