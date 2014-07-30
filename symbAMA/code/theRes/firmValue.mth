@@ -1,0 +1,16 @@
+
+
+AMAModelDefinition["firmValue"]:=
+{
+{vv,dd},
+{},
+{{delta,.3},{rr,.2},{lrd,1.}},
+{},
+Transpose[{
+{"",((1+rr)*vv[t])-((vv[t+1]+dd[t+1]))},
+{"",(dd[t]-lrd)-(((1-delta)*(dd[t-1]-lrd)))}}],
+Thread[{}->Table[eps[i][t],{i,0}]],
+{
+}
+};
+"firmValue"
