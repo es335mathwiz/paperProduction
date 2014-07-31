@@ -7,17 +7,28 @@ Cell["Symbolic AMA Coding Examples", "Title",
 Cell[BoxData[
  RowBox[{"\[IndentingNewLine]", 
   RowBox[{
-   RowBox[{"$theResDir", "=", "\"\<theRes/\>\""}], ";"}]}]], "Input",
- InitializationCell->True,
- CellChangeTimes->{3.612027902032737*^9}],
+   RowBox[{"$theResDir", "=", "\"\<theRes\>\""}], ";", 
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{"Not", "[", 
+      RowBox[{"FileExistsQ", "[", "$theResDir", "]"}], "]"}], ",", 
+     RowBox[{"CreateDirectory", "[", "$theResDir", "]"}]}], 
+    "]"}]}]}]], "Input",
+ InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["$theResDir"], "Input"],
+
+Cell[BoxData["\<\"theRes\"\>"], "Output"]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"Directory", "[", "]"}]], "Input"],
 
-Cell[BoxData["\<\"/lcl/msu/home/m1gsa00/git/paperProduction/symbAMA/code\"\>"]\
-, "Output"]
+Cell[BoxData["\<\"/tmp/huh/symbAMA/code\"\>"], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2273,8 +2284,7 @@ Cell[BoxData[
                     RowBox[{"a", " ", "beta", " ", "lambda", " ", "sigma"}]}],
                      ")"}], " ", 
                     SuperscriptBox["#1", "3"]}], "+", 
-                   SuperscriptBox["#1", "4"]}], "&"}], ",", "2"}], "]"}], " ",
-                
+                   SuperscriptBox["#1", "4"]}], "&"}], ",", "2"}], "]"}], " ", 
                RowBox[{"(", 
                 RowBox[{
                  RowBox[{"alpha", " ", "b", " ", 
@@ -6585,7 +6595,7 @@ Cell[BoxData[
          DynamicBox[ToBoxes[
            FEPrivate`FrontEndResource["FEStrings", "sizeExplanation"], 
            StandardForm],
-          ImageSizeCache->{304., {2., 8.}}],
+          ImageSizeCache->{319., {2., 8.}}],
          StripOnInput->False,
          DynamicUpdating->True], "Panel",
         StripOnInput->False,
@@ -6660,7 +6670,7 @@ Cell[BoxData[
            DynamicBox[ToBoxes[
              FEPrivate`FrontEndResource["FEStrings", "sizeShowLess"], 
              StandardForm],
-            ImageSizeCache->{55., {0., 8.}}],
+            ImageSizeCache->{58., {0., 8.}}],
            StripOnInput->False,
            DynamicUpdating->True], "Panel",
           StripOnInput->False,
@@ -6677,7 +6687,7 @@ Cell[BoxData[
            DynamicBox[ToBoxes[
              FEPrivate`FrontEndResource["FEStrings", "sizeShowMore"], 
              StandardForm],
-            ImageSizeCache->{59., {0., 8.}}],
+            ImageSizeCache->{61., {0., 8.}}],
            StripOnInput->False,
            DynamicUpdating->True], "Panel",
           StripOnInput->False,
@@ -6694,7 +6704,7 @@ Cell[BoxData[
            DynamicBox[ToBoxes[
              FEPrivate`FrontEndResource["FEStrings", "sizeShowAll"], 
              StandardForm],
-            ImageSizeCache->{90., {2., 8.}}],
+            ImageSizeCache->{93., {2., 8.}}],
            StripOnInput->False,
            DynamicUpdating->True], "Panel",
           StripOnInput->False,
@@ -6711,7 +6721,7 @@ Cell[BoxData[
            DynamicBox[ToBoxes[
              FEPrivate`FrontEndResource["FEStrings", "sizeChangeLimit"], 
              StandardForm],
-            ImageSizeCache->{79., {0., 8.}}],
+            ImageSizeCache->{82., {0., 8.}}],
            StripOnInput->False,
            DynamicUpdating->True], "Panel",
           StripOnInput->False,
@@ -7129,7 +7139,7 @@ Cell[BoxData[
          DynamicBox[ToBoxes[
            FEPrivate`FrontEndResource["FEStrings", "sizeExplanation"], 
            StandardForm],
-          ImageSizeCache->{304., {2., 8.}}],
+          ImageSizeCache->{319., {2., 8.}}],
          StripOnInput->False,
          DynamicUpdating->True], "Panel",
         StripOnInput->False,
@@ -7250,7 +7260,7 @@ Cell[BoxData[
            DynamicBox[ToBoxes[
              FEPrivate`FrontEndResource["FEStrings", "sizeShowLess"], 
              StandardForm],
-            ImageSizeCache->{55., {0., 8.}}],
+            ImageSizeCache->{58., {0., 8.}}],
            StripOnInput->False,
            DynamicUpdating->True], "Panel",
           StripOnInput->False,
@@ -7267,7 +7277,7 @@ Cell[BoxData[
            DynamicBox[ToBoxes[
              FEPrivate`FrontEndResource["FEStrings", "sizeShowMore"], 
              StandardForm],
-            ImageSizeCache->{59., {0., 8.}}],
+            ImageSizeCache->{61., {0., 8.}}],
            StripOnInput->False,
            DynamicUpdating->True], "Panel",
           StripOnInput->False,
@@ -7284,7 +7294,7 @@ Cell[BoxData[
            DynamicBox[ToBoxes[
              FEPrivate`FrontEndResource["FEStrings", "sizeShowAll"], 
              StandardForm],
-            ImageSizeCache->{90., {2., 8.}}],
+            ImageSizeCache->{93., {2., 8.}}],
            StripOnInput->False,
            DynamicUpdating->True], "Panel",
           StripOnInput->False,
@@ -7301,7 +7311,7 @@ Cell[BoxData[
            DynamicBox[ToBoxes[
              FEPrivate`FrontEndResource["FEStrings", "sizeChangeLimit"], 
              StandardForm],
-            ImageSizeCache->{79., {0., 8.}}],
+            ImageSizeCache->{82., {0., 8.}}],
            StripOnInput->False,
            DynamicUpdating->True], "Panel",
           StripOnInput->False,
@@ -7355,8 +7365,8 @@ Cell[BoxData[
   RowBox[{
    RowBox[{"SetOptions", "[", 
     RowBox[{"Trace", ",", 
-     RowBox[{"TraceForward", "\[Rule]", "True"}]}], "]"}], "\n", 
-   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"TraceForward", "\[Rule]", "True"}]}], "]"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", 
    RowBox[{
     RowBox[{
      RowBox[{"windowsQ", "[", "]"}], ":=", 
@@ -7374,7 +7384,7 @@ Cell[BoxData[
      RowBox[{"Print", "[", 
       RowBox[{"\"\<linux environment: executing commands in init.m  \>\"", "<>", 
        RowBox[{"FindFile", "[", "\"\<init.m\>\"", "]"}]}], "]"}]}], "]"}], 
-   "\n", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\n", 
    RowBox[{"Needs", "[", "\"\<JLink`\>\"", "]"}]}]}]], "Input",
  InitializationCell->True,
  CellChangeTimes->{3.612027909262737*^9, 3.612028914233737*^9}],
@@ -7437,11 +7447,11 @@ Cell[BoxData[
 Cell[BoxData[
  RowBox[{"LinkObject", "[", 
   RowBox[{"\<\"/msu/scratch2/m1gsa00/jdk1.7.0/bin/java  -showversion \
--classpath \\\"/opt/mathematica8/SystemFiles/Links/JLink/JLink.jar\\\" \
+-classpath \\\"/opt/mathematica9/SystemFiles/Links/JLink/JLink.jar\\\" \
 -Xmx256m  -Djava.system.class.loader=com.wolfram.jlink.JLinkSystemClassLoader \
 -Djava.util.prefs.PreferencesFactory=com.wolfram.jlink.\
 DisabledPreferencesFactory com.wolfram.jlink.Install -init \
-\\\"/tmp/m0000029481\\\"\"\>", ",", "14", ",", "2"}], "]"}]], "Output"]
+\\\"/tmp/m00000288671\\\"\"\>", ",", "123", ",", "2"}], "]"}]], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -7485,7 +7495,7 @@ Cell[BoxData[
  RowBox[{
   RowBox[{
    RowBox[{"On", "[", 
-    RowBox[{"Syntax", "::", "sntufn"}], "]"}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{"Syntax", "::", "sntufn"}], "]"}], ";"}], "\n", 
   RowBox[{"(*", 
    RowBox[{
     RowBox[{
@@ -7504,7 +7514,8 @@ Cell[BoxData[
      "these", " ", "windows", " ", "from", " ", "opening", " ", "by", " ", 
      "adding", " ", "the", " ", "following", " ", "two", " ", "lines", " ", 
      "to", " ", "the", " ", "Mathematica", " ", "initialization", " ", 
-     RowBox[{"file", ":"}]}]}], "*)"}], "\n", "\[IndentingNewLine]", 
+     RowBox[{"file", ":"}]}]}], "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
   RowBox[{"(*", 
    RowBox[{"If", "[", 
     RowBox[{
@@ -7739,7 +7750,7 @@ commons-math/1.0-SNAPSHOT/commons-math-1.0-SNAPSHOT.jar\>\"", ",",
        RowBox[{"AddToClassPath", "/@", "$projCPath"}], ";", 
        "\[IndentingNewLine]", 
        RowBox[{"AddToClassPath", "/@", "$eigProjCPath"}], ";"}]}], "]"}]}], 
-   "\[IndentingNewLine]", "\n", 
+   "\n", "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{"prep", " ", "for", " ", "dynare", " ", "calculations"}], "*)"}], 
    "\[IndentingNewLine]", 
@@ -7810,7 +7821,7 @@ commons-math/1.0-SNAPSHOT/commons-math-1.0-SNAPSHOT.jar\>\"", ",",
        RowBox[{"AddToClassPath", "/@", "$projCPath"}], ";", 
        "\[IndentingNewLine]", 
        RowBox[{"AddToClassPath", "/@", "$eigProjCPath"}], ";"}]}], "]"}]}], 
-   "\n", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\n", 
    RowBox[{
     RowBox[{"computeLSFullSymbolic", "[", "]"}], ":=", 
     RowBox[{"Module", "[", 
@@ -7822,7 +7833,7 @@ commons-math/1.0-SNAPSHOT/commons-math-1.0-SNAPSHOT.jar\>\"", ",",
          RowBox[{"$Path", ",", "\"\</msu/home/m1gsa00/RES2/sce11/\>\""}], 
          "]"}]}], ";", "\[IndentingNewLine]", 
        RowBox[{"Get", "[", "\"\<computeLSFullSymbolic.mth\>\"", "]"}], 
-       ";"}]}], "]"}]}], "\n", "\[IndentingNewLine]", 
+       ";"}]}], "]"}]}], "\[IndentingNewLine]", "\n", 
    RowBox[{
     RowBox[{"prepForLSProjection", "[", "]"}], ":=", 
     RowBox[{"Module", "[", 
@@ -7835,7 +7846,7 @@ commons-math/1.0-SNAPSHOT/commons-math-1.0-SNAPSHOT.jar\>\"", ",",
          "]"}]}], ";", "\[IndentingNewLine]", 
        RowBox[{"Get", "[", "\"\<prepForLSProjection.mth\>\"", "]"}]}]}], 
      "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
-   "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", 
+   "\[IndentingNewLine]", "\n", "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{
     "prep", " ", "for", " ", "2011", " ", "sce", " ", "presentation", " ", 
@@ -7927,18 +7938,19 @@ commons-math/1.0-SNAPSHOT/commons-math-1.0-SNAPSHOT.jar\>\"", ",",
        RowBox[{"AddToClassPath", "/@", "$projCPath"}], ";", 
        "\[IndentingNewLine]", 
        RowBox[{"AddToClassPath", "/@", "$eigProjCPath"}], ";"}], "*)"}], 
-     "]"}]}], "\n", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{
     "prep", " ", "for", " ", "2013", " ", "sce", " ", "presentation", " ", 
-     "calcs"}], "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     "calcs"}], "*)"}], "\[IndentingNewLine]", "\n", 
    RowBox[{
     RowBox[{"$gitDir", "=", 
      RowBox[{"If", "[", 
       RowBox[{
        RowBox[{"windowsQ", "[", "]"}], ",", "\"\<g:/git/\>\"", ",", 
-       "\"\</msu/home/m1gsa00/git/\>\""}], "]"}]}], ";"}], "\n", 
-   "\[IndentingNewLine]", 
+       "\"\</msu/home/m1gsa00/git/\>\""}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
    RowBox[{
     RowBox[{"$pertPath", "=", 
      RowBox[{"$gitDir", "<>", "\"\<MatPert/MatPert\>\""}]}], ";"}], "\n", 
@@ -7968,8 +7980,8 @@ commons-math/1.0-SNAPSHOT/commons-math-1.0-SNAPSHOT.jar\>\"", ",",
     RowBox[{"$projPath", "=", 
      RowBox[{
      "$gitDir", "<>", 
-      "\"\<ProjectionMethodTools/ProjectionMethodTools\>\""}]}], ";"}], "\n", 
-   "\[IndentingNewLine]", 
+      "\"\<ProjectionMethodTools/ProjectionMethodTools\>\""}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
    RowBox[{
     RowBox[{"prepSCE2013", "[", "]"}], ":=", 
     RowBox[{"Module", "[", 
@@ -8069,9 +8081,9 @@ Cell[BoxData["\<\"/msu/home/m1gsa00/.Mathematica/Kernel/init.m\"\>"], "Output"]
 }, Open  ]]
 },
 WindowSize->{756, 818},
-WindowMargins->{{534, Automatic}, {56, Automatic}},
+WindowMargins->{{202, Automatic}, {Automatic, 34}},
 ShowSelection->True,
-FrontEndVersion->"8.0 for Linux x86 (64-bit) (February 23, 2011)",
+FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 7, 2013)",
 StyleDefinitions->"Default.nb"
 ]
 
