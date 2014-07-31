@@ -7651,10 +7651,6 @@ antlr-runtime-3.2.jar\>\""}], "}"}]}], ";"}]}], "]"}]}]], "Input",
    3.6120331746566772`*^9, 3.6120331768751206`*^9}, {3.612033231999143*^9, 
    3.6120333101057324`*^9}, {3.61203345389611*^9, 3.6120334979015102`*^9}}],
 
-Cell[BoxData["\"\<]\\\>"], "Input",
- CellChangeTimes->{{3.6120334847051907`*^9, 3.6120334868344035`*^9}},
- EmphasizeSyntaxErrors->True],
-
 Cell[CellGroupData[{
 
 Cell[BoxData[
@@ -8076,12 +8072,46 @@ Cell[BoxData[
  CellChangeTimes->{{3.6120281898167367`*^9, 3.6120281952207365`*^9}}],
 
 Cell[BoxData["\<\"/msu/home/m1gsa00/.Mathematica/Kernel/init.m\"\>"], "Output"]
-}, Open  ]]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"If", "[", 
+  RowBox[{
+   RowBox[{"windowsQ", "[", "]"}], ",", 
+   RowBox[{
+    RowBox[{
+    "Get", "[", "\"\</msu/home/m1gsa00/.Mathematica/Kernel/init.m\>\"", "]"}],
+     ";", "\[IndentingNewLine]", 
+    RowBox[{"PrependTo", "[", 
+     RowBox[{
+     "$Path", ",", 
+      "\"\</a/msulx1/lcl/msu/home/m1gsa00/git/paperProduction/symbAMA/code/\>\
+\""}], "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Needs", "[", "\"\<stepByStep`\>\"", "]"}], ";", 
+    RowBox[{
+    "$theModDir", "=", 
+     "\"\</msu/home/m1gsa00/git/paperProduction/symbAMA/code/dynareExamples/\
+uniqueExamples/\>\""}]}], ",", 
+   RowBox[{
+    RowBox[{
+    "Get", "[", "\"\</msu/home/m1gsa00/.Mathematica/Kernel/init.m\>\"", "]"}],
+     ";", "\[IndentingNewLine]", 
+    RowBox[{"PrependTo", "[", 
+     RowBox[{
+     "$Path", ",", 
+      "\"\</a/msulx1/lcl/msu/home/m1gsa00/git/paperProduction/symbAMA/code/\>\
+\""}], "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Needs", "[", "\"\<stepByStep`\>\"", "]"}], ";", 
+    RowBox[{
+    "$theModDir", "=", 
+     "\"\</msu/home/m1gsa00/git/paperProduction/symbAMA/code/dynareExamples/\
+uniqueExamples/\>\""}], ";"}]}], "]"}]], "Input",
+ InitializationCell->True]
 }, Open  ]]
 }, Open  ]]
 },
-WindowSize->{756, 818},
-WindowMargins->{{202, Automatic}, {Automatic, 34}},
+WindowSize->{756, 803},
+WindowMargins->{{202, Automatic}, {Automatic, 49}},
 ShowSelection->True,
 FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 7, 2013)",
 StyleDefinitions->"Default.nb"
