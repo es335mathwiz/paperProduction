@@ -7168,101 +7168,15 @@ Cell[BoxData[""], "Input",
   3.612027909262737*^9, {3.612028914233737*^9, 3.612028928637737*^9}, 
    3.6158266129256706`*^9}],
 
-Cell[BoxData[
- RowBox[{
-  RowBox[{
-   RowBox[{"On", "[", 
-    RowBox[{"Syntax", "::", "sntufn"}], "]"}], ";"}], "\[IndentingNewLine]", 
-  RowBox[{"(*", 
-   RowBox[{
-    RowBox[{
-    "When", " ", "you", " ", "first", " ", "install", " ", "Mathematica", " ", 
-     RowBox[{"it", "'"}], "s", " ", "configured", " ", "so", " ", "that", " ",
-      "when", " ", "you", " ", "start", " ", "up", " ", "the", " ", 
-     "program"}], ",", 
-    RowBox[{
-    "the", " ", "Welcome", " ", "screen", " ", "comes", " ", "up", " ", "as", 
-     " ", "well", " ", "as", " ", "the", " ", "Documentation", " ", "Center", 
-     " ", 
-     RowBox[{"dialog", ".", "Having"}], " ", "to", " ", "close", " ", "both", 
-     " ", "of", " ", "these", " ", "windows", " ", "every", " ", "time", " ", 
-     "Mathematica", " ", "starts", " ", "is", " ", 
-     RowBox[{"annoying", ".", "You"}], " ", "can", " ", "prevent", " ", 
-     "these", " ", "windows", " ", "from", " ", "opening", " ", "by", " ", 
-     "adding", " ", "the", " ", "following", " ", "two", " ", "lines", " ", 
-     "to", " ", "the", " ", "Mathematica", " ", "initialization", " ", 
-     RowBox[{"file", ":"}]}]}], "*)"}], "\[IndentingNewLine]", "\n", 
-  RowBox[{"(*", 
-   RowBox[{"If", "[", 
-    RowBox[{
-     RowBox[{"$FrontEnd", "=!=", "Null"}], ",", 
-     RowBox[{
-      RowBox[{"SetOptions", "[", 
-       RowBox[{"$FrontEnd", ",", 
-        RowBox[{"DockedCells", "\[Rule]", 
-         RowBox[{"{", "}"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
-      RowBox[{"SetOptions", "[", 
-       RowBox[{"$FrontEnd", ",", 
-        RowBox[{"AutoOpenNotebooks", "\[Rule]", 
-         RowBox[{"{", "}"}]}]}], "]"}]}]}], "]"}], "*)"}], 
-  "\[IndentingNewLine]"}]], "Input",
- InitializationCell->True,
- CellChangeTimes->{
-  3.612027909262737*^9, {3.612028914233737*^9, 3.6120289576007366`*^9}}],
-
 Cell[CellGroupData[{
 
 Cell[BoxData[
- RowBox[{"FindFile", "[", "\"\<init.m\>\"", "]"}]], "Input",
- CellChangeTimes->{{3.6120281898167367`*^9, 3.6120281952207365`*^9}}],
-
-Cell[BoxData["\<\"/msu/home/m1gsa00/.Mathematica/Kernel/init.m\"\>"], "Output"]
-}, Open  ]],
-
-Cell[BoxData[
- RowBox[{"(*", 
-  RowBox[{"If", "[", 
-   RowBox[{
-    RowBox[{"windowsQ", "[", "]"}], ",", 
-    RowBox[{
-     RowBox[{
-     "Get", "[", "\"\</msu/home/m1gsa00/.Mathematica/Kernel/init.m\>\"", 
-      "]"}], ";", "\[IndentingNewLine]", 
-     RowBox[{"PrependTo", "[", 
-      RowBox[{
-      "$Path", ",", 
-       "\"\</a/msulx1/lcl/msu/home/m1gsa00/git/paperProduction/symbAMA/code/\>\
-\""}], "]"}], ";", "\[IndentingNewLine]", 
-     RowBox[{"Needs", "[", "\"\<stepByStep`\>\"", "]"}], ";", 
-     RowBox[{
-     "$theModDir", "=", 
-      "\"\</msu/home/m1gsa00/git/paperProduction/symbAMA/code/dynareExamples/\
-uniqueExamples/\>\""}]}], ",", 
-    RowBox[{
-     RowBox[{
-     "Get", "[", "\"\</msu/home/m1gsa00/.Mathematica/Kernel/init.m\>\"", 
-      "]"}], ";", "\[IndentingNewLine]", 
-     RowBox[{"PrependTo", "[", 
-      RowBox[{
-      "$Path", ",", 
-       "\"\</a/msulx1/lcl/msu/home/m1gsa00/git/paperProduction/symbAMA/code/\>\
-\""}], "]"}], ";", "\[IndentingNewLine]", 
-     RowBox[{"Needs", "[", "\"\<stepByStep`\>\"", "]"}], ";", 
-     RowBox[{
-     "$theModDir", "=", 
-      "\"\</msu/home/m1gsa00/git/paperProduction/symbAMA/code/dynareExamples/\
-uniqueExamples/\>\""}], ";"}]}], "]"}], "*)"}]], "Input",
- InitializationCell->True],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"\[IndentingNewLine]", 
+ RowBox[{"\[IndentingNewLine]", "\[IndentingNewLine]", 
   RowBox[{
    RowBox[{"SetOptions", "[", 
     RowBox[{"Trace", ",", 
      RowBox[{"TraceForward", "\[Rule]", "True"}]}], "]"}], 
-   "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", 
+   "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{
      RowBox[{"windowsQ", "[", "]"}], ":=", 
@@ -7270,7 +7184,14 @@ Cell[BoxData[
       RowBox[{
        RowBox[{"StringPosition", "[", 
         RowBox[{"$Version", ",", "\"\<Windows\>\""}], "]"}], "===", 
-       RowBox[{"{", "}"}]}], "]"}]}], ";"}], "\n", 
+       RowBox[{"{", "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"$javaJDKDir", "=", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"windowsQ", "[", "]"}], ",", 
+      "\"\<C:/Program Files/Java/jdk1.7.0_51/\>\"", ",", 
+      "\"\</msu/scratch2/m1gsa00/jdk1.7.0/\>\""}], "]"}]}], 
+   "\[IndentingNewLine]", "\n", "\[IndentingNewLine]", 
    RowBox[{"If", "[", 
     RowBox[{
      RowBox[{"windowsQ", "[", "]"}], ",", 
@@ -7280,34 +7201,19 @@ Cell[BoxData[
      RowBox[{"Print", "[", 
       RowBox[{"\"\<linux environment: executing commands in init.m  \>\"", "<>", 
        RowBox[{"FindFile", "[", "\"\<init.m\>\"", "]"}]}], "]"}]}], "]"}], 
-   "\n", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\n", 
    RowBox[{
-    RowBox[{"Needs", "[", "\"\<JLink`\>\"", "]"}], ";", 
-    RowBox[{"If", "[", 
-     RowBox[{
-      RowBox[{"windowsQ", "[", "]"}], ",", 
-      RowBox[{"Switch", "[", 
-       RowBox[{"$MachineName", ",", "\"\<ws-m1gsa00\>\"", ",", 
-        RowBox[{"ReinstallJava", "[", 
-         RowBox[{
-         "CommandLine", "\[Rule]", 
-          "\"\<C:/Program Files/Java/jdk1.7.0_51/bin/java  \
--showversion\>\""}], "]"}]}], "]"}], ",", 
-      RowBox[{"(*", 
-       RowBox[{
-        RowBox[{"ReinstallJava", "[", 
-         RowBox[{
-         "CommandLine", "\[Rule]", 
-          "\"\<C:/RSMA/Java/jdk1.7.0/bin  -showversion\>\""}], "]"}], ","}], 
-       "*)"}], 
-      RowBox[{"ReinstallJava", "[", 
-       RowBox[{
-       "CommandLine", "\[Rule]", 
-        "\"\</msu/scratch2/m1gsa00/jdk1.7.0/bin/java  -showversion\>\""}], 
-       "]"}]}], "]"}]}], "\n", 
+    RowBox[{"Needs", "[", "\"\<JLink`\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
    RowBox[{
-    RowBox[{"Off", "[", 
-     RowBox[{"Syntax", "::", "sntufn"}], "]"}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{"ReinstallJava", "[", 
+     RowBox[{"CommandLine", "\[Rule]", 
+      RowBox[{"$javaJDKDir", "<>", "\"\<bin/java  -showversion\>\""}]}], 
+     "]"}], ",", "\n", 
+    RowBox[{
+     RowBox[{"Off", "[", 
+      RowBox[{"Syntax", "::", "sntufn"}], "]"}], ";"}]}], 
+   "\[IndentingNewLine]", 
    RowBox[{"Needs", "[", "\"\<console`\>\"", "]"}], "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"$gitDir", "=", 
@@ -7317,8 +7223,8 @@ Cell[BoxData[
      RowBox[{"If", "[", 
       RowBox[{
        RowBox[{"windowsQ", "[", "]"}], ",", "\"\<g:/git/\>\"", ",", 
-       "\"\</msu/home/m1gsa00/git/\>\""}], "]"}], "*)"}], ";"}], 
-   "\[IndentingNewLine]", "\n", 
+       "\"\</msu/home/m1gsa00/git/\>\""}], "]"}], "*)"}], ";"}], "\n", 
+   "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"$pertPath", "=", 
      RowBox[{"$gitDir", "<>", "\"\<MatPert/MatPert\>\""}]}], ";"}], "\n", 
@@ -7480,7 +7386,8 @@ antlr-runtime-3.2.jar\>\""}], "}"}]}], ";"}], "*)"}], "]"}],
       "$Path", ",", 
        "\"\</a/msulx1/lcl/msu/home/m1gsa00/git/paperProduction/symbAMA/code/\>\
 \""}], "]"}], ";"}], "*)"}]}]}]], "Input",
- InitializationCell->True],
+ InitializationCell->True,
+ EmphasizeSyntaxErrors->True],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -7495,17 +7402,10 @@ Cell[BoxData[
    RowBox[{"TraceOn", "\[Rule]", "None"}], ",", 
    RowBox[{"TraceOriginal", "\[Rule]", "False"}]}], "}"}]], "Output"],
 
-Cell[BoxData["\<\"linux environment: executing commands in init.m  \
-/msu/home/m1gsa00/.Mathematica/Kernel/init.m\"\>"], "Print"],
+Cell[BoxData["\<\"/msu/scratch2/m1gsa00/jdk1.7.0/\"\>"], "Output"],
 
-Cell[BoxData[
- RowBox[{"LinkObject", "[", 
-  RowBox[{"\<\"/msu/scratch2/m1gsa00/jdk1.7.0/bin/java  -showversion \
--classpath \\\"/opt/mathematica9/SystemFiles/Links/JLink/JLink.jar\\\" \
--Xmx256m  -Djava.system.class.loader=com.wolfram.jlink.JLinkSystemClassLoader \
--Djava.util.prefs.PreferencesFactory=com.wolfram.jlink.\
-DisabledPreferencesFactory com.wolfram.jlink.Install -init \
-\\\"/tmp/m000002249771\\\"\"\>", ",", "124", ",", "2"}], "]"}]], "Output"]
+Cell[BoxData["\<\"linux environment: executing commands in init.m  \
+/msu/home/m1gsa00/.Mathematica/Kernel/init.m\"\>"], "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -7529,24 +7429,13 @@ Cell[BoxData["\<\"done reading SymbolicAMA\"\>"], "Print"],
 Cell[BoxData["\<\"done reading NumericAMA\"\>"], "Print"],
 
 Cell[BoxData["\<\"done reading AMAModel\"\>"], "Print"]
-}, Open  ]],
-
-Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"CreateDirectory", "::", "filex"}], "MessageName"], 
-  RowBox[{
-  ":", " "}], "\<\"\[NoBreak]\\!\\(\\\"/tmp/GaryModDims/\\\"\\)\[NoBreak] \
-already exists. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
-ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
-ButtonData:>\\\"paclet:ref/CreateDirectory\\\", ButtonNote -> \
-\\\"CreateDirectory::filex\\\"]\\)\"\>"}]], "Message", "MSG"]
+}, Open  ]]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
 },
 WindowSize->{756, 803},
-WindowMargins->{{257, Automatic}, {0, Automatic}},
+WindowMargins->{{466, Automatic}, {53, Automatic}},
 ShowSelection->True,
 FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 7, 2013)",
 StyleDefinitions->"Default.nb"
