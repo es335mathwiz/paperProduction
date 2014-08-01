@@ -23,50 +23,6 @@ Cell[BoxData[
 
 Cell[CellGroupData[{
 
-Cell[BoxData[
- RowBox[{"<<", "AccelerateAMA`"}]], "Input",
- CellChangeTimes->{{3.615830635819228*^9, 3.615830641979105*^9}}],
-
-Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"CreateDirectory", "::", "privv"}], "MessageName"], 
-  RowBox[{
-  ":", " "}], "\<\"Privilege violation during \
-\[NoBreak]\\!\\(CreateDirectory[\\\"/tmpGaryModDims/\\\"]\\)\[NoBreak]. \
-\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
-ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/privv\\\", \
-ButtonNote -> \\\"CreateDirectory::privv\\\"]\\)\"\>"}]], "Message", "MSG"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"FindFile", "[", "\"\<AccelerateAMA`\>\"", "]"}]], "Input"],
-
-Cell[BoxData["\<\"/a/msulx1/lcl/msu/home/m1gsa00/git/paperProduction/symbAMA/\
-code/AccelerateAMA.m\"\>"], "Output"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData["$ContextPath"], "Input"],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"\<\"AccelerateAMA`\"\>", ",", "\<\"Predictions`\"\>", 
-   ",", "\<\"stepByStep`\"\>", ",", "\<\"genMexCode`\"\>", 
-   ",", "\<\"utilitiesSetUp`\"\>", ",", "\<\"AMAModelDefinition`\"\>", 
-   ",", "\<\"Format`\"\>", ",", "\<\"Experimental`\"\>", 
-   ",", "\<\"AMAModel`\"\>", ",", "\<\"NumericAMA`\"\>", 
-   ",", "\<\"SymbolicAMA`\"\>", ",", "\<\"console`\"\>", 
-   ",", "\<\"JLink`\"\>", ",", "\<\"PacletManager`\"\>", 
-   ",", "\<\"QuantityUnits`\"\>", ",", "\<\"WebServices`\"\>", 
-   ",", "\<\"System`\"\>", ",", "\<\"Global`\"\>"}], "}"}]], "Output"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
 Cell["Firm Value Example", "Section"],
 
 Cell[BoxData[
@@ -86,102 +42,27 @@ Cell[BoxData[
     RowBox[{"$theModDir", ",", "$theModel"}], "]"}]}], ";"}]], "Input"],
 
 Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"CreateDirectory", "::", "privv"}], "MessageName"], 
-  RowBox[{
-  ":", " "}], "\<\"Privilege violation during \
-\[NoBreak]\\!\\(CreateDirectory[\\\"/tmpGaryModDims/\\\"]\\)\[NoBreak]. \
-\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
-ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/privv\\\", \
-ButtonNote -> \\\"CreateDirectory::privv\\\"]\\)\"\>"}]], "Message", "MSG"],
-
-Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"Java", "::", "excptn"}], "MessageName"], 
-  RowBox[{
-  ":", " "}], "\<\"A Java exception occurred: \
-\[NoBreak]\\!\\(\\\"java.io.FileNotFoundException: \
-/tmpGaryModDims/firmValue.xml (No such file or directory)\\\\n\\\\tat \
-java.io.FileOutputStream.open(Native Method)\\\\n\\\\tat \
-java.io.FileOutputStream.<init>(FileOutputStream.java:212)\\\\n\\\\tat \
-java.io.FileOutputStream.<init>(FileOutputStream.java:104)\\\\n\\\\tat \
-java.io.FileWriter.<init>(FileWriter.java:63)\\\\n\\\\tat \
-gov.frb.ma.msu.DynareToAMAModel.<init>(DynareToAMAModel.java:117)\\\\n\\\\tat \
-gov.frb.ma.msu.DynareToAMAModel.<init>(DynareToAMAModel.java:129)\\\\n\\\\tat \
-sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native \
-Method)\\\\n\\\\tat \
-sun.reflect.NativeConstructorAccessorImpl.newInstance(\
-NativeConstructorAccessorImpl.java:57)\\\\n\\\\tat \
-sun.reflect.DelegatingConstructorAccessorImpl.newInstance(\
-DelegatingConstructorAccessorImpl.java:45)\\\\n\\\\tat \
-java.lang.reflect.Constructor.newInstance(Constructor.java:525)\\\"\\)\
-\[NoBreak].\"\>"}]], "Message", "MSG"],
-
-Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"JavaNew", "::", "fail"}], "MessageName"], 
-  RowBox[{
-  ":", " "}], "\<\"Error calling constructor for class \
-\[NoBreak]\\!\\(\\\"gov.frb.ma.msu.DynareToAMAModel\\\"\\)\[NoBreak]. \
-\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
-ButtonFrame->None, ButtonData:>\\\"paclet:JLink/ref/JavaNew\\\", ButtonNote \
--> \\\"JLink`JavaNew::fail\\\"]\\)\"\>"}]], "Message", "MSG"],
-
-Cell[BoxData[
  InterpretationBox[
   RowBox[{"\<\"here is cmd\"\>", "\[InvisibleSpace]", 
-   InterpretationBox["\<\"java -cp msu/res1/Software/xalan-j_2_7_1/xalan.jar  \
-org.apache.xalan.xslt.Process -IN /tmpGaryModDims/firmValue.xml  -XSL \
-/msu/home/ ...\\n           \
-m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/\
-AMAModel2Mma.xsl -OUT /tmpGaryModDims/firmValue.mth\"\>",
+   InterpretationBox["\<\"java -cp /msu/res1/Software/xalan-j_2_7_1/xalan.jar \
+ org.apache.xalan.xslt.Process -IN /tmp/GaryModDims/firmValue.xml  -XSL \
+/msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/\
+AMAModel2Mma.xsl -OUT /tmp/GaryModDims/firmValue.mth\"\>",
     StringForm[
-    "java -cp msu/res1/Software/xalan-j_2_7_1/xalan.jar  \
-org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL /msu/home/ ...\n           \
-m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/\
-AMAModel2Mma.xsl -OUT `3``2`.mth", 
-     "/msu/home/m1gsa00/git/paperProduction/symbAMA/code/dynareExamples/\
-uniqueExamples/", "firmValue", "/tmpGaryModDims/"],
+    "java -cp /msu/res1/Software/xalan-j_2_7_1/xalan.jar  \
+org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL \
+/msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/\
+AMAModel2Mma.xsl -OUT `3``2`.mth", "dynareExamples/uniqueExamples/", 
+     "firmValue", "/tmp/GaryModDims/"],
     Editable->False], "\[InvisibleSpace]", "\<\"after\"\>"}],
   SequenceForm["here is cmd", 
    StringForm[
-   "java -cp msu/res1/Software/xalan-j_2_7_1/xalan.jar  \
-org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL /msu/home/ ...\n           \
-m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/\
-AMAModel2Mma.xsl -OUT `3``2`.mth", 
-    "/msu/home/m1gsa00/git/paperProduction/symbAMA/code/dynareExamples/\
-uniqueExamples/", "firmValue", "/tmpGaryModDims/"], "after"],
-  Editable->False]], "Print"],
-
-Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"Get", "::", "noopen"}], "MessageName"], 
-  RowBox[{
-  ":", " "}], "\<\"Cannot open \
-\[NoBreak]\\!\\(\\\"/tmpGaryModDims/firmValue.mth\\\"\\)\[NoBreak]. \
-\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
-ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/noopen\\\", \
-ButtonNote -> \\\"Get::noopen\\\"]\\)\"\>"}]], "Message", "MSG"],
-
-Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"Set", "::", "shape"}], "MessageName"], 
-  RowBox[{
-  ":", " "}], "\<\"Lists \[NoBreak]\\!\\({AccelerateAMA`Private`vars$9667, \
-AccelerateAMA`Private`ig$9667, AccelerateAMA`Private`params$9667, \
-AccelerateAMA`Private`ig$9667, \\(\\({AccelerateAMA`Private`ig$9667, \
-AccelerateAMA`Private`eqns$9667}\\)\\), AccelerateAMA`Private`notSubs$9667, \
-AccelerateAMA`Private`ig$9667}\\)\[NoBreak] and \
-\[NoBreak]\\!\\(AMAModelDefinition[\\\"firmValue\\\"]\\)\[NoBreak] are not \
-the same shape. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
-ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
-ButtonData:>\\\"paclet:ref/message/Set/shape\\\", ButtonNote -> \
-\\\"Set::shape\\\"]\\)\"\>"}]], "Message", "MSG"]
+   "java -cp /msu/res1/Software/xalan-j_2_7_1/xalan.jar  \
+org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL \
+/msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/\
+AMAModel2Mma.xsl -OUT `3``2`.mth", "dynareExamples/uniqueExamples/", 
+    "firmValue", "/tmp/GaryModDims/"], "after"],
+  Editable->False]], "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -197,19 +78,45 @@ Cell[BoxData[
     RowBox[{"$theModDir", ",", "$theModel", ",", "$theResDir"}], "]"}]}], 
   ";"}]], "Input"],
 
+Cell[CellGroupData[{
+
 Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"Set", "::", "shape"}], "MessageName"], 
-  RowBox[{
-  ":", " "}], "\<\"Lists \[NoBreak]\\!\\({ig, ig, ig, ig, ig, paramSubs, \
-eqns, hmat, vars}\\)\[NoBreak] and \
-\[NoBreak]\\!\\(preEvals[\\(\\(\\\"/msu/home/m1gsa00/git/paperProduction/\
-symbAMA/code/dynareExamples/uniqueExamples/\\\", $theModel, \\\"theRes\\\"\\)\
-\\)]\\)\[NoBreak] are not the same shape. \\!\\(\\*ButtonBox[\\\"\
-\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
-ButtonData:>\\\"paclet:ref/message/Set/shape\\\", ButtonNote -> \
-\\\"Set::shape\\\"]\\)\"\>"}]], "Message", "MSG"]
+ InterpretationBox[
+  RowBox[{"\<\"analyzing \"\>", "\[InvisibleSpace]", "\<\"firmValue\"\>"}],
+  SequenceForm["analyzing ", "firmValue"],
+  Editable->False]], "Print"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"here is cmd\"\>", "\[InvisibleSpace]", 
+   InterpretationBox["\<\"java -cp /msu/res1/Software/xalan-j_2_7_1/xalan.jar \
+ org.apache.xalan.xslt.Process -IN theResfirmValue.xml  -XSL \
+/msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/\
+AMAModel2Mma.xsl -OUT theResfirmValue.mth\"\>",
+    StringForm[
+    "java -cp /msu/res1/Software/xalan-j_2_7_1/xalan.jar  \
+org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL \
+/msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/\
+AMAModel2Mma.xsl -OUT `3``2`.mth", "dynareExamples/uniqueExamples/", 
+     "firmValue", "theRes"],
+    Editable->False], "\[InvisibleSpace]", "\<\"after\"\>"}],
+  SequenceForm["here is cmd", 
+   StringForm[
+   "java -cp /msu/res1/Software/xalan-j_2_7_1/xalan.jar  \
+org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL \
+/msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/\
+AMAModel2Mma.xsl -OUT `3``2`.mth", "dynareExamples/uniqueExamples/", 
+    "firmValue", "theRes"], "after"],
+  Editable->False]], "Print"],
+
+Cell[BoxData["\<\"done hmat\"\>"], "Print"],
+
+Cell[BoxData["\<\"done ar\"\>"], "Print"],
+
+Cell[BoxData["\<\"done amat\"\>"], "Print"],
+
+Cell[BoxData["\<\"done inessential\"\>"], "Print"]
+}, Open  ]]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -7312,8 +7219,6 @@ Cell[BoxData[
 Cell[BoxData["\<\"/msu/home/m1gsa00/.Mathematica/Kernel/init.m\"\>"], "Output"]
 }, Open  ]],
 
-Cell[CellGroupData[{
-
 Cell[BoxData[
  RowBox[{"(*", 
   RowBox[{"If", "[", 
@@ -7348,33 +7253,6 @@ uniqueExamples/\>\""}]}], ",",
       "\"\</msu/home/m1gsa00/git/paperProduction/symbAMA/code/dynareExamples/\
 uniqueExamples/\>\""}], ";"}]}], "]"}], "*)"}]], "Input",
  InitializationCell->True],
-
-Cell[CellGroupData[{
-
-Cell[BoxData["\<\"linux environment: executing commands in init.m  \
-/msu/home/m1gsa00/.Mathematica/Kernel/init.m\"\>"], "Print"],
-
-Cell[BoxData["\<\"utilitiesSetUp.m: after parser stable go back to relative \
-path\"\>"], "Print"],
-
-Cell[BoxData["\<\"done reading SymbolicAMA\"\>"], "Print"],
-
-Cell[BoxData["\<\"done reading NumericAMA\"\>"], "Print"],
-
-Cell[BoxData["\<\"done reading AMAModel\"\>"], "Print"]
-}, Open  ]],
-
-Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"CreateDirectory", "::", "privv"}], "MessageName"], 
-  RowBox[{
-  ":", " "}], "\<\"Privilege violation during \
-\[NoBreak]\\!\\(CreateDirectory[\\\"/tmpGaryModDims/\\\"]\\)\[NoBreak]. \
-\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
-ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/privv\\\", \
-ButtonNote -> \\\"CreateDirectory::privv\\\"]\\)\"\>"}]], "Message", "MSG"]
-}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -7433,10 +7311,13 @@ Cell[BoxData[
    RowBox[{"Needs", "[", "\"\<console`\>\"", "]"}], "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"$gitDir", "=", 
+     RowBox[{"\"\<../../\>\"", "<>", 
+      RowBox[{"Directory", "[", "]"}]}]}], 
+    RowBox[{"(*", 
      RowBox[{"If", "[", 
       RowBox[{
        RowBox[{"windowsQ", "[", "]"}], ",", "\"\<g:/git/\>\"", ",", 
-       "\"\</msu/home/m1gsa00/git/\>\""}], "]"}]}], ";"}], 
+       "\"\</msu/home/m1gsa00/git/\>\""}], "]"}], "*)"}], ";"}], 
    "\[IndentingNewLine]", "\n", 
    RowBox[{
     RowBox[{"$pertPath", "=", 
@@ -7481,21 +7362,25 @@ Cell[BoxData[
         RowBox[{"Module", "[", 
          RowBox[{
           RowBox[{"{", "}"}], ",", 
+          RowBox[{"(*", 
+           RowBox[{
+            RowBox[{
+            "$pertPath", "=", 
+             "\"\<G:/scratch/tryBenchWindows3.5/Perturbation/\>\""}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+            "$umbraPath", "=", 
+             "\"\<C:/gitHome/git/forUmbraCalculus/umbraCalculus/umbraCalculus/\
+\>\""}], ";"}], "*)"}], "\[IndentingNewLine]", 
           RowBox[{
-           RowBox[{
-           "$pertPath", "=", 
-            "\"\<G:/scratch/tryBenchWindows3.5/Perturbation/\>\""}], ";", 
-           "\[IndentingNewLine]", 
-           RowBox[{
-           "$umbraPath", "=", 
-            "\"\<C:/gitHome/git/forUmbraCalculus/umbraCalculus/umbraCalculus/\
-\>\""}], ";", "\[IndentingNewLine]", 
            RowBox[{
            "$AMAPath", "=", 
             "\"\<G:/RES2/mathAMA/AndersonMooreAlgorithm/\>\""}], ";", 
            "\[IndentingNewLine]", 
            RowBox[{"$FormatPath", "=", "\"\<S:/learnProjection/proto/\>\""}], 
-           ";", "\[IndentingNewLine]", 
+           ";"}]}], "\[IndentingNewLine]", 
+         RowBox[{"(*", 
+          RowBox[{
            RowBox[{
            "$projPath", "=", 
             "\"\<G:/RES2/ProjectionMethodTools/projection/\>\""}], ";", 
@@ -7511,39 +7396,44 @@ classes\>\"", ",",
               "\"\<r:/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-1.\
 0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\"", ",", 
               "\"\<r:/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-projection/1.0-SNAPSHOT/projection-1.0-SNAPSHOT.jar\>\""}], "}"}]}]}]}], 
-         "]"}]}], "]"}]}], ",", 
-     RowBox[{
+projection/1.0-SNAPSHOT/projection-1.0-SNAPSHOT.jar\>\""}], "}"}]}]}], "*)"}],
+          "]"}]}], "]"}]}], ",", 
+     RowBox[{"(*", 
       RowBox[{
-      "$pertPath", "=", 
-       "\"\</msu/home/m1gsa00/scratch/tryBenchWindows3.5/Perturbation/\>\""}],
-       ";", "\[IndentingNewLine]", 
-      RowBox[{
-      "$umbraPath", "=", 
-       "\"\</msu/home/m1gsa00/git/umbralCalculus/umbralCalculus\>\""}], ";", 
-      "\[IndentingNewLine]", 
-      RowBox[{"$eigProjPath", "=", "\"\</msu/res2/m1gsa00/dynareAntlr/\>\""}],
-       ";", "\[IndentingNewLine]", 
-      RowBox[{"$eigProjCPath", "=", 
-       RowBox[{"{", 
-        RowBox[{
-        "\"\</msu/res2/m1gsa00/dynareAntlr/target/test-classes\>\"", ",", 
-         "\"\</msu/res2/m1gsa00/dynareAntlr/target/classes\>\"", ",", 
-         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+       RowBox[{
+       "$pertPath", "=", 
+        "\"\</msu/home/m1gsa00/scratch/tryBenchWindows3.5/Perturbation/\>\""}]\
+, ";", "\[IndentingNewLine]", 
+       RowBox[{
+       "$umbraPath", "=", 
+        "\"\</msu/home/m1gsa00/git/umbralCalculus/umbralCalculus\>\""}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+       "$eigProjPath", "=", "\"\</msu/res2/m1gsa00/dynareAntlr/\>\""}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"$eigProjCPath", "=", 
+        RowBox[{"{", 
+         RowBox[{
+         "\"\</msu/res2/m1gsa00/dynareAntlr/target/test-classes\>\"", ",", 
+          "\"\</msu/res2/m1gsa00/dynareAntlr/target/classes\>\"", ",", 
+          "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
 commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\"", ",", 
-         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-\
-1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\"", ",", 
-         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\""}], "}"}]}], ";", 
-      "\[IndentingNewLine]", 
+          "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+Jama-1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\"", ",", 
+          "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
+commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\""}], "}"}]}], 
+       ";"}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
       RowBox[{
       "$AMAPath", "=", 
        "\"\</msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/\>\""}], 
       ";", "\[IndentingNewLine]", 
       RowBox[{
       "$FormatPath", "=", 
-       "\"\</msu/scratch/m1gsa00/learnProjection/proto/\>\""}], ";", 
-      "\[IndentingNewLine]", 
+       "\"\</msu/scratch/m1gsa00/learnProjection/proto/\>\""}], ";"}]}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
       RowBox[{
       "$projPath", "=", 
        "\"\</msu/home/m1gsa00/RES2/ProjectionMethodTools/projection/\>\""}], 
@@ -7576,7 +7466,8 @@ commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\"", ",",
          "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
 dynareAntlr/1.0-SNAPSHOT/dynareAntlr-1.0-SNAPSHOT.jar\>\"", ",", 
          "\"\</msu/home/m1gsa00/scratch/tryRep/org/antlr/antlr-runtime/3.2/\
-antlr-runtime-3.2.jar\>\""}], "}"}]}], ";"}]}], "]"}], "\[IndentingNewLine]", 
+antlr-runtime-3.2.jar\>\""}], "}"}]}], ";"}], "*)"}], "]"}], 
+   "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{
      RowBox[{
@@ -7589,19 +7480,7 @@ antlr-runtime-3.2.jar\>\""}], "}"}]}], ";"}]}], "]"}], "\[IndentingNewLine]",
       "$Path", ",", 
        "\"\</a/msulx1/lcl/msu/home/m1gsa00/git/paperProduction/symbAMA/code/\>\
 \""}], "]"}], ";"}], "*)"}]}]}]], "Input",
- InitializationCell->True,
- CellChangeTimes->{
-  3.612027909262737*^9, {3.612028914233737*^9, 3.6120289243267365`*^9}, {
-   3.6120295950557365`*^9, 3.612029624983737*^9}, {3.6120296839447365`*^9, 
-   3.612029714372737*^9}, {3.6120297848127365`*^9, 3.612029788465737*^9}, {
-   3.6120298232107368`*^9, 3.612029829976737*^9}, {3.612030062334737*^9, 
-   3.612030063117737*^9}, {3.6158265575717783`*^9, 3.6158265650916276`*^9}, {
-   3.615826625275424*^9, 3.61582662596541*^9}, {3.6158267661956053`*^9, 
-   3.6158267669555902`*^9}, {3.615826924756435*^9, 3.615826925816414*^9}, {
-   3.615827108517762*^9, 3.61582711062772*^9}, {3.615827690212135*^9, 
-   3.615827706054818*^9}, {3.615827817906581*^9, 3.615827822516489*^9}, {
-   3.6158283865552087`*^9, 3.6158284327722845`*^9}, {3.6158295407731276`*^9, 
-   3.615829557392795*^9}}],
+ InitializationCell->True],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -7626,8 +7505,10 @@ Cell[BoxData[
 -Xmx256m  -Djava.system.class.loader=com.wolfram.jlink.JLinkSystemClassLoader \
 -Djava.util.prefs.PreferencesFactory=com.wolfram.jlink.\
 DisabledPreferencesFactory com.wolfram.jlink.Install -init \
-\\\"/tmp/m000003131311\\\"\"\>", ",", "159", ",", "2"}], "]"}]], "Output"]
+\\\"/tmp/m000002249771\\\"\"\>", ",", "124", ",", "2"}], "]"}]], "Output"]
 }, Open  ]],
+
+Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{
@@ -7636,12 +7517,36 @@ Cell[BoxData[
   RowBox[{"(*", 
    RowBox[{"Needs", "[", "\"\<GenMexCode`\>\"", "]"}], "*)"}], 
   "\n"}]], "Input",
- InitializationCell->True]
+ InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["\<\"utilitiesSetUp.m: after parser stable go back to relative \
+path\"\>"], "Print"],
+
+Cell[BoxData["\<\"done reading SymbolicAMA\"\>"], "Print"],
+
+Cell[BoxData["\<\"done reading NumericAMA\"\>"], "Print"],
+
+Cell[BoxData["\<\"done reading AMAModel\"\>"], "Print"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"CreateDirectory", "::", "filex"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\(\\\"/tmp/GaryModDims/\\\"\\)\[NoBreak] \
+already exists. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/CreateDirectory\\\", ButtonNote -> \
+\\\"CreateDirectory::filex\\\"]\\)\"\>"}]], "Message", "MSG"]
+}, Open  ]]
 }, Open  ]]
 }, Open  ]]
 },
 WindowSize->{756, 803},
-WindowMargins->{{Automatic, 232}, {Automatic, 40}},
+WindowMargins->{{257, Automatic}, {0, Automatic}},
 ShowSelection->True,
 FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 7, 2013)",
 StyleDefinitions->"Default.nb"

@@ -269,8 +269,7 @@ JavaNew["gov.frb.ma.msu.DynareToAMAModel",
 srcDir<>fName<>".mod",targDir<>fName<>".xml",fName];
 cmd=If[$OperatingSystem=="Unix",
        StringForm[
-"java " <> "-cp "<>$jarDir<>"  org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL /msu/home/ ...
-           m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/AMAModel2Mma.xsl -OUT `3``2`.mth",srcDir,fName,targDir],
+"java " <> "-cp "<>$jarDir<>"  org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL /msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/AMAModel2Mma.xsl -OUT `3``2`.mth",srcDir,fName,targDir],
               StringForm[
 "java " <> "-cp "<>$jarDir<>"  org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL g:/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/AMAModel2Mma.xsl -OUT `3``2`.mth",srcDir,fName,targDir]];
 Print["here is cmd",cmd,"after"];
@@ -284,9 +283,11 @@ firstOnPath[dirName_String]:=If[System`$Path[[1]]=!=dirName,PrependTo[System`$Pa
 
 
 $jarDir=If[$OperatingSystem=="Unix",
-           "msu/res1/Software/xalan-j_2_7_1/xalan.jar",
+           "/msu/res1/Software/xalan-j_2_7_1/xalan.jar",
            "r:/Software/xalan-j_2_7_1/xalan.jar"]
-CreateDirectory[$tmpDir=$TemporaryDirectory <> "/GaryModDims/"]
+
+$tmpDir=$TemporaryDirectory <> "/GaryModDims/";
+If[Not[FileExistsQ[$tmpDir]], CreateDirectory[$tmpDir]]
 getModelDims[modDir_String,modName_String]:=
 Module[{vars,ig,params,eqns,notSubs,tDir=$tmpDir},
 mkNewDir[tDir];firstOnPath[tDir];
