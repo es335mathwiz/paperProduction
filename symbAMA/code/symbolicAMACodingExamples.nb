@@ -7277,17 +7277,18 @@ Cell[BoxData[
             "\"\<G:/RES2/mathAMA/AndersonMooreAlgorithm/\>\""}], ";", 
            "\[IndentingNewLine]", 
            RowBox[{"$FormatPath", "=", "\"\<S:/learnProjection/proto/\>\""}], 
-           ";"}]}], "\[IndentingNewLine]", "]"}]}], "]"}]}], ",", 
-     "\[IndentingNewLine]", 
-     RowBox[{
+           ";"}]}], "\[IndentingNewLine]", "]"}]}], "]"}]}]}], 
+    RowBox[{"(*", 
+     RowBox[{",", "\[IndentingNewLine]", 
       RowBox[{
-      "$AMAPath", "=", 
-       "\"\</msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/\>\""}], 
-      ";", "\[IndentingNewLine]", 
-      RowBox[{
-      "$FormatPath", "=", 
-       "\"\</msu/scratch/m1gsa00/learnProjection/proto/\>\""}], ";"}]}], 
-    "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]"}]}]], "Input",
+       RowBox[{
+       "$AMAPath", "=", 
+        "\"\</msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/\>\""}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{
+       "$FormatPath", "=", 
+        "\"\</msu/scratch/m1gsa00/learnProjection/proto/\>\""}], ";"}]}], 
+     "*)"}], "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]"}]}]], "Input",
  InitializationCell->True],
 
 Cell[BoxData[
