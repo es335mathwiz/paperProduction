@@ -6,7 +6,19 @@ Cell["Symbolic AMA Coding Examples", "Title",
 
 Cell[BoxData[
  RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+    "SetDirectory", "[", "\"\<paperProduction/symbAMA/code\>\"", "]"}], ";"}],
+    "*)"}], "\[IndentingNewLine]", 
   RowBox[{
+   RowBox[{"$javaJDKDir", "=", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"windowsQ", "[", "]"}], ",", 
+      "\"\<C:/Program Files/Java/jdk1.7.0_51/\>\"", ",", 
+      "\"\</msu/scratch2/m1gsa00/jdk1.7.0/\>\""}], "]"}]}], 
+   "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"$theResDir", "=", "\"\<theRes\>\""}], ";", 
     RowBox[{"If", "[", 
@@ -18,8 +30,7 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"$theModDir", "=", "\"\<dynareExamples/uniqueExamples/\>\""}], 
     ";"}]}]}]], "Input",
- InitializationCell->True,
- CellChangeTimes->{{3.615829843359076*^9, 3.615829870000543*^9}}],
+ InitializationCell->True],
 
 Cell[CellGroupData[{
 
@@ -7180,18 +7191,8 @@ Cell[BoxData[
    RowBox[{
     RowBox[{
      RowBox[{"windowsQ", "[", "]"}], ":=", 
-     RowBox[{"Not", "[", 
-      RowBox[{
-       RowBox[{"StringPosition", "[", 
-        RowBox[{"$Version", ",", "\"\<Windows\>\""}], "]"}], "===", 
-       RowBox[{"{", "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
-   RowBox[{"$javaJDKDir", "=", 
-    RowBox[{"If", "[", 
-     RowBox[{
-      RowBox[{"windowsQ", "[", "]"}], ",", 
-      "\"\<C:/Program Files/Java/jdk1.7.0_51/\>\"", ",", 
-      "\"\</msu/scratch2/m1gsa00/jdk1.7.0/\>\""}], "]"}]}], 
-   "\[IndentingNewLine]", "\n", "\[IndentingNewLine]", 
+     RowBox[{"$OperatingSystem", "==", "\"\<Windows\>\""}]}], ";"}], "\n", 
+   "\[IndentingNewLine]", 
    RowBox[{"If", "[", 
     RowBox[{
      RowBox[{"windowsQ", "[", "]"}], ",", 
@@ -7201,7 +7202,7 @@ Cell[BoxData[
      RowBox[{"Print", "[", 
       RowBox[{"\"\<linux environment: executing commands in init.m  \>\"", "<>", 
        RowBox[{"FindFile", "[", "\"\<init.m\>\"", "]"}]}], "]"}]}], "]"}], 
-   "\[IndentingNewLine]", "\n", 
+   "\n", "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"Needs", "[", "\"\<JLink`\>\"", "]"}], ";"}], 
    "\[IndentingNewLine]", 
@@ -7217,7 +7218,7 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"$gitDir", "=", 
      RowBox[{"\"\<../../\>\"", "<>", 
-      RowBox[{"Directory", "[", "]"}]}]}], ";"}], "\[IndentingNewLine]", "\n", 
+      RowBox[{"Directory", "[", "]"}]}]}], ";"}], "\n", "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"$pertPath", "=", 
      RowBox[{"$gitDir", "<>", "\"\<MatPert/MatPert\>\""}]}], ";"}], "\n", 
@@ -7247,78 +7248,11 @@ Cell[BoxData[
     RowBox[{"$projPath", "=", 
      RowBox[{
      "$gitDir", "<>", 
-      "\"\<ProjectionMethodTools/ProjectionMethodTools\>\""}]}], ";"}], 
-   "\[IndentingNewLine]", "\[IndentingNewLine]", 
-   RowBox[{"If", "[", 
-    RowBox[{
-     RowBox[{"windowsQ", "[", "]"}], ",", "\[IndentingNewLine]", 
-     RowBox[{
-      RowBox[{
-      "SetDirectory", "[", "\"\<c:/forGit/paperProduction/symbAMA/code\>\"", 
-       "]"}], ";", "\[IndentingNewLine]", 
-      RowBox[{"Switch", "[", 
-       RowBox[{"$MachineName", ",", "\"\<ws-m1gsa00\>\"", ",", 
-        RowBox[{"Module", "[", 
-         RowBox[{
-          RowBox[{"{", "}"}], ",", 
-          RowBox[{"(*", 
-           RowBox[{
-            RowBox[{
-            "$pertPath", "=", 
-             "\"\<G:/scratch/tryBenchWindows3.5/Perturbation/\>\""}], ";", 
-            "\[IndentingNewLine]", 
-            RowBox[{
-            "$umbraPath", "=", 
-             "\"\<C:/gitHome/git/forUmbraCalculus/umbraCalculus/umbraCalculus/\
-\>\""}], ";"}], "*)"}], "\[IndentingNewLine]", 
-          RowBox[{
-           RowBox[{
-           "$AMAPath", "=", 
-            "\"\<G:/RES2/mathAMA/AndersonMooreAlgorithm/\>\""}], ";", 
-           "\[IndentingNewLine]", 
-           RowBox[{"$FormatPath", "=", "\"\<S:/learnProjection/proto/\>\""}], 
-           ";"}]}], "\[IndentingNewLine]", "]"}]}], "]"}]}]}], 
-    RowBox[{"(*", 
-     RowBox[{",", "\[IndentingNewLine]", 
-      RowBox[{
-       RowBox[{
-       "$AMAPath", "=", 
-        "\"\</msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/\>\""}], 
-       ";", "\[IndentingNewLine]", 
-       RowBox[{
-       "$FormatPath", "=", 
-        "\"\</msu/scratch/m1gsa00/learnProjection/proto/\>\""}], ";"}]}], 
-     "*)"}], "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]"}]}]], "Input",
- InitializationCell->True],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{
-   RowBox[{"MatchLocalNames", "\[Rule]", "True"}], ",", 
-   RowBox[{"TraceAbove", "\[Rule]", "False"}], ",", 
-   RowBox[{"TraceBackward", "\[Rule]", "False"}], ",", 
-   RowBox[{"TraceDepth", "\[Rule]", "\[Infinity]"}], ",", 
-   RowBox[{"TraceForward", "\[Rule]", "True"}], ",", 
-   RowBox[{"TraceInternal", "\[Rule]", "Automatic"}], ",", 
-   RowBox[{"TraceOff", "\[Rule]", "None"}], ",", 
-   RowBox[{"TraceOn", "\[Rule]", "None"}], ",", 
-   RowBox[{"TraceOriginal", "\[Rule]", "False"}]}], "}"}]], "Output"],
-
-Cell[BoxData["\<\"/msu/scratch2/m1gsa00/jdk1.7.0/\"\>"], "Output"],
-
-Cell[BoxData["\<\"linux environment: executing commands in init.m  \
-/msu/home/m1gsa00/.Mathematica/Kernel/init.m\"\>"], "Print"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{
-   RowBox[{"Needs", "[", "\"\<utilitiesSetUp`\>\"", "]"}], ";"}], 
-  RowBox[{"(*", 
-   RowBox[{"Needs", "[", "\"\<GenMexCode`\>\"", "]"}], "*)"}], 
-  "\n"}]], "Input",
+      "\"\<ProjectionMethodTools/ProjectionMethodTools\>\""}]}], ";"}], "\n", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Needs", "[", "\"\<utilitiesSetUp`\>\"", "]"}], ";"}], 
+   "\n"}]}]], "Input",
  InitializationCell->True],
 
 Cell[CellGroupData[{
@@ -7337,7 +7271,7 @@ Cell[BoxData["\<\"done reading AMAModel\"\>"], "Print"]
 }, Open  ]]
 },
 WindowSize->{756, 803},
-WindowMargins->{{466, Automatic}, {53, Automatic}},
+WindowMargins->{{143, Automatic}, {Automatic, 32}},
 ShowSelection->True,
 FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 7, 2013)",
 StyleDefinitions->"Default.nb"
