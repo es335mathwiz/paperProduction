@@ -286,7 +286,7 @@ firstOnPath[dirName_String]:=If[System`$Path[[1]]=!=dirName,PrependTo[System`$Pa
 $jarDir=If[$OperatingSystem=="Unix",
            "msu/res1/Software/xalan-j_2_7_1/xalan.jar",
            "r:/Software/xalan-j_2_7_1/xalan.jar"]
-CreateDirectory[$tmpDir=$TemporaryDirectory <> "GaryModDims/"]
+CreateDirectory[$tmpDir=$TemporaryDirectory <> "/GaryModDims/"]
 getModelDims[modDir_String,modName_String]:=
 Module[{vars,ig,params,eqns,notSubs,tDir=$tmpDir},
 mkNewDir[tDir];firstOnPath[tDir];
