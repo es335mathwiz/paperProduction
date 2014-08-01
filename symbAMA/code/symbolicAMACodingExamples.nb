@@ -7209,22 +7209,15 @@ Cell[BoxData[
     RowBox[{"ReinstallJava", "[", 
      RowBox[{"CommandLine", "\[Rule]", 
       RowBox[{"$javaJDKDir", "<>", "\"\<bin/java  -showversion\>\""}]}], 
-     "]"}], ",", "\n", 
-    RowBox[{
-     RowBox[{"Off", "[", 
-      RowBox[{"Syntax", "::", "sntufn"}], "]"}], ";"}]}], 
-   "\[IndentingNewLine]", 
+     "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Off", "[", 
+     RowBox[{"Syntax", "::", "sntufn"}], "]"}], ";"}], "\[IndentingNewLine]", 
    RowBox[{"Needs", "[", "\"\<console`\>\"", "]"}], "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"$gitDir", "=", 
      RowBox[{"\"\<../../\>\"", "<>", 
-      RowBox[{"Directory", "[", "]"}]}]}], 
-    RowBox[{"(*", 
-     RowBox[{"If", "[", 
-      RowBox[{
-       RowBox[{"windowsQ", "[", "]"}], ",", "\"\<g:/git/\>\"", ",", 
-       "\"\</msu/home/m1gsa00/git/\>\""}], "]"}], "*)"}], ";"}], "\n", 
-   "\[IndentingNewLine]", 
+      RowBox[{"Directory", "[", "]"}]}]}], ";"}], "\[IndentingNewLine]", "\n", 
    RowBox[{
     RowBox[{"$pertPath", "=", 
      RowBox[{"$gitDir", "<>", "\"\<MatPert/MatPert\>\""}]}], ";"}], "\n", 
@@ -7284,51 +7277,8 @@ Cell[BoxData[
             "\"\<G:/RES2/mathAMA/AndersonMooreAlgorithm/\>\""}], ";", 
            "\[IndentingNewLine]", 
            RowBox[{"$FormatPath", "=", "\"\<S:/learnProjection/proto/\>\""}], 
-           ";"}]}], "\[IndentingNewLine]", 
-         RowBox[{"(*", 
-          RowBox[{
-           RowBox[{
-           "$projPath", "=", 
-            "\"\<G:/RES2/ProjectionMethodTools/projection/\>\""}], ";", 
-           "\[IndentingNewLine]", 
-           RowBox[{"$projCPath", "=", 
-            RowBox[{"{", 
-             RowBox[{
-             "\"\<G:/RES2/ProjectionMethodTools/projection/target/test-\
-classes\>\"", ",", 
-              "\"\<G:/RES2/ProjectionMethodTools/projection/target/classes\>\"\
-", ",", "\"\<r:/Software/mavenRepositories/tryRep/gov/frb/ma/msu/commons-math/\
-2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\"", ",", 
-              "\"\<r:/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-1.\
-0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\"", ",", 
-              "\"\<r:/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-projection/1.0-SNAPSHOT/projection-1.0-SNAPSHOT.jar\>\""}], "}"}]}]}], "*)"}],
-          "]"}]}], "]"}]}], ",", 
-     RowBox[{"(*", 
-      RowBox[{
-       RowBox[{
-       "$pertPath", "=", 
-        "\"\</msu/home/m1gsa00/scratch/tryBenchWindows3.5/Perturbation/\>\""}]\
-, ";", "\[IndentingNewLine]", 
-       RowBox[{
-       "$umbraPath", "=", 
-        "\"\</msu/home/m1gsa00/git/umbralCalculus/umbralCalculus\>\""}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{
-       "$eigProjPath", "=", "\"\</msu/res2/m1gsa00/dynareAntlr/\>\""}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$eigProjCPath", "=", 
-        RowBox[{"{", 
-         RowBox[{
-         "\"\</msu/res2/m1gsa00/dynareAntlr/target/test-classes\>\"", ",", 
-          "\"\</msu/res2/m1gsa00/dynareAntlr/target/classes\>\"", ",", 
-          "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\"", ",", 
-          "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-Jama-1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\"", ",", 
-          "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\""}], "}"}]}], 
-       ";"}], "*)"}], "\[IndentingNewLine]", 
+           ";"}]}], "\[IndentingNewLine]", "]"}]}], "]"}]}], ",", 
+     "\[IndentingNewLine]", 
      RowBox[{
       RowBox[{
       "$AMAPath", "=", 
@@ -7337,57 +7287,8 @@ commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\""}], "}"}]}],
       RowBox[{
       "$FormatPath", "=", 
        "\"\</msu/scratch/m1gsa00/learnProjection/proto/\>\""}], ";"}]}], 
-    "\[IndentingNewLine]", 
-    RowBox[{"(*", 
-     RowBox[{
-      RowBox[{
-      "$projPath", "=", 
-       "\"\</msu/home/m1gsa00/RES2/ProjectionMethodTools/projection/\>\""}], 
-      ";", "\[IndentingNewLine]", 
-      RowBox[{"$projCPath", "=", 
-       RowBox[{"{", 
-        RowBox[{
-        "\"\</msu/home/m1gsa00/RES2/ProjectionMethodTools/projection/target/\
-test-classes\>\"", ",", 
-         "\"\</msu/home/m1gsa00/RES2/ProjectionMethodTools/projection/target/\
-classes\>\"", ",", 
-         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\"", ",", 
-         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-\
-1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\"", ",", 
-         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-projection/1.0-SNAPSHOT/projection-1.0-SNAPSHOT.jar\>\""}], "}"}]}], ";", 
-      "\[IndentingNewLine]", 
-      RowBox[{"$eigProjPath", "=", "\"\</msu/res2/m1gsa00/dynareAntlr/\>\""}],
-       ";", "\[IndentingNewLine]", 
-      RowBox[{"$eigProjCPath", "=", 
-       RowBox[{"{", 
-        RowBox[{
-        "\"\</msu/res2/m1gsa00/dynareAntlr/target/test-classes\>\"", ",", 
-         "\"\</msu/res2/m1gsa00/dynareAntlr/target/classes\>\"", ",", 
-         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\"", ",", 
-         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-\
-1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\"", ",", 
-         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-dynareAntlr/1.0-SNAPSHOT/dynareAntlr-1.0-SNAPSHOT.jar\>\"", ",", 
-         "\"\</msu/home/m1gsa00/scratch/tryRep/org/antlr/antlr-runtime/3.2/\
-antlr-runtime-3.2.jar\>\""}], "}"}]}], ";"}], "*)"}], "]"}], 
-   "\[IndentingNewLine]", 
-   RowBox[{"(*", 
-    RowBox[{
-     RowBox[{
-     "Get", "[", "\"\</msu/home/m1gsa00/.Mathematica/Kernel/init.m\>\"", 
-      "]"}], ";"}], "*)"}], 
-   RowBox[{"(*", 
-    RowBox[{
-     RowBox[{"PrependTo", "[", 
-      RowBox[{
-      "$Path", ",", 
-       "\"\</a/msulx1/lcl/msu/home/m1gsa00/git/paperProduction/symbAMA/code/\>\
-\""}], "]"}], ";"}], "*)"}]}]}]], "Input",
- InitializationCell->True,
- EmphasizeSyntaxErrors->True],
+    "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]"}]}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
  RowBox[{"{", 
