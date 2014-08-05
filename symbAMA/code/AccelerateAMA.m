@@ -91,12 +91,12 @@ Global`getParamSubs[modName]=paramSubs;
 Global`getParamNames[modName]=First/@params;
 Global`getExampleParams[modName]=(First /@params)//.paramSubs;
 {hmatTime,hmat}=Timing[equationsToMatrix[eqns,vars]/.makeSSValSubs[vars]];
-Global`getHmat[modName]=hmat;Print["done hmat"];
-{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];Print["done ar"];
+Global`getHmat[modName]=hmat;
+{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];
 Global`getZf[modName]=zf;
-{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];Print["done amat"];
+{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];
 {lilTime,{lilMat,cols}}=
-Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];Print["done inessential"];
+Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];
 Global`getLilMat[modName]=lilMat;
 Global`getCols[modName]=cols;
 (*
@@ -272,7 +272,6 @@ cmd=If[$OperatingSystem=="Unix",
 "java " <> "-cp "<>$jarDir<>"  org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL /msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/AMAModel2Mma.xsl -OUT `3``2`.mth",srcDir,fName,targDir],
               StringForm[
 "java " <> "-cp "<>$jarDir<>"  org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL g:/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/AMAModel2Mma.xsl -OUT `3``2`.mth",srcDir,fName,targDir]];
-Print["here is cmd",cmd,"after"];
 Run[cmd];
 Get[targDir<>fName<>".mth"];
 Global`AMAModelDefinition[fName]]
@@ -309,7 +308,6 @@ homeDir=If[Global`windowsQ[],"g:","/msu/home/m1gsa00"];
 System.out.println("osname="+nameOS);
 cmd=StringForm[
 "java " <> "-cp "<>$jarDir<>" org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL `1`/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/AMAModel2Mma.xsl -OUT `3``2`.mth",homeDir,fName,targDir];
-(*Print["here is cmd",cmd,"after"];*)
 Run[cmd];
 Get[fName<>".mth"];
 Global`AMAModelDefinition[fName]]
