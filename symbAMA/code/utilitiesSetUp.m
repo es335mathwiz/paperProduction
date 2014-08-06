@@ -19,7 +19,7 @@ $Path = Join[$Path, {$symPath,$numPath,$modPath,$fmtPath}];
 
 AddToClassPath[$antlrPath];
 AddToClassPath[$dynareParserPath];
-
+Print["prepac"]
 BeginPackage["utilitiesSetUp`",{"AccelerateAMA`"}]
 theDynareMods=FileBaseName/@
 FileNames[{___~~".mod"},{"dynareExamples/uniqueExamples/"}];

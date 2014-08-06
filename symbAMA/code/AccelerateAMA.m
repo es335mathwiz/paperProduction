@@ -1,6 +1,8 @@
 (* Mathematica Package *)
-
+Information[e]
+Off[Global`e::shdw]
 BeginPackage["AccelerateAMA`", { "JLink`","SymbolicAMA`", "NumericAMA`", "AMAModel`","Experimental`", "Format`","AMAModelDefinition`"}]
+
 
 getModelDims::usage="getModelDims[modDir_String,modName_String] returns {Length[vars],getLags[eqns],getLeads[eqns],Length[params],linearQ[eqns]}"
 
@@ -413,3 +415,4 @@ qmat=compQ[zf,evecs];
 End[] (* End Private Context *)
 
 EndPackage[]  
+Print["done reading AccelerateAMA"]
