@@ -10,7 +10,20 @@
 %'/msu/home/m1gsa00/git/paperProduction/symbAMA/docs/hybridSymbolicProjectionAMA.tex--2014-08-06 07:24:09 EDT'
 
 
-\documentclass[tikz]{beamer}
+%\documentclass[tikz]{beamer}
+
+\documentclass[handout]{beamer}
+  \usepackage{pgfpages}
+\mode<handout>{\setbeamercolor{background canvas}{bg=black!20}}
+\pgfpagesuselayout{2 on 1}[letterpaper,border shrink=5mm]
+%\usepackage{handoutWithNotes}
+%\pgfpagesuselayout{4 on 1 with notes}[a4paper,border shrink=5mm]
+%
+%  Load other packages you may need here
+% 
+% \pgfpagesuselayout{4 on 1}[a4paper,landscape,border shrink=5mm
+
+
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows}
 \mode<presentation>{}
@@ -62,7 +75,14 @@
   \frametitle{Overview}
   
   \begin{itemize}
-    \item Anisotropic Grid Smolyak
+  \item Best Practice
+  \item Projection Methods
+    \begin{itemize}
+    \item Mathematica Implementation
+  \item XML for Model Definition and Manipulation
+  \item Symbolic Algebra for Code Generation
+    \end{itemize}
+  \item Anisotropic Grid Smolyak
     \begin{itemize}
     \item Mathematica Implementation
   \item XML for Model Definition and Manipulation
@@ -76,75 +96,6 @@
 
 \subsection{Objectives}
 
-\begin{frame}
-  \frametitle{To Do}
-  \begin{itemize}
-  \item Problem with Tensors
-  \item Smolyak Improvement
-  \item Problem with Smolyak
-  \item JMMV improvement
-  \item Examples
-    \begin{itemize}
-    \item JMMV
-    \item Luca
-    \item Experiments at the ZLB
-    \item My Formulae
-    \end{itemize}
-  \item 
-  \item Mathematica Implementation
-  \item Block Coded Pulse
-  \item 
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Whiteboard}
-  \begin{description}
-  \item[Smolyak gencode multi gens?]
-  \item[B $\phi$ F]
-  \item[GPU]
-  \item[Maple sym alg block coded pulse]
-  \item[symb paper calcs to josh]
-  \item[modelez to python]
-  \item[tests]
-  \item[dynare to ama, c python matlab]
-  \item[math9 or 10 on linux]
-  \item[regularize github]
-  \item[undefined ranges?]
-  \item[proj method tools examples] 
-  \end{description}
-\end{frame}
-
-\begin{frame}
-  \frametitle{more whiteboard}
-  \begin{description}
-  \item[smolyak reconcile]
-  \item[error calculations]
-  \item[components for comparison]
-  \item[judd examples]
-  \item[model diagnostics sanity checks error messages ]
-  \item[print state non state list etc for early feedback]
-  \item[java exception output?]
-  \item[cnstrns?]
-  \item[iteration history $\sigma \rightarrow 0$]
-  \item[why only two judd stochastic polys,  Chop $\theta_t$]
-  \end{description}
-\end{frame}
-
-
-\begin{frame}
-  \frametitle{more more whiteboard}
-  \begin{description}
-  \item[Mma, linux desktop]
-  \item[download works]
-  \item[Sandvox]
-  \item[MSU sharepoint]
-  \item[paperProduction without submodules]
-
-  \item[comparison to vilaverde github]
-  \item[git rid of feature branch] 
-\end{description}
-\end{frame}
 \begin{frame}
   \frametitle{Objectives}  
 
@@ -165,6 +116,7 @@ DSGE models.
 }
 \end{frame}
 
+
 \begin{frame}
   \frametitle{Outline}
   \begin{itemize}
@@ -176,226 +128,6 @@ DSGE models.
 
   \item Smolyak
   \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{To Include}
-  \begin{itemize}
-  \item ProjectionMethodTools
-    \begin{itemize}
-    \item Downloadable from git  How to
-    \item mathematica generates a eqvaldrv object from easy to enter model eqns
-    \item splits out components that require integration
-    \item one lag one lead
-    \item derivatives with respect to other variables that are represented by projecition polynomials
-    \item state vs non state variables
-    \item two shocks
-    \item use for validation
-    \item has an error at the moment in computation of derivatives
-    \item overloaded operations pointwise for derivatives most common operations
-    \item includes newton method
-    \end{itemize}
-
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{projectionmethodtools workflow}
-  \begin{itemize}
-  \item model equation specification generate model creates java class
-  \item few constraints of java class  one lag one lead two shocks (list of functions)special derivatives
-  \item projection method chearacteristics specification, ranges
-  \end{itemize}
-\end{frame}
-
-
-\begin{frame}
-  \frametitle{more to include}
-  \begin{itemize}
-    \item includes some homotopy methods
-    \item expand from center
-    \item clever newton step
-  \item smolyak in mathematica
-  \item matrix for mapping values into weights
-  \item symbolic albebra
-  \item can generalize the point generator uses chebyshev zeroes (extrema?)
-  \item uni dimensional point generator requirements
-  \item savings in the dimensionality of points
-  \item accuracy
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{more to include}
-  \begin{itemize}
-  \item class organization importent components relate to judd taxonomy
-  \item developing an explicit API via javadocs
-    \begin{itemize}
-    \item grid spec
-    \item eqvaldrv
-    \item strategy
-    \item best practice patterns
-    \end{itemize}
-  \item mma generates a java program
-  \item grid chebyshev polynomials and chebysheve extrema
-  \item grid does linear map to -1,1
-  \item each variable gets a polynomial  ( not limiting )
-equations
-  \end{itemize}
-\end{frame}
-\begin{frame}
-  \frametitle{more stuff}
-  \begin{itemize}
-\item $y_{t}=f(x_{t-1},\epsilon_t),z_t=y_{t+1}$
-  \item can model expectations
-  \item just generates equations for computing eqvaldrv for the specified
-  \item java program good for checking
-  \item speed not too bad
-  \end{itemize}
-\end{frame}
-
-
-
-\begin{frame}
-  \frametitle{git}
-  \begin{itemize}
-  \item git
-    \begin{itemize}
-    \item version control essentials
-    \item concepts and workflow
-    \item commits
-    \item clone
-    \item pull and push
-    \item branches
-    \end{itemize}
-  \end{itemize}
-\end{frame}
-
-
-\begin{frame}
-  \frametitle{for the future}
-  \begin{itemize}
-  \item more generators
-  \item model specification code
-  \item incorporation in to projectionmethod tools
-  \end{itemize}
-\end{frame}
-
-
-\subsection{Components}
-\begin{frame}
-  \frametitle{Components}  
-
-{\small
-  \begin{itemize}
-\item Symbolic algebra tools for manipulating model equations
- -- currently {\bf \mma}  ({\bf sympy} for the future)
-\item {\bf XML} for specifying model equations and 
-for specifying operations on the model
-\item The {\bf antlr} parser generator for mapping alternative 
-model specification languages into  XML
-\item Explicit  API's for generated code
-\item {\bf gitHub} for version control and code distribution
-  \end{itemize}
-
-}
-\end{frame}
-
-
-
-\begin{frame}
-  \frametitle{Targets}
-  \begin{columns}
-    \begin{column}{.5\linewidth}
-      
-
-  \begin{itemize}
-\item Target Languages
-    \begin{itemize}
-    \item Dynare
-    \item Matlab
-    \item Fortran
-    \item C
-    \item \LaTeX
-    \end{itemize}
-\item Target architectures
-  \begin{itemize}
-\item Ubiquitous multicore stand-alone machines
-  \item Increasingly available networked multicore machines
-  \item GPUs
-  \end{itemize}
-
-
-  \end{itemize}
-\end{column}
-    \begin{column}{.5\linewidth}
-
-      \begin{itemize}
-      \item Directory Structure
-      \end{itemize}
-
-
-\dirtree{%
-.1 theRootDir.
-.2 code.
-.2 docs.
-.2 tests.
-.2 examples.
-}
-
-
-
-\end{column}
-
-  \end{columns}
-
-
-\end{frame}
-
-% \begin{frame}
-%   \frametitle{Other Benefits}
-%   \begin{itemize}
-%   \item reproducible results
-%   \item design to evolve ( expect breakage )
-%   \item Promotes Testing
-%   \item Eliminates Error Prone Tasks
-%   \item Division of labor and synergy  github
-%   \end{itemize}
-% \end{frame}
-
-
-
-
-\section{XML for  Model Definition and Manipulation}
-
-\begin{frame}
-  \frametitle{Star Concept}
-  \begin{itemize}
- \item Parse from language into an Intermediate Model Representation (IMR)
- -- ``Abstract Syntax Tree'' 
-  \item Post process from IMR to other useful forms
-  \item Star concept --  multiple languages into and out of IMR
-    \begin{itemize}
-    \item \LaTeX outpput
-    \item Language translation
-    \item Code generation
-    \end{itemize}
-
-  \item Uses XML Schema, XSL tools
-  \end{itemize}
-
-\end{frame}
-\section{Examples}
-
-
-\begin{frame}
-  \frametitle{gitHub Links for DSGECodeGen Software}
-  
-
-  \begin{description}
-  \item[ \cite{Judd2013} Package mathSmolyak`] \href{https://github.com/es335mathwiz/AccelerateAMA.git}{https://github.com/es335mathwiz/AccelerateAMA.git}
-\end{description}
-
 \end{frame}
 
 
@@ -739,44 +471,42 @@ for debugging and documenting the code.
 
 
 %\end{frame}
+
+
+
 \begin{frame}
-
-\frametitle{Hybrid Functions}
-
-\begin{itemize}
-\item Combine Block Pulse Functions with Orthogonal Polynomials
-\item Inherit Orthogonality
-\item Useful for characterizing piecewise continuous functions
-  \begin{gather*}
-    b_{nm}(x), n=1,2,\ldots,N,m=0,1,\ldots,M-1,\,\, x \in (x_{min},x_{max})\\
-    b_{nm}(x)=
-    \begin{cases}
-      P_m(\frac{2N}{x_W}(x-x_{min})- 2n+1)&
-      \frac{n-1}{N}x_W\le x-x_{min}<\frac{n}{N}x_W\\
-      0&otherwise
-    \end{cases}\intertext{ where }
-    x_W=x_{max}-x_{min}
-  \end{gather*}
-\item Slight Generalization of \cite{marzban03}
-\item Block Pulse Functions
-\item DMISER
-\end{itemize}
-
-
+  \frametitle{projectionmethodtools workflow}
+  \begin{itemize}
+  \item model equation specification generate model creates java class
+  \item few constraints of java class  one lag one lead two shocks (list of functions)special derivatives
+  \item projection method chearacteristics specification, ranges
+    \item includes some homotopy methods
+    \item expand from center
+    \item clever newton step
+  \end{itemize}
 \end{frame}
+
+
 \begin{frame}
-
-\frametitle{Hybrid Functions}
-
-\begin{figure}
-  \centering
-   \includegraphics{bpfGraph.pdf}
-  \caption{Hybrid Functions of Block-Pulse and Legendre Polynomials
-    $b_{ij}(6,4)$}
-  \label{fig:bgraph}
-\end{figure}
-
+  \frametitle{more projection method}
+  \begin{itemize}
+  \item class organization importent components relate to judd taxonomy
+  \item developing an explicit API via javadocs
+    \begin{itemize}
+    \item grid spec
+    \item eqvaldrv
+    \item strategy
+    \item best practice patterns
+    \end{itemize}
+  \item mma generates a java program
+  \item grid chebyshev polynomials and chebysheve extrema
+  \item grid does linear map to -1,1
+  \item each variable gets a polynomial  ( not limiting )
+equations
+  \end{itemize}
 \end{frame}
+
+
 \subsection{Anisotropic Grid Smolyak}
 
 
@@ -832,6 +562,238 @@ $
   \item The vector of polynomial basis functions $\{\Psi_1, \ldots , \Psi_M\}$ (alternatively as calls to chebyshev library)
   \item The polynomials evaluated at the Smolyak grid points $\mathcal{B}$
   \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{smolyak}
+
+  \begin{itemize}
+  \item smolyak in mathematica
+  \item matrix for mapping values into weights
+  \item symbolic albebra
+  \item can generalize the point generator uses chebyshev zeroes (extrema?)
+  \item uni dimensional point generator requirements
+  \item savings in the dimensionality of points
+  \item accuracy
+  \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{To Include}
+  \begin{itemize}
+  \item ProjectionMethodTools
+    \begin{itemize}
+    \item Downloadable from git  How to
+    \item mathematica generates a eqvaldrv object from easy to enter model eqns
+    \item splits out components that require integration
+    \item one lag one lead
+    \item derivatives with respect to other variables that are represented by projecition polynomials
+    \item state vs non state variables
+    \item two shocks
+    \item use for validation
+    \item has an error at the moment in computation of derivatives
+    \item overloaded operations pointwise for derivatives most common operations
+    \item includes newton method
+    \end{itemize}
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{more stuff}
+  \begin{itemize}
+\item $y_{t}=f(x_{t-1},\epsilon_t),z_t=y_{t+1}$
+  \item can model expectations
+  \item just generates equations for computing eqvaldrv for the specified
+  \item java program good for checking
+  \item speed not too bad
+  \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{git}
+  \begin{itemize}
+  \item git
+    \begin{itemize}
+    \item version control essentials
+    \item concepts and workflow
+    \item commits
+    \item clone
+    \item pull and push
+    \item branches
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{for the future}
+  \begin{itemize}
+  \item more generators
+  \item model specification code
+  \item incorporation in to projectionmethod tools
+  \end{itemize}
+\end{frame}
+
+
+\subsection{Components}
+\begin{frame}
+  \frametitle{Components}  
+
+{\small
+  \begin{itemize}
+\item Symbolic algebra tools for manipulating model equations
+ -- currently {\bf \mma}  ({\bf sympy} for the future)
+\item {\bf XML} for specifying model equations and 
+for specifying operations on the model
+\item The {\bf antlr} parser generator for mapping alternative 
+model specification languages into  XML
+\item Explicit  API's for generated code
+\item {\bf gitHub} for version control and code distribution
+  \end{itemize}
+
+}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Targets}
+  \begin{columns}
+    \begin{column}{.5\linewidth}
+      
+
+  \begin{itemize}
+\item Target Languages
+    \begin{itemize}
+    \item Dynare
+    \item Matlab
+    \item Fortran
+    \item C
+    \item \LaTeX
+    \end{itemize}
+\item Target architectures
+  \begin{itemize}
+\item Ubiquitous multicore stand-alone machines
+  \item Increasingly available networked multicore machines
+  \item GPUs
+  \end{itemize}
+
+
+  \end{itemize}
+\end{column}
+    \begin{column}{.5\linewidth}
+
+      \begin{itemize}
+      \item Directory Structure
+      \end{itemize}
+
+
+\dirtree{%
+.1 theRootDir.
+.2 code.
+.2 docs.
+.2 tests.
+.2 examples.
+}
+
+
+
+\end{column}
+
+  \end{columns}
+
+
+\end{frame}
+
+% \begin{frame}
+%   \frametitle{Other Benefits}
+%   \begin{itemize}
+%   \item reproducible results
+%   \item design to evolve ( expect breakage )
+%   \item Promotes Testing
+%   \item Eliminates Error Prone Tasks
+%   \item Division of labor and synergy  github
+%   \end{itemize}
+% \end{frame}
+
+
+
+
+\section{XML for  Model Definition and Manipulation}
+
+\begin{frame}
+  \frametitle{Star Concept}
+  \begin{itemize}
+ \item Parse from language into an Intermediate Model Representation (IMR)
+ -- ``Abstract Syntax Tree'' 
+  \item Post process from IMR to other useful forms
+  \item Star concept --  multiple languages into and out of IMR
+    \begin{itemize}
+    \item \LaTeX outpput
+    \item Language translation
+    \item Code generation
+    \end{itemize}
+
+  \item Uses XML Schema, XSL tools
+  \end{itemize}
+
+\end{frame}
+\section{Examples}
+
+
+\begin{frame}
+  \frametitle{gitHub Links for DSGECodeGen Software}
+  
+
+  \begin{description}
+  \item[ \cite{Judd2013} Package mathSmolyak`] \href{https://github.com/es335mathwiz/AccelerateAMA.git}{https://github.com/es335mathwiz/AccelerateAMA.git}
+\end{description}
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Hybrid Functions}
+
+\begin{itemize}
+\item Combine Block Pulse Functions with Orthogonal Polynomials
+\item Inherit Orthogonality
+\item Useful for characterizing piecewise continuous functions
+  \begin{gather*}
+    b_{nm}(x), n=1,2,\ldots,N,m=0,1,\ldots,M-1,\,\, x \in (x_{min},x_{max})\\
+    b_{nm}(x)=
+    \begin{cases}
+      P_m(\frac{2N}{x_W}(x-x_{min})- 2n+1)&
+      \frac{n-1}{N}x_W\le x-x_{min}<\frac{n}{N}x_W\\
+      0&otherwise
+    \end{cases}\intertext{ where }
+    x_W=x_{max}-x_{min}
+  \end{gather*}
+\item Slight Generalization of \cite{marzban03}
+\item Block Pulse Functions
+\item DMISER
+\end{itemize}
+
+
+\end{frame}
+\begin{frame}
+
+\frametitle{Hybrid Functions}
+
+\begin{figure}
+  \centering
+   \includegraphics{bpfGraph.pdf}
+  \caption{Hybrid Functions of Block-Pulse and Legendre Polynomials
+    $b_{ij}(6,4)$}
+  \label{fig:bgraph}
+\end{figure}
+
 \end{frame}
 \begin{frame}
   \frametitle{CodeGen}
@@ -912,6 +874,75 @@ Generates code for
 %     \end{itemize}
 % \end{frame}
 
+\begin{frame}
+  \frametitle{To Do}
+  \begin{itemize}
+  \item Problem with Tensors
+  \item Smolyak Improvement
+  \item Problem with Smolyak
+  \item JMMV improvement
+  \item Examples
+    \begin{itemize}
+    \item JMMV
+    \item Luca
+    \item Experiments at the ZLB
+    \item My Formulae
+    \end{itemize}
+  \item 
+  \item Mathematica Implementation
+  \item Block Coded Pulse
+  \item 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Whiteboard}
+  \begin{description}
+  \item[Smolyak gencode multi gens?]
+  \item[B $\phi$ F]
+  \item[GPU]
+  \item[Maple sym alg block coded pulse]
+  \item[symb paper calcs to josh]
+  \item[modelez to python]
+  \item[tests]
+  \item[dynare to ama, c python matlab]
+  \item[math9 or 10 on linux]
+  \item[regularize github]
+  \item[undefined ranges?]
+  \item[proj method tools examples] 
+  \end{description}
+\end{frame}
+
+\begin{frame}
+  \frametitle{more whiteboard}
+  \begin{description}
+  \item[smolyak reconcile]
+  \item[error calculations]
+  \item[components for comparison]
+  \item[judd examples]
+  \item[model diagnostics sanity checks error messages ]
+  \item[print state non state list etc for early feedback]
+  \item[java exception output?]
+  \item[cnstrns?]
+  \item[iteration history $\sigma \rightarrow 0$]
+  \item[why only two judd stochastic polys,  Chop $\theta_t$]
+  \end{description}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{more more whiteboard}
+  \begin{description}
+  \item[Mma, linux desktop]
+  \item[download works]
+  \item[Sandvox]
+  \item[MSU sharepoint]
+  \item[paperProduction without submodules]
+
+  \item[comparison to vilaverde github]
+  \item[git rid of feature branch] 
+\end{description}
+\end{frame}
 
 
 \end{document}
