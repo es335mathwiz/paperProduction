@@ -92,6 +92,22 @@
   \end{itemize}
 \end{frame}
 
+
+
+\begin{frame}
+  \frametitle{Outline}
+  \begin{itemize}
+  \item Generic Projection ala Judd
+  \item An Implementation  and its components
+  \item gitHub and distribution/updating
+  \item Possible extensions
+
+  \item Smolyak
+  \end{itemize}
+\end{frame}
+
+
+
 %\section{\dsgecg\  Objectives and Components}
 
 \subsection{Objectives}
@@ -117,19 +133,98 @@ DSGE models.
 \end{frame}
 
 
+
+\subsection{Components}
 \begin{frame}
-  \frametitle{Outline}
+  \frametitle{Components}  
+
+{\small
   \begin{itemize}
-  \item Generic Projection ala Judd
-  \item An Implementation  and its components
-
-  \item gitHub and distribution/updating
-  \item Possible extensions
-
-  \item Smolyak
+\item Symbolic algebra tools for manipulating model equations
+ -- currently {\bf \mma}  ({\bf sympy} for the future)
+\item {\bf XML} for specifying model equations and 
+for specifying operations on the model
+\item The {\bf antlr} parser generator for mapping alternative 
+model specification languages into  XML
+\item Explicit  API's for generated code
+\item {\bf gitHub} for version control and code distribution
   \end{itemize}
+
+}
 \end{frame}
 
+
+
+\begin{frame}
+  \frametitle{Targets}
+  \begin{columns}
+    \begin{column}{.5\linewidth}
+      
+
+  \begin{itemize}
+\item Target Languages
+    \begin{itemize}
+    \item Dynare
+    \item Matlab
+    \item Fortran
+    \item C
+    \item \LaTeX
+    \end{itemize}
+\item Target architectures
+  \begin{itemize}
+\item Ubiquitous multicore stand-alone machines
+  \item Increasingly available networked multicore machines
+  \item GPUs
+  \end{itemize}
+
+
+  \end{itemize}
+\end{column}
+    \begin{column}{.5\linewidth}
+
+      \begin{itemize}
+      \item Directory Structure
+      \end{itemize}
+
+
+\dirtree{%
+.1 theRootDir.
+.2 code.
+.2 docs.
+.2 tests.
+.2 examples.
+}
+
+
+
+\end{column}
+
+  \end{columns}
+
+
+\end{frame}
+
+
+
+\section{XML for  Model Definition and Manipulation}
+
+\begin{frame}
+  \frametitle{Star Concept}
+  \begin{itemize}
+ \item Parse from language into an Intermediate Model Representation (IMR)
+ -- ``Abstract Syntax Tree'' 
+  \item Post process from IMR to other useful forms
+  \item Star concept --  multiple languages into and out of IMR
+    \begin{itemize}
+    \item \LaTeX outpput
+    \item Language translation
+    \item Code generation
+    \end{itemize}
+
+  \item Uses XML Schema, XSL tools
+  \end{itemize}
+
+\end{frame}
 
 \begin{frame}
   \frametitle{Projection Method Tool Implementation Strategy}
@@ -165,6 +260,8 @@ for debugging and documenting the code.
 
 \begin{frame}
   \frametitle{Components of a Generic Projection Tool}
+{\small
+
   \begin{itemize}
   \item Canonical Representation\cite{judd98}\
 
@@ -174,7 +271,6 @@ for debugging and documenting the code.
   f:D\subset R^{n}\rightarrow R^{m}
 \end{equation*}%
 
-\vspace{1cm}
 
 \begin{enumerate}
 \item Choose a basis and a norm over $B_{1}$, and a basis and an inner
@@ -196,7 +292,7 @@ for debugging and documenting the code.
 \item Verify the quality of the solution.
 \end{enumerate}
 \end{itemize}
-
+}
 \end{frame}
 \begin{frame}
 
@@ -317,11 +413,7 @@ for debugging and documenting the code.
   \item the intermediate polynomial functions used %
     {in conjunction} with the model equations will produce other
     numerical errors (e.g. the log of a negative number).
-  \item {Problems with $\beta$ and $\phi$}
-    \begin{itemize}
-    \item Small unrealistic $\beta$ easier to solve
-    \item $\phi=0$ solution not of interest but easier to solve
-    \end{itemize}
+  \item {Problems with some values of parameters}
   \end{itemize}
 \end{itemize}
 
@@ -473,6 +565,25 @@ for debugging and documenting the code.
 %\end{frame}
 
 
+\begin{frame}
+  \frametitle{git}
+  \begin{itemize}
+  \item git
+    \begin{itemize}
+    \item version control essentials
+    \item concepts and workflow
+    \item commits
+    \item clone
+    \item pull and push
+    \item branches
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+
+
+
 
 \begin{frame}
   \frametitle{projectionmethodtools workflow}
@@ -483,6 +594,39 @@ for debugging and documenting the code.
     \item includes some homotopy methods
     \item expand from center
     \item clever newton step
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{To Include}
+  \begin{itemize}
+  \item ProjectionMethodTools
+    \begin{itemize}
+    \item Downloadable from git  How to
+    \item mathematica generates a eqvaldrv object from easy to enter model eqns
+    \item splits out components that require integration
+    \item one lag one lead
+    \item derivatives with respect to other variables that are represented by projecition polynomials
+    \item state vs non state variables
+    \item two shocks
+    \item use for validation
+    \item has an error at the moment in computation of derivatives
+    \item overloaded operations pointwise for derivatives most common operations
+    \item includes newton method
+    \end{itemize}
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{more projection method stuff}
+  \begin{itemize}
+\item $y_{t}=f(x_{t-1},\epsilon_t),z_t=y_{t+1}$
+  \item can model expectations
+  \item just generates equations for computing eqvaldrv for the specified
+  \item java program good for checking
+  \item speed not too bad
   \end{itemize}
 \end{frame}
 
@@ -566,6 +710,20 @@ $
 
 
 \begin{frame}
+  \frametitle{Smolyak conditions}
+  \begin{itemize}
+  \item Use extrema of Chebyshev polynomials
+  \item Unidimensional sequence satisfying two requirements
+$S_1, S_2, \ldots$
+    \begin{itemize}
+    \item A Set $S_i , i=1,2,\ldots$ has $m(i) = 2^{i-1}+1$ points for $i\ge 2 $ and $m(1)=1$
+    \item Each subsequent set contains all points of the previous set  $S_i \subset S_{i+1}$
+    \end{itemize}
+  \item Smolyak rule for selecting elements of tensor products
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
   \frametitle{smolyak}
 
   \begin{itemize}
@@ -580,136 +738,16 @@ $
 \end{frame}
 
 
-
-\begin{frame}
-  \frametitle{To Include}
-  \begin{itemize}
-  \item ProjectionMethodTools
-    \begin{itemize}
-    \item Downloadable from git  How to
-    \item mathematica generates a eqvaldrv object from easy to enter model eqns
-    \item splits out components that require integration
-    \item one lag one lead
-    \item derivatives with respect to other variables that are represented by projecition polynomials
-    \item state vs non state variables
-    \item two shocks
-    \item use for validation
-    \item has an error at the moment in computation of derivatives
-    \item overloaded operations pointwise for derivatives most common operations
-    \item includes newton method
-    \end{itemize}
-
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{more stuff}
-  \begin{itemize}
-\item $y_{t}=f(x_{t-1},\epsilon_t),z_t=y_{t+1}$
-  \item can model expectations
-  \item just generates equations for computing eqvaldrv for the specified
-  \item java program good for checking
-  \item speed not too bad
-  \end{itemize}
-\end{frame}
-
-
-
-\begin{frame}
-  \frametitle{git}
-  \begin{itemize}
-  \item git
-    \begin{itemize}
-    \item version control essentials
-    \item concepts and workflow
-    \item commits
-    \item clone
-    \item pull and push
-    \item branches
-    \end{itemize}
-  \end{itemize}
-\end{frame}
-
-
 \begin{frame}
   \frametitle{for the future}
   \begin{itemize}
+  \item regularize github
   \item more generators
   \item model specification code
   \item incorporation in to projectionmethod tools
   \end{itemize}
 \end{frame}
 
-
-\subsection{Components}
-\begin{frame}
-  \frametitle{Components}  
-
-{\small
-  \begin{itemize}
-\item Symbolic algebra tools for manipulating model equations
- -- currently {\bf \mma}  ({\bf sympy} for the future)
-\item {\bf XML} for specifying model equations and 
-for specifying operations on the model
-\item The {\bf antlr} parser generator for mapping alternative 
-model specification languages into  XML
-\item Explicit  API's for generated code
-\item {\bf gitHub} for version control and code distribution
-  \end{itemize}
-
-}
-\end{frame}
-
-
-
-\begin{frame}
-  \frametitle{Targets}
-  \begin{columns}
-    \begin{column}{.5\linewidth}
-      
-
-  \begin{itemize}
-\item Target Languages
-    \begin{itemize}
-    \item Dynare
-    \item Matlab
-    \item Fortran
-    \item C
-    \item \LaTeX
-    \end{itemize}
-\item Target architectures
-  \begin{itemize}
-\item Ubiquitous multicore stand-alone machines
-  \item Increasingly available networked multicore machines
-  \item GPUs
-  \end{itemize}
-
-
-  \end{itemize}
-\end{column}
-    \begin{column}{.5\linewidth}
-
-      \begin{itemize}
-      \item Directory Structure
-      \end{itemize}
-
-
-\dirtree{%
-.1 theRootDir.
-.2 code.
-.2 docs.
-.2 tests.
-.2 examples.
-}
-
-
-
-\end{column}
-
-  \end{columns}
-
-
-\end{frame}
 
 % \begin{frame}
 %   \frametitle{Other Benefits}
@@ -724,26 +762,19 @@ model specification languages into  XML
 
 
 
-
-\section{XML for  Model Definition and Manipulation}
+\section{Future Directions}
 
 \begin{frame}
-  \frametitle{Star Concept}
+  \frametitle{Future Directions}
   \begin{itemize}
- \item Parse from language into an Intermediate Model Representation (IMR)
- -- ``Abstract Syntax Tree'' 
-  \item Post process from IMR to other useful forms
-  \item Star concept --  multiple languages into and out of IMR
-    \begin{itemize}
-    \item \LaTeX outpput
-    \item Language translation
-    \item Code generation
-    \end{itemize}
-
-  \item Uses XML Schema, XSL tools
+  \item Employing sympy
+ \item Log linearization 
+\item Occassionally binding constraints
+\item Collaboration %Michelle, Sabastein, Pablo, Chris
   \end{itemize}
-
 \end{frame}
+
+
 \section{Examples}
 
 
@@ -831,17 +862,6 @@ Generates code for
 
 
 
-\section{Future Directions}
-
-\begin{frame}
-  \frametitle{Future Directions}
-  \begin{itemize}
-  \item Employing sympy
- \item Log linearization 
-\item Occassionally binding constraints
-\item Collaboration %Michelle, Sabastein, Pablo, Chris
-  \end{itemize}
-\end{frame}
 
 \begin{frame}
   \frametitle{Bibliography}
@@ -874,75 +894,74 @@ Generates code for
 %     \end{itemize}
 % \end{frame}
 
-\begin{frame}
-  \frametitle{To Do}
-  \begin{itemize}
-  \item Problem with Tensors
-  \item Smolyak Improvement
-  \item Problem with Smolyak
-  \item JMMV improvement
-  \item Examples
-    \begin{itemize}
-    \item JMMV
-    \item Luca
-    \item Experiments at the ZLB
-    \item My Formulae
-    \end{itemize}
-  \item 
-  \item Mathematica Implementation
-  \item Block Coded Pulse
-  \item 
-  \end{itemize}
-\end{frame}
+% \begin{frame}
+%   \frametitle{To Do}
+%   \begin{itemize}
+%   \item Problem with Tensors
+%   \item Smolyak Improvement
+%   \item Problem with Smolyak
+%   \item JMMV improvement
+%   \item Examples
+%     \begin{itemize}
+%     \item JMMV
+%     \item Luca
+%     \item Experiments at the ZLB
+%     \item My Formulae
+%     \end{itemize}
+%   \item 
+%   \item Mathematica Implementation
+%   \item Block Coded Pulse
+%   \item 
+%   \end{itemize}
+% \end{frame}
 
-\begin{frame}
-  \frametitle{Whiteboard}
-  \begin{description}
-  \item[Smolyak gencode multi gens?]
-  \item[B $\phi$ F]
-  \item[GPU]
-  \item[Maple sym alg block coded pulse]
-  \item[symb paper calcs to josh]
-  \item[modelez to python]
-  \item[tests]
-  \item[dynare to ama, c python matlab]
-  \item[math9 or 10 on linux]
-  \item[regularize github]
-  \item[undefined ranges?]
-  \item[proj method tools examples] 
-  \end{description}
-\end{frame}
+% \begin{frame}
+%   \frametitle{Whiteboard}
+%   \begin{description}
+%   \item[Smolyak gencode multi gens?]
+%   \item[B $\phi$ F]
+%   \item[GPU]
+%   \item[Maple sym alg block coded pulse]
+%   \item[symb paper calcs to josh]
+%   \item[modelez to python]
+%   \item[tests]
+%   \item[dynare to ama, c python matlab]
+%   \item[math9 or 10 on linux]
+%   \item[undefined ranges?]
+%   \item[proj method tools examples] 
+%   \end{description}
+% \end{frame}
 
-\begin{frame}
-  \frametitle{more whiteboard}
-  \begin{description}
-  \item[smolyak reconcile]
-  \item[error calculations]
-  \item[components for comparison]
-  \item[judd examples]
-  \item[model diagnostics sanity checks error messages ]
-  \item[print state non state list etc for early feedback]
-  \item[java exception output?]
-  \item[cnstrns?]
-  \item[iteration history $\sigma \rightarrow 0$]
-  \item[why only two judd stochastic polys,  Chop $\theta_t$]
-  \end{description}
-\end{frame}
+% \begin{frame}
+%   \frametitle{more whiteboard}
+%   \begin{description}
+%   \item[smolyak reconcile]
+%   \item[error calculations]
+%   \item[components for comparison]
+%   \item[judd examples]
+%   \item[model diagnostics sanity checks error messages ]
+%   \item[print state non state list etc for early feedback]
+%   \item[java exception output?]
+%   \item[cnstrns?]
+%   \item[iteration history $\sigma \rightarrow 0$]
+%   \item[why only two judd stochastic polys,  Chop $\theta_t$]
+%   \end{description}
+% \end{frame}
 
 
-\begin{frame}
-  \frametitle{more more whiteboard}
-  \begin{description}
-  \item[Mma, linux desktop]
-  \item[download works]
-  \item[Sandvox]
-  \item[MSU sharepoint]
-  \item[paperProduction without submodules]
+% \begin{frame}
+%   \frametitle{more more whiteboard}
+%   \begin{description}
+%   \item[Mma, linux desktop]
+%   \item[download works]
+%   \item[Sandvox]
+%   \item[MSU sharepoint]
+%   \item[paperProduction without submodules]
 
-  \item[comparison to vilaverde github]
-  \item[git rid of feature branch] 
-\end{description}
-\end{frame}
+%   \item[comparison to vilaverde github]
+%   \item[git rid of feature branch] 
+% \end{description}
+% \end{frame}
 
 
 \end{document}
