@@ -47,8 +47,33 @@ Should also consider other behavior besides absorbing barriers.
 \newcommand{\forPhi}{\begin{bmatrix}
 \psi_\epsilon&\psi_z
 \end{bmatrix}}
-\newcommand{\phiMult}{\phi \psi}
+\newcommand{\phiMult}{\phi \psi_\epsilon}
 \newcommand{\bMult}{B x_{-1} + \phiMult}
+\newcommand{\phiMultBoth}[1]{
+\phi (\psi_\epsilon \epsilon_0 +\psi_z z_0^#1(x_{-1},\epsilon_0))}
+\newcommand{\bMultBoth}[1]{B x_{-1} + \phiMultBoth{#1}}
+
+
+\newcommand{\bForOne}{\bMultBoth{1}
+}
+
+\newcommand{\bForTwo}{\bMultBoth{2}+
+F \phi  \psi_z  
+Z_0^1(x_0^2(x_{-1}))   
+}
+
+
+
+\newcommand{\compSlack}{z_0^1(x_{-1},\epsilon_0) \left ( \bar{r} -\phi_p q_t\right )=0\\ z_0^1(x_{-1},\epsilon_0)> 0}
+We now have
+\begin{gather*}
+x_0^1(x_{-1},\epsilon_0)-
+\left ( \bForOne \right )=0\intertext{ with the complimentary slackness condition}
+\compSlack
+\end{gather*}
+
+
+
 
 We set 
 \begin{gather}\label{firstIneq}
@@ -56,8 +81,7 @@ z_0^1(x_{-1},\epsilon_0)=
 \begin{cases}
 0&  B x_{-1} +\epsilon_0 \ge \bar{x}  \\
 \bar{x}-(B x_{-1}+\epsilon_0) & B x_{-1}+\epsilon_0 < \bar{x}  
-\end{cases}\intertext{ and}
-\psi=\forPhi
+\end{cases}
 \end{gather}
 
 For example, consider the simple model
@@ -82,9 +106,9 @@ Then
 Some typical values of the parameters are:
 
 \begin{gather*}
-  \beta_p = 0.99 \phi_p = 1, 
+  \beta_p = 0.99, \phi_p = 1, 
 \rho_p = 0.5, \sigma_p = 1, \rho_{ru} = 0.5,
-  \bar{r} = 2/100, \\
+  \bar{r} = 0.02 \\
 % q^L = -.5, q^H = .5, 
 %   r_u^L = -4 \sigma_u/(1 - \rho_{ru}), r_u^H=  4\sigma_u/(1 - \rho_{ru}),
 %    I_N = {10}, \sigma_u = 0.02,\\
@@ -126,7 +150,8 @@ x_0^1(x_{-1},\epsilon_0)=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/h
 
 
 
-and
+
+We can use equations \ref{firstIneq} to compute the expected value function $Z_0^1(x_{-1})=E_{0}[z_0^1(x_{-1},\epsilon_0)]$.
 
  \begin{gather*}
 Z_0^1(x_{-1})=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ1EXP.pdf}}} \intertext{where}
@@ -134,14 +159,13 @@ Z_0^1(x_{-1})=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00
  \end{gather*}
 
 
-The next step, in general requires the solution of a nonlinear equation as $x_0$ appears in side the function $Z_0^1$ applied at time t=1.\footnote{Ultimately, we will  need to apply a projection method to approximate the function 
+
+We will use this function  as the value for $z_{1}$ in 
+our next calculation.  In so doing we will be able to
+capture the impact of imposing the constraint at both time t=0 and t=1.  The next step, in general requires the solution of a nonlinear equation as $x_0$ appears in side the function $Z_0^1(x_0)$ applied at time t=1.\footnote{Ultimately, we will  need to apply a projection method to approximate the function 
 that solves the nonlinear expression.  For our simple example model we can compute an analytic expresssion for $Z_0^1$.}
-We can use equations \ref{firstIneq} to compute the expected value function $Z_0^1(x_{-1})=E_{0}[z_0^1(x_{-1},\epsilon_0)]$.  We will use this function in 
-our next calculation as the value for $z_{1}$.  In so doing we will be able to
-capture the impact of imposing the constraint at time t=0 and t=1 but no further into the future.
 
 
-\
 
 %\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/Z0EXPGraph.pdf}
 
@@ -155,21 +179,11 @@ capture the impact of imposing the constraint at time t=0 and t=1 but no further
 
 
 
-\newcommand{\bForTwo}{\bMult
-  \begin{bmatrix}
-\epsilon_0
-  \end{bmatrix}+ F \phi  \psi  \begin{bmatrix}
-0 \\Z_0^1(x_0^2(x_{-1}))   
-  \end{bmatrix} 
-}
-
-
 We now have
 \begin{gather*}
-x_0^2(x_{-1})=
-\left (
-\bForTwo
-\right )
+x_0^2(x_{-1},\epsilon_0)- \left (
+\bForTwo \right )=0\intertext{ with the complimentary slackness conditions}
+\compSlack
 \end{gather*}
 
 
@@ -260,161 +274,164 @@ $1.14549 -15.3348 q_{-1+t} -17.6777 r_{-1+ut} =0 $.
 
 
 
-We now have
+% We now have
 
-\begin{gather*}
-x_0^2(x_{-1})-
-\left (
-\bForK
-\right )
-\end{gather*}
+% \begin{gather*}
+% x_0^2(x_{-1})-
+% \left (
+% \bForK
+% \right )
+% \end{gather*}
 
-We set 
-\begin{gather*}
-z_t(x_{t-1},\epsilon)=
-\begin{cases}
-0&  \mathcal{M}_k \ge \bar{x}_1  \\
-\bar{x}_1-
-\mathcal{M}_k &\mathcal{M}_k < \bar{x}_1  
-\end{cases}\intertext{where}
-\mathcal{M}_k= \left (
-\bForK
-\right )
-\end{gather*}
+% We set 
+% \begin{gather*}
+% z_t(x_{t-1},\epsilon)=
+% \begin{cases}
+% 0&  \mathcal{M}_k \ge \bar{x}_1  \\
+% \bar{x}_1-
+% \mathcal{M}_k &\mathcal{M}_k < \bar{x}_1  
+% \end{cases}\intertext{where}
+% \mathcal{M}_k= \left (
+% \bForK
+% \right )
+% \end{gather*}
 
-\begin{gather*}
-  x_t^k=
-\left (
-\zForK
-\right )
-\end{gather*}
+% \begin{gather*}
+%   x_t^k=
+% \left (
+% \zForK
+% \right )
+% \end{gather*}
 
-Consider the equations 
+% Consider the equations 
 
-\begin{gather*}
-q_{t} +\beta_p(1 - \rho_p)q_{t + 1} + \rho_pq_{t - 1} - \sigma_pr_{t} +
-     r_{ut}=0\\
- r_{t} = \max (\bar{r}, \phi_pq_{t}) \\
- r_{ut} = \rho_{ru} r_{ut - 1} + \eta \epsilon_{y,t}
-\end{gather*}
-
-
-
-\begin{gather*}
-q_{t} +\beta_p(1 - \rho_p)q_{t + 1} + \rho_pq_{t - 1} - \sigma_pr_{t} +
-     r_{ut}=0\\
- r_{t} = \max (\bar{r}, \phi_pq_{t}) \\
- r_{ut} = \rho_{ru} r_{ut - 1} + \eta \epsilon_{y,t}
-\end{gather*}
-
-
-\begin{gather*}
-  B=   \left(
-   \begin{array}{ccc}
-    \frac{2 \rho _p}{\nu +\phi _p \sigma _p+1} & 0 & \frac{2 \rho _u}{\nu +2
-      \beta _p \left(\rho _p-1\right) \rho _u+\phi _p \sigma _p+1} \\
-    \frac{2 \phi _p \rho _p}{\nu +\phi _p \sigma _p+1} & 0 & \frac{2 \phi _p
-      \rho _u}{\nu +2 \beta _p \left(\rho _p-1\right) \rho _u+\phi _p \sigma
-      _p+1} \\
-    0 & 0 & \rho _u
-   \end{array}
-   \right)
-\end{gather*}
-
-Where
-\begin{gather*}
-  \nu=    \sqrt{4 \beta _p \left(\rho _p-1\right) \rho _p+\left(\phi _p \sigma
-    _p+1\right){}^2}
-\end{gather*}
+% \begin{gather*}
+% q_{t} +\beta_p(1 - \rho_p)q_{t + 1} + \rho_pq_{t - 1} - \sigma_pr_{t} +
+%      r_{ut}=0\\
+%  r_{t} = \max (\bar{r}, \phi_pq_{t}) \\
+%  r_{ut} = \rho_{ru} r_{ut - 1} + \eta \epsilon_{y,t}
+% \end{gather*}
 
 
 
-\newcommand{\tVec}{
-  \begin{bmatrix}
-    q_t\\r_{rt}\\r_{ut}
-  \end{bmatrix}}
+% \begin{gather*}
+% q_{t} +\beta_p(1 - \rho_p)q_{t + 1} + \rho_pq_{t - 1} - \sigma_pr_{t} +
+%      r_{ut}=0\\
+%  r_{t} = \max (\bar{r}, \phi_pq_{t}) \\
+%  r_{ut} = \rho_{ru} r_{ut - 1} + \eta \epsilon_{y,t}
+% \end{gather*}
+
+
+% \begin{gather*}
+%   B=   \left(
+%    \begin{array}{ccc}
+%     \frac{2 \rho _p}{\nu +\phi _p \sigma _p+1} & 0 & \frac{2 \rho _u}{\nu +2
+%       \beta _p \left(\rho _p-1\right) \rho _u+\phi _p \sigma _p+1} \\
+%     \frac{2 \phi _p \rho _p}{\nu +\phi _p \sigma _p+1} & 0 & \frac{2 \phi _p
+%       \rho _u}{\nu +2 \beta _p \left(\rho _p-1\right) \rho _u+\phi _p \sigma
+%       _p+1} \\
+%     0 & 0 & \rho _u
+%    \end{array}
+%    \right)
+% \end{gather*}
+
+% Where
+% \begin{gather*}
+%   \nu=    \sqrt{4 \beta _p \left(\rho _p-1\right) \rho _p+\left(\phi _p \sigma
+%     _p+1\right){}^2}
+% \end{gather*}
 
 
 
-\begin{gather*}
-  \phi=   \left(
-   \begin{array}{ccc}
-    \frac{2}{\nu +\phi _p \sigma _p+1} & \frac{2}{\nu +2 \beta _p \left(\rho
-      _p-1\right) \rho _u+\phi _p \sigma _p+1} & -\frac{2 \sigma _p}{\nu +\phi
-      _p \sigma _p+1} \\
-    \frac{2 \phi _p}{\nu +\phi _p \sigma _p+1} & \frac{2 \phi _p}{\nu +2 \beta
-      _p \left(\rho _p-1\right) \rho _u+\phi _p \sigma _p+1} & \frac{2 \beta
-      _p \left(\rho _p-1\right) \rho _p+\phi _p \sigma _p \left(-\nu +\phi _p
-      \sigma _p+1\right)}{2 \beta _p \left(\rho _p-1\right) \rho _p} \\
-    0 & 1 & 0
-   \end{array}
-   \right)
-\end{gather*}
+% \newcommand{\tVec}{
+%   \begin{bmatrix}
+%     q_t\\r_{rt}\\r_{ut}
+%   \end{bmatrix}}
 
-\begin{gather*}
-  F=    \left(
-   \begin{array}{ccc}
-    \frac{\phi _p \sigma _p-\sqrt{\left(\phi _p \sigma _p+1\right){}^2+4 \beta
-      _p \left(\rho _p-1\right) \rho _p}+1}{2 \rho _p} & 0 & 0 \\
-    \frac{\phi _p \left(\phi _p \sigma _p-\sqrt{\left(\phi _p \sigma
-      _p+1\right){}^2+4 \beta _p \left(\rho _p-1\right) \rho _p}+1\right)}{2
-      \rho _p} & 0 & 0 \\
-    0 & 0 & 0
-   \end{array}
-   \right)
-\end{gather*}
 
-Applying the formula produces
-\begin{gather*}
-\tVec=      \left(
-   \begin{array}{c}
-    2 \left(\frac{q_{t-1} \rho _p}{\nu +\phi _p \sigma _p+1}+\frac{\epsilon
-      _t+r_{\text{ut}-1} \rho _u}{\nu +2 \beta _p \left(\rho _p-1\right) \rho
-      _u+\phi _p \sigma _p+1}\right)+\frac{\sigma _p
-      \left(\text{Exptn}\left(z_{t+1}\right) \left(\nu -\phi _p \sigma
-      _p-1\right)-2 \rho _p z_t\right)}{\rho _p \left(\nu +\phi _p \sigma
-      _p+1\right)} \\
-    2 \phi _p \left(\frac{q_{t-1} \rho _p}{\nu +\phi _p \sigma
-      _p+1}+\frac{\epsilon _t+r_{\text{ut}-1} \rho _u}{\nu +2 \beta _p
-      \left(\rho _p-1\right) \rho _u+\phi _p \sigma
-      _p+1}\right)+\frac{\text{Exptn}\left(z_{t+1}\right) \phi _p \sigma _p
-      \left(\nu -\phi _p \sigma _p-1\right)+\rho _p \left(\nu -\phi _p \sigma
-      _p+1\right) z_t}{\rho _p \left(\nu +\phi _p \sigma _p+1\right)} \\
-    \epsilon _t+r_{\text{ut}-1} \rho _u
-   \end{array}
-   \right)
-\end{gather*}
 
-For the numerical values above
-\begin{gather*}
-\tVec=    \left(
-   \begin{array}{c}
-    -0.141938 \text{Exptn}\left(z_{t+1}\right)+0.617296 \epsilon _t+0.267742
-      q_{t-1}+0.308648 r_{\text{ut}-1}-0.535485 z_t \\
-    -0.141938 \text{Exptn}\left(z_{t+1}\right)+0.617296 \epsilon _t+0.267742
-      q_{t-1}+0.308648 r_{\text{ut}-1}+0.464515 z_t \\
-    \epsilon _t+0.5 r_{\text{ut}-1}
-   \end{array}
-   \right)
-\end{gather*}
+% \begin{gather*}
+%   \phi=   \left(
+%    \begin{array}{ccc}
+%     \frac{2}{\nu +\phi _p \sigma _p+1} & \frac{2}{\nu +2 \beta _p \left(\rho
+%       _p-1\right) \rho _u+\phi _p \sigma _p+1} & -\frac{2 \sigma _p}{\nu +\phi
+%       _p \sigma _p+1} \\
+%     \frac{2 \phi _p}{\nu +\phi _p \sigma _p+1} & \frac{2 \phi _p}{\nu +2 \beta
+%       _p \left(\rho _p-1\right) \rho _u+\phi _p \sigma _p+1} & \frac{2 \beta
+%       _p \left(\rho _p-1\right) \rho _p+\phi _p \sigma _p \left(-\nu +\phi _p
+%       \sigma _p+1\right)}{2 \beta _p \left(\rho _p-1\right) \rho _p} \\
+%     0 & 1 & 0
+%    \end{array}
+%    \right)
+% \end{gather*}
 
-Imposing constraints generates a nonlinear set of equations to solve.
-The solution, including the expectation term incorporates the impact of the
-constraint on this and the next period.
+% \begin{gather*}
+%   F=    \left(
+%    \begin{array}{ccc}
+%     \frac{\phi _p \sigma _p-\sqrt{\left(\phi _p \sigma _p+1\right){}^2+4 \beta
+%       _p \left(\rho _p-1\right) \rho _p}+1}{2 \rho _p} & 0 & 0 \\
+%     \frac{\phi _p \left(\phi _p \sigma _p-\sqrt{\left(\phi _p \sigma
+%       _p+1\right){}^2+4 \beta _p \left(\rho _p-1\right) \rho _p}+1\right)}{2
+%       \rho _p} & 0 & 0 \\
+%     0 & 0 & 0
+%    \end{array}
+%    \right)
+% \end{gather*}
 
-Alternatively, for imposing the constraints throughout time one gets
+% Applying the formula produces
+% \begin{gather*}
+% \tVec=      \left(
+%    \begin{array}{c}
+%     2 \left(\frac{q_{t-1} \rho _p}{\nu +\phi _p \sigma _p+1}+\frac{\epsilon
+%       _t+r_{\text{ut}-1} \rho _u}{\nu +2 \beta _p \left(\rho _p-1\right) \rho
+%       _u+\phi _p \sigma _p+1}\right)+\frac{\sigma _p
+%       \left(\text{Exptn}\left(z_{t+1}\right) \left(\nu -\phi _p \sigma
+%       _p-1\right)-2 \rho _p z_t\right)}{\rho _p \left(\nu +\phi _p \sigma
+%       _p+1\right)} \\
+%     2 \phi _p \left(\frac{q_{t-1} \rho _p}{\nu +\phi _p \sigma
+%       _p+1}+\frac{\epsilon _t+r_{\text{ut}-1} \rho _u}{\nu +2 \beta _p
+%       \left(\rho _p-1\right) \rho _u+\phi _p \sigma
+%       _p+1}\right)+\frac{\text{Exptn}\left(z_{t+1}\right) \phi _p \sigma _p
+%       \left(\nu -\phi _p \sigma _p-1\right)+\rho _p \left(\nu -\phi _p \sigma
+%       _p+1\right) z_t}{\rho _p \left(\nu +\phi _p \sigma _p+1\right)} \\
+%     \epsilon _t+r_{\text{ut}-1} \rho _u
+%    \end{array}
+%    \right)
+% \end{gather*}
 
-\begin{gather*}
-\tVec=    \left(
-   \begin{array}{c}
-    -0.19313 \text{Exptn}\left(z_{t+1}\right)+0.617296 \epsilon _t+0.267742
-      q_{t-1}+0.308648 r_{\text{ut}-1}-0.535485 z_t \\
-    -0.19313 \text{Exptn}\left(z_{t+1}\right)+0.617296 \epsilon _t+0.267742
-      q_{t-1}+0.308648 r_{\text{ut}-1}+0.464515 z_t \\
-    \epsilon _t+0.5 r_{\text{ut}-1}
-   \end{array}
-   \right)
-\end{gather*}
+% For the numerical values above
+% \begin{gather*}
+% \tVec=    \left(
+%    \begin{array}{c}
+%     -0.141938 \text{Exptn}\left(z_{t+1}\right)+0.617296 \epsilon _t+0.267742
+%       q_{t-1}+0.308648 r_{\text{ut}-1}-0.535485 z_t \\
+%     -0.141938 \text{Exptn}\left(z_{t+1}\right)+0.617296 \epsilon _t+0.267742
+%       q_{t-1}+0.308648 r_{\text{ut}-1}+0.464515 z_t \\
+%     \epsilon _t+0.5 r_{\text{ut}-1}
+%    \end{array}
+%    \right)
+% \end{gather*}
+
+% Imposing constraints generates a nonlinear set of equations to solve.
+% The solution, including the expectation term incorporates the impact of the
+% constraint on this and the next period.
+
+% Alternatively, for imposing the constraints throughout time one gets
+
+% \begin{gather*}
+% \tVec=    \left(
+%    \begin{array}{c}
+%     -0.19313 \text{Exptn}\left(z_{t+1}\right)+0.617296 \epsilon _t+0.267742
+%       q_{t-1}+0.308648 r_{\text{ut}-1}-0.535485 z_t \\
+%     -0.19313 \text{Exptn}\left(z_{t+1}\right)+0.617296 \epsilon _t+0.267742
+%       q_{t-1}+0.308648 r_{\text{ut}-1}+0.464515 z_t \\
+%     \epsilon _t+0.5 r_{\text{ut}-1}
+%    \end{array}
+%    \right)
+% \end{gather*}
+
+
+
 \begin{itemize}
 \item timing
 \item transition to projection
