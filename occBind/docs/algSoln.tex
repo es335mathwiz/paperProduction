@@ -1,0 +1,75 @@
+
+
+Consider systems of the form
+\newcommand{\xpt}[1]{\mathcal{E}_t \left ( #1 \right ) }
+
+\begin{gather}
+\sum_{i=-\tau}^\theta H_i x_{t+i} =
+\begin{bmatrix}
+\psi_\epsilon & \psi_z  
+\end{bmatrix}
+  \begin{bmatrix}
+\epsilon_t \\\xpt{z_{t}(x_{t-1},\epsilon_t) }   
+  \end{bmatrix}
+  \,\,\forall t. \intertext{Solutions will take the form\citep{anderson10}}
+  x_t=B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \sum_{s=0}^\infty F^s \phi \psi_z 
+\xpt{z_{t+s}(x_{t+s-1},\epsilon_t)    } \label{myEqn}
+% \intertext{ if $z_{t+s}=z^\ast, \forall s$}
+%   x_t=B x_{t-1}+(z_t(x_{t-1},\epsilon_t) - \xpt{z^\ast(x_{t-1},\epsilon_{t+s})}(I-F)^{-1} \phi \psi
+%   \begin{bmatrix}
+% \epsilon_t \\z^\ast(x_{t-1},\epsilon_t)    
+%   \end{bmatrix}\intertext{ if $z_{t+s}=z^\ast, \forall s$}
+\end{gather}
+To accommodate inequality constraints of the form
+\begin{gather*}
+  x_t \ge \bar{x}
+\end{gather*}
+we will determine a sequence of $z^i_t$ that 
+will allow us to
+ impose the constraints over successively longer time periods.  
+We begin by solving a system where the constraints are honored only at time
+ $t=0$.  To do this we set $\xpt{z_{t+s}}=0\, \forall s>0$\footnote{Generalize to linear combinations of variables. \begin{gather*}
+M x_t \ge m  
+\end{gather*} 
+
+Should also consider other behavior besides absorbing barriers.
+}
+\newcommand{\forPhi}{\begin{bmatrix}
+\psi_\epsilon&\psi_z
+\end{bmatrix}}
+\newcommand{\phiMult}{\phi \psi_\epsilon}
+\newcommand{\bMult}{B x_{-1} + \phiMult}
+\newcommand{\phiMultBoth}[1]{
+\phi (\psi_\epsilon \epsilon_0 +\psi_z z_0^#1(x_{-1},\epsilon_0))}
+\newcommand{\bMultBoth}[1]{B x_{-1} + \phiMultBoth{#1}}
+
+
+\newcommand{\bForOne}{\bMultBoth{1}
+}
+
+\newcommand{\bForTwo}{\bMultBoth{2}+
+F \phi  \psi_z  
+Z_0^1(x_0^2(x_{-1}))   
+}
+
+
+
+\newcommand{\compSlack}{z_0^1(x_{-1},\epsilon_0) \left ( \bar{r} -\phi_p q_t\right )=0\\ z_0^1(x_{-1},\epsilon_0)> 0}
+We now have
+\begin{gather*}
+x_0^1(x_{-1},\epsilon_0)-
+\left ( \bForOne \right )=0\intertext{ with the complimentary slackness condition}
+\compSlack
+\end{gather*}
+
+
+
+
+We set \footnote{use logs or squares?}
+\begin{gather}\label{firstIneq}
+z_0^1(x_{-1},\epsilon_0)=
+\begin{cases}
+0&  B x_{-1} +\epsilon_0 \ge \bar{x}  \\
+\bar{x}-(B x_{-1}+\epsilon_0) & B x_{-1}+\epsilon_0 < \bar{x}  
+\end{cases}
+\end{gather}
