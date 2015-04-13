@@ -25,67 +25,8 @@ rational expectations solutions for models linear except for occasionally bindin
 \label{sec:probl-stat-solut}
 
 \input{algSoln}
-
-For example, consider the simple model
-
-
-\begin{gather*}
-q_{t} +\beta_p(1 - \rho_p)q_{t + 1} + \rho_pq_{t - 1} - \sigma_pr_{t} +
-     r_{ut}=0\\
- r_{t} = \max (\bar{r}, \phi_pq_{t}) \\
- r_{ut} = \rho_{ru} r_{ut - 1} + \eta \epsilon_{y,t}
-\end{gather*}
-
-Then 
-\newcommand{\xtmVec}{  \begin{bmatrix}
-    q_t\\r_{t}\\r_{ut}
-  \end{bmatrix}
-}
-
-
-\begin{gather*}
-  x_t=\xtmVec
-\end{gather*}
-
-Some typical values of the parameters are:
-
-\begin{gather*}
-  \beta_p = 0.99, \phi_p = 1, 
-\rho_p = 0.5, \sigma_p = 1, \rho_{ru} = 0.5,
-  \bar{r} = 0.02 \\
-% q^L = -.5, q^H = .5, 
-%   r_u^L = -4 \sigma_u/(1 - \rho_{ru}), r_u^H=  4\sigma_u/(1 - \rho_{ru}),
-%    I_N = {10}, \sigma_u = 0.02,\\
-%  \mu = {0},
-%    \eta = 1
-\end{gather*}
-
-
-
-\begin{gather*}
-  H= \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyHmat.pdf}}}\\
-\psi_z=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPsiZ.pdf}}}\\
-\psi_\epsilon=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPsiEps.pdf}}}\\
-\end{gather*}
-
-
-
-
- \begin{gather*}
-B=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyBmat.pdf}}}\\
-\phi=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPhimat.pdf}}}\\
-F=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyFmat.pdf}}}
- \end{gather*}
-
-
-Using equation \ref{myEqn}, we can construct the system which imposes the 
-constraint for time 0 alone:
-
-\begin{gather*}
-0= x_t-(B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \phi \psi_z 
-\xpt{z_{t}(x_{t-1},\epsilon_t)    } )
-\end{gather*}
-
+\input{onePrdAlg}
+\input{lucaExmpl}
 We can recursively compute exact solutions using
 Mathematica a symbolic algebra program.  These solutions will be useful for
 characterizing the accuracy of the numerical procedure that I will outline
@@ -201,26 +142,7 @@ Erf ( Erfc ).
   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyExpExactDiffZ01.pdf}}}\\
 \end{gather*}
 
-Consider a perfect foresight solution where the constraints are honored only 
-for $t=0,1$.\footnote{ Perfect foresight solutions impose the constraint that future shocks are identically zero.}
-
-Since now a future value of z is non zero, formula \ref{myEqn}  will have additional non-zero terms.
-
-
-\begin{gather*}
-  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyEqns02A.pdf}}}\\
-  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyEqns02B.pdf}}}\\
-\end{gather*}
-Mathematica is unable to compute this solution exactly in a reasonable amount
-of time.\footnote{ 5 hours.  One could substitute the solution for the one period function to simplify the system, but Mathematica was still unable to solve the simplified system.}  However we can easily obtain numerical solutions for the z functions.  The z01 function applies to the time t variables and 
-threrefore we must solve a nonlinear system that captures the fact that
-the time t value of the state variables depends on this future value of z01.
-
-
-Note the following graph of $r_t$ when imposing constraint for only two periods:
-\begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr02.pdf}
-\end{gather*}
+\input{lucaExmpl02PF}
 
 
 

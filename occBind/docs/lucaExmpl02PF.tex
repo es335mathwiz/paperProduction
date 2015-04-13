@@ -1,0 +1,145 @@
+
+Consider a perfect foresight solution where the constraints are honored only 
+for $t=0,1$.\footnote{ Perfect foresight solutions impose the constraint that future shocks are identically zero.}
+
+Since now a future value of z is non zero, formula \ref{myEqn}  will have additional non-zero terms.
+
+
+\begin{gather*}
+  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyEqns02A.pdf}}}\\
+  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyEqns02B.pdf}}}\\
+\end{gather*}
+Mathematica is unable to compute this solution exactly in a reasonable amount
+of time.\footnote{ 5 hours.  One could substitute the solution for the one period function to simplify the system, but Mathematica was still unable to solve the simplified system.}  However we can easily obtain numerical solutions for the z functions.  The z01 function applies to the time t variables and 
+threrefore we must solve a nonlinear system that captures the fact that
+the time t value of the state variables depends on this future value of z01.
+
+
+Note the following graph of $r_t$ when imposing constraint for only two periods:
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr02.pdf}
+\end{gather*}
+
+
+
+\newcommand{\lucaXt}{
+   \begin{bmatrix}
+    q_{t-1}\\r_{ut-1}\\r_{t-1}\\
+     q_{t}\\r_{ut}\\r_{t}\\
+     q_{t+1}\\r_{ut+1}\\r_{t+1}
+   \end{bmatrix}}
+
+ \newcommand{\lucaXtpOne}{
+   \begin{bmatrix}
+     q_{t}\\r_{ut}\\r_{t}\\
+     q_{t+1}\\r_{ut+1}\\r_{t+1}\\
+     q_{t+2}\\r_{ut+2}\\r_{t+2}
+   \end{bmatrix}}
+
+
+ Note the following graph of 
+
+ \begin{gather*}
+ H_{2}\lucaXt ( r_t-0.02)
+ \end{gather*}
+
+  when imposing constraint for only two periods:
+ \begin{gather*}
+ \includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp02A.pdf}
+ \end{gather*}
+
+
+ Note the following graph of 
+
+ \begin{gather*}
+ H_{5}\lucaXt( r_{t+1}-0.02)
+ \end{gather*}
+
+  when imposing constraint for only two periods:
+ \begin{gather*}
+ \includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp02B.pdf}
+ \end{gather*}
+
+
+Both have infinity norms near machine precision for the pecified range of values of the state variables.  There are comparable values for non zero $\epsilon$.
+
+
+We can use the one period solution to aid in solving the two period problem.
+Complicated recursion since z, though known, is recursivly applied to itself
+
+
+\begin{gather*}
+  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyEqns02RecA.pdf}}}\\
+  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyEqns02RecB.pdf}}}\\
+\end{gather*}
+
+The second equation comes from applying the $z_{0t}$ function to the time t variables.
+
+
+The solution obtained is essentially identical as can be seen by evaluating the
+same complementary slackness conditions above.\footnote{The Piecewise solutions now appear to have four branches.  But, this
+ is must be an artifact since the time t solutions only have two branches.}
+
+
+ Note the following graph of 
+
+ \begin{gather*}
+ H_{2}\lucaXt ( r_t-0.02)
+ \end{gather*}
+
+  when imposing constraint for only two periods:
+ \begin{gather*}
+ \includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp02RecA.pdf}
+ \end{gather*}
+
+
+ Note the following graph of 
+
+ \begin{gather*}
+ H_{5}\lucaXt( r_{t+1}-0.02)
+ \end{gather*}
+
+  when imposing constraint for only two periods:
+ \begin{gather*}
+ \includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp02RecB.pdf}
+ \end{gather*}
+
+
+
+
+There are four regions.  There are regions for each combination of zero/nonzero z values for two periods.
+
+
+
+\begin{gather*}
+  0=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyreg02pltA.pdf}}}
+\end{gather*}
+
+
+\begin{gather*}
+  0=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyreg02pltB.pdf}}}
+\end{gather*}
+
+
+\begin{gather*}
+  0=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyreg02pltC.pdf}}}
+\end{gather*}
+
+
+\begin{gather*}
+  0=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyreg02pltD.pdf}}}
+\end{gather*}
+
+
+
+
+It will be useful to solve for the z's recursively, using the results from shorter periods to compute solutions for longer period.
+
+Suppose we have computed $z^0_t(x_{t-1},\epsilon_t)$ imposing the consraint for time $t$ alone.  We can use this function to impose the constraint at time $t+1$ by applying thhe function to the later, time $t$ values   $z^0_t(x_{t},0)$with perfect foresight solution $\epsilon=0$
+
+
+
+Global`zzz$0$1[Global`t]==
+Global`base[aPath02ValsRec[[4,1]],aPath02ValsRec[[6,1]],0]/.
+dSub/.{Global`qtm1->Global`qqVar,Global`rutm1->Global`ruVar,Global`eps->Global`epsVar}),
+{Global`zzz$0$1[Global`t],0}]],dSub/.{Global`qtm1->Global`qqVar,Global`rutm1->Global`ruVar,Global`eps->Global`epsVar}]}

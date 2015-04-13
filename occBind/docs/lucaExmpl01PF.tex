@@ -1,0 +1,88 @@
+We can ompute exact solutions for this case using
+Mathematica, a symbolic algebra program.  These exact 
+solutions will be useful for
+characterizing the accuracy of the numerical procedure that I will outline
+below.
+
+We will require $zzz\$0\$1[t]$ to satisfy:
+ \begin{gather*}
+\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/try01A.pdf}}}\\
+or\\
+\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/try01B.pdf}}}\\
+ \end{gather*}
+
+
+Which leads to:
+ \begin{gather*}
+\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/red01A.pdf}}}\\
+and\\
+\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/red01B.pdf}}}\\
+or\\
+\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/red01C.pdf}}}
+ \end{gather*}
+
+
+
+To numerically compute the solution for the model variables, we use:
+
+\begin{gather*}
+  0=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyEqns01.pdf}}}
+\end{gather*}
+
+The first and second equations correspond to the values for $q_t,r_{ut}$.
+The third equation defines $\delta_t$, the discrepancy between the value for $r_t$ and the constraint.    The fourth equation provides the values for $r_t$.  This equation is not really used here, because we actually impose the inequality
+constraint in the final equation. The final equation
+ sets $z_t$ to a value that depends on 
+whether or not the equation for $r_t$ would produce a value that violates the
+constraint.  It sets $z_t=0$ if the constraint would  not be violated ( $\delta_t\ge0$) ,  or
+to a value that would set $r_t=\bar{r}$ ( $\delta_t<0$).
+
+
+We can explicitly solve this system to obtain  expressions for $q_t, r_t, z_{t}(x_{t-1},\epsilon_t) $:\footnote{Need to cleanup Mathematica solution details showing erroneous default values for Piecewise}
+
+\begin{gather*}
+  qq_t=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettySoln01Q.pdf}}}
+\end{gather*}
+
+\begin{gather*}
+  r_t=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettySoln01R.pdf}}}
+\end{gather*}
+
+\begin{gather*}
+  z_t=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettySoln01Z.pdf}}}
+\end{gather*}
+
+This is the exact solution if the constraints are no longer relevant for 
+$t >0$.
+
+To verify this is true, compute the time t and t+1 values using the expression for z.
+
+\begin{gather*}
+  0=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPath01.pdf}}}
+\end{gather*}
+
+Premultiply by $H$ to get
+
+\begin{gather*}
+  0=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhmatApp01.pdf}}}
+\end{gather*}
+
+
+This one period solution does not impose the constraint at time t+1.  For some values of the state variables and the shocks, the expected value 
+of $r_{t+1}$ will violate the constraint, even assuming that future shocks are all zero -- a so called ``perfect foresight solution.''
+
+
+There are two regions.  One has $z=0$, the constraint non-binding the other 
+$z\ne 0$ constraint binding.
+
+
+\begin{gather*}
+  0=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyreg01pltA.pdf}}}
+\end{gather*}
+
+
+\begin{gather*}
+  0=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyreg01pltB.pdf}}}
+\end{gather*}
+
+
