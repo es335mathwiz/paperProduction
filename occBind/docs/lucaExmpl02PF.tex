@@ -135,11 +135,27 @@ There are four regions.  There are regions for each combination of zero/nonzero 
 
 It will be useful to solve for the z's recursively, using the results from shorter periods to compute solutions for longer period.
 
-Suppose we have computed $z^0_t(x_{t-1},\epsilon_t)$ imposing the consraint for time $t$ alone.  We can use this function to impose the constraint at time $t+1$ by applying thhe function to the later, time $t$ values   $z^0_t(x_{t},0)$with perfect foresight solution $\epsilon=0$
+Suppose we have computed $z^0_t(x_{t-1},\epsilon_t)$ imposing the consraint for time $t$ alone.  We can use this function to impose the constraint at time $t+1$ by applying the function to the later, time $t$ values   $z^0_t(x_{t},0)$ with perfect foresight solution $\epsilon_{t+1}=0$
 
 
+\begin{gather*}
+     \left(
+   \begin{array}{cc}
+    \{ & 
+   \begin{array}{cc}
+    0 & 0.767742 \text{eps}+0.116129 \text{qtm1}+0.383871 \text{rutm1}-0.0615634
+      \text{zzz$\$$0$\$$1}(t)-0.232258 \text{zzz$\$$1$\$$1}(t)\geq 0.0323994 \\
+    -1.02026 \text{eps}-0.154324 \text{qtm1}-0.510128 \text{rutm1}+0.0818118
+      \text{zzz$\$$0$\$$1}(t)+0.308648 \text{zzz$\$$1$\$$1}(t)+0.0430556 &
+      \text{True} \\
+   \end{array}
+    \\
+   \end{array}
+   \right)=\text{zzz$\$$0$\$$1}(t)
+\end{gather*}
+%https://github.com/es335mathwiz/paperProduction.git
 
-Global`zzz$0$1[Global`t]==
-Global`base[aPath02ValsRec[[4,1]],aPath02ValsRec[[6,1]],0]/.
-dSub/.{Global`qtm1->Global`qqVar,Global`rutm1->Global`ruVar,Global`eps->Global`epsVar}),
-{Global`zzz$0$1[Global`t],0}]],dSub/.{Global`qtm1->Global`qqVar,Global`rutm1->Global`ruVar,Global`eps->Global`epsVar}]}
+% Global`zzz$0$1[Global`t]==
+% Global`base[aPath02ValsRec[[4,1]],aPath02ValsRec[[6,1]],0]/.
+% dSub/.{Global`qtm1->Global`qqVar,Global`rutm1->Global`ruVar,Global`eps->Global`epsVar}),
+% {Global`zzz$0$1[Global`t],0}]],dSub/.{Global`qtm1->Global`qqVar,Global`rutm1->Global`ruVar,Global`eps->Global`epsVar}]}
