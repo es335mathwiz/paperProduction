@@ -1,0 +1,51 @@
+For example, consider the simple model
+
+
+\begin{gather*}
+q_{t} +\beta_p(1 - \rho_p)q_{t + 1} + \rho_pq_{t - 1} - \sigma_pr_{t} +
+     r_{ut}=0\\
+ r_{t} = \max (\bar{r}, \phi_pq_{t}) \\
+ r_{ut} = \rho_{ru} r_{ut - 1} + \eta \epsilon_{y,t}
+\end{gather*}
+
+Then 
+\newcommand{\xtmVec}{  \begin{bmatrix}
+    q_t\\r_{t}\\r_{ut}
+  \end{bmatrix}
+}
+
+
+\begin{gather*}
+  x_t=\xtmVec
+\end{gather*}
+
+Some typical values of the parameters are:
+
+\begin{gather*}
+  \beta_p = 0.99, \phi_p = 1, 
+\rho_p = 0.5, \sigma_p = 1, \rho_{ru} = 0.5,
+  \bar{r} = 0.02 \\
+% q^L = -.5, q^H = .5, 
+%   r_u^L = -4 \sigma_u/(1 - \rho_{ru}), r_u^H=  4\sigma_u/(1 - \rho_{ru}),
+%    I_N = {10}, \sigma_u = 0.02,\\
+%  \mu = {0},
+%    \eta = 1
+\end{gather*}
+
+
+
+\begin{gather*}
+  H= \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyHmat.pdf}}}\\
+\psi_z=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPsiZ.pdf}}}\\
+\psi_\epsilon=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPsiEps.pdf}}}\\
+\end{gather*}
+
+
+
+
+ \begin{gather*}
+B=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyBmat.pdf}}}\\
+\phi=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPhimat.pdf}}}\\
+F=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyFmat.pdf}}}
+ \end{gather*}
+

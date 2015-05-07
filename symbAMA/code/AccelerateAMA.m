@@ -1,6 +1,8 @@
 (* Mathematica Package *)
-
+Information[e]
+Off[Global`e::shdw]
 BeginPackage["AccelerateAMA`", { "JLink`","SymbolicAMA`", "NumericAMA`", "AMAModel`","Experimental`", "Format`","AMAModelDefinition`"}]
+
 
 getModelDims::usage="getModelDims[modDir_String,modName_String] returns {Length[vars],getLags[eqns],getLeads[eqns],Length[params],linearQ[eqns]}"
 
@@ -91,12 +93,12 @@ Global`getParamSubs[modName]=paramSubs;
 Global`getParamNames[modName]=First/@params;
 Global`getExampleParams[modName]=(First /@params)//.paramSubs;
 {hmatTime,hmat}=Timing[equationsToMatrix[eqns,vars]/.makeSSValSubs[vars]];
-Global`getHmat[modName]=hmat;Print["done hmat"];
-{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];Print["done ar"];
+Global`getHmat[modName]=hmat;
+{arTime,{zf, hf}} = Timing[symbolicAR[hmat]];
 Global`getZf[modName]=zf;
-{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];Print["done amat"];
+{amatTime,amat} = Timing[symbolicTransitionMatrix[hf]];
 {lilTime,{lilMat,cols}}=
-Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];Print["done inessential"];
+Timing[symbolicEliminateInessentialLags[{amat,Range[Length[amat]]}]];
 Global`getLilMat[modName]=lilMat;
 Global`getCols[modName]=cols;
 (*
@@ -267,9 +269,11 @@ parseMod[srcDir_String,fName_String,targDir_String]:=
 Module[{cmd},
 JavaNew["gov.frb.ma.msu.DynareToAMAModel",
 srcDir<>fName<>".mod",targDir<>fName<>".xml",fName];
-cmd=StringForm[
-"java org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL /msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/AMAModel2Mma.xsl -OUT `3``2`.mth",srcDir,fName,targDir];
-(*Print["here is cmd",cmd,"after"];*)
+cmd=If[$OperatingSystem=="Unix",
+       StringForm[
+"java " <> "-cp "<>$jarDir<>"  org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL /msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/AMAModel2Mma.xsl -OUT `3``2`.mth",srcDir,fName,targDir],
+              StringForm[
+"java " <> "-cp "<>$jarDir<>"  org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL g:/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/AMAModel2Mma.xsl -OUT `3``2`.mth",srcDir,fName,targDir]];
 Run[cmd];
 Get[targDir<>fName<>".mth"];
 Global`AMAModelDefinition[fName]]
@@ -279,8 +283,14 @@ mkNewDir[dirName_String]:=If[Not[FileExistsQ[dirName]],CreateDirectory[dirName]]
 firstOnPath[dirName_String]:=If[System`$Path[[1]]=!=dirName,PrependTo[System`$Path,dirName]]
 
 
+$jarDir=If[$OperatingSystem=="Unix",
+           "/msu/res1/Software/xalan-j_2_7_1/xalan.jar",
+           "r:/Software/xalan-j_2_7_1/xalan.jar"]
+
+$tmpDir=$TemporaryDirectory <> "/GaryModDims/";
+If[Not[FileExistsQ[$tmpDir]], CreateDirectory[$tmpDir]]
 getModelDims[modDir_String,modName_String]:=
-Module[{vars,ig,params,eqns,notSubs,tDir="/tmp/Gary/"},
+Module[{vars,ig,params,eqns,notSubs,tDir=$tmpDir},
 mkNewDir[tDir];firstOnPath[tDir];
 {vars,ig,params,ig,{ig,eqns},notSubs,ig}=parseMod[modDir,modName,tDir];
 System`$Path=Drop[System`$Path,1];
@@ -299,8 +309,7 @@ JavaNew["gov.frb.ma.msu.DynareToAMAModel",preDo<>fName<>".mod",targDir<>fName<>"
 homeDir=If[Global`windowsQ[],"g:","/msu/home/m1gsa00"];
 System.out.println("osname="+nameOS);
 cmd=StringForm[
-"java org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL `1`/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/AMAModel2Mma.xsl -OUT `3``2`.mth",homeDir,fName,targDir];
-(*Print["here is cmd",cmd,"after"];*)
+"java " <> "-cp "<>$jarDir<>" org.apache.xalan.xslt.Process -IN `3``2`.xml  -XSL `1`/RES2/mathAMA/AndersonMooreAlgorithm/AndersonMooreAlgorithm/AMAModel2Mma.xsl -OUT `3``2`.mth",homeDir,fName,targDir];
 Run[cmd];
 Get[fName<>".mth"];
 Global`AMAModelDefinition[fName]]
@@ -311,7 +320,7 @@ firstOnPath[dirName_String]:=If[System`$Path[[1]]=!=dirName,PrependTo[System`$Pa
 
 
 collectData[modDir_String,modName_String]:=
-Module[{vars,ig,params,eqns,notSubs,tDir="/tmp/Gary/"},
+Module[{vars,ig,params,eqns,notSubs,tDir=$tmpDir},
 mkNewDir[tDir];firstOnPath[tDir];
 {vars,ig,params,ig,{ig,eqns},notSubs,ig}=parseMod[modDir,modName,tDir];
 System`$Path=Drop[System`$Path,1];
@@ -324,7 +333,7 @@ linearQ[eqns_List]:=FreeQ[equationsToMatrix[eqns],Global`t]
 
 
 sameEqns[modDir_String,modNameA_String,modNameB_String]:=
-Module[{vars,ig,params,eqns,notSubs,tDir="/tmp/Gary/"},
+Module[{vars,ig,params,eqns,notSubs,tDir=$tmpDir},
 mkNewDir[tDir];firstOnPath[tDir];
 {vars,ig,params,ig,{ig,eqnsA},notSubs,ig}=parseMod[modDir,modNameA,tDir];
 {vars,ig,params,ig,{ig,eqnsB},notSubs,ig}=parseMod[modDir,modNameB,tDir];
@@ -406,3 +415,4 @@ qmat=compQ[zf,evecs];
 End[] (* End Private Context *)
 
 EndPackage[]  
+Print["done reading AccelerateAMA"]

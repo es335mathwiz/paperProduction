@@ -1,0 +1,30 @@
+
+
+Consider systems of the form
+%\newcommand{\xpt}[1]{\mathcal{E}_t \left ( #1 \right ) }
+\newcommand{\xpt}[1]{#1}
+\begin{gather}
+\sum_{i=-\tau}^\theta H_i x_{t+i} =
+\begin{bmatrix}
+\psi_\epsilon & \psi_z  
+\end{bmatrix}
+  \begin{bmatrix}
+\epsilon_t \\\xpt{z_{t}(x_{t-1},\epsilon_t) }   
+  \end{bmatrix}
+  \,\,\forall t. \intertext{Solutions will take the form\citep{anderson10}}
+  x_t=B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \sum_{s=0}^\infty F^s \phi \psi_z 
+\xpt{z_{t+s}(x_{t+s-1},\epsilon_t)    } \label{myEqn}
+% \intertext{ if $z_{t+s}=z^\ast, \forall s$}
+%   x_t=B x_{t-1}+(z_t(x_{t-1},\epsilon_t) - \xpt{z^\ast(x_{t-1},\epsilon_{t+s})}(I-F)^{-1} \phi \psi
+%   \begin{bmatrix}
+% \epsilon_t \\z^\ast(x_{t-1},\epsilon_t)    
+%   \end{bmatrix}\intertext{ if $z_{t+s}=z^\ast, \forall s$}
+\end{gather}
+To accommodate inequality constraints of the form
+\begin{gather*}
+  x_t \ge \bar{x}
+\end{gather*}
+
+\noindent
+we will determine a sequence of $z_t$ that 
+will allow us to  impose the constraints over successively longer time periods.

@@ -1,0 +1,717 @@
+\documentclass[12pt]{article}
+%http://mathematica.stackexchange.com/questions/1542/exporting-graphics-to-pdf-huge-file huge image solutions
+
+\usepackage[authoryear]{natbib}
+\title{Notes for ``A Solution Strategy for Occasionally Binding Constraints in Ot
+herwise
+Linear Rational Expectations Models''}
+\author{Gary S. Anderson}
+\usepackage{datetime}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\date{\today \   at \currenttime}
+\begin{document}
+\maketitle
+\input{abstrct}
+
+\section{Introduction and Summary}
+\label{sec:introduction-summary}
+
+This paper shows how to apply the formulae in\citep{anderson10} to compute 
+rational expectations solutions for models linear except for occasionally binding constraints.
+
+\section{Problem Statement and Solution}
+\label{sec:probl-stat-solut}
+
+\input{algSoln}
+\input{onePrdAlg}
+\input{lucaExmpl}
+We can recursively compute exact solutions using
+Mathematica a symbolic algebra program.  These solutions will be useful for
+characterizing the accuracy of the numerical procedure that I will outline
+below.
+
+We will require $zzz\$0\$1[t]$ to satisfy:
+ \begin{gather*}
+\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/try01A.pdf}}}\\
+or\\
+\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/try01B.pdf}}}\\
+ \end{gather*}
+
+
+Which leads to:
+ \begin{gather*}
+\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/red01A.pdf}}}\\
+and\\
+\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/red01B.pdf}}}\\
+or\\
+\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/red01C.pdf}}}
+ \end{gather*}
+
+
+
+To numerically compute the solution, we use:
+
+\begin{gather*}
+  0=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyEqns01.pdf}}}
+\end{gather*}
+
+The first and second equations correspond to the values for $q_t,r_{ut}$.
+The third equation defines $\delta_t$, the discrepancy between the value for $r_t$ and the constraint.    The fourth equation provides the values for $r_t$.  This equation is not really used here, because we actually impose the inequality
+constraint in the final equation. The final equation
+ sets $z_t$ to a value that depends on 
+whether or not the equation for $r_t$ would produce a value that violates the
+constraint.  It sets $z_t=0$ if the constraint would  not be violated ( $\delta_t\ge0$) ,  or
+to a value that would set $r_t=\bar{r}$ ( $\delta_t<0$).
+
+
+We can explicitly solve this system to obtain  expressions for $q_t, r_t, z_{t}(x_{t-1},\epsilon_t) $:\footnote{Need to cleanup Mathematica solution details showing erroneous default values for Piecewise}
+
+\begin{gather*}
+  qq_t=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettySoln01Q.pdf}}}
+\end{gather*}
+
+\begin{gather*}
+  r_t=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettySoln01R.pdf}}}
+\end{gather*}
+
+\begin{gather*}
+  z_t=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettySoln01Z.pdf}}}
+\end{gather*}
+
+This is the exact solution if the constraints are no longer relevant for 
+$t >0$.
+
+To verify this is true, compute the time t and t+1 values using the expression for z.
+
+\begin{gather*}
+  0=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPath01.pdf}}}
+\end{gather*}
+
+Premultiply by $H$ to get
+
+\begin{gather*}
+  0=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhmatApp01.pdf}}}
+\end{gather*}
+
+Note the following graph of $r_t$ when imposing the constraint for only one period:
+
+
+
+
+It will be useful to employ the use the expected value of $z[]$ in future calculations:
+
+
+\begin{gather*}
+  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ01.pdf}}}\\
+\end{gather*}
+
+
+
+
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr01.pdf}
+\end{gather*}
+
+When $r_t>0.02$, the variables satisfy the original equation system exactly.
+Only when $r_t=0.02$ is this not the case.
+
+Using a projection method to compute the solution producess a close approximation as shown by the graph of the difference:
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyNumDiff01.pdf}
+\end{gather*}
+
+
+
+It will be useful to employ the use the expected value of $z[]$ in future calculations:
+
+
+\begin{gather*}
+  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyExpZ01.pdf}}}\\
+\end{gather*}
+
+\begin{gather*}
+  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyExpDiffZ01.pdf}}}\\
+\end{gather*}
+
+These are approximation. An exact value is avaiable at this stage involving 
+Erf ( Erfc ).
+
+\begin{gather*}
+  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyExpExactDiffZ01.pdf}}}\\
+\end{gather*}
+
+\input{lucaExmpl02PF}
+
+
+
+Note the following graph of $r_t$ when imposing constraint for only one period
+less $r_t$ when imposing constraint for only two periods:
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr01lessrr02.pdf}
+\end{gather*}
+
+
+When $r_t>0.02$, the variables satisfy the original equation system exactly.
+Only when $r_t=0.02$ is this not the case.
+
+
+The following is the 2nd component of the product of the H and the path.
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp02A.pdf}
+\end{gather*}
+
+The following is the 5th component of the product of the H and the path.
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp02B.pdf}
+\end{gather*}
+
+
+We can use projection methods to compute the solution for $z$.
+
+A plot of the difference between the z function computed using the Mathematica equations and those computed with a projection method approximation follows. NOte that the approximation does very well at the collation points.\footnote{The graph shows the values for $\epsilon_t=0$.}
+
+
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyNumDiff02.pdf}
+\end{gather*}
+
+
+
+
+Note the following graph of $r_t$ when imposing constraint for only three
+ periods:
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr03.pdf}
+\end{gather*}
+
+
+
+Note the following graph of $r_t$ when imposing constraint for only two periods
+less $r_t$ when imposing constraint for only three periods:
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr02lessrr03.pdf}
+\end{gather*}
+
+
+When $r_t>0.02$, the variables satisfy the original equation system exactly.
+Only when $r_t=0.02$ is this not the case.
+
+
+The following is the 2nd component of the product of the H and the path.
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp03A.pdf}
+\end{gather*}
+
+The following is the 5th component of the product of the H and the path.
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp03B.pdf}
+\end{gather*}
+
+The following is the 8th component of the product of the H and the path.
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp03C.pdf}
+\end{gather*}
+
+
+
+We can use projection methods to compute the solution for $z$.
+
+A plot of the difference between the z function computed using the Mathematica equations and those computed with a projection method approximation follows. NOte that the approximation does very well at the collation points.\footnote{The graph shows the values for $\epsilon_t=0$.}
+
+
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyNumDiff03.pdf}
+\end{gather*}
+
+
+
+
+Note the following graph of $r_t$ when imposing constraint for only four
+ periods:
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr04.pdf}
+\end{gather*}
+
+
+
+Note the following graph of $r_t$ when imposing constraint for only three periods
+less $r_t$ when imposing constraint for only four periods:
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr03lessrr04.pdf}
+\end{gather*}
+
+
+When $r_t>0.02$, the variables satisfy the original equation system exactly.
+Only when $r_t=0.02$ is this not the case.
+
+
+The following is the 2nd component of the product of the H and the path.
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp04A.pdf}
+\end{gather*}
+
+The following is the 5th component of the product of the H and the path.
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp04B.pdf}
+\end{gather*}
+
+The following is the 8th component of the product of the H and the path.
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp04C.pdf}
+\end{gather*}
+
+
+The following is the 11th component of the product of the H and the path.
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp04D.pdf}
+\end{gather*}
+
+
+We can use projection methods to compute the solution for $z$.
+
+A plot of the difference between the z function computed using the Mathematica equations and those computed with a projection method approximation follows. NOte that the approximation does very well at the collation points.\footnote{The graph shows the values for $\epsilon_t=0$.}
+
+
+\begin{gather*}
+\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyNumDiff04.pdf}
+\end{gather*}
+
+
+
+
+
+
+
+\subsection{Never Constrained Perfect Foresight}
+\label{sec:never-constr-perf}
+
+\subsection{Always Constrained Perfect Foresight}
+\label{sec:never-constr-perf}
+Infinite sum should work for always binding case too.
+
+
+
+Suppose the constraint were always binding.  
+Then our procedure should be able to return the linear rational expectation
+solution.\footnote{Why not the unstable ones?}
+
+Solution took 410 seconds for 1000 periods.
+This will be useful for validating the code that implements the recursive
+conputation.
+
+
+\begin{gather*}
+  H_c= \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyHmatCons.pdf}}}\\
+\psi_{zc}=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPsiZ.pdf}}}\\
+\psi_{\epsilon c}=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPsiEps.pdf}}}\\
+\end{gather*}
+
+
+
+
+ \begin{gather*}
+B_c=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyBmatCons.pdf}}}\\
+\phi_c=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPhimatCons.pdf}}}\\
+F_c=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyFmatCons.pdf}}}
+ \end{gather*}
+
+
+Using equation \ref{myEqn}, we can construct the system\footnote{infinite sum should work for always binding case too.}
+
+
+
+\begin{gather*}
+    x_t=B_c x_{t-1}+\phi_c \psi_\epsilon\epsilon_t +(I-F_c)^{-1}d_c=
+    B x_{t-1}+\phi \psi_\epsilon \epsilon_t +\sum_{s=0}^\infty F^s \phi \psi_z z_t(x_{t-1}) \intertext{with}
+d_c=    \begin{bmatrix}
+      0\\0\\0.02
+    \end{bmatrix}
+\intertext{so that }
+    (B_c-B)x_{t-1}+(\phi_c-\phi) \psi_\epsilon\epsilon_t+(I-F_c)^{-1}d_c =
+    \sum_{s=0}^\infty F^s \phi \psi_z z_t(x_{t-1}) \label{newConEqn}
+\end{gather*}
+%  {{-1,0,0}} . MatrixPower[bmatCons,theTime+1] . 
+% Transpose[{{qtm1,rrtm1,rutm1}}])//numIt,
+% shk=( {{-1,0,0}}.MatrixPower[bmatCons,theTime] .phimatCons.{{0},{1},{0}}
+
+
+
+After a long solution path it appears that z solution obeys
+\begin{gather*}
+  z_{t+k}(x_{t-1})=S_1 B_c^{k} \left (B_c  \xtmVec +  \phi_c
+  \begin{bmatrix}
+    0\\1\\0
+  \end{bmatrix}  \right )
+\intertext{where}
+S_1=
+\begin{bmatrix}
+  -1&0&0
+\end{bmatrix}+\mathcal{c}(t)
+\end{gather*}
+\begin{gather*}
+  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyCons0.pdf}}}
+\end{gather*}
+
+\begin{itemize}
+\item 
+The recursive solution is slower, Finding Real solutions avoids the problems of not finding solutions. It may be useful for large scale problems. 
+ Perhaps taking the recursive soultion to help solve path and then continusing the iteration would be a work around.  For 50 periods recursive takes 24 seconds times genpath .84 seconds.  Solutions look identicle.
+
+
+\item 
+symbolic both parameters and state, quasi symbolic just state, numeric orthogonal polynomials
+\item leapfrogging would be an approximation since it sneaks in a period(s) when the solution is assumed to be unconstrained.
+
+
+\item genPath with expectations may be hard.
+
+
+\item Likely possible to compute symbolic solutions for the perfect foresight no swithing and discrete regime switching cases
+\item At some point optimize for speed
+
+\item I think z always piecewise linear at each recursive step
+\item Is there a way to instruct faster genpath how to solve the system recursively in order to get speed and solvability
+\item What about shocks with non zero expectation?  what should zfuncs look like? would there be any difference in code and formulae?  Probably not.  Probably would need at least to substitute the mean every I set eps =0.
+\item probably worth while using xvar subs in recursion so dimension doesn't grow
+
+
+\item Recursion leaves backward looking equations fixed. Perhaps exploitable.  Feature may be exploitable for fully forward looking equations.
+\end{itemize}
+
+
+We have augmented the system equation \ref{myEqn} with 
+two additional constraints.
+The $\delta_t$ measures the difference between the value of $r_t$ and its constraint $\bar{r}$ that would prevail if we made no intervention.  Consequently, when $\delta_t$ is negative, it represents the negative of the amount by which the inequality constraint would be violated without our intervention.  The $\vartheta$ function evaluates the first argument to determine the value of the function at a given point in our grid of evaluation points.\footnote{It doesn't have to be a rectangular grid.  Currently the first argument ot $\vartheta$ must must be a single non state variable.  This requirement is tedious but not restrictive.  All the potential discontinuites in the function occur within the $\vartheta$ vunction.} At points where $\delta_t$ is positive, we set $z_t$ to 0.  Where $\delta_t$ is negative, we set $z_t$ so that the constraint is binding.\footnote{ One could consider other behaviors when a dynamic system encounters a constraint.}
+
+We don't really need the chebyshev polynomials for this stage of the iteration.
+We get back polynomials for $q_t, ru_t$ that solve the system at the collocation points.
+
+Although we have a simple linear problem and do not need them it may be illustrative to 
+compute the solution using first order Chebyshev polynomials of first order we have the following weights
+
+ \begin{gather*}
+\mathcal{W}_0=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/wtsCons0.pdf}}}
+ \end{gather*}
+
+
+Given the polynomial grid specification without the constraints, these would ordinarily be applied to the following polynomials
+
+
+ \begin{gather*}
+\mathcal{C}_0=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyOrdPolys0.pdf}}}
+ \end{gather*}
+
+To produce
+
+ \begin{gather*}
+   \begin{bmatrix}
+     q_t\\ru_t
+   \end{bmatrix}
+\vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPolys0.pdf}}}
+ \end{gather*}
+
+
+ \begin{gather*}
+z_0^1(x_{-1},\epsilon_0)=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ1.pdf}}}
+ \end{gather*}
+
+
+ \begin{gather*}
+r_0^1(x_{-1},\epsilon_0)=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyR1.pdf}}}
+ \end{gather*}
+
+ \begin{gather*}
+q_0^1(x_{-1},\epsilon_0)=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyQ1.pdf}}}
+ \end{gather*}
+
+
+
+
+
+We can use equations \ref{firstIneq} to compute the expected value function $Z_0^1(x_{-1})=E_{0}[z_0^1(x_{-1},\epsilon_0)]$.\footnote{Be sure to show factoring out the expectation step, varying distributions even using continuous and discrete.}
+
+ \begin{gather*}
+Z_0^1(x_{-1})=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ1EXP.pdf}}} \intertext{where}
+\mu=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyMuVal.pdf}}} 
+ \end{gather*}
+
+To see that this is the solution imposing the constraint for a single period
+construct
+
+\begin{gather*}
+  q_0^1= \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyQ1EXP.pdf}}} 
+\end{gather*}
+\begin{gather*}
+  r_0^1= \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyR1EXP.pdf}}} 
+\end{gather*}
+\begin{gather*}
+  r_{u0}^1= \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyRu1EXP.pdf}}} 
+\end{gather*}
+
+With
+
+\begin{gather*}
+x_{t-1}=  \begin{bmatrix}
+    q_t\\r_{t}\\r_{ut}
+  \end{bmatrix} \,\,
+x_{t}=  \begin{bmatrix}
+    q_0^1\\r_0^1\\r_{u0}^1
+  \end{bmatrix}\,\,
+x_{t+1}=  B \begin{bmatrix}
+    q_0^1\\r_0^1\\r_{u0}^1
+  \end{bmatrix}\\
+H
+\begin{bmatrix}
+  x_{t-1}\\x_t\\x_{t+1}
+\end{bmatrix}=
+\vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyResid0.pdf}}} 
+\end{gather*}
+The residuals for the first and last  equation are 0 and the value of the 
+shock. Whenever the constraint is not binding, the residual of the second
+equation is zero. When it is binding, it is the $\delta_t$ computed above.
+
+We will use this function  as the value for $z_{1}$ in 
+our next calculation.  In so doing we will be able to
+capture the impact of imposing the constraint at both time t=0 and t=1.  This next step, in general requires the solution of a nonlinear equation as $x_0$ appears in side the function $Z_0^1(x_0)$ applied at time t=1.\footnote{Ultimately, we will  need to apply a projection method to approximate the function 
+that solves the nonlinear expression.  For our simple example model we can compu
+te an analytic expresssion for $Z_0^1$.}
+
+
+
+
+
+We now have
+\begin{gather*}
+x_0^2(x_{-1},\epsilon_0)- \left (
+\bForTwo \right )=0\intertext{ with the complimentary slackness conditions}
+\compSlack
+\end{gather*}
+
+
+
+
+\newcommand{\zForTwo}{
+\bMult
+  \begin{bmatrix}
+\epsilon_0 \\z_{t}(x_{t-1},\epsilon_0)    
+  \end{bmatrix}+ F \phi   \begin{bmatrix}
+0 \\Z_t^1(x_{t})   
+  \end{bmatrix}
+}
+
+\newcommand{\bForK}{\bMult
+  \begin{bmatrix}
+\epsilon_0 \\0
+  \end{bmatrix}+ \sum_{i=0}^{k-1} F^i \phi  \psi  \begin{bmatrix}
+0 \\Z_t^{i-1}(x_{t+i}(x_{t-1}))   
+  \end{bmatrix} 
+}
+\newcommand{\zForK}{
+\bMult
+  \begin{bmatrix}
+\epsilon_t \\z^k_{t}(x_{t-1},\epsilon_t)    
+  \end{bmatrix}+ F \phi   \begin{bmatrix}
+0 \\Z_t^k(x_{t})   
+  \end{bmatrix}
+}
+
+We set 
+\begin{gather*}
+z_t(x_{t-1},\epsilon_t)=
+\begin{cases}
+0&  \mathcal{M}_2 \ge \bar{x}_1  \\
+\bar{x}_1-
+\mathcal{M}_2 &\mathcal{M}_2 < \bar{x}_1  
+\end{cases}\intertext{where}
+\mathcal{M}_2= \left (
+\bForTwo
+\right )
+\end{gather*}
+
+\begin{gather*}
+  x_t=
+\left (
+\zForTwo
+\right )
+\end{gather*}
+
+
+For our example,
+
+
+
+ \begin{gather*}
+F=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyFmat.pdf}}}
+ \end{gather*}
+
+
+
+
+\begin{gather*}
+\begin{bmatrix}
+  \vcenter{\hbox{\includegraphics[width=14.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ2RHS.pdf}}} 
+\end{bmatrix}
+\end{gather*}
+This expression contains time t dated state variablels.
+We can compute an expression for Z2 by employing chebyshev polynomials.
+Computing to 6th order we get
+
+\begin{gather*}
+\begin{bmatrix}
+  \vcenter{\hbox{\includegraphics[width=14.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ2RHSNew.pdf}}} 
+\end{bmatrix}
+\end{gather*}
+
+
+\begin{itemize}
+\item timing
+\item transition to projection
+\item fixed point criterion
+\end{itemize}
+
+
+
+
+
+\section{Projection Method Occasionally Binding Constraints Implementation}
+\label{sec:proj-meth-occass}
+\begin{itemize}
+\item Mathematica code generates java code that is called to interact with the java program implementing the projection method.
+\item describe eqvaldrv
+\item how they generate equation
+\item describe if statement
+\item how if statement generates equations
+\item shift evaluation region to include curved part of solution
+\end{itemize}
+
+
+\section{Ergodic Distribution}
+\label{sec:ergodic-distribution}
+
+Develop algorithm and formulae for ergodic distribution.
+
+\appendix
+\section{ProjectionMethodToolsJava}
+\label{sec:proj}
+
+\begin{itemize}
+\item state variables are straightforward sums of polynomials
+\item non state variables can be sums of functions of the polynomials that are selected by interrogating a variable defined at each point in the state space.
+\end{itemize}
+
+
+%\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/Z1EXPGraph.pdf}
+
+
+%\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/Z2EXPGraph.pdf}
+
+
+%\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/Z3EXPGraph.pdf}
+
+
+
+\section{Some Other Ideas}
+\label{sec:some-other-ideas}
+
+Occbind ideas
+Write mma code for function composition, restrict to linear functions Look for linear algebraic solution With infinite composition, would want ultimately plug in steady state, Why didn't linear go to zero in the exercise I tried.
+
+Do linear quadratic control with constraints
+
+Verify leapfrogging using composition
+
+
+Eager to generalize to multiple constraints
+
+Reconnect to projection especially composition Link with leapfrogging Investigate exit threshold for leaving constraint Also implications for nonlinear impulse response and ergo did distribution gallant Rossi tauchen imp res calculati
+
+Compute ergodic distribution at outset, then compute initial compositions iterate till get enough intermediates
+
+Compare time to compute with and without constraints to give an idea of burden Use for msu thresholds
+
+Continuous time and finance applications
+
+\begin{itemize}
+\item show complementary slackness
+\item antlr parser into another language for speed and since java max size for method 64KB comes into play very early
+\item parse int c++ or python or fortran or something else
+\item alternatively limit size of code
+\item why so many conditions?
+\item could try splitting the code in java  -- splitting the code might prove useful in parallelizing.
+\item perhaps using Format  package could help organize code into
+smaller ( and more efficient ) parts
+\item implement equation val drv in another compilable OO language
+\item Use the technique impose arbitrary nonlinear equations
+\item choices for measuring convergence
+\item strategies for increasing order of polynomials
+\item method for telescoping the recursive solution
+\item solve for fixed point of recursion in one step
+\item avoid inequalities by solving using polynomials without Mathematica
+\item Try lower order polynomials for recursion
+\item low order polynomials recursion perfect foresight
+\item low order polynomials recursion expectation
+\item \href{http://library.wolfram.com/infocenter/Conferences/5398/MOandMOPTalk.pdf}{mathematica optimizer  package}
+\item use Experimental`OptimizeExpression
+\item interpret 0th order first order approximation
+\item compute ru show solves for specific points
+\item sort out strategy on how accurately approximations of z's have to be at each stage.  Eqns system is same, just plugged in z's different
+\item perhaps can choose a long trajectory and make all the z's the same in order to get what's converge to
+\item possible to apply cylindrical algebraic decomposition?
+\item make connection with perturbation in moving from linear to nonlinear models
+\item solve and interpolate versus numerical accuracy of projection
+\item Integrals for expectations must handle ``soft'' kinks well
+\item richardson extrapolation for accelerating horizon convergence
+\item add to end of path to show zero
+\item perhaps doing recursion degrades accuracy to badly and therefore need to build a large system
+\item Luca and Matteo solution comparison
+\item at the moment, code has to be a little different going from two periods to three periods because two periods desn't need to define  t+1 variables and the t has to be solved simulataneously with the new z while t+1 applies old z formula to t+1 (which in turn depends on z, but it's old function from last iteration
+\item could use my technique to prove properties of solution like perfect foresight ultimately departs boundary and never returns  (likely that z's monotically decreasing )
+\item rule out multiple solutions or add constraints to specify which
+\item in recursion use previous a guess for next
+\item any need to have variable squared to get positive constraint for z?
+\item probably can make qq[t] and ru[t] =0 or maybe use to make z nonegative
+\item graphical tool for locating collocation points
+\item How sensitive to initial guess at polynomial weights?
+\item Which state variables more important
+\item how high dimension can attain for polynomials before out of memory
+\item sparse matrices and smolyak needed or placing strategic collocation points
+\item programatic way to migrate points
+\item galerkin?  Perhaps better uway to adapt to specific problems on the fly
+\item at present can compute solutions to 13 constraint periods with  polynomial orders  2,2,2 using newdorecur which is actually not using recursion
+\item construct ``fake spline'' z way above z way below constraint area along with z near.]
+\item impact of ``inertia'' near borders.
+\item should the perfect foresight z's be monotonic?
+\item change of variable and rotation?
+\item can non uniqueness cause a problem
+\item block pulse functions?
+\item reduce accuracy of the interpolation function
+\end{itemize}
+
+\section{Timing Tests}
+\label{sec:timing-tests}
+
+\subsection{doInterp.mth using doNNonRecursive.mth}
+\label{sec:doint-using-donn}
+
+\begin{tabular}{|c|c|}
+N&seconds\\
+1&11.401266,\\
+2\\2.628600,\\
+3&24.501275\\
+4&66.326916,\\
+5&171.182976\\
+6&443.173626\\
+7&1038.548118\\
+8&2599.092877\\
+9&6450.726340\\
+10&Out of Memory
+\end{tabular}
+
+
+\bibliographystyle{plainnat}
+\bibliography{anderson}
+\end{document}
+
+

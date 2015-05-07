@@ -1,0 +1,3 @@
+genSymPyMatrix[aMat_?MatrixQ]:=With[{matStr=ToString[aMat//InputForm]},
+"Matrix("<>StringReplace[matStr,{"{"->"[","}"->"]","^"->"**"}]<>")"]
+

@@ -3,17 +3,17 @@
 (*** Wolfram Notebook File ***)
 (* http://www.wolfram.com/nb *)
 
-(* CreatedBy='Mathematica 9.0' *)
+(* CreatedBy='Mathematica 10.0' *)
 
 (*CacheID: 234*)
 (* Internal cache information:
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
-NotebookDataPosition[       157,          7]
-NotebookDataLength[     61439,       1565]
-NotebookOptionsPosition[     57764,       1436]
-NotebookOutlinePosition[     58130,       1452]
-CellTagsIndexPosition[     58087,       1449]
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     54020,       1213]
+NotebookOptionsPosition[     50601,       1093]
+NotebookOutlinePosition[     51588,       1127]
+CellTagsIndexPosition[     51418,       1120]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -25,1545 +25,1193 @@ Cell["Symbolic AMA Coding Examples", "Title",
 
 Cell[BoxData[
  RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"Adjust", " ", "Directories", " ", "for", " ", "your", " ", 
+     RowBox[{"environment", ".", "  ", "\[IndentingNewLine]", "Code"}], " ", 
+     "expects", " ", 
+     RowBox[{"Directory", "[", "]"}]}], "==", 
+    "\"\<paperProduction/symbAMA/code\>\""}], "*)"}], "\[IndentingNewLine]", 
   RowBox[{
-   RowBox[{"$theResDir", "=", "\"\<theRes/\>\""}], ";"}]}]], "Input",
+   RowBox[{
+    RowBox[{
+    "SetDirectory", "[", "\"\<g:/git/paperProduction/symbAMA/code\>\"", "]"}],
+     ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"$javaJDKDir", "=", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"$OperatingSystem", "\[Equal]", "\"\<Windows\>\""}], ",", 
+       "\"\<C:/Program Files/Java/jdk1.7.0_51/\>\"", ",", 
+       "\"\</msu/scratch2/m1gsa00/jdk1.7.0/\>\""}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"$mavenRepo", "=", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"$OperatingSystem", "\[Equal]", "\"\<Windows\>\""}], ",", 
+       "\"\<r:/Software/mavenRepositories/tryRep/\>\"", ",", 
+       "\"\</msu/res1/Software/mavenRepositories/tryRep/\>\""}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"$theResDir", "=", "\"\<theRes\>\""}], ";", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"Not", "[", 
+       RowBox[{"FileExistsQ", "[", "$theResDir", "]"}], "]"}], ",", 
+      RowBox[{"CreateDirectory", "[", "$theResDir", "]"}]}], "]"}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"$theModDir", "=", "\"\<dynareExamples/uniqueExamples/\>\""}], 
+    ";"}]}]}]], "Input",
  InitializationCell->True,
- CellChangeTimes->{3.612027902032737*^9}],
+ CellChangeTimes->{{3.615919368204858*^9, 3.6159194027461667`*^9}, {
+   3.6159196956043143`*^9, 3.6159197752107224`*^9}, {3.615920896262311*^9, 
+   3.615920994408348*^9}, {3.61623436285985*^9, 3.6162343939568496`*^9}, {
+   3.6162344615068493`*^9, 3.6162344709048495`*^9}, {3.6162345351998496`*^9, 
+   3.6162345390378494`*^9}, {3.616239962022939*^9, 3.616239968902733*^9}, {
+   3.6162400952089434`*^9, 3.616240098298851*^9}, {3.616240786601205*^9, 
+   3.6162407950409517`*^9}, {3.616245844922455*^9, 3.616245849452319*^9}, {
+   3.6162496012647614`*^9, 3.6162496701126957`*^9}, {3.616257657974053*^9, 
+   3.6162576673837705`*^9}, {3.6162592618059387`*^9, 
+   3.6162592626859126`*^9}, {3.616264655986267*^9, 3.616264662646067*^9}, {
+   3.616313293997326*^9, 3.6163133065369496`*^9}, {3.6163133818846893`*^9, 
+   3.6163134290432744`*^9}, {3.6163135175206203`*^9, 3.6163135809287176`*^9}, 
+   3.616313841111912*^9, 3.6163140330261545`*^9, 3.6163157233754487`*^9, {
+   3.616316215681711*^9, 3.6163162383710303`*^9}, {3.6163370220237617`*^9, 
+   3.6163370262435923`*^9}, {3.616337270323935*^9, 3.61633727548378*^9}}],
 
 Cell[CellGroupData[{
 
-Cell[BoxData[
- RowBox[{"Directory", "[", "]"}]], "Input",
- CellChangeTimes->{{3.6120334203787584`*^9, 3.6120334230490255`*^9}}],
+Cell["Firm Value Example", "Section"],
 
-Cell[BoxData["\<\"c:\\\\forGit\\\\paperProduction\\\\symbAMA\\\\code\"\>"], \
-"Output",
- CellChangeTimes->{3.612033423413062*^9, 3.6120335172714467`*^9, 
-  3.61203354790851*^9, 3.6120336320727015`*^9}]
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"$theModel", "=", "\"\<firmValue\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"$fileForResults", "=", 
+   RowBox[{
+   "$theResDir", "<>", "\"\</\>\"", "<>", "$theModel", "<>", 
+    "\"\<symbResults.mth\>\""}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"FileExistsQ", "[", "$fileForResults", "]"}], ",", 
+    RowBox[{"Get", "[", "$fileForResults", "]"}]}], "]"}], ";", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"dStr", ",", "vrsn", ",", "machine", ",", "load"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "dimTime", ",", "preEvalsTime", ",", "ARTime", ",", "amatTime", ",", 
+       "evTime", ",", "qmatTime", ",", "bmatTime"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "nEqns", ",", "nLags", ",", "nLeads", ",", "nParams", ",", "isLinearQ", 
+       ",", "paramSubs", ",", "eqns", ",", "hmat", ",", "vars"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"zf", ",", "hf", ",", "amat", ",", "lilAmat", ",", "lilCols"}], 
+      "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"evls", ",", "evcs", ",", "qmat"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"bmat", ",", "phimat", ",", "fmat"}], "}"}]}], "}"}], "=", 
+   RowBox[{"doModel", "[", 
+    RowBox[{"$theModel", ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], "]"}]}], ";", 
+  RowBox[{"(*", 
+   RowBox[{
+   "gets", " ", "explicit", " ", "values", " ", "for", " ", "splicing"}], 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"FileExistsQ", "[", "$fileForResults", "]"}], ",", 
+    RowBox[{"DeleteFile", "[", "$fileForResults", "]"}]}], "]"}], ";", 
+  RowBox[{"Save", "[", 
+   RowBox[{"$fileForResults", ",", "doModelResults"}], "]"}], ";", 
+  RowBox[{"(*", 
+   RowBox[{
+   "this", " ", "saves", " ", "only", " ", "the", " ", "doModelResults", " ", 
+    "so", " ", "as", " ", "to", " ", "avoid", " ", "repeating", " ", 
+    "multiple", " ", "copies", " ", "of", " ", "the", " ", "same", " ", 
+    "result"}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Splice", "[", 
+   RowBox[{"\"\<dimsRow.mtex\>\"", ",", 
+    RowBox[{"$theModel", "<>", "\"\<Dims.tex\>\""}]}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.616263128120101*^9, 3.6162631893882627`*^9}, {
+   3.6162632231872487`*^9, 3.6162632663259544`*^9}, {3.6162633067547417`*^9, 
+   3.6162633293240643`*^9}, {3.61631365785641*^9, 3.616313675965866*^9}, {
+   3.616314150642626*^9, 3.6163141520225844`*^9}, {3.6163317386672115`*^9, 
+   3.61633179503552*^9}, 3.6163319043222413`*^9, 3.616336124556303*^9, {
+   3.616337280393633*^9, 3.6163373352119884`*^9}, {3.6163374243893127`*^9, 
+   3.616337424639305*^9}, 3.616337494247217*^9, {3.6163376828115597`*^9, 
+   3.6163377161205606`*^9}, {3.61633797513379*^9, 3.616337976273756*^9}, {
+   3.61634176827032*^9, 3.6163418549477196`*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"analyzing \"\>", "\[InvisibleSpace]", "\<\"firmValue\"\>"}],
+  SequenceForm["analyzing ", "firmValue"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.616338163868128*^9, 3.61634189096864*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell[BoxData["$Path"], "Input",
- CellChangeTimes->{{3.6120333885255737`*^9, 3.612033389710692*^9}}],
-
 Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"\<\"/a/msulx1/lcl/msu/home/m1gsa00/git/paperProduction/symbAMA/\
-code/\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\"\>", 
-   ",", "\<\"\\\\\\\\rsmanas\\\\fldredir$\\\\m1gsa00\\\\AppData\\\\Roaming\\\\\
-Mathematica\\\\Kernel\"\>", 
-   ",", "\<\"\\\\\\\\rsmanas\\\\fldredir$\\\\m1gsa00\\\\AppData\\\\Roaming\\\\\
-Mathematica\\\\Autoload\"\>", 
-   ",", "\<\"\\\\\\\\rsmanas\\\\fldredir$\\\\m1gsa00\\\\AppData\\\\Roaming\\\\\
-Mathematica\\\\Applications\"\>", 
-   ",", "\<\"C:\\\\ProgramData\\\\Mathematica\\\\Kernel\"\>", 
-   ",", "\<\"C:\\\\ProgramData\\\\Mathematica\\\\Autoload\"\>", 
-   ",", "\<\"C:\\\\ProgramData\\\\Mathematica\\\\Applications\"\>", 
-   ",", "\<\".\"\>", ",", "\<\"C:\\\\Users\\\\m1gsa00\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Packages\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\LegacyPackages\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Autoload\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Autoload\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Applications\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\ExtraPackages\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Kernel\\\\Packages\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\Documentation\\\\English\\\\System\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Data\\\\ICC\"\>", 
-   ",", "\<\"../../mathAMA/SymbolicAMA/SymbolicAMA/\"\>", 
-   ",", "\<\"../../mathAMA/NumericAMA/NumericAMA/\"\>", 
-   ",", "\<\"../../mathAMA/AMAModel/\"\>", 
-   ",", "\<\"../../FormatOptimize/\"\>"}], "}"}]], "Output",
- CellChangeTimes->{
-  3.6120333903157525`*^9, {3.6120335223519545`*^9, 3.6120335479405136`*^9}, 
-   3.6120336321057014`*^9}]
-}, Open  ]],
+ RowBox[{"FindFile", "[", "\"\<utilitiesSetup`\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.616348010651081*^9, 3.6163480167108994`*^9}, {
+  3.6163483261926146`*^9, 3.616348331782447*^9}}],
 
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"FindFile", "[", "\"\<Format`\>\"", "]"}]], "Input"],
-
-Cell[BoxData["\<\"C:\\\\forGit\\\\paperProduction\\\\FormatOptimize\\\\Format.\
-m\"\>"], "Output",
- CellChangeTimes->{3.6120333831470356`*^9, 3.6120335531310325`*^9, 
-  3.612033644714701*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"FindFile", "[", "\"\<SymbolicAMA`\>\"", "]"}]], "Input"],
-
-Cell[BoxData["\<\"C:\\\\forGit\\\\paperProduction\\\\mathAMA\\\\SymbolicAMA\\\
-\\SymbolicAMA\\\\SymbolicAMA.m\"\>"], "Output",
- CellChangeTimes->{3.612033557520471*^9, 3.612033644839701*^9}]
+Cell[BoxData["\<\"G:\\\\git\\\\paperProduction\\\\symbAMA\\\\code\\\\\
+utilitiesSetup.m\"\>"], "Output",
+ CellChangeTimes->{3.6163480171408863`*^9, 3.6163483324224277`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"JavaClassPath", "[", "]"}]], "Input",
- CellChangeTimes->{{3.612033704224701*^9, 3.612033707629701*^9}}],
+ CellChangeTimes->{{3.616423973801326*^9, 3.6164239818610845`*^9}}],
 
 Cell[BoxData[
  RowBox[{"{", 
-  RowBox[{"\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Java\\\\\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Java\\\\ActivationWebClient.\
-jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Java\\\\WolframSSH.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Java\\\\WolframSSHKeyGen.jar\
+  RowBox[{"\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\
+\\\\SystemFiles\\\\Java\\\\\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Java\\\\ActivationWebClient.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Java\\\\commons-codec-1.3.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Java\\\\commons-httpclient-3.0.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Java\\\\commons-logging.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Java\\\\WolframSSH.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Java\\\\WolframSSHKeyGen.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Autoload\\\\PacletManager\\\\Java\\\\\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Autoload\\\\PacletManager\\\\Java\\\\antlr.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Autoload\\\\PacletManager\\\\Java\\\\mexpr.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Autoload\\\\PacletManager\\\\Java\\\\mexprparser.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Autoload\\\\PacletManager\\\\Java\\\\PacletManager.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Autoload\\\\PacletManager\\\\Java\\\\WRIjdbm.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\activation.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\bzip2.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\commons-codec-1.3.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\commons-collections-3.2.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\commons-httpclient-3.0.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\commons-lang-2.1.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\commons-logging-1.1.1.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\Convert.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\core-3.0.0.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\customizer.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\dom4j-1.6.1.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\Exif.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\externalservice.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\gnu-regexp-1.1.4.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\grib-8.0.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\jackcess-1.1.18.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\javase-3.0.0.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\jdbf.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\jdom.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\jmf.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\JPEG2000b.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\JSON.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\jxl.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\ldap.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\mail.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\mediaplayer.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\multiplayer.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\netcdf-4.2.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\poi-3.8-20120326.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\poi-examples-3.8-20120326.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\poi-excelant-3.8-20120326.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\poi-ooxml-3.8-20120326.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\poi-ooxml-schemas-3.8-20120326.jar\"\>\
+", ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\poi-scratchpad-3.8-20120326.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\prefsAll.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\resourcesOptional.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\stax-api-1.0.1.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\tagsoup-1.0rc9.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\tar.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\xercesImpl.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\xml-apis.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\xmlbeans-2.3.0.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Converters\\\\Java\\\\zxing-client.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\bsf-Wolfram.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\bsf.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\concurrent.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\diva-canvas-core.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\GUIKit.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\OculusLayout.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\xercesImpl.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\xmlParserAPIs.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\DatabaseLink\\\\Java\\\\\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\DatabaseLink\\\\Java\\\\commons-collections-3.1.jar\
 \"\>", ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Autoload\\\\PacletManager\\\\\
-Java\\\\\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Autoload\\\\PacletManager\\\\\
-Java\\\\antlr.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Autoload\\\\PacletManager\\\\\
-Java\\\\mexpr.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Autoload\\\\PacletManager\\\\\
-Java\\\\mexprparser.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Autoload\\\\PacletManager\\\\\
-Java\\\\PacletManager.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Autoload\\\\PacletManager\\\\\
-Java\\\\WRIjdbm.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-activation.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\bzip2.\
-jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-commons-codec-1.3.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-commons-collections-3.2.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-commons-httpclient-3.0.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-commons-lang-2.1.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-commons-logging-1.1.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-Convert.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-customizer.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\dom4j-\
-1.6.1.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\Exif.\
-jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-externalservice.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\gnu-\
-regexp-1.1.4.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\grib-8.\
-0.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-jackcess-1.1.18.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\jdbf.\
-jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\jdom.\
-jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\jmf.\
-jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-JPEG2000b.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\JSON.\
-jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\jxl.\
-jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\ldap.\
-jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\mail.\
-jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-mediaplayer.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-multiplayer.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\netcdf-\
-4.2.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\poi-3.\
-8-20120326.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\poi-\
-examples-3.8-20120326.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\poi-\
-excelant-3.8-20120326.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\poi-\
-ooxml-3.8-20120326.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\poi-\
-ooxml-schemas-3.8-20120326.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\poi-\
-scratchpad-3.8-20120326.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-prefsAll.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-resourcesOptional.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\stax-\
-api-1.0.1.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-tagsoup-1.0rc9.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\tar.\
-jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-xercesImpl.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\xml-\
-apis.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Converters\\\\Java\\\\\
-xmlbeans-2.3.0.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\\"\>\
-", ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\bsf-\
-Wolfram.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\bsf.\
-jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\\
-concurrent.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\\
-diva-canvas-core.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\\
-GUIKit.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\\
-OculusLayout.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\\
-xercesImpl.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Packages\\\\GUIKit\\\\Java\\\\\
-xmlParserAPIs.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\DatabaseLink\\\\\
-Java\\\\\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\DatabaseLink\\\\\
-Java\\\\commons-collections-3.1.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\DatabaseLink\\\\\
+Research\\\\Mathematica\\\\10.0\\\\SystemFiles\\\\Links\\\\DatabaseLink\\\\\
 Java\\\\commons-dbcp-1.2.1.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\DatabaseLink\\\\\
-Java\\\\commons-pool-1.2.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\DatabaseLink\\\\\
-Java\\\\glazedlists.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\DatabaseLink\\\\\
-Java\\\\hsqldb-1.8.0.7.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\DatabaseLink\\\\\
-Java\\\\jtds-1.2.5.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\DatabaseLink\\\\\
-Java\\\\mysql-connector-java-commercial-5.1.13-bin.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\DatabaseLink\\\\\
-Java\\\\postgresql-8.4-701.jdbc3.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\RLink\\\\Java\\\\\"\
-\>", ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\RLink\\\\Java\\\\\
-jna.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\RLink\\\\Java\\\\\
-JRI.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\RLink\\\\Java\\\\\
-JRIEngine.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\RLink\\\\Java\\\\\
-log4j-1.2.16.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\RLink\\\\Java\\\\\
-REngine.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\RLink\\\\Java\\\\\
-RLink.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\WebServices\\\\Java\
-\\\\\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\WebServices\\\\Java\
-\\\\commons-httpclient-3.0.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\WebServices\\\\Java\
-\\\\commons-logging-1.0.4.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\WebServices\\\\Java\
-\\\\junit-3.8.1.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\XMLSchema\\\\Java\\\
-\\\"\>", ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\XMLSchema\\\\Java\\\
-\\commons-codec-1.3.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Applications\\\\\
-ClusterIntegration\\\\Java\\\\\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Applications\\\\\
-ClusterIntegration\\\\Java\\\\Wolfram_SGE.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Applications\\\\\
-DocumentationSearch\\\\Java\\\\\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Applications\\\\\
-LightweightGridClient\\\\Java\\\\\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Applications\\\\\
-LightweightGridClient\\\\Java\\\\wolfram-remote-services-client.jar\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Java\\\\Windows-x86-64\\\\\
-lib\\\\tools.jar\"\>", 
-   ",", "\<\"C:\\\\msu\\\\res1\\\\Software\\\\mavenRepositories\\\\tryRep\\\\\
-org\\\\antlr\\\\antlr-runtime\\\\3.2\\\\antlr-runtime-3.2.jar\"\>", 
-   ",", "\<\"C:\\\\msu\\\\res1\\\\Software\\\\mavenRepositories\\\\tryRep\\\\\
-gov\\\\frb\\\\ma\\\\msu\\\\dynareAntlr\\\\1.0\\\\dynareAntlr-1.0.jar\"\>"}], 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\DatabaseLink\\\\Java\\\\commons-pool-1.2.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\DatabaseLink\\\\Java\\\\derby.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\DatabaseLink\\\\Java\\\\derbyclient.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\DatabaseLink\\\\Java\\\\glazedlists.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\DatabaseLink\\\\Java\\\\h2-1.3.174.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\DatabaseLink\\\\Java\\\\hsqldb.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\DatabaseLink\\\\Java\\\\jaybird-full-2.2.3.jar\"\>",
+    ",", "\<\"C:\\\\Program Files\\\\Wolfram \
+Research\\\\Mathematica\\\\10.0\\\\SystemFiles\\\\Links\\\\DatabaseLink\\\\\
+Java\\\\jtds-1.3.1.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\DatabaseLink\\\\Java\\\\mysql-connector-java-5.1.27-\
+bin.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\DatabaseLink\\\\Java\\\\postgresql-9.3-1100.jdbc4.\
+jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\DatabaseLink\\\\Java\\\\sqlite-jdbc-3.7.2.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\RLink\\\\Java\\\\\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\RLink\\\\Java\\\\jna.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\RLink\\\\Java\\\\JRI.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\RLink\\\\Java\\\\JRIEngine.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\RLink\\\\Java\\\\log4j-1.2.16.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\RLink\\\\Java\\\\REngine.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\RLink\\\\Java\\\\RLink.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\WebServices\\\\Java\\\\\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\WebServices\\\\Java\\\\commons-httpclient-3.0.jar\"\
+\>", ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\
+\\\\SystemFiles\\\\Links\\\\WebServices\\\\Java\\\\commons-logging-1.0.4.jar\"\
+\>", ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\
+\\\\SystemFiles\\\\Links\\\\WebServices\\\\Java\\\\junit-3.8.1.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\XMLSchema\\\\Java\\\\\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Links\\\\XMLSchema\\\\Java\\\\commons-codec-1.3.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\AddOns\\\\Applications\\\\ClusterIntegration\\\\Java\\\\\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\AddOns\\\\Applications\\\\ClusterIntegration\\\\Java\\\\Wolfram_SGE.jar\"\>\
+", ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\AddOns\\\\Applications\\\\DocumentationSearch\\\\Java\\\\\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\AddOns\\\\Applications\\\\LightweightGridClient\\\\Java\\\\\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\AddOns\\\\Applications\\\\LightweightGridClient\\\\Java\\\\wolfram-remote-\
+services-client.jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Components\\\\Interpreter\\\\Java\\\\\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Components\\\\Interpreter\\\\Java\\\\libphonenumber-5.9.jar\"\
+\>", ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\
+\\\\SystemFiles\\\\Components\\\\Interpreter\\\\Java\\\\ParseTelephoneNumber.\
+jar\"\>", 
+   ",", "\<\"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.0\\\
+\\SystemFiles\\\\Java\\\\Windows-x86-64\\\\lib\\\\tools.jar\"\>", 
+   ",", "\<\"r:\\\\Software\\\\mavenRepositories\\\\tryRep\\\\org\\\\antlr\\\\\
+antlr-runtime\\\\3.2\\\\antlr-runtime-3.2.jar\"\>", 
+   ",", "\<\"r:\\\\Software\\\\mavenRepositories\\\\tryRep\\\\gov\\\\frb\\\\\
+ma\\\\msu\\\\dynareAntlr\\\\1.0\\\\dynareAntlr-1.0.jar\"\>"}], 
   "}"}]], "Output",
- CellChangeTimes->{3.612033708243701*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["Firm Value Example", "Section"],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"$theModel", "=", "\"\<firmValue\>\""}], ";"}]], "Input"],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{
-   RowBox[{"{", 
-    RowBox[{
-    "nEqns", ",", "nLeads", ",", "nLeads", ",", "nParams", ",", "isLinearQ"}],
-     "}"}], "=", 
-   RowBox[{"getModelDims", "[", 
-    RowBox[{"$theModDir", ",", "$theModel"}], "]"}]}], ";"}]], "Input"],
-
-Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"Java", "::", "excptn"}], "MessageName"], 
-  RowBox[{
-  ":", " "}], "\<\"A Java exception occurred: \
-\[NoBreak]\\!\\(\\\"java.lang.ClassNotFoundException: \
-gov.frb.ma.msu.DynareToAMAModel\\\\n\\\\tat \
-java.net.URLClassLoader$1.run(URLClassLoader.java:366)\\\\n\\\\tat \
-java.net.URLClassLoader$1.run(URLClassLoader.java:355)\\\\n\\\\tat \
-java.security.AccessController.doPrivileged(Native Method)\\\\n\\\\tat \
-java.net.URLClassLoader.findClass(URLClassLoader.java:354)\\\\n\\\\tat \
-java.lang.ClassLoader.loadClass(ClassLoader.java:425)\\\\n\\\\tat \
-java.lang.ClassLoader.loadClass(ClassLoader.java:358)\\\\n\\\\tat \
-java.lang.Class.forName0(Native Method)\\\\n\\\\tat \
-java.lang.Class.forName(Class.java:270)\\\"\\)\[NoBreak].\"\>"}]], "Message", \
-"MSG",
- CellChangeTimes->{3.6120336711387014`*^9}],
-
-Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"LoadJavaClass", "::", "fail"}], "MessageName"], 
-  RowBox[{
-  ":", " "}], "\<\"Java failed to load class \
-\[NoBreak]\\!\\(\\\"gov.frb.ma.msu.DynareToAMAModel\\\"\\)\[NoBreak]. \
-\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
-ButtonFrame->None, ButtonData:>\\\"paclet:JLink/ref/LoadJavaClass\\\", \
-ButtonNote -> \\\"JLink`LoadJavaClass::fail\\\"]\\)\"\>"}]], "Message", "MSG",
- CellChangeTimes->{3.612033671266701*^9}],
-
-Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"Get", "::", "noopen"}], "MessageName"], 
-  RowBox[{
-  ":", " "}], "\<\"Cannot open \
-\[NoBreak]\\!\\(\\\"/tmp/Gary/firmValue.mth\\\"\\)\[NoBreak]. \
-\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
-ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/noopen\\\", \
-ButtonNote -> \\\"Get::noopen\\\"]\\)\"\>"}]], "Message", "MSG",
- CellChangeTimes->{3.6120336727427015`*^9}],
-
-Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"Set", "::", "shape"}], "MessageName"], 
-  RowBox[{
-  ":", " "}], "\<\"Lists \[NoBreak]\\!\\({AccelerateAMA`Private`vars$3439, \
-AccelerateAMA`Private`ig$3439, AccelerateAMA`Private`params$3439, \
-AccelerateAMA`Private`ig$3439, \\(\\({AccelerateAMA`Private`ig$3439, \
-AccelerateAMA`Private`eqns$3439}\\)\\), AccelerateAMA`Private`notSubs$3439, \
-AccelerateAMA`Private`ig$3439}\\)\[NoBreak] and \
-\[NoBreak]\\!\\(AMAModelDefinition[\\\"firmValue\\\"]\\)\[NoBreak] are not \
-the same shape. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
-ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
-ButtonData:>\\\"paclet:ref/message/Set/shape\\\", ButtonNote -> \
-\\\"Set::shape\\\"]\\)\"\>"}]], "Message", "MSG",
- CellChangeTimes->{3.612033672814701*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData["$ContextPath"], "Input"],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"\<\"Predictions`\"\>", ",", "\<\"stepByStep`\"\>", 
-   ",", "\<\"genMexCode`\"\>", ",", "\<\"utilitiesSetUp`\"\>", 
-   ",", "\<\"AccelerateAMA`\"\>", ",", "\<\"AMAModelDefinition`\"\>", 
-   ",", "\<\"Format`\"\>", ",", "\<\"Experimental`\"\>", 
-   ",", "\<\"AMAModel`\"\>", ",", "\<\"NumericAMA`\"\>", 
-   ",", "\<\"SymbolicAMA`\"\>", ",", "\<\"console`\"\>", 
-   ",", "\<\"JLink`\"\>", ",", "\<\"PacletManager`\"\>", 
-   ",", "\<\"QuantityUnits`\"\>", ",", "\<\"WebServices`\"\>", 
-   ",", "\<\"System`\"\>", ",", "\<\"Global`\"\>"}], "}"}]], "Output",
- CellChangeTimes->{3.612033672896701*^9}]
+ CellChangeTimes->{3.6164239887208786`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
- RowBox[{
-  RowBox[{
-   RowBox[{"{", 
-    RowBox[{
-    "ig", ",", "ig", ",", "ig", ",", "ig", ",", "ig", ",", "paramSubs", ",", 
-     "eqns", ",", "hmat", ",", "vars"}], "}"}], "=", 
-   RowBox[{"preEvals", "[", 
-    RowBox[{"$theModDir", ",", "$theModel", ",", "$theResDir"}], "]"}]}], 
-  ";"}]], "Input"],
+ RowBox[{"??", "Message"}]], "Input",
+ CellChangeTimes->{{3.616436631027944*^9, 3.616436656457181*^9}}],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
- InterpretationBox[
-  RowBox[{"\<\"analyzing \"\>", "\[InvisibleSpace]", "\<\"firmValue\"\>"}],
-  SequenceForm["analyzing ", "firmValue"],
-  Editable->False]], "Print"],
+ RowBox[{
+  StyleBox["\<\"\!\(\*RowBox[{\\\"Message\\\", \\\"[\\\", RowBox[{StyleBox[\\\
+\"symbol\\\", \\\"TI\\\"], \\\"::\\\", StyleBox[\\\"tag\\\", \\\"TI\\\"]}], \
+\\\"]\\\"}]\) prints the message \!\(\*RowBox[{StyleBox[\\\"symbol\\\", \
+\\\"TI\\\"], \\\"::\\\", StyleBox[\\\"tag\\\", \\\"TI\\\"]}]\) unless it has \
+been switched off. \\n\!\(\*RowBox[{\\\"Message\\\", \\\"[\\\", \
+RowBox[{RowBox[{StyleBox[\\\"symbol\\\", \\\"TI\\\"], \\\"::\\\", StyleBox[\\\
+\"tag\\\", \\\"TI\\\"]}], \\\",\\\", SubscriptBox[StyleBox[\\\"e\\\", \
+\\\"TI\\\"], StyleBox[\\\"1\\\", \\\"TR\\\"]], \\\",\\\", \
+SubscriptBox[StyleBox[\\\"e\\\", \\\"TI\\\"], StyleBox[\\\"2\\\", \
+\\\"TR\\\"]], \\\",\\\", StyleBox[\\\"\[Ellipsis]\\\", \\\"TR\\\"]}], \\\"]\\\
+\"}]\) prints a message, inserting the values of the \
+\!\(\*SubscriptBox[StyleBox[\\\"e\\\", \\\"TI\\\"], StyleBox[\\\"i\\\", \
+\\\"TI\\\"]]\) as needed. \"\>", "MSG"], "\[NonBreakingSpace]", 
+  ButtonBox[
+   StyleBox["\[RightSkeleton]", "SR"],
+   Active->True,
+   BaseStyle->"Link",
+   ButtonData->"paclet:ref/Message"]}]], "Print", "PrintUsage",
+ CellChangeTimes->{3.616436657127161*^9},
+ CellTags->"Info3616422257-3636054"],
 
-Cell[BoxData["\<\"done hmat\"\>"], "Print"],
-
-Cell[BoxData["\<\"done ar\"\>"], "Print"],
-
-Cell[BoxData["\<\"done amat\"\>"], "Print"],
-
-Cell[BoxData["\<\"done inessential\"\>"], "Print"]
+Cell[BoxData[
+ InterpretationBox[GridBox[{
+    {
+     RowBox[{
+      RowBox[{"Attributes", "[", "Message", "]"}], "=", 
+      RowBox[{"{", 
+       RowBox[{"HoldFirst", ",", "Protected"}], "}"}]}]}
+   },
+   BaselinePosition->{Baseline, {1, 1}},
+   GridBoxAlignment->{
+    "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+     "RowsIndexed" -> {}}],
+  Definition[Message],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.616436657207159*^9},
+ CellTags->"Info3616422257-3636054"]
 }, Open  ]]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell[BoxData["hmat"], "Input"],
-
 Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{
-   RowBox[{"{", 
-    RowBox[{"0", ",", "0", ",", 
-     RowBox[{"1", "+", "rr"}], ",", "0", ",", 
-     RowBox[{"-", "1"}], ",", 
-     RowBox[{"-", "1"}]}], "}"}], ",", 
-   RowBox[{"{", 
-    RowBox[{"0", ",", 
-     RowBox[{
-      RowBox[{"-", "1"}], "+", "delta"}], ",", "0", ",", "1", ",", "0", ",", 
-     "0"}], "}"}]}], "}"}]], "Output"]
-}, Open  ]],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{
-   RowBox[{"{", 
-    RowBox[{"zf", ",", "hf"}], "}"}], "=", 
-   RowBox[{"symbolicAR", "[", "hmat", "]"}]}], ";"}]], "Input"],
+ RowBox[{"??", "genericQmat"}]], "Input",
+ CellChangeTimes->{{3.616343550180862*^9, 3.6163435842298403`*^9}}],
 
 Cell[CellGroupData[{
 
-Cell[BoxData["zf"], "Input"],
+Cell[BoxData[
+ StyleBox["\<\"genericQmat\"\>", "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.616343585069815*^9},
+ CellTags->"Info3616329184-5876215"],
 
 Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"{", 
-   RowBox[{"0", ",", 
-    RowBox[{
-     RowBox[{"-", "1"}], "+", "delta"}], ",", "0", ",", "1"}], "}"}], 
-  "}"}]], "Output"]
+ InterpretationBox[GridBox[{
+    {GridBox[{
+       {
+        RowBox[{
+         RowBox[{"genericQmat", "[", 
+          RowBox[{
+          "SymbolicAMA`Private`needed_Integer", ",", 
+           "SymbolicAMA`Private`paramSubs_List", ",", 
+           RowBox[{"SymbolicAMA`Private`evls_", "?", "VectorQ"}], ",", 
+           RowBox[{"SymbolicAMA`Private`evcs_", "?", "MatrixQ"}], ",", 
+           RowBox[{"SymbolicAMA`Private`zf_", "?", "MatrixQ"}]}], "]"}], ":=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"SymbolicAMA`Private`evcs", "===", "$Failed"}], ",", 
+           "$Failed", ",", 
+           RowBox[{"With", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"SymbolicAMA`Private`bigEvals", "=", 
+               RowBox[{"Flatten", "[", 
+                RowBox[{"Position", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Abs", "[", "#1", "]"}], ">", "1"}], "&"}], ")"}],
+                    "/@", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    "SymbolicAMA`Private`evls", "/.", "\[VeryThinSpace]", 
+                    "SymbolicAMA`Private`paramSubs"}], ")"}]}], ",", "True"}],
+                  "]"}], "]"}]}], "}"}], ",", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Length", "[", "SymbolicAMA`Private`bigEvals", "]"}], 
+                "=!=", 
+                RowBox[{"SymbolicAMA`Private`needed", "-", 
+                 RowBox[{"Length", "[", "SymbolicAMA`Private`zf", "]"}]}]}], 
+               ",", "$Failed", ",", 
+               RowBox[{"Join", "[", 
+                RowBox[{"SymbolicAMA`Private`zf", ",", 
+                 RowBox[{
+                 "SymbolicAMA`Private`evcs", "\[LeftDoubleBracket]", 
+                  "SymbolicAMA`Private`bigEvals", "\[RightDoubleBracket]"}]}],
+                 "]"}]}], "]"}]}], "]"}]}], "]"}]}]},
+       {" "},
+       {
+        RowBox[{
+         RowBox[{"genericQmat", "[", 
+          RowBox[{"___", ",", "$Failed", ",", "___"}], "]"}], ":=", 
+         "$Failed"}]}
+      },
+      BaselinePosition->{Baseline, {1, 1}},
+      GridBoxAlignment->{
+       "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+        "RowsIndexed" -> {}},
+      GridBoxItemSize->{"Columns" -> {{
+           Scaled[0.999]}}, "ColumnsIndexed" -> {}, "Rows" -> {{1.}}, 
+        "RowsIndexed" -> {}}]}
+   },
+   BaselinePosition->{Baseline, {1, 1}},
+   GridBoxAlignment->{
+    "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+     "RowsIndexed" -> {}}],
+  Definition[SymbolicAMA`genericQmat],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.6163435850998144`*^9},
+ CellTags->"Info3616329184-5876215"]
+}, Open  ]]
+}, Open  ]]
 }, Open  ]],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"amat", "=", 
-   RowBox[{"symbolicTransitionMatrix", "[", "hf", "]"}]}], ";"}]], "Input"],
 
 Cell[CellGroupData[{
 
-Cell[BoxData["amat"], "Input"],
+Cell["simpleNeoViegi", "Section",
+ CellChangeTimes->{{3.616258611042462*^9, 3.6162586223521223`*^9}}],
+
+Cell[CellGroupData[{
 
 Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{
-   RowBox[{"{", 
-    RowBox[{"0", ",", "0", ",", "1", ",", "0"}], "}"}], ",", 
-   RowBox[{"{", 
-    RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
-   RowBox[{"{", 
-    RowBox[{"0", ",", "0", ",", 
-     RowBox[{"1", "+", "rr"}], ",", 
-     RowBox[{
-      RowBox[{"-", "1"}], "+", "delta"}]}], "}"}], ",", 
-   RowBox[{"{", 
-    RowBox[{"0", ",", "0", ",", "0", ",", 
-     RowBox[{"1", "-", "delta"}]}], "}"}]}], "}"}]], "Output"]
+ RowBox[{
+  RowBox[{"$theModel", "=", "\"\<simpleNeoViegi\>\""}], ";", 
+  RowBox[{"doModel", "[", 
+   RowBox[{"$theModel", ",", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.6162586290819206`*^9, 3.6162586312818546`*^9}, {
+   3.6162634314610004`*^9, 3.6162634321709795`*^9}, 3.6163144039690275`*^9, 
+   3.616337198776691*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"analyzing \"\>", 
+   "\[InvisibleSpace]", "\<\"simpleNeoViegi\"\>"}],
+  SequenceForm["analyzing ", "simpleNeoViegi"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.6163144118687897`*^9}]
 }, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FindFile", "[", "\"\<SymbolicAMA`\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.6163440375672398`*^9, 3.6163440490768948`*^9}}],
+
+Cell[BoxData["\<\"G:\\\\git\\\\paperProduction\\\\mathAMA\\\\SymbolicAMA\\\\\
+SymbolicAMA\\\\SymbolicAMA.m\"\>"], "Output",
+ CellChangeTimes->{3.616344049526881*^9}]
+}, Open  ]],
+
+Cell[BoxData["|"], "Input",
+ CellChangeTimes->{3.616344049496882*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["rosenestimateBayes", "Section"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"$theModel", "=", "\"\<rosenestimateBayes\>\""}], ";", 
+  RowBox[{"doModel", "[", 
+   RowBox[{"$theModel", ",", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{3.6162639477385125`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["fuhrerMoore", "Section"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"$theModel", "=", "\"\<fuhrerMoore\>\""}], ";", 
+  RowBox[{"doModel", "[", 
+   RowBox[{"$theModel", ",", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{3.616264006306755*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["AltEx1", "Section",
+ CellChangeTimes->{{3.6162336352738495`*^9, 3.61623363880085*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"$theModel", "=", "\"\<AltEx1\>\""}], ";", 
+  RowBox[{"doModel", "[", 
+   RowBox[{"$theModel", ",", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.6162336498098497`*^9, 3.61623365699185*^9}, 
+   3.6162643403317356`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["AssetPricingApproximation", "Section",
+ CellChangeTimes->{{3.6163126252963877`*^9, 3.6163126318561907`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"$theModel", "=", "\"\<AssetPricingApproximation\>\""}], ";", 
+  RowBox[{"doModel", "[", 
+   RowBox[{"$theModel", ",", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.6162336498098497`*^9, 3.61623365699185*^9}, {
+   3.61623385532185*^9, 3.6162338578018494`*^9}, 3.616264397020035*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["BGGViegi", "Section",
+ CellChangeTimes->{{3.6162336352738495`*^9, 3.61623363880085*^9}, {
+  3.6162338260828495`*^9, 3.6162338360418496`*^9}, {3.6162339049438496`*^9, 
+  3.6162339102618494`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"$theModel", "=", "\"\<BGGViegi\>\""}], ";", 
+  RowBox[{"doModel", "[", 
+   RowBox[{"$theModel", ",", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.6162336498098497`*^9, 3.61623365699185*^9}, {
+  3.61623385532185*^9, 3.6162338578018494`*^9}, {3.6162644399507475`*^9, 
+  3.616264452130382*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Initialization", "Section",
+ CellChangeTimes->{{3.616312570158042*^9, 3.6163125726479673`*^9}}],
+
+Cell[CellGroupData[{
 
 Cell[BoxData[{
  RowBox[{
-  RowBox[{"psimat", "=", 
-   RowBox[{"{", 
-    RowBox[{
-     RowBox[{"{", "1", "}"}], ",", 
-     RowBox[{"{", "0", "}"}]}], "}"}]}], ";"}], "\n", 
+  RowBox[{"SetOptions", "[", 
+   RowBox[{"Trace", ",", 
+    RowBox[{"TraceForward", "\[Rule]", "True"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"bigpsimat", "=", 
-   RowBox[{"{", 
-    RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"windowsQ", "[", "]"}], ":=", 
+    RowBox[{"$OperatingSystem", "==", "\"\<Windows\>\""}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"windowsQ", "[", "]"}], ",", 
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<windows environment: executing commands in init.m\>\"", "<>", 
+      RowBox[{"FindFile", "[", "\"\<init.m\>\"", "]"}]}], "]"}], ",", 
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<linux environment: executing commands in init.m  \>\"", "<>", 
+      RowBox[{"FindFile", "[", "\"\<init.m\>\"", "]"}]}], "]"}]}], "]"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Needs", "[", "\"\<JLink`\>\"", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ReinstallJava", "[", 
+   RowBox[{"CommandLine", "\[Rule]", 
+    RowBox[{"$javaJDKDir", "<>", "\"\<bin/java  -showversion\>\""}]}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Off", "[", 
+   RowBox[{"Syntax", "::", "sntufn"}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Needs", "[", "\"\<console`\>\"", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Off", "[", 
+  RowBox[{"Global`e", "::", "tag"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Needs", "[", "\"\<utilitiesSetUp`\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Get", "[", "\"\<forSymPy.mth\>\"", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"doModel", "[", 
+    RowBox[{"modName_String", ",", 
      RowBox[{"{", 
-      RowBox[{"1", ",", "0"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"0", ",", "1"}], "}"}]}], "}"}]}], ";"}]}], "Input"],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{
-   RowBox[{"{", 
-    RowBox[{"evls", ",", "evcs"}], "}"}], "=", 
-   RowBox[{"Eigensystem", "[", 
-    RowBox[{"Transpose", "[", "amat", "]"}], "]"}]}], ";"}]], "Input"],
-
-Cell[CellGroupData[{
-
-Cell[BoxData["evls"], "Input"],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"0", ",", "0", ",", 
-   RowBox[{"1", "-", "delta"}], ",", 
-   RowBox[{"1", "+", "rr"}]}], "}"}]], "Output"]
-}, Open  ]],
-
-Cell[BoxData[
- RowBox[{"\n", 
-  RowBox[{
-   RowBox[{"qmat", "=", 
-    RowBox[{"Join", "[", 
-     RowBox[{"zf", ",", 
-      RowBox[{"evcs", "[", 
-       RowBox[{"[", 
-        RowBox[{"{", "4", "}"}], "]"}], "]"}]}], "]"}]}], ";"}]}]], "Input"],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{
-   RowBox[{
-    RowBox[{"{", 
-     RowBox[{"bmat", ",", "phimat", ",", "fmat"}], "}"}], "=", 
-    RowBox[{
-     RowBox[{"symbolicComputeBPhiF", "[", 
-      RowBox[{"hmat", ",", "qmat"}], "]"}], "//", "FullSimplify"}]}], ";"}], 
-  "\n"}]], "Input"],
-
-Cell[CellGroupData[{
-
-Cell[BoxData["bmat"], "Input"],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{
-   RowBox[{"{", 
-    RowBox[{"0", ",", 
-     FractionBox[
-      SuperscriptBox[
-       RowBox[{"(", 
-        RowBox[{
-         RowBox[{"-", "1"}], "+", "delta"}], ")"}], "2"], 
-      RowBox[{"delta", "+", "rr"}]]}], "}"}], ",", 
-   RowBox[{"{", 
-    RowBox[{"0", ",", 
-     RowBox[{"1", "-", "delta"}]}], "}"}]}], "}"}]], "Output"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"(*", 
-   RowBox[{
-   "*", "User", " ", "Mathematica", " ", "initialization", " ", "file"}], 
-   "**)"}], 
-  RowBox[{
-   RowBox[{"SetOptions", "[", 
-    RowBox[{"Trace", ",", 
-     RowBox[{"TraceForward", "\[Rule]", "True"}]}], "]"}], "\n", 
-   "\[IndentingNewLine]", "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"windowsQ", "[", "]"}], ":=", 
-     RowBox[{"Not", "[", 
       RowBox[{
-       RowBox[{"StringPosition", "[", 
-        RowBox[{"$Version", ",", "\"\<Windows\>\""}], "]"}], "===", 
-       RowBox[{"{", "}"}]}], "]"}]}], ";"}], "\n", 
-   RowBox[{"If", "[", 
-    RowBox[{
-     RowBox[{"windowsQ", "[", "]"}], ",", 
-     RowBox[{"Print", "[", 
-      RowBox[{"\"\<windows environment: executing commands in init.m\>\"", "<>", 
-       RowBox[{"FindFile", "[", "\"\<init.m\>\"", "]"}]}], "]"}], ",", 
-     RowBox[{"Print", "[", 
-      RowBox[{"\"\<linux environment: executing commands in init.m  \>\"", "<>", 
-       RowBox[{"FindFile", "[", "\"\<init.m\>\"", "]"}]}], "]"}]}], "]"}], 
-   "\[IndentingNewLine]", "\n", 
-   RowBox[{"Needs", "[", "\"\<JLink`\>\"", "]"}]}]}]], "Input",
- InitializationCell->True,
- CellChangeTimes->{3.612027909262737*^9, 3.612028914233737*^9}],
-
-Cell[BoxData[
- RowBox[{"{", 
+       RowBox[{"maxARTime", ":", 
+        RowBox[{"_Integer", "|", "Real"}]}], ",", 
+       RowBox[{"maxEVTime", ":", 
+        RowBox[{"_Integer", "|", "Real"}]}], ",", 
+       RowBox[{"maxBTime", ":", 
+        RowBox[{"_Integer", "|", "Real"}]}]}], "}"}]}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"doModel", "[", 
+       RowBox[{"modName", ",", 
+        RowBox[{"{", 
+         RowBox[{"maxARTime", ",", "maxEVTime", ",", "maxBTime"}], "}"}]}], 
+       "]"}], "=", 
+      RowBox[{
+       RowBox[{"doModelResults", "[", 
+        RowBox[{"modName", ",", 
+         RowBox[{"{", 
+          RowBox[{"maxARTime", ",", "maxEVTime", ",", "maxBTime"}], "}"}]}], 
+        "]"}], "=", "\[IndentingNewLine]", 
+       RowBox[{"Module", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+          "dStr", ",", "vrsn", ",", "machine", ",", "load", ",", "dimTime", 
+           ",", "preEvalsTime", ",", "ARTime", ",", "amatTime", ",", "evTime",
+            ",", "qmatTime", ",", "bmatTime", ",", "ig", ",", "nEqns", ",", 
+           "nLags", ",", "nLeads", ",", "nParams", ",", "isLinearQ", ",", 
+           "paramSubs", ",", "eqns", ",", "hmat", ",", "vars", ",", "zf", ",",
+            "hf", ",", "amat", ",", "lilAmat", ",", "lilCols", ",", "evls", 
+           ",", "evcs", ",", "qmat", ",", "bmat", ",", "phimat", ",", 
+           "fmat"}], "}"}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"dimTime", ",", "ig"}], "}"}], "=", 
+           RowBox[{"Timing", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+              "nEqns", ",", "nLags", ",", "nLeads", ",", "nParams", ",", 
+               "isLinearQ"}], "}"}], "=", 
+             RowBox[{"getModelDims", "[", 
+              RowBox[{"$theModDir", ",", "modName"}], "]"}]}], "]"}]}], ";", 
+          "\n", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"preEvalsTime", ",", "ig"}], "}"}], "=", 
+           RowBox[{"Timing", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+              "ig", ",", "ig", ",", "ig", ",", "ig", ",", "ig", ",", 
+               "paramSubs", ",", "eqns", ",", "hmat", ",", "vars"}], "}"}], 
+             "=", 
+             RowBox[{"preEvals", "[", 
+              RowBox[{"$theModDir", ",", "modName", ",", "$theResDir"}], 
+              "]"}]}], "]"}]}], ";", "\n", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"ARTime", ",", "ig"}], "}"}], "=", 
+           RowBox[{"Timing", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"zf", ",", "hf"}], "}"}], "=", 
+             RowBox[{"TimeConstrained", "[", 
+              RowBox[{
+               RowBox[{"symbolicAR", "[", "hmat", "]"}], ",", "maxARTime", 
+               ",", 
+               RowBox[{"{", 
+                RowBox[{"$Failed", ",", "$Failed"}], "}"}]}], "]"}]}], 
+            "]"}]}], ";", "\n", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"amatTime", ",", "ig"}], "}"}], "=", 
+           RowBox[{"Timing", "[", 
+            RowBox[{
+             RowBox[{"amat", "=", 
+              RowBox[{"symbolicTransitionMatrix", "[", "hf", "]"}]}], ";", 
+             "\n", 
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{"lilAmat", ",", "lilCols"}], "}"}], "=", 
+              RowBox[{"symbolicEliminateInessentialLags", "[", 
+               RowBox[{"{", 
+                RowBox[{"amat", ",", 
+                 RowBox[{"Range", "[", 
+                  RowBox[{"Length", "[", "amat", "]"}], "]"}]}], "}"}], 
+               "]"}]}]}], "]"}]}], ";", "\n", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"evTime", ",", "ig"}], "}"}], "=", 
+           RowBox[{"Timing", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"evls", ",", "evcs"}], "}"}], "=", 
+             RowBox[{"TimeConstrained", "[", 
+              RowBox[{
+               RowBox[{"Eigensystem", "[", 
+                RowBox[{"Transpose", "[", "lilAmat", "]"}], "]"}], ",", 
+               "maxEVTime", ",", 
+               RowBox[{"{", 
+                RowBox[{"$Failed", ",", "$Failed"}], "}"}]}], "]"}]}], 
+            "]"}]}], ";", "\n", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"qmatTime", ",", "ig"}], "}"}], "=", 
+           RowBox[{"Timing", "[", 
+            RowBox[{"qmat", "=", 
+             RowBox[{"genericQmat", "[", 
+              RowBox[{
+               RowBox[{"nEqns", "*", "nLeads"}], ",", "paramSubs", ",", 
+               "evls", ",", 
+               RowBox[{"toLarge", "[", 
+                RowBox[{"evcs", ",", "lilCols", ",", 
+                 RowBox[{"Length", "[", "amat", "]"}]}], "]"}], ",", "zf"}], 
+              "]"}]}], "]"}]}], ";", "\n", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"bmatTime", ",", "ig"}], "}"}], "=", 
+           RowBox[{"Timing", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"bmat", ",", "phimat", ",", "fmat"}], "}"}], "=", 
+             RowBox[{"TimeConstrained", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"symbolicComputeBPhiF", "[", 
+                 RowBox[{"hmat", ",", "qmat"}], "]"}], "//", "FullSimplify"}],
+                ",", "maxBTime", ",", 
+               RowBox[{"{", 
+                RowBox[{"$Failed", ",", "$Failed", ",", "$Failed"}], "}"}]}], 
+              "]"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"dStr", "=", 
+           RowBox[{"DateString", "[", "]"}]}], ";", 
+          RowBox[{"vrsn", "=", "$Version"}], ";", 
+          RowBox[{"machine", "=", "$MachineName"}], ";", 
+          RowBox[{"load", "=", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"$OperatingSystem", "\[Equal]", "\"\<Windows\>\""}], ",", 
+             RowBox[{"{", "}"}], ",", 
+             RowBox[{"ReadList", "[", 
+              RowBox[{"\"\</proc/loadavg\>\"", ",", "Number", ",", "3"}], 
+              "]"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"dStr", ",", "vrsn", ",", "machine", ",", "load"}], 
+             "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{
+             "dimTime", ",", "preEvalsTime", ",", "ARTime", ",", "amatTime", 
+              ",", "evTime", ",", "qmatTime", ",", "bmatTime"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{
+             "nEqns", ",", "nLags", ",", "nLeads", ",", "nParams", ",", 
+              "isLinearQ", ",", "paramSubs", ",", "eqns", ",", "hmat", ",", 
+              "vars"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{
+             "zf", ",", "hf", ",", "amat", ",", "lilAmat", ",", "lilCols"}], 
+             "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"evls", ",", "evcs", ",", "qmat"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"bmat", ",", "phimat", ",", "fmat"}], "}"}]}], "}"}]}]}],
+         "]"}]}]}], ")"}], "/;", 
+    RowBox[{"And", "[", 
+     RowBox[{
+      RowBox[{"maxARTime", ">", "0"}], ",", 
+      RowBox[{"maxEVTime", ">", "0"}], ",", 
+      RowBox[{"maxBTime", ">", "0"}]}], "]"}]}]}], "\n", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"the", " ", "code", " ", "below", " ", 
+    RowBox[{"doesn", "'"}], "t", " ", "work", " ", "as", " ", "expected", " ", 
+    RowBox[{"(", 
+     RowBox[{
+     "ie", " ", "as", " ", "it", " ", "works", " ", "for", " ", "ff", " ", 
+      "further", " ", 
+      RowBox[{"below", ".", " ", "expect"}], " ", "the", " ", "doModel", " ", 
+      "should", " ", "use", " ", "doModelResults", " ", "when", " ", 
+      "available"}]}]}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
   RowBox[{
-   RowBox[{"MatchLocalNames", "\[Rule]", "True"}], ",", 
-   RowBox[{"TraceAbove", "\[Rule]", "False"}], ",", 
-   RowBox[{"TraceBackward", "\[Rule]", "False"}], ",", 
-   RowBox[{"TraceDepth", "\[Rule]", "\[Infinity]"}], ",", 
-   RowBox[{"TraceForward", "\[Rule]", "True"}], ",", 
-   RowBox[{"TraceInternal", "\[Rule]", "Automatic"}], ",", 
-   RowBox[{"TraceOff", "\[Rule]", "None"}], ",", 
-   RowBox[{"TraceOn", "\[Rule]", "None"}], ",", 
-   RowBox[{"TraceOriginal", "\[Rule]", "False"}]}], "}"}]], "Output",
- CellChangeTimes->{3.612028999471737*^9, 3.612029958731737*^9, 
-  3.612030109481737*^9, 3.61203336968769*^9, 3.6120335465813775`*^9, 
-  3.612033631207701*^9}],
+   RowBox[{"doModel", "[", 
+    RowBox[{"modName_String", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"maxARTime", ":", 
+        RowBox[{"_Integer", "|", "Real"}]}], ",", 
+       RowBox[{"maxEVTime", ":", 
+        RowBox[{"_Integer", "|", "Real"}]}], ",", 
+       RowBox[{"maxBTime", ":", 
+        RowBox[{"_Integer", "|", "Real"}]}]}], "}"}]}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"doModelResults", "[", 
+     RowBox[{"modName", ",", 
+      RowBox[{"{", 
+       RowBox[{"maxARTime", ",", "maxEVTime", ",", "maxBTime"}], "}"}]}], 
+     "]"}], "/;", 
+    RowBox[{
+     RowBox[{"Head", "[", 
+      RowBox[{"doModelResults", "[", 
+       RowBox[{"modName", ",", 
+        RowBox[{"{", 
+         RowBox[{"maxARTime", ",", "maxEVTime", ",", "maxBTime"}], "}"}]}], 
+       "]"}], "]"}], "===", "List"}]}]}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ff", "[", 
+   RowBox[{"modName_String", ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"maxARTime", ":", 
+       RowBox[{"_Integer", "|", "Real"}]}], ",", 
+      RowBox[{"maxEVTime", ":", 
+       RowBox[{"_Integer", "|", "Real"}]}], ",", 
+      RowBox[{"maxBTime", ":", 
+       RowBox[{"_Integer", "|", "Real"}]}]}], "}"}]}], "]"}], ":=", 
+  "\"\<explicit\>\""}], "\n", 
+ RowBox[{
+  RowBox[{"ff", "[", 
+   RowBox[{"modName_String", ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"maxARTime", ":", 
+       RowBox[{"_Integer", "|", "Real"}]}], ",", 
+      RowBox[{"maxEVTime", ":", 
+       RowBox[{"_Integer", "|", "Real"}]}], ",", 
+      RowBox[{"maxBTime", ":", 
+       RowBox[{"_Integer", "|", "Real"}]}]}], "}"}]}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"doModelResults", "[", 
+    RowBox[{"modName", ",", 
+     RowBox[{"{", 
+      RowBox[{"maxARTime", ",", "maxEVTime", ",", "maxBTime"}], "}"}]}], 
+    "]"}], "/;", 
+   RowBox[{
+    RowBox[{"Head", "[", 
+     RowBox[{"doModelResults", "[", 
+      RowBox[{"modName", ",", 
+       RowBox[{"{", 
+        RowBox[{"maxARTime", ",", "maxEVTime", ",", "maxBTime"}], "}"}]}], 
+      "]"}], "]"}], "===", "List", "\[IndentingNewLine]"}]}]}]}], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.615918640439404*^9, 3.6159186501192102`*^9}, {
+   3.6159187798386173`*^9, 3.6159187955783024`*^9}, {3.615918842469366*^9, 
+   3.615918846029295*^9}, {3.6159188908493986`*^9, 3.615918894619323*^9}, {
+   3.6159189495492244`*^9, 3.615918952404167*^9}, {3.615919482304579*^9, 
+   3.6159194924543753`*^9}, {3.6159195734527564`*^9, 3.615919590463416*^9}, {
+   3.615920457989072*^9, 3.615920458379064*^9}, {3.6161604672983837`*^9, 
+   3.6161604808770256`*^9}, 3.616263864731003*^9, {3.6163141287832813`*^9, 
+   3.616314132863159*^9}, {3.6163142111608105`*^9, 3.616314217460621*^9}, {
+   3.616315300996116*^9, 3.6163153300152454`*^9}, {3.616315551620598*^9, 
+   3.6163155838696303`*^9}, {3.616315632458173*^9, 3.6163156457677736`*^9}, {
+   3.6163160219755077`*^9, 3.616316032365196*^9}, 3.616316078077829*^9, {
+   3.6163161350301247`*^9, 3.616316140429963*^9}, {3.6163163113748436`*^9, 
+   3.616316326554388*^9}, {3.6163177976025147`*^9, 3.6163178085521865`*^9}, 
+   3.6163301141519413`*^9, {3.6163317220277104`*^9, 3.616331724537635*^9}, {
+   3.6163335725351934`*^9, 3.6163335819349117`*^9}, 3.616334409733081*^9, {
+   3.6163344464519796`*^9, 3.6163345294894886`*^9}, {3.6163359675810127`*^9, 
+   3.6163359880203996`*^9}, {3.6163360201494355`*^9, 3.61633605532838*^9}, {
+   3.6163360853674793`*^9, 3.6163361026469603`*^9}, {3.6163365417492275`*^9, 
+   3.6163365492184057`*^9}, {3.616336808065347*^9, 3.616336811535139*^9}, {
+   3.616337001454584*^9, 3.6163370161539965`*^9}, {3.6163374434387417`*^9, 
+   3.616337444688704*^9}, {3.6163379249852943`*^9, 3.6163379262552567`*^9}, {
+   3.616341362089505*^9, 3.616341364719426*^9}, {3.6163415675363426`*^9, 
+   3.6163416707232466`*^9}}],
+
+Cell[CellGroupData[{
 
 Cell[BoxData["\<\"windows environment: executing commands in \
 init.m\\\\\\\\rsmanas\\\\fldredir$\\\\m1gsa00\\\\AppData\\\\Roaming\\\\\
 Mathematica\\\\Kernel\\\\init.m\"\>"], "Print",
- CellChangeTimes->{3.612028999499737*^9, 3.612029958755737*^9, 
-  3.6120301094877367`*^9, 3.612033369695691*^9, 3.612033546591378*^9, 
-  3.6120336312197013`*^9}]
+ CellChangeTimes->{{3.6163173636963525`*^9, 3.616317365718292*^9}, 
+   3.616317417898739*^9, 3.616317844171118*^9, 3.6163302573576455`*^9, {
+   3.6163316354883003`*^9, 3.616331660953539*^9}, 3.6163360958471646`*^9, 
+   3.616336159275262*^9, {3.616336574487626*^9, 3.61633657617744*^9}, {
+   3.6163368165648375`*^9, 3.6163368401474247`*^9}, 3.6163373734408417`*^9, 
+   3.616338157268326*^9, 3.616338418530488*^9, 3.6163392891263695`*^9, 
+   3.616339610038742*^9, 3.6163396612972045`*^9, 3.6163403927595835`*^9, 
+   3.616340538905199*^9, 3.6163406119350085`*^9, 3.616341417707837*^9, 
+   3.6163418843868365`*^9, 3.6164239847609973`*^9}],
+
+Cell[BoxData["\<\"utilitiesSetUp.m: after parser stable go back to relative \
+path\"\>"], "Print",
+ CellChangeTimes->{{3.6163173636963525`*^9, 3.616317365718292*^9}, 
+   3.616317417898739*^9, 3.616317844171118*^9, 3.6163302573576455`*^9, {
+   3.6163316354883003`*^9, 3.616331660953539*^9}, 3.6163360958471646`*^9, 
+   3.616336159275262*^9, {3.616336574487626*^9, 3.61633657617744*^9}, {
+   3.6163368165648375`*^9, 3.6163368401474247`*^9}, 3.6163373734408417`*^9, 
+   3.616338157268326*^9, 3.616338418530488*^9, 3.6163392891263695`*^9, 
+   3.616339610038742*^9, 3.6163396612972045`*^9, 3.6163403927595835`*^9, 
+   3.616340538905199*^9, 3.6163406119350085`*^9, 3.616341417707837*^9, 
+   3.6163418843868365`*^9, 3.6164239851909847`*^9}],
+
+Cell[BoxData["\<\"prepac\"\>"], "Print",
+ CellChangeTimes->{{3.6163173636963525`*^9, 3.616317365718292*^9}, 
+   3.616317417898739*^9, 3.616317844171118*^9, 3.6163302573576455`*^9, {
+   3.6163316354883003`*^9, 3.616331660953539*^9}, 3.6163360958471646`*^9, 
+   3.616336159275262*^9, {3.616336574487626*^9, 3.61633657617744*^9}, {
+   3.6163368165648375`*^9, 3.6163368401474247`*^9}, 3.6163373734408417`*^9, 
+   3.616338157268326*^9, 3.616338418530488*^9, 3.6163392891263695`*^9, 
+   3.616339610038742*^9, 3.6163396612972045`*^9, 3.6163403927595835`*^9, 
+   3.616340538905199*^9, 3.6163406119350085`*^9, 3.616341417707837*^9, 
+   3.6163418843868365`*^9, 3.6164239874209175`*^9}],
+
+Cell["Global`e", "Print", "PrintUsage",
+ CellChangeTimes->{3.616423987610912*^9},
+ CellTags->"Info3616409587-3636054"],
+
+Cell[BoxData["\<\"done reading SymbolicAMA\"\>"], "Print",
+ CellChangeTimes->{{3.6163173636963525`*^9, 3.616317365718292*^9}, 
+   3.616317417898739*^9, 3.616317844171118*^9, 3.6163302573576455`*^9, {
+   3.6163316354883003`*^9, 3.616331660953539*^9}, 3.6163360958471646`*^9, 
+   3.616336159275262*^9, {3.616336574487626*^9, 3.61633657617744*^9}, {
+   3.6163368165648375`*^9, 3.6163368401474247`*^9}, 3.6163373734408417`*^9, 
+   3.616338157268326*^9, 3.616338418530488*^9, 3.6163392891263695`*^9, 
+   3.616339610038742*^9, 3.6163396612972045`*^9, 3.6163403927595835`*^9, 
+   3.616340538905199*^9, 3.6163406119350085`*^9, 3.616341417707837*^9, 
+   3.6163418843868365`*^9, 3.6164239876809096`*^9}],
+
+Cell[BoxData["\<\"done reading NumericAMA\"\>"], "Print",
+ CellChangeTimes->{{3.6163173636963525`*^9, 3.616317365718292*^9}, 
+   3.616317417898739*^9, 3.616317844171118*^9, 3.6163302573576455`*^9, {
+   3.6163316354883003`*^9, 3.616331660953539*^9}, 3.6163360958471646`*^9, 
+   3.616336159275262*^9, {3.616336574487626*^9, 3.61633657617744*^9}, {
+   3.6163368165648375`*^9, 3.6163368401474247`*^9}, 3.6163373734408417`*^9, 
+   3.616338157268326*^9, 3.616338418530488*^9, 3.6163392891263695`*^9, 
+   3.616339610038742*^9, 3.6163396612972045`*^9, 3.6163403927595835`*^9, 
+   3.616340538905199*^9, 3.6163406119350085`*^9, 3.616341417707837*^9, 
+   3.6163418843868365`*^9, 3.616423987750908*^9}],
+
+Cell[BoxData["\<\"done reading AMAModel\"\>"], "Print",
+ CellChangeTimes->{{3.6163173636963525`*^9, 3.616317365718292*^9}, 
+   3.616317417898739*^9, 3.616317844171118*^9, 3.6163302573576455`*^9, {
+   3.6163316354883003`*^9, 3.616331660953539*^9}, 3.6163360958471646`*^9, 
+   3.616336159275262*^9, {3.616336574487626*^9, 3.61633657617744*^9}, {
+   3.6163368165648375`*^9, 3.6163368401474247`*^9}, 3.6163373734408417`*^9, 
+   3.616338157268326*^9, 3.616338418530488*^9, 3.6163392891263695`*^9, 
+   3.616339610038742*^9, 3.6163396612972045`*^9, 3.6163403927595835`*^9, 
+   3.616340538905199*^9, 3.6163406119350085`*^9, 3.616341417707837*^9, 
+   3.6163418843868365`*^9, 3.6164239878109055`*^9}]
 }, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"\[IndentingNewLine]", 
-  RowBox[{
-   RowBox[{"If", "[", 
-    RowBox[{
-     RowBox[{"windowsQ", "[", "]"}], ",", 
-     RowBox[{"Switch", "[", 
-      RowBox[{"$MachineName", ",", "\"\<ws-m1gsa00\>\"", ",", 
-       RowBox[{"ReinstallJava", "[", 
-        RowBox[{
-        "CommandLine", "\[Rule]", 
-         "\"\<C:/Program Files/Java/jdk1.7.0_51/bin/java  -showversion\>\""}],
-         "]"}]}], "]"}], ",", 
-     RowBox[{"(*", 
-      RowBox[{
-       RowBox[{"ReinstallJava", "[", 
-        RowBox[{
-        "CommandLine", "\[Rule]", 
-         "\"\<C:/RSMA/Java/jdk1.7.0/bin  -showversion\>\""}], "]"}], ","}], 
-      "*)"}], 
-     RowBox[{"ReinstallJava", "[", 
-      RowBox[{
-      "CommandLine", "\[Rule]", 
-       "\"\</msu/scratch2/m1gsa00/jdk1.7.0/bin/java  -showversion\>\""}], 
-      "]"}]}], "]"}], "\n", 
-   RowBox[{
-    RowBox[{"Off", "[", 
-     RowBox[{"Syntax", "::", "sntufn"}], "]"}], ";"}]}]}]], "Input",
- InitializationCell->True,
- CellChangeTimes->{
-  3.612027909262737*^9, {3.612028914233737*^9, 3.6120289243267365`*^9}, {
-   3.6120295950557365`*^9, 3.612029624983737*^9}, {3.6120296839447365`*^9, 
-   3.612029714372737*^9}, {3.6120297848127365`*^9, 3.612029788465737*^9}, {
-   3.6120298232107368`*^9, 3.612029829976737*^9}, {3.612030062334737*^9, 
-   3.612030063117737*^9}}],
-
-Cell[BoxData[
- RowBox[{"LinkObject", "[", 
-  RowBox[{"\<\"C:/Program Files/Java/jdk1.7.0_51/bin/java  -showversion \
--classpath \\\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\\\\JLink\\\\JLink.jar\\\
-\" -Xmx256m  \
--Djava.system.class.loader=com.wolfram.jlink.JLinkSystemClassLoader \
-com.wolfram.jlink.Install -init \
-\\\"C:\\\\Users\\\\m1gsa00\\\\AppData\\\\Local\\\\Temp\\\\m-c956197d-1754-\
-4346-99ea-d87a51f0a88e\\\"\"\>", ",", "108", ",", "4"}], "]"}]], "Output",
- CellChangeTimes->{3.612029649563737*^9, 3.6120299660527368`*^9, 
-  3.612030018736737*^9, 3.6120300680597367`*^9, 3.612030109642737*^9, 
-  3.612033369826704*^9, 3.61203354671039*^9, 3.612033631293701*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData["$Path"], "Input",
- CellChangeTimes->{{3.612032456610179*^9, 3.6120324579068623`*^9}}],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Links\"\>", 
-   ",", "\<\"\\\\\\\\rsmanas\\\\fldredir$\\\\m1gsa00\\\\AppData\\\\Roaming\\\\\
-Mathematica\\\\Kernel\"\>", 
-   ",", "\<\"\\\\\\\\rsmanas\\\\fldredir$\\\\m1gsa00\\\\AppData\\\\Roaming\\\\\
-Mathematica\\\\Autoload\"\>", 
-   ",", "\<\"\\\\\\\\rsmanas\\\\fldredir$\\\\m1gsa00\\\\AppData\\\\Roaming\\\\\
-Mathematica\\\\Applications\"\>", 
-   ",", "\<\"C:\\\\ProgramData\\\\Mathematica\\\\Kernel\"\>", 
-   ",", "\<\"C:\\\\ProgramData\\\\Mathematica\\\\Autoload\"\>", 
-   ",", "\<\"C:\\\\ProgramData\\\\Mathematica\\\\Applications\"\>", 
-   ",", "\<\".\"\>", ",", "\<\"C:\\\\Users\\\\m1gsa00\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Packages\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\LegacyPackages\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Autoload\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Autoload\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\Applications\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\AddOns\\\\ExtraPackages\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Kernel\\\\Packages\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\Documentation\\\\English\\\\System\"\>", 
-   ",", "\<\"C:\\\\Program Files\\\\Wolfram \
-Research\\\\Mathematica\\\\9.0\\\\SystemFiles\\\\Data\\\\ICC\"\>"}], 
-  "}"}]], "Output",
- CellChangeTimes->{3.612032458523663*^9}]
-}, Open  ]],
-
-Cell[BoxData[
- RowBox[{"Needs", "[", "\"\<console`\>\"", "]"}]], "Input",
- InitializationCell->True,
- CellChangeTimes->{
-  3.612027909262737*^9, {3.612028914233737*^9, 3.612028928637737*^9}}],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{
-   RowBox[{"On", "[", 
-    RowBox[{"Syntax", "::", "sntufn"}], "]"}], ";"}], "\n", 
-  RowBox[{"(*", 
-   RowBox[{
-    RowBox[{
-    "When", " ", "you", " ", "first", " ", "install", " ", "Mathematica", " ", 
-     RowBox[{"it", "'"}], "s", " ", "configured", " ", "so", " ", "that", " ",
-      "when", " ", "you", " ", "start", " ", "up", " ", "the", " ", 
-     "program"}], ",", 
-    RowBox[{
-    "the", " ", "Welcome", " ", "screen", " ", "comes", " ", "up", " ", "as", 
-     " ", "well", " ", "as", " ", "the", " ", "Documentation", " ", "Center", 
-     " ", 
-     RowBox[{"dialog", ".", "Having"}], " ", "to", " ", "close", " ", "both", 
-     " ", "of", " ", "these", " ", "windows", " ", "every", " ", "time", " ", 
-     "Mathematica", " ", "starts", " ", "is", " ", 
-     RowBox[{"annoying", ".", "You"}], " ", "can", " ", "prevent", " ", 
-     "these", " ", "windows", " ", "from", " ", "opening", " ", "by", " ", 
-     "adding", " ", "the", " ", "following", " ", "two", " ", "lines", " ", 
-     "to", " ", "the", " ", "Mathematica", " ", "initialization", " ", 
-     RowBox[{"file", ":"}]}]}], "*)"}], "\[IndentingNewLine]", 
-  "\[IndentingNewLine]", 
-  RowBox[{"(*", 
-   RowBox[{"If", "[", 
-    RowBox[{
-     RowBox[{"$FrontEnd", "=!=", "Null"}], ",", 
-     RowBox[{
-      RowBox[{"SetOptions", "[", 
-       RowBox[{"$FrontEnd", ",", 
-        RowBox[{"DockedCells", "\[Rule]", 
-         RowBox[{"{", "}"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
-      RowBox[{"SetOptions", "[", 
-       RowBox[{"$FrontEnd", ",", 
-        RowBox[{"AutoOpenNotebooks", "\[Rule]", 
-         RowBox[{"{", "}"}]}]}], "]"}]}]}], "]"}], "*)"}], 
-  "\[IndentingNewLine]"}]], "Input",
- InitializationCell->True,
- CellChangeTimes->{
-  3.612027909262737*^9, {3.612028914233737*^9, 3.6120289576007366`*^9}}],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"\[IndentingNewLine]", 
-  RowBox[{"If", "[", 
-   RowBox[{
-    RowBox[{"windowsQ", "[", "]"}], ",", "\[IndentingNewLine]", 
-    RowBox[{
-     RowBox[{
-     "SetDirectory", "[", "\"\<c:/forGit/paperProduction/symbAMA/code\>\"", 
-      "]"}], ";", "\[IndentingNewLine]", 
-     RowBox[{"Switch", "[", 
-      RowBox[{"$MachineName", ",", "\"\<ws-m1gsa00\>\"", ",", 
-       RowBox[{"Module", "[", 
-        RowBox[{
-         RowBox[{"{", "}"}], ",", 
-         RowBox[{
-          RowBox[{
-          "$pertPath", "=", 
-           "\"\<G:/scratch/tryBenchWindows3.5/Perturbation/\>\""}], ";", 
-          "\[IndentingNewLine]", 
-          RowBox[{
-          "$umbraPath", "=", 
-           "\"\<C:/gitHome/git/forUmbraCalculus/umbraCalculus/umbraCalculus/\>\
-\""}], ";", "\[IndentingNewLine]", 
-          RowBox[{
-          "$AMAPath", "=", 
-           "\"\<G:/RES2/mathAMA/AndersonMooreAlgorithm/\>\""}], ";", 
-          "\[IndentingNewLine]", 
-          RowBox[{"$FormatPath", "=", "\"\<S:/learnProjection/proto/\>\""}], 
-          ";", "\[IndentingNewLine]", 
-          RowBox[{
-          "$projPath", "=", 
-           "\"\<G:/RES2/ProjectionMethodTools/projection/\>\""}], ";", 
-          "\[IndentingNewLine]", 
-          RowBox[{"$projCPath", "=", 
-           RowBox[{"{", 
-            RowBox[{
-            "\"\<G:/RES2/ProjectionMethodTools/projection/target/test-classes\
-\>\"", ",", "\"\<G:/RES2/ProjectionMethodTools/projection/target/classes\>\"",
-              ",", "\"\<r:/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\"", ",", 
-             "\"\<r:/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-1.\
-0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\"", ",", 
-             "\"\<r:/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-projection/1.0-SNAPSHOT/projection-1.0-SNAPSHOT.jar\>\""}], "}"}]}]}]}], 
-        "]"}]}], "]"}]}], ",", 
-    RowBox[{
-     RowBox[{
-     "$pertPath", "=", 
-      "\"\</msu/home/m1gsa00/scratch/tryBenchWindows3.5/Perturbation/\>\""}], 
-     ";", "\[IndentingNewLine]", 
-     RowBox[{
-     "$umbraPath", "=", 
-      "\"\</msu/home/m1gsa00/git/umbralCalculus/umbralCalculus\>\""}], ";", 
-     "\[IndentingNewLine]", 
-     RowBox[{"$eigProjPath", "=", "\"\</msu/res2/m1gsa00/dynareAntlr/\>\""}], 
-     ";", "\[IndentingNewLine]", 
-     RowBox[{"$eigProjCPath", "=", 
-      RowBox[{"{", 
-       RowBox[{
-       "\"\</msu/res2/m1gsa00/dynareAntlr/target/test-classes\>\"", ",", 
-        "\"\</msu/res2/m1gsa00/dynareAntlr/target/classes\>\"", ",", 
-        "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\"", ",", 
-        "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-\
-1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\"", ",", 
-        "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\""}], "}"}]}], ";", 
-     "\[IndentingNewLine]", 
-     RowBox[{
-     "$AMAPath", "=", 
-      "\"\</msu/home/m1gsa00/RES2/mathAMA/AndersonMooreAlgorithm/\>\""}], ";",
-      "\[IndentingNewLine]", 
-     RowBox[{
-     "$FormatPath", "=", 
-      "\"\</msu/scratch/m1gsa00/learnProjection/proto/\>\""}], ";", 
-     "\[IndentingNewLine]", 
-     RowBox[{
-     "$projPath", "=", 
-      "\"\</msu/home/m1gsa00/RES2/ProjectionMethodTools/projection/\>\""}], 
-     ";", "\[IndentingNewLine]", 
-     RowBox[{"$projCPath", "=", 
-      RowBox[{"{", 
-       RowBox[{
-       "\"\</msu/home/m1gsa00/RES2/ProjectionMethodTools/projection/target/\
-test-classes\>\"", ",", 
-        "\"\</msu/home/m1gsa00/RES2/ProjectionMethodTools/projection/target/\
-classes\>\"", ",", 
-        "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\"", ",", 
-        "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-\
-1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\"", ",", 
-        "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-projection/1.0-SNAPSHOT/projection-1.0-SNAPSHOT.jar\>\""}], "}"}]}], ";", 
-     "\[IndentingNewLine]", 
-     RowBox[{"$eigProjPath", "=", "\"\</msu/res2/m1gsa00/dynareAntlr/\>\""}], 
-     ";", "\[IndentingNewLine]", 
-     RowBox[{"$eigProjCPath", "=", 
-      RowBox[{"{", 
-       RowBox[{
-       "\"\</msu/res2/m1gsa00/dynareAntlr/target/test-classes\>\"", ",", 
-        "\"\</msu/res2/m1gsa00/dynareAntlr/target/classes\>\"", ",", 
-        "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-commons-math/2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\>\"", ",", 
-        "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-\
-1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\"", ",", 
-        "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-dynareAntlr/1.0-SNAPSHOT/dynareAntlr-1.0-SNAPSHOT.jar\>\"", ",", 
-        "\"\</msu/home/m1gsa00/scratch/tryRep/org/antlr/antlr-runtime/3.2/\
-antlr-runtime-3.2.jar\>\""}], "}"}]}], ";"}]}], "]"}]}]], "Input",
- InitializationCell->True,
- CellChangeTimes->{
-  3.612027909262737*^9, {3.612028914233737*^9, 3.6120289576007366`*^9}, {
-   3.6120329810163336`*^9, 3.612032985257453*^9}, {3.612033025186789*^9, 
-   3.6120330540665636`*^9}, {3.612033128927533*^9, 3.6120331356518774`*^9}, {
-   3.6120331746566772`*^9, 3.6120331768751206`*^9}, {3.612033231999143*^9, 
-   3.6120333101057324`*^9}, {3.61203345389611*^9, 3.6120334979015102`*^9}}],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"\<\"G:/RES2/ProjectionMethodTools/projection/target/test-classes\"\
-\>", ",", "\<\"G:/RES2/ProjectionMethodTools/projection/target/classes\"\>", 
-   ",", "\<\"r:/Software/mavenRepositories/tryRep/gov/frb/ma/msu/commons-math/\
-2.2-SNAPSHOT/commons-math-2.2-SNAPSHOT.jar\"\>", 
-   ",", "\<\"r:/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-1.0.2/1.\
-0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\"\>", 
-   ",", "\<\"r:/Software/mavenRepositories/tryRep/gov/frb/ma/msu/projection/1.\
-0-SNAPSHOT/projection-1.0-SNAPSHOT.jar\"\>"}], "}"}]], "Output",
- CellChangeTimes->{3.612033503317052*^9, 3.6120335468134007`*^9, 
-  3.6120336313837013`*^9}]
-}, Open  ]],
-
-Cell[BoxData["\"\<]\\\>"], "Input",
- CellChangeTimes->{{3.6120334847051907`*^9, 3.6120334868344035`*^9}}],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
-  RowBox[{"(*", 
-   RowBox[{
-   "prep", " ", "for", " ", "2011", " ", "sce", " ", "presentation", " ", 
-    "calcs"}], "*)"}], "\[IndentingNewLine]", 
-  RowBox[{
-   RowBox[{
-    RowBox[{"prepSCE2011", "[", "]"}], ":=", 
-    RowBox[{"Module", "[", 
-     RowBox[{
-      RowBox[{"{", "}"}], ",", 
-      RowBox[{
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$pertPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$umbraPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$AMAPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$projPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$eigProjPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$FormatPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"<<", "SymbolicAMA`"}], ";", "\[IndentingNewLine]", 
-       RowBox[{"<<", "NumericAMA`"}], ";", "\[IndentingNewLine]", 
-       RowBox[{"<<", "AndersonMooreAlgorithm`AMAModel`"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"If", "[", 
-        RowBox[{
-         RowBox[{"Not", "[", 
-          RowBox[{"StringQ", "[", "$installDir", "]"}], "]"}], ",", 
-         RowBox[{"$installDir", "=", 
-          RowBox[{"StringReplace", "[", 
-           RowBox[{
-            RowBox[{
-            "FindFile", "[", "\"\<AndersonMooreAlgorithm`AMAModel`\>\"", 
-             "]"}], ",", 
-            RowBox[{"\"\<AMAModel.m\>\"", "\[Rule]", "\"\<\>\""}]}], 
-           "]"}]}]}], "]"}], ";", 
-       RowBox[{"(*", 
-        RowBox[{
-         RowBox[{"SetDirectory", "[", 
-          RowBox[{"StringReplace", "[", 
-           RowBox[{
-            RowBox[{"FindFile", "[", "\"\<paper.mth\>\"", "]"}], ",", 
-            RowBox[{"\"\<paper.mth\>\"", "\[Rule]", "\"\<\>\""}]}], "]"}], 
-          "]"}], ";"}], "*)"}], 
-       RowBox[{"(*", 
-        RowBox[{
-         RowBox[{
-         "SetDirectory", "[", "\"\<dynareExamples/examples\>\"", "]"}], ";"}],
-         "*)"}], 
-       RowBox[{"Needs", "[", "\"\<SSProjection`\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"Needs", "[", "\"\<RootProjection`\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"Needs", "[", "\"\<EigenspaceProjection`\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"Needs", "[", "\"\<Format`\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"Needs", "[", "\"\<Experimental`\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"ReinstallJava", "[", 
-        RowBox[{"JVMArguments", "\[Rule]", "\"\<-Xmx1080m\>\""}], "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"AddToClassPath", "[", 
-        RowBox[{
-        "\"\</msu/res2/m1gsa00/sce11/\>\"", ",", 
-         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-projection/1.0-SNAPSHOT/projection-1.0-SNAPSHOT.jar\>\"", ",", 
-         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-commons-math/1.0-SNAPSHOT/commons-math-1.0-SNAPSHOT.jar\>\"", ",", 
-         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-\
-1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\""}], "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"AddToClassPath", "/@", "$projCPath"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"AddToClassPath", "/@", "$eigProjCPath"}], ";"}]}], "]"}]}], 
-   "\[IndentingNewLine]", "\n", 
-   RowBox[{"(*", 
-    RowBox[{"prep", " ", "for", " ", "dynare", " ", "calculations"}], "*)"}], 
-   "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{"prepDynare", "[", "]"}], ":=", 
-    RowBox[{"Module", "[", 
-     RowBox[{
-      RowBox[{"{", "}"}], ",", 
-      RowBox[{
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$AMAPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$projPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$eigProjPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$FormatPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"<<", "AndersonMooreAlgorithm`SymbolicAMA`"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"<<", "AndersonMooreAlgorithm`NumericAMA`"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"<<", "AndersonMooreAlgorithm`AMAModel`"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"If", "[", 
-        RowBox[{
-         RowBox[{"Not", "[", 
-          RowBox[{"StringQ", "[", "$installDir", "]"}], "]"}], ",", 
-         RowBox[{"$installDir", "=", 
-          RowBox[{"StringReplace", "[", 
-           RowBox[{
-            RowBox[{
-            "FindFile", "[", "\"\<AndersonMooreAlgorithm`AMAModel`\>\"", 
-             "]"}], ",", 
-            RowBox[{"\"\<AMAModel.m\>\"", "\[Rule]", "\"\<\>\""}]}], 
-           "]"}]}]}], "]"}], ";", 
-       RowBox[{"(*", 
-        RowBox[{"(*", 
-         RowBox[{
-          RowBox[{"SetDirectory", "[", 
-           RowBox[{"StringReplace", "[", 
-            RowBox[{
-             RowBox[{"FindFile", "[", "\"\<paper.mth\>\"", "]"}], ",", 
-             RowBox[{"\"\<paper.mth\>\"", "\[Rule]", "\"\<\>\""}]}], "]"}], 
-           "]"}], ";"}], "*)"}], 
-        RowBox[{
-         RowBox[{
-         "SetDirectory", "[", "\"\<dynareExamples/examples\>\"", "]"}], ";"}],
-         "*)"}], 
-       RowBox[{"Needs", "[", "\"\<RootProjection`\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"Needs", "[", "\"\<EigenspaceProjection`\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"Needs", "[", "\"\<Format`\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"Needs", "[", "\"\<Experimental`\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"ReinstallJava", "[", 
-        RowBox[{"JVMArguments", "\[Rule]", "\"\<-Xmx1080m\>\""}], "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"AddToClassPath", "/@", "$projCPath"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"AddToClassPath", "/@", "$eigProjCPath"}], ";"}]}], "]"}]}], 
-   "\[IndentingNewLine]", "\n", 
-   RowBox[{
-    RowBox[{"computeLSFullSymbolic", "[", "]"}], ":=", 
-    RowBox[{"Module", "[", 
-     RowBox[{
-      RowBox[{"{", "}"}], ",", 
-      RowBox[{
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "\"\</msu/home/m1gsa00/RES2/sce11/\>\""}], 
-         "]"}]}], ";", "\[IndentingNewLine]", 
-       RowBox[{"Get", "[", "\"\<computeLSFullSymbolic.mth\>\"", "]"}], 
-       ";"}]}], "]"}]}], "\[IndentingNewLine]", "\n", 
-   RowBox[{
-    RowBox[{"prepForLSProjection", "[", "]"}], ":=", 
-    RowBox[{"Module", "[", 
-     RowBox[{
-      RowBox[{"{", "}"}], ",", 
-      RowBox[{
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "\"\</msu/home/m1gsa00/RES2/sce11/\>\""}], 
-         "]"}]}], ";", "\[IndentingNewLine]", 
-       RowBox[{"Get", "[", "\"\<prepForLSProjection.mth\>\"", "]"}]}]}], 
-     "]"}]}], "\[IndentingNewLine]", "\n", "\[IndentingNewLine]", 
-   "\[IndentingNewLine]", "\[IndentingNewLine]", 
-   RowBox[{"(*", 
-    RowBox[{
-    "prep", " ", "for", " ", "2011", " ", "sce", " ", "presentation", " ", 
-     "calcs"}], "*)"}], "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{"prepSCE2011", "[", "]"}], ":=", 
-    RowBox[{"Module", "[", 
-     RowBox[{
-      RowBox[{"{", "}"}], ",", 
-      RowBox[{
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$pertPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$umbraPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$AMAPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$projPath"}], "]"}]}], ";"}]}], 
-     "\[IndentingNewLine]", 
-     RowBox[{"(*", 
-      RowBox[{
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$eigProjPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$FormatPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"<<", "SymbolicAMA`"}], ";", "\[IndentingNewLine]", 
-       RowBox[{"<<", "NumericAMA`"}], ";", "\[IndentingNewLine]", 
-       RowBox[{"<<", "AndersonMooreAlgorithm`AMAModel`"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"If", "[", 
-        RowBox[{
-         RowBox[{"Not", "[", 
-          RowBox[{"StringQ", "[", "$installDir", "]"}], "]"}], ",", 
-         RowBox[{"$installDir", "=", 
-          RowBox[{"StringReplace", "[", 
-           RowBox[{
-            RowBox[{
-            "FindFile", "[", "\"\<AndersonMooreAlgorithm`AMAModel`\>\"", 
-             "]"}], ",", 
-            RowBox[{"\"\<AMAModel.m\>\"", "\[Rule]", "\"\<\>\""}]}], 
-           "]"}]}]}], "]"}], ";", 
-       RowBox[{"(*", 
-        RowBox[{
-         RowBox[{"SetDirectory", "[", 
-          RowBox[{"StringReplace", "[", 
-           RowBox[{
-            RowBox[{"FindFile", "[", "\"\<paper.mth\>\"", "]"}], ",", 
-            RowBox[{"\"\<paper.mth\>\"", "\[Rule]", "\"\<\>\""}]}], "]"}], 
-          "]"}], ";"}], "*)"}], 
-       RowBox[{"(*", 
-        RowBox[{
-         RowBox[{
-         "SetDirectory", "[", "\"\<dynareExamples/examples\>\"", "]"}], ";"}],
-         "*)"}], 
-       RowBox[{"Needs", "[", "\"\<SSProjection`\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"Needs", "[", "\"\<RootProjection`\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"Needs", "[", "\"\<EigenspaceProjection`\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"Needs", "[", "\"\<Format`\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"Needs", "[", "\"\<Experimental`\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"ReinstallJava", "[", 
-        RowBox[{"JVMArguments", "\[Rule]", "\"\<-Xmx1080m\>\""}], "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"AddToClassPath", "[", 
-        RowBox[{
-        "\"\</msu/res2/m1gsa00/sce11/\>\"", ",", 
-         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-projection/1.0-SNAPSHOT/projection-1.0-SNAPSHOT.jar\>\"", ",", 
-         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-commons-math/1.0-SNAPSHOT/commons-math-1.0-SNAPSHOT.jar\>\"", ",", 
-         "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/Jama-\
-1.0.2/1.0-SNAPSHOT/Jama-1.0.2-1.0-SNAPSHOT.jar\>\""}], "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"AddToClassPath", "/@", "$projCPath"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"AddToClassPath", "/@", "$eigProjCPath"}], ";"}], "*)"}], 
-     "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
-   "\[IndentingNewLine]", 
-   RowBox[{"(*", 
-    RowBox[{
-    "prep", " ", "for", " ", "2013", " ", "sce", " ", "presentation", " ", 
-     "calcs"}], "*)"}], "\n", "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{"$gitDir", "=", 
-     RowBox[{"If", "[", 
-      RowBox[{
-       RowBox[{"windowsQ", "[", "]"}], ",", "\"\<g:/git/\>\"", ",", 
-       "\"\</msu/home/m1gsa00/git/\>\""}], "]"}]}], ";"}], 
-   "\[IndentingNewLine]", "\n", 
-   RowBox[{
-    RowBox[{"$pertPath", "=", 
-     RowBox[{"$gitDir", "<>", "\"\<MatPert/MatPert\>\""}]}], ";"}], "\n", 
-   RowBox[{
-    RowBox[{"$umbraPath", "=", 
-     RowBox[{"$gitDir", "<>", "\"\<umbralCalculus/umbralCalculus\>\""}]}], 
-    ";"}], "\n", 
-   RowBox[{
-    RowBox[{"$impPath", "=", 
-     RowBox[{
-     "$gitDir", "<>", 
-      "\"\<ImpulseResponseErgodic/ImpulseResponseErgodic\>\""}]}], ";"}], 
-   "\n", 
-   RowBox[{
-    RowBox[{"$nAMAPath", "=", 
-     RowBox[{"$gitDir", "<>", "\"\<mathAMA/NumericAMA/NumericAMA\>\""}]}], 
-    ";"}], "\n", 
-   RowBox[{
-    RowBox[{"$sAMAPath", "=", 
-     RowBox[{"$gitDir", "<>", "\"\<mathAMA/SymbolicAMA/SymbolicAMA\>\""}]}], 
-    ";"}], "\n", 
-   RowBox[{
-    RowBox[{"$oldPertPath", "=", 
-     RowBox[{"$gitDir", "<>", "\"\<mathAMA/Perturbation/Perturbation\>\""}]}],
-     ";"}], "\n", 
-   RowBox[{
-    RowBox[{"$projPath", "=", 
-     RowBox[{
-     "$gitDir", "<>", 
-      "\"\<ProjectionMethodTools/ProjectionMethodTools\>\""}]}], ";"}], 
-   "\[IndentingNewLine]", "\n", 
-   RowBox[{
-    RowBox[{"prepSCE2013", "[", "]"}], ":=", 
-    RowBox[{"Module", "[", 
-     RowBox[{
-      RowBox[{"{", "}"}], ",", 
-      RowBox[{
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$pertPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$umbraPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$impPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$nAMAPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$sAMAPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$oldPertPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"$Path", "=", 
-        RowBox[{"PrependTo", "[", 
-         RowBox[{"$Path", ",", "$projPath"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"Needs", "[", "\"\<ImpulseResponseErgodic`\>\"", "]"}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"Needs", "[", "\"\<ProjectionMethodTools`\>\"", "]"}], ";", 
-       RowBox[{"pre", "=", "\"\<gov.frb.ma.msu.\>\""}], ";", 
-       RowBox[{"InstallJava", "[", "]"}], ";", "\[IndentingNewLine]", 
-       RowBox[{
-        RowBox[{"Get", "[", "\"\<neoKeynesianEqnsSubs.mth\>\"", "]"}], " ", 
-        RowBox[{"AddToClassPath", "[", 
-         RowBox[{
-         "\"\</msu/res2/m1gsa00/sce13/\>\"", ",", 
-          "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-ProjectionMethodToolsJava/0.0.1-SNAPSHOT/ProjectionMethodToolsJava-0.0.1-\
-SNAPSHOT.jar\>\"", ",", 
-          "\"\</msu/res1/Software/mavenRepositories/tryRep/gov/frb/ma/msu/\
-commons-math/1.0-SNAPSHOT/commons-math-1.0-SNAPSHOT.jar\>\"", ",", 
-          "\"\</msu/res1/Software/mavenRepositories/tryRep/math/nist/gov/Jama/\
-1.0.3/Jama-1.0.3.jar\>\""}], "]"}]}], ";"}]}], "]"}]}], "\n", 
-   RowBox[{
-    RowBox[{
-    "Get", "[", "\"\</msu/home/m1gsa00/.Mathematica/Kernel/init.m\>\"", "]"}],
-     ";", 
-    RowBox[{"PrependTo", "[", 
-     RowBox[{
-     "$Path", ",", 
-      "\"\</a/msulx1/lcl/msu/home/m1gsa00/git/paperProduction/symbAMA/code/\>\
-\""}], "]"}], ";", 
-    RowBox[{"Needs", "[", "\"\<stepByStep`\>\"", "]"}], ";", 
-    RowBox[{
-    "$theModDir", "=", 
-     "\"\</msu/home/m1gsa00/git/paperProduction/symbAMA/code/dynareExamples/\
-uniqueExamples/\>\""}], ";"}]}]}]], "Input",
- InitializationCell->True,
- CellChangeTimes->{
-  3.612027909262737*^9, {3.612028914233737*^9, 3.6120289576007366`*^9}, {
-   3.6120329810163336`*^9, 3.612032985257453*^9}, {3.612033025186789*^9, 
-   3.6120330540665636`*^9}}],
 
 Cell[BoxData[
  RowBox[{
   StyleBox[
-   RowBox[{"Get", "::", "noopen"}], "MessageName"], 
+   RowBox[{"e", "::", "shdw"}], "MessageName"], 
   RowBox[{
-  ":", " "}], "\<\"Cannot open \
-\[NoBreak]\\!\\(\\\"/msu/home/m1gsa00/.Mathematica/Kernel/init.m\\\"\\)\
-\[NoBreak]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
-ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
-ButtonData:>\\\"paclet:ref/message/General/noopen\\\", ButtonNote -> \
-\\\"Get::noopen\\\"]\\)\"\>"}]], "Message", "MSG",
- CellChangeTimes->{3.6120279362707367`*^9, 3.612033316923414*^9, 
-  3.6120333701147327`*^9, 3.6120335469954185`*^9, 3.6120336315847015`*^9}],
+  ":", " "}], "\<\"Symbol \[NoBreak]\\!\\(\\\"e\\\"\\)\[NoBreak] appears in \
+multiple contexts \[NoBreak]\\!\\({\\\"Format`\\\", \\\"Global`\\\"}\\)\
+\[NoBreak]; definitions in context \[NoBreak]\\!\\(\\\"Format`\\\"\\)\
+\[NoBreak] may shadow or be shadowed by other definitions. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/shdw\\\", \
+ButtonNote -> \\\"Format`e::shdw\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.616337374900798*^9, 3.616338158658284*^9, 
+  3.616338420020443*^9, 3.6163392905763254`*^9, 3.6163396115486965`*^9, 
+  3.616339662687163*^9, 3.616340394299537*^9, 3.616340540505151*^9, 
+  3.6163406134349637`*^9, 3.6163414193377876`*^9, 3.616341886038788*^9, 
+  3.6164239881508956`*^9}],
 
-Cell[CellGroupData[{
-
-Cell[BoxData["\<\"utilitiesSetUp.m: after parser stable go back to relative \
-path\"\>"], "Print",
- CellChangeTimes->{3.6120335470214214`*^9, 3.612033631603701*^9}],
-
-Cell[BoxData["\<\"done reading SymbolicAMA\"\>"], "Print",
- CellChangeTimes->{3.6120335470214214`*^9, 3.6120336317377014`*^9}],
-
-Cell[BoxData["\<\"done reading NumericAMA\"\>"], "Print",
- CellChangeTimes->{3.6120335470214214`*^9, 3.612033631766701*^9}],
-
-Cell[BoxData["\<\"done reading AMAModel\"\>"], "Print",
- CellChangeTimes->{3.6120335470214214`*^9, 3.612033631793701*^9}]
-}, Open  ]]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"FindFile", "[", "\"\<init.m\>\"", "]"}]], "Input",
- CellChangeTimes->{{3.6120281898167367`*^9, 3.6120281952207365`*^9}}],
-
-Cell[BoxData["\<\"\\\\\\\\rsmanas\\\\fldredir$\\\\m1gsa00\\\\AppData\\\\\
-Roaming\\\\Mathematica\\\\Kernel\\\\init.m\"\>"], "Output",
- CellChangeTimes->{3.612028195983737*^9}]
+Cell[BoxData["\<\"done reading AccelerateAMA\"\>"], "Print",
+ CellChangeTimes->{{3.6163173636963525`*^9, 3.616317365718292*^9}, 
+   3.616317417898739*^9, 3.616317844171118*^9, 3.6163302573576455`*^9, {
+   3.6163316354883003`*^9, 3.616331660953539*^9}, 3.6163360958471646`*^9, 
+   3.616336159275262*^9, {3.616336574487626*^9, 3.61633657617744*^9}, {
+   3.6163368165648375`*^9, 3.6163368401474247`*^9}, 3.6163373734408417`*^9, 
+   3.616338157268326*^9, 3.616338418530488*^9, 3.6163392891263695`*^9, 
+   3.616339610038742*^9, 3.6163396612972045`*^9, 3.6163403927595835`*^9, 
+   3.616340538905199*^9, 3.6163406119350085`*^9, 3.616341417707837*^9, 
+   3.6163418843868365`*^9, 3.6164239882608924`*^9}]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
 },
-WindowSize->{756, 818},
-WindowMargins->{{Automatic, 181}, {Automatic, 19}},
+WindowSize->{773, 803},
+WindowMargins->{{Automatic, 30}, {Automatic, 55}},
 ShowSelection->True,
-FrontEndVersion->"9.0 for Microsoft Windows (64-bit) (January 25, 2013)",
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (July 1, 2014)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
 
 (* Internal cache information *)
 (*CellTagsOutline
-CellTagsIndex->{}
+CellTagsIndex->{
+ "Info3616422257-3636054"->{
+  Cell[22516, 410, 1185, 21, 62, "Print",
+   CellTags->"Info3616422257-3636054"],
+  Cell[23704, 433, 502, 15, 23, "Print",
+   CellTags->"Info3616422257-3636054"]},
+ "Info3616329184-5876215"->{
+  Cell[24403, 460, 157, 3, 40, "Print",
+   CellTags->"Info3616329184-5876215"],
+  Cell[24563, 465, 2861, 70, 187, "Print",
+   CellTags->"Info3616329184-5876215"]},
+ "Info3616409587-3636054"->{
+  Cell[46748, 1023, 118, 2, 42, "Print",
+   CellTags->"Info3616409587-3636054"]}
+ }
 *)
 (*CellTagsIndex
-CellTagsIndex->{}
+CellTagsIndex->{
+ {"Info3616422257-3636054", 50927, 1104},
+ {"Info3616329184-5876215", 51120, 1109},
+ {"Info3616409587-3636054", 51313, 1114}
+ }
 *)
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[579, 22, 69, 1, 101, "Title"],
-Cell[651, 25, 196, 5, 52, "Input",
+Cell[580, 22, 69, 1, 101, "Title"],
+Cell[652, 25, 2719, 56, 252, "Input",
  InitializationCell->True],
 Cell[CellGroupData[{
-Cell[872, 34, 127, 2, 31, "Input"],
-Cell[1002, 38, 201, 3, 31, "Output"]
+Cell[3396, 85, 37, 0, 70, "Section"],
+Cell[CellGroupData[{
+Cell[3458, 89, 2902, 65, 292, "Input"],
+Cell[6363, 156, 245, 5, 23, "Print"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1240, 46, 99, 1, 31, "Input"],
-Cell[1342, 49, 2177, 40, 392, "Output"]
+Cell[6645, 166, 202, 3, 31, "Input"],
+Cell[6850, 171, 172, 2, 31, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[3556, 94, 75, 1, 31, "Input"],
-Cell[3634, 97, 191, 3, 31, "Output"]
+Cell[7059, 178, 129, 2, 31, "Input"],
+Cell[7191, 182, 15146, 217, 4092, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[3862, 105, 80, 1, 31, "Input"],
-Cell[3945, 108, 190, 2, 31, "Output"]
-}, Open  ]],
+Cell[22374, 404, 117, 2, 31, "Input"],
 Cell[CellGroupData[{
-Cell[4172, 115, 127, 2, 31, "Input"],
-Cell[4302, 119, 13195, 264, 3624, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[17534, 388, 37, 0, 86, "Section"],
-Cell[17574, 390, 91, 2, 31, "Input"],
-Cell[CellGroupData[{
-Cell[17690, 396, 266, 8, 52, "Input"],
-Cell[17959, 406, 855, 17, 158, "Message"],
-Cell[18817, 425, 494, 10, 21, "Message"],
-Cell[19314, 437, 455, 10, 21, "Message"],
-Cell[19772, 449, 788, 15, 90, "Message"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[20597, 469, 38, 0, 31, "Input"],
-Cell[20638, 471, 635, 11, 92, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[21310, 487, 319, 9, 52, "Input"],
-Cell[CellGroupData[{
-Cell[21654, 500, 182, 4, 23, "Print"],
-Cell[21839, 506, 43, 0, 23, "Print"],
-Cell[21885, 508, 41, 0, 23, "Print"],
-Cell[21929, 510, 43, 0, 23, "Print"],
-Cell[21975, 512, 50, 0, 23, "Print"]
+Cell[22516, 410, 1185, 21, 62, "Print",
+ CellTags->"Info3616422257-3636054"],
+Cell[23704, 433, 502, 15, 23, "Print",
+ CellTags->"Info3616422257-3636054"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[22074, 518, 30, 0, 31, "Input"],
-Cell[22107, 520, 378, 12, 31, "Output"]
-}, Open  ]],
-Cell[22500, 535, 159, 5, 31, "Input"],
+Cell[24255, 454, 123, 2, 31, "Input"],
 Cell[CellGroupData[{
-Cell[22684, 544, 28, 0, 31, "Input"],
-Cell[22715, 546, 170, 6, 31, "Output"]
-}, Open  ]],
-Cell[22900, 555, 123, 3, 31, "Input"],
-Cell[CellGroupData[{
-Cell[23048, 562, 30, 0, 31, "Input"],
-Cell[23081, 564, 478, 14, 31, "Output"]
-}, Open  ]],
-Cell[23574, 581, 389, 14, 52, "Input"],
-Cell[23966, 597, 202, 6, 31, "Input"],
-Cell[CellGroupData[{
-Cell[24193, 607, 30, 0, 31, "Input"],
-Cell[24226, 609, 146, 4, 31, "Output"]
-}, Open  ]],
-Cell[24387, 616, 242, 8, 52, "Input"],
-Cell[24632, 626, 282, 9, 52, "Input"],
-Cell[CellGroupData[{
-Cell[24939, 639, 30, 0, 31, "Input"],
-Cell[24972, 641, 371, 13, 49, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[25380, 659, 1230, 31, 252, "Input",
- InitializationCell->True],
-Cell[26613, 692, 706, 14, 72, "Output"],
-Cell[27322, 708, 345, 5, 43, "Print"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[27704, 718, 1313, 34, 172, "Input",
- InitializationCell->True],
-Cell[29020, 754, 719, 12, 152, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[29776, 771, 99, 1, 31, "Input"],
-Cell[29878, 774, 1808, 33, 332, "Output"]
-}, Open  ]],
-Cell[31701, 810, 191, 4, 31, "Input",
- InitializationCell->True],
-Cell[31895, 816, 1822, 41, 232, "Input",
- InitializationCell->True],
-Cell[CellGroupData[{
-Cell[33742, 861, 5506, 115, 1092, "Input",
- InitializationCell->True],
-Cell[39251, 978, 679, 11, 172, "Output"]
-}, Open  ]],
-Cell[39945, 992, 105, 1, 31, "Input"],
-Cell[CellGroupData[{
-Cell[40075, 997, 16132, 393, 2652, "Input",
- InitializationCell->True],
-Cell[56210, 1392, 575, 12, 21, "Message"],
-Cell[CellGroupData[{
-Cell[56810, 1408, 164, 2, 23, "Print"],
-Cell[56977, 1412, 126, 1, 23, "Print"],
-Cell[57106, 1415, 123, 1, 23, "Print"],
-Cell[57232, 1418, 121, 1, 23, "Print"]
+Cell[24403, 460, 157, 3, 40, "Print",
+ CellTags->"Info3616329184-5876215"],
+Cell[24563, 465, 2861, 70, 187, "Print",
+ CellTags->"Info3616329184-5876215"]
+}, Open  ]]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[57402, 1425, 144, 2, 31, "Input"],
-Cell[57549, 1429, 175, 2, 31, "Output"]
+Cell[27485, 542, 101, 1, 70, "Section"],
+Cell[CellGroupData[{
+Cell[27611, 547, 407, 9, 31, "Input"],
+Cell[28021, 558, 240, 6, 23, "Print"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[28298, 569, 150, 2, 31, "Input"],
+Cell[28451, 573, 165, 2, 31, "Output"]
+}, Open  ]],
+Cell[28631, 578, 69, 1, 31, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[28737, 584, 37, 0, 70, "Section"],
+Cell[28777, 586, 281, 7, 31, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[29095, 598, 30, 0, 70, "Section"],
+Cell[29128, 600, 272, 7, 31, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[29437, 612, 92, 1, 70, "Section"],
+Cell[29532, 615, 320, 8, 31, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[29889, 628, 114, 1, 70, "Section"],
+Cell[30006, 631, 384, 8, 31, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[30427, 644, 200, 3, 70, "Section"],
+Cell[30630, 649, 395, 9, 31, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[31062, 663, 101, 1, 70, "Section"],
+Cell[CellGroupData[{
+Cell[31188, 668, 13300, 315, 1392, "Input",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[44513, 987, 818, 11, 43, "Print"],
+Cell[45334, 1000, 733, 10, 23, "Print"],
+Cell[46070, 1012, 675, 9, 23, "Print"],
+Cell[46748, 1023, 118, 2, 42, "Print",
+ CellTags->"Info3616409587-3636054"],
+Cell[46869, 1027, 693, 9, 23, "Print"],
+Cell[47565, 1038, 690, 9, 23, "Print"],
+Cell[48258, 1049, 690, 9, 23, "Print"]
+}, Open  ]],
+Cell[48963, 1061, 900, 16, 39, "Message"],
+Cell[49866, 1079, 695, 9, 23, "Print"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
