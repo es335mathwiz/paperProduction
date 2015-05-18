@@ -1,0 +1,360 @@
+\documentclass{beamer}
+\usepackage{endnotes}
+\usepackage{moreverb}
+\usepackage{rotating}
+\usepackage{siunitx}
+\usepackage[authoryear]{natbib}
+\usepackage{datetime}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+
+\title{``A Solution Strategy for Occasionally Binding Constraints in Otherwise
+Linear Rational Expectations Models''}
+\date{\today}
+\author{Gary S. Anderson}
+
+
+
+\makeatletter
+\newcommand*\ExpandableInput[1]{\@@input#1 }
+\makeatother
+
+
+\input{newCmds}
+
+\begin{document}
+
+
+\frame{\titlepage}
+\frame{\frametitle{Table of Contents}\tableofcontents}
+
+\section{Problem Statement and Solution}
+\label{sec:probl-stat-solut}
+
+\newcommand{\xpt}[1]{#1}
+
+   \begin{frame}
+     \frametitle{Problem Statement}
+    
+
+ Consider systems of the form
+ \begin{gather}
+% \sum_{i=-\tau}^\theta H_i x_{t+i} 
+H_{-1} x_{t-1} + H_0 x_t + H_1 \expct{x_{t+1}}=
+ \psi_\epsilon 
+ \epsilon_t 
+   \,\,\forall t.  \label{myEqn}
+\intertext{We wish to accommodate inequality constraints of the form}
+  x_t \ge \bar{x}    \,\,\forall t.
+\end{gather}
+
+
+ % \begin{bmatrix}
+ % \psi_\epsilon & \psi_z  
+ % \end{bmatrix}
+ %   \begin{bmatrix}
+ % \epsilon_t \\\xpt{z_{t}(x_{t-1},\epsilon_t) }   
+ %   \end{bmatrix}
+
+We will determine a sequence of functions $\xpt{z_{t+s}(x_{t+s-1},\epsilon_t)} $ that 
+ will allow us to  impose the occasionally binding constraints over successively longer time periods.
+These solutions will take the form\citep{anderson10}
+\begin{gather*}
+   x_t=B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \sum_{s=0}^\infty F^s \phi \psi_z
+ \xpt{z_{t+s}(x_{t+s-1},\epsilon_t)    }  
+\end{gather*}
+
+
+   \end{frame}
+\section{A Simple Example}
+
+   \begin{frame}
+     \frametitle{A Simple Example}
+     
+\input{lucaExmpl}
+
+   \end{frame}
+
+
+   \begin{frame}
+     \frametitle{The Solution Matrices}
+     \input{lucaMats}
+   \end{frame}
+
+% \newcommand{\forPhi}{\begin{bmatrix}
+% \psi_\epsilon&\psi_z
+% \end{bmatrix}}
+% \newcommand{\phiMult}{\phi \psi_\epsilon}
+% \newcommand{\bMult}{B x_{-1} + \phiMult}
+ \newcommand{\phiMultBoth}[1]{
+ \phi (\psi_\epsilon \epsilon_0 +\psi_z z_0^#1(x_{-1},\epsilon_0))}
+ \newcommand{\bMultBoth}[1]{B x_{-1} + \phiMultBoth{#1}}
+
+
+ \newcommand{\bForOne}{\bMultBoth{1}
+ }
+
+% \newcommand{\bForTwo}{\bMultBoth{2}+
+% F \phi  \psi_z  
+% Z_0^1(x_0^2(x_{-1}))   
+% }
+
+
+
+\newcommand{\compSlack}{z_0^1(x_{-1},\epsilon_0) \left ( \bar{r} -\phi_p q_t\right )=0\\ z_0^1(x_{-1},\epsilon_0)> 0}
+% \begin{gather*}
+% 0= x_t-(B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \phi \psi_z 
+% \xpt{z_{t}(x_{t-1},\epsilon_t)    } )
+% \end{gather*}
+
+
+
+    \begin{frame}
+
+
+      \frametitle{Honoring the Constraint For One Period}
+
+
+ We begin by solving a system where the constraints are honored only at time
+  $t=0$.  
+ Using equation \ref{myEqn}, we can construct the system which imposes the 
+ constraint for time 0 alone.
+To do this we set $\xpt{z_{t+s}}=0\, \forall s>0$
+and now have
+\begin{gather*}
+x_0^1(x_{-1},\epsilon_0)-
+\left ( \bForOne \right )=0\intertext{ with the complimentary slackness conditions}
+\compSlack
+\end{gather*}
+
+     
+    \end{frame}
+    \begin{frame}
+      \frametitle{For One Period (continued)}
+      
+
+We set 
+\begin{gather}\label{firstIneq}
+z_0^1(x_{-1},\epsilon_0)=
+\begin{cases}
+0&  B x_{-1} +\epsilon_0 \ge \bar{x}  \\
+\bar{x}-(B x_{-1}+\epsilon_0) & B x_{-1}+\epsilon_0 < \bar{x}  
+\end{cases}
+\end{gather}
+
+
+    \end{frame}
+
+
+    \begin{frame}
+      \frametitle{For the Simple Example}
+     
+{\tiny
+       \begin{gather*}
+ z_0^1(\xtMVec,\epsilon_0)=
+ \begin{cases}
+0&\eta >0.032399 \\
+0.043056 - 1.328904 \epsilon_0 - 0.576390 q_{t-1} - 
+      0.664452 r_{ut-1}& \eta \le 0.032399  
+ \end{cases}\intertext{where}
+\eta=\epsilon_0 + 0.433734 q_{t-1} + 0.5 r_{ut-1}\\
+\intertext{and\}
+ q_t(\xtMVec,\epsilon_0)=
+ \begin{cases}
+0.617296 \epsilon_0 + 0.267742 q_{t-1} + 0.308648 r_{ut-1}&\eta >0.032399 \\
+-0.0230556 + 1.3289 \epsilon_0 + 
+        0.57639 q_{t-1} + 0.664452 r_{ut-1}&\eta \le 0.032399 \\
+ \end{cases}\\
+ r_t(\xtMVec,\epsilon_0)=
+ \begin{cases}
+0.617296 \epsilon_0 + 0.267742 q_{t-1} + 0.308648 r_{ut-1}&\eta >0.032399 \\
+0.02&\eta \le 0.032399 \\
+ \end{cases}\\
+       \end{gather*}
+}
+    \end{frame}
+
+
+    \begin{frame}
+      \frametitle{Two Period Perfect Foresight Solution}
+We can apply equation \ref{myEqn} to compute the $\xtVec$ values along a solution path where all future shocks are zero:
+{\tiny
+      \begin{gather*}
+           \left(
+   \begin{array}{c}
+    q_{t-1} \\
+    r_{t-1} \\
+    ru_{t-1} \\
+ 0.617296 \epsilon_0+0.267742 _{t-1}+0.308648 ru_{t-1}-0.141938
+       z_0^1(\xtVec,\epsilon_0)-0.535485 z_0^2(\xtMVec,\epsilon_0) \\
+    0.617296 \epsilon_0+0.267742 q_{t-1}+0.308648 ru_{t-1}-0.141938
+      z_0^1(\xtVec,\epsilon_0)+0.464515 z_0^2(\xtMVec,\epsilon_0) \\
+    \epsilon_0+0.5 ru_{t-1} \\
+    0.473924 \epsilon_0+0.0716859 q_{t-1}+0.236962 ru_{t-1}-0.573487
+      z_0^1(\xtVec,\epsilon_0)-0.143372 z_0^2(\xtMVec,\epsilon_0) \\
+    0.473924 \epsilon_0+0.0716859 q_{t-1}+0.236962 ru_{t-1}+0.426513
+      z_0^1(\xtVec,\epsilon_0)-0.143372 z_0^2(\xtMVec,\epsilon_0) \\
+    0.5 \epsilon_0+0.25 ru_{t-1} 
+   \end{array}
+   \right)
+      \end{gather*}
+}
+
+    \end{frame}
+
+    \begin{frame}
+\frametitle{Exact Two Period Perfect Foresight Solutions  Available}
+
+We will need the function {\small $z_0^2(\xtMVec,\epsilon_0)$ }that guarantees:
+{\tiny 
+\begin{gather*}
+    0.617296 \epsilon_0+0.267742 q_{t-1}+0.308648 ru_{t-1}-0.141938
+      z_0^1(\xtVec,\epsilon_0)+0.464515 z_0^2(\xtMVec,\epsilon_0) \ge 0.02\\  
+    0.473924 \epsilon_0+0.0716859 q_{t-1}+0.236962 ru_{t-1}+0.426513
+      z_0^1(\xtVec,\epsilon_0)-0.143372 z_0^2(\xtMVec,\epsilon_0)  \ge 0.02 \\
+\end{gather*}
+}
+\begin{itemize}
+\item {\small $z_0^1(\xtVec,\epsilon_0)$ } is a known function
+\item Even though $q_t$ depends {\small $z_0^1(\xtVec,\epsilon_0)$ } Mathematica requires about 6 seconds to compute this solution for arbitrary initial conditions
+\end{itemize}
+    \end{frame}
+
+    \begin{frame}
+      \frametitle{Two Period Rational Expectation Solution}
+We can apply equation \ref{myEqn} to compute the $\xtVec$ values along a solution path where only one future is non zero:
+{\tiny
+      \begin{gather*}
+           \left(
+   \begin{array}{c}
+    q_{t-1} \\
+    r_{t-1} \\
+    ru_{t-1} \\
+  0.163624 \epsilon_{1}+0.617296 \epsilon_0+0.267742 _{t-1}+0.308648 ru_{t-1}-0.141938
+       z_0^1(\xtVec,\epsilon_0)-0.535485 z_0^2(\xtMVec,\epsilon_0) \\
+    0.163624 \epsilon_{1}+0.617296 \epsilon_0+0.267742 q_{t-1}+0.308648 ru_{t-1}-0.141938
+      z_0^1(\xtVec,\epsilon_0)+0.464515 z_0^2(\xtMVec,\epsilon_0) \\
+    \epsilon_0+0.5 ru_{t-1} \\
+    0.661105 \epsilon_{1}+0.473924 \epsilon_0+0.0716859 q_{t-1}+0.236962 ru_{t-1}-0.573487
+      z_0^1(\xtVec,\epsilon_0)-0.143372 z_0^2(\xtMVec,\epsilon_0) \\
+   0.661105 \epsilon_{1}+ 0.473924 \epsilon_0+0.0716859 q_{t-1}+0.236962 ru_{t-1}+0.426513
+      z_0^1(\xtVec,\epsilon_0)-0.143372 z_0^2(\xtMVec,\epsilon_0) \\
+    0.5 \epsilon_0+0.25 ru_{t-1} 
+   \end{array}
+   \right)
+      \end{gather*}
+}
+
+    \end{frame}
+
+    \begin{frame}
+\frametitle{Exact Two Period Rational Expectations Solutions May Be Available}
+
+We will need the function {\small $z_0^2(\xtMVec,\epsilon_0)$ }that guarantees:
+{\tiny 
+\begin{gather*}
+ 0.163624 \epsilon_{1}+  0.617296 \epsilon_0+0.267742 q_{t-1}+0.308648 ru_{t-1}-0.141938
+      z_0^1(\xtVec,\epsilon_0)+0.464515 z_0^2(\xtMVec,\epsilon_0) \ge 0.02\\  
+    0.661105 \epsilon_{1}+    0.473924 \epsilon_0+0.0716859 q_{t-1}+0.236962 ru_{t-1}+0.426513
+      z_0^1(\xtVec,\epsilon_0)-0.143372 z_0^2(\xtMVec,\epsilon_0)  \ge 0.02 \\
+\end{gather*}
+}
+\begin{itemize}
+\item {\small $z_0^1(\xtVec,\epsilon_0)$ } is a known function
+\item Even though $q_t$ depends {\small $z_0^1(\xtVec,\epsilon_0)$ } Mathematica requires about 6 seconds to compute this solution for arbitrary initial conditions
+\end{itemize}
+    \end{frame}
+    \begin{frame}
+      \frametitle{Computations Will Require Approximation and
+        Recursion}
+      \begin{itemize}
+      \item Exact perfect foresight solutions for 3 periods require more than 900 seconds
+      \item A Recursive Formulation Precludes Recomputing Approximation Shorter Each Horizons
+      \item Low Order Projection and Interpolation Approximants are Inexpensive to Compute
+      \item It appears that Interpolation Works Better for this example
+      \end{itemize}
+    \end{frame}
+\input{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/interpOneCalcs}
+
+
+   \begin{frame}
+     \frametitle{Computation Time}
+
+
+{\tiny
+     \begin{minipage}{1.0\linewidth}
+     \input{compTimeTable}
+     \end{minipage}
+}
+   \end{frame}
+
+   \begin{frame}
+     \frametitle{Future Directions}
+     \begin{itemize}
+     \item Should also consider other behavior besides absorbing barriers change in parameters
+     \item  \begin{gather*}
+ M x_t \ge m  
+ \end{gather*} 
+
+     \end{itemize}
+   \end{frame}
+
+
+   \begin{frame}
+ \bibliographystyle{plainnat}
+ \bibliography{anderson,files}
+     
+   \end{frame}
+
+
+     \section{Endnotes}
+{\tiny
+     \theendnotes
+}
+
+
+
+
+%\appendix
+
+\section{Code}
+\begin{frame}
+\label{sec:code}
+\end{frame}
+\subsection{symb01.m}
+
+\begin{frame}
+\label{sec:symb01.m}
+\end{frame}
+
+
+
+\newpage
+\subsection{symb02.m}
+
+\begin{frame}
+\label{sec:symb02.m}  
+\end{frame}
+
+
+\newpage
+\subsection{symb02Rec.m}
+\begin{frame}
+\label{sec:symb02Rec.m}  
+\end{frame}
+
+
+
+\newpage
+\subsection{symb02ValsExp.m}
+\begin{frame}
+\label{sec:symb02ValsExp.m}
+\end{frame}
+
+
+
+
+
+\end{document}
