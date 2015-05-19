@@ -160,7 +160,7 @@ z_0^1(x_{-1},\epsilon_0)=
       0.664452 r_{ut-1}& \eta \le 0.032399  
  \end{cases}\intertext{where}
 \eta=\epsilon_0 + 0.433734 q_{t-1} + 0.5 r_{ut-1}\\
-\intertext{and\}
+\intertext{and}
  q_t(\xtMVec,\epsilon_0)=
  \begin{cases}
 0.617296 \epsilon_0 + 0.267742 q_{t-1} + 0.308648 r_{ut-1}&\eta >0.032399 \\
@@ -224,7 +224,7 @@ We will need the function {\small $z_0^2(\xtMVec,\epsilon_0)$ }that guarantees:
 
     \begin{frame}
       \frametitle{Two Period Rational Expectation Solution}
-We can apply equation \ref{myEqn} to compute the $\xtVec$ values along a solution path where only one future is non zero:
+We can apply equation \ref{myEqn} to compute the $\xtVec$ values along a solution path where only one future shock is non zero:
 {\tiny
       \begin{gather*}
            \left(
@@ -291,13 +291,41 @@ We will need the function {\small $z_0^2(\xtMVec,\epsilon_0)$ }that guarantees:
    \end{frame}
 
    \begin{frame}
+     \frametitle{Clean up}
+     \begin{itemize}
+\item Redo numbering for zzz
+\item memoize
+\item cleanup namespace
+\item limiting cases, $\bar{r}$ never, always  stochastic 0 to large
+\item compare interpolation at a fixed set of points
+\item measure accuracy of components using exact, interpolation, projection and by applying the original system
+\item Better computationally to get close to expectations solution then iterate for fixed point of function?
+     \end{itemize}
+   \end{frame}
+
+
+   \begin{frame}
      \frametitle{Future Directions}
      \begin{itemize}
      \item Should also consider other behavior besides absorbing barriers change in parameters
      \item  \begin{gather*}
- M x_t \ge m  
+ M x_t \ge m \\
  \end{gather*} 
-
+\item  Smolyak Points \\
+\item Parallelize
+\item compute border and use piecewise
+\item strategically place points for accuracy
+\item use plot to get better points
+\item uniqueness via continuity in homotopy of variance and constraints
+\item possible to fool algorithm
+\item compile
+\item generic eval of complimentary slackness
+\item derivatives
+\item condition numbers
+\item tracking border shifts
+\item projection versus interpolation
+\item interpretation as ``perturbation'' or other approximation method
+\item how general
      \end{itemize}
    \end{frame}
 
