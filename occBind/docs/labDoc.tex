@@ -1,6 +1,8 @@
 \documentclass[12pt]{article}
 %http://mathematica.stackexchange.com/questions/1542/exporting-graphics-to-pdf-huge-file huge image solutions
 
+\usepackage{endnotes}
+\usepackage{moreverb}
 \usepackage{rotating}
 \usepackage{siunitx}
 \usepackage[authoryear]{natbib}
@@ -13,8 +15,13 @@ Linear Rational Expectations Models''}
 \usepackage{graphicx}
 \date{\today \   at \currenttime}
 
-\newcommand{\inorm}[1]{\left\lVert#1\right\rVert_\infty}
 
+
+
+\makeatletter
+\newcommand*\ExpandableInput[1]{\@@input#1 }
+\makeatother
+\input{newCmds}
 \begin{document}
 \maketitle
 \input{abstrct}
@@ -41,74 +48,49 @@ rational expectations solutions for models linear except for occasionally bindin
 \label{sec:simple-example}
 
 
-\makeatletter
-\newcommand*\ExpandableInput[1]{\@@input#1 }
-\makeatother
-
 First call time much less than second call time.
-\begin{sidewaystable}
-  
-  \begin{minipage}{1.0\linewidth}
+
+
+
+\href{http://www.tecmint.com/command-line-tools-to-monitor-linux-performance/}{This is a link for measuring performance.}
+
+
     
 
-\begin{tabular}{|l|l|
-S[table-format=3.6]|
-S[table-format=3.6]|
-S[table-format=3.6]|
-S[table-format=3.6]|
-S[table-format=3.6]|
-}
-\hline
-\multicolumn{7}{|c|}{Time in seconds for evaluation at a single initial state ( except where noted)}\\
-\hline
-\multicolumn{1}{|c|}{Periods}&
-\multicolumn{1}{|c|}{Recursive?}&
-\multicolumn{1}{|c|}{Analytic First}&
-\multicolumn{1}{|c|}{Analytic Second}&
-\multicolumn{1}{|c|}{Semi-Analytic}&
-\multicolumn{1}{|c|}{Projection}&
-\multicolumn{1}{|c|}{Interpolation}\\
-\hline
-1&NA\footnote{Algebraic expression for all initial states.}&\ExpandableInput{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/symb01Secs}&&&\\
-\hline
-\hline
-2&No\footnote{Algebraic expression for all initial states.}&\ExpandableInput{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/symb02Secs}&&&\\
-\hline
-2&Yes\footnote{Algebraic expression for all initial states.}&\ExpandableInput{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/symb02RecSecs}&&&\\
-2&Expectation non recursive&\ExpandableInput{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/symb02ValsExpSecs}&&&\\
-\hline
-\hline
-%3&No\footnote{Algebraic expression for all initial states.}&\ExpandableInput{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/symb03Secs}&&&\\
-\hline
-%3&Yes\footnote{Algebraic expression for all initial states.}&\ExpandableInput{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/symb03RecSecs}&&&\\
-\hline
-3&No&\ExpandableInput{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/symb03ValsSecs}&&&\\
-3&Expectation non recursive&\ExpandableInput{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/symb03ValsExpSecs}&&&\\
-\hline
-\hline
-4&No&\ExpandableInput{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/symb04ValsSecs}&&&\\
-\hline
-\hline
-5&No&\ExpandableInput{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/symb05ValsSecs}&&&\\
-\hline
-\hline
-6&No&\ExpandableInput{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/symb06ValsSecs}&&&\\
-\hline
-\hlinep
-7&No&\ExpandableInput{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/symb07ValsSecs}&&&\\
-\hline
-\hline
-\end{tabular}
+%from will
+%cat /proc/cpuinfo | grep processor | wc -l
+%uptime | tr -s ' ' ' ' | cut -d' ' -f11-
+%vmstat | tail -n 1 | tr -s ' ' ' ' | cut -d' ' -f5
 
-  \end{minipage}
-\end{sidewaystable}
+%\renewcommand{\thempfootnote}{\arabic{mpfootnote}}
+
+\begin{table}
+%\begin{sidewaystable}
+%  \begin{minipage}{1.0\linewidth}
+
+{\tiny     
+\caption{Computation Time for Imposing Constraint for Various Lengths of Time}
+\label{tab:varLen}
+  \centering
+
+
+
+\input{compTimeTable}
+}
+%  \end{minipage}
+%\end{sidewaystable}
+
+\end{table}
+
+
+
 
 Constraints for region where have gone out far enough.
 
 
 \input{lucaExmpl}
 
-
+\input{lucaMats}
 
 
 
@@ -153,6 +135,41 @@ Constraints for region where have gone out far enough.
 \item parallelization
 \item errors in distant future generate/reflect errors in the interim. show they matter.
 \end{itemize}
+
+\newpage
+
+\theendnotes
+\newpage
+
+\appendix
+
+\section{Code}
+\label{sec:code}
+
+\subsection{symb01.m}
+\label{sec:symb01.m}
+
+\listinginput{1}{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/symb01.m}
+
+\newpage
+\subsection{symb02.m}
+\label{sec:symb02.m}
+
+\listinginput{1}{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/symb02.m}
+
+
+\newpage
+\subsection{symb02Rec.m}
+\label{sec:symb02Rec.m}
+
+\listinginput{1}{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/symb02Rec.m}
+
+\newpage
+\subsection{symb02ValsExp.m}
+\label{sec:symb02ValsExp.m}
+
+\listinginput{1}{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/symb02ValsExp.m}
+
 
 \bibliographystyle{plainnat}
 \bibliography{anderson}

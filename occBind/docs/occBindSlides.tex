@@ -1,0 +1,698 @@
+\documentclass{beamer}
+\usepackage{longtable}
+\usepackage{txfonts}
+\usepackage{eufrak}
+\usepackage{endnotes}
+\usepackage{moreverb}
+\usepackage{rotating}
+\usepackage{siunitx}
+\usepackage[authoryear]{natbib}
+\usepackage{pseudocode}
+\usepackage{datetime}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{pgfplotstable}%for generating latex from csv files
+
+
+\title{``A Solution Strategy for Occasionally Binding Constraints in Otherwise
+Linear Rational Expectations Models''}
+\date{\today}
+\author{Gary S. Anderson}
+
+
+
+\makeatletter
+\newcommand*\ExpandableInput[1]{\@@input#1 }
+\makeatother
+
+
+\input{newCmds}
+
+\pgfplotsset{compat=newest}
+\begin{document}
+
+
+\frame{\titlepage}
+\frame{\frametitle{Table of Contents}\tableofcontents}
+
+\section{Problem Statement and Solution}
+\label{sec:probl-stat-solut}
+
+\newcommand{\xpt}[1]{#1}
+
+   \begin{frame}
+     \frametitle{Problem Statement}
+    
+
+ Consider systems of the form
+ \begin{gather}
+% \sum_{i=-\tau}^\theta H_i x_{t+i} 
+H_{-1} x_{t-1} + H_0 x_t + H_1 \expct{x_{t+1}}=
+ \psi_\epsilon 
+ \epsilon_t 
+   \,\,\forall t.  \label{myEqn}
+\intertext{We wish to accommodate inequality constraints of the form}
+  x_t \ge \bar{x} \label{myCnstrnt}   \,\,\forall t. \intertext{the literature has proposed a number of alternative time invariant 
+``decision rules'' solutions\cite{hintermaier10,Christiano2000} that can be written in the form
+}
+x_t=\xsln{x_{t-1} , \epsilon_t} \label{mySltn}
+\end{gather}
+   \end{frame}
+
+   \begin{frame}
+     \frametitle{A Useful Characterization}
+     
+     \begin{itemize}
+     \item There are a number of approaches authors have proposed for producing  non-linear impulse response functions.\cite{Karame2012,DeFigueiredo2006,Potter2000,Koop1996a}
+\item These solutions can be written in the form\citep{anderson10}
+\begin{gather*}
+\xpth{t}{x_{t-1} , \epsilon_t} =B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \sum_{s=0}^\infty F^s \phi \psi_z {z_{t+s}(x_{t+s-1},\epsilon_t)    }  \intertext{in such a way that}
+H_{-1} x_{t-1} + H_0 x_t + H_1 \expct{x_{t+1}}=
+ \psi_\epsilon 
+\end{gather*}
+     \item We will determine a sequence of functions $\xpt{z_{t+s}(x_{t+s-1},\epsilon_t)} $ that 
+ will allow us to  impose the occasionally binding constraints over successively longer time periods.
+     \end{itemize}
+
+
+   \end{frame}
+
+
+\section{A Simple Example}
+
+   \begin{frame}
+     \frametitle{A Simple Example}
+     
+\input{lucaExmpl}
+
+   \end{frame}
+
+
+   \begin{frame}
+     \frametitle{The Solution Matrices}
+     \input{lucaMats}
+   \end{frame}
+
+% \newcommand{\forPhi}{\begin{bmatrix}
+% \psi_\epsilon&\psi_z
+% \end{bmatrix}}
+% \newcommand{\phiMult}{\phi \psi_\epsilon}
+% \newcommand{\bMult}{B x_{-1} + \phiMult}
+ \newcommand{\phiMultBoth}[1]{
+ \phi (\psi_\epsilon \epsilon_t +\psi_z z_0^#1(x_{-1},\epsilon_t))}
+ \newcommand{\bMultBoth}[1]{B x_{-1} + \phiMultBoth{#1}}
+
+
+ \newcommand{\bForOne}{\bMultBoth{1}
+ }
+
+% \newcommand{\bForTwo}{\bMultBoth{2}+
+% F \phi  \psi_z  
+% Z_0^1(x_0^2(x_{-1}))   
+% }
+
+
+
+\newcommand{\compSlack}{z_0^1(x_{-1},\epsilon_t) \left ( \bar{r} -\phi_p q_t\right )=0\\ z_0^1(x_{-1},\epsilon_t)> 0}
+% \begin{gather*}
+% 0= x_t-(B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \phi \psi_z 
+% \xpt{z_{t}(x_{t-1},\epsilon_t)    } )
+% \end{gather*}
+
+
+
+    \begin{frame}
+
+
+      \frametitle{Honoring the Constraint For One Period}
+
+
+ We begin by solving a system where the constraints are honored only at time
+  $t=0$.  
+ Using equation \ref{myEqn}, we can construct the system which imposes the 
+ constraint for time 0 alone.
+To do this we set $\xpt{z_{t+s}}=0\, \forall s>0$
+and now have
+\begin{gather*}
+x_0^1(x_{-1},\epsilon_t)-
+\left ( \bForOne \right )=0\intertext{with the complimentary slackness conditions}
+\compSlack
+\intertext{We set }
+z_0^1(x_{-1},\epsilon_t)=
+\begin{cases}
+0&  B x_{-1} +\epsilon_t \ge \bar{x}  \\
+\bar{x}-(B x_{-1}+\epsilon_t) & B x_{-1}+\epsilon_t < \bar{x}  
+\end{cases}
+\end{gather*}
+
+
+     
+    \end{frame}
+
+    \begin{frame}
+      \frametitle{For the Simple Example}
+     
+{\tiny
+       \begin{gather*}
+ z_0^1(\xtMVec,\epsilon_t)=
+ \begin{cases}
+0&\eta >0.032399 \\
+0.043056 - 1.328904 \epsilon_t - 0.576390 q_{t-1} - 
+      0.664452 r_{ut-1}& \eta \le 0.032399  
+ \end{cases}\intertext{where}
+\eta=\epsilon_t + 0.433734 q_{t-1} + 0.5 r_{ut-1}\\
+\intertext{and}
+ q_t(\xtMVec,\epsilon_t)=
+ \begin{cases}
+0.617296 \epsilon_t + 0.267742 q_{t-1} + 0.308648 r_{ut-1}&\eta >0.032399 \\
+-0.0230556 + 1.3289 \epsilon_t + 
+        0.57639 q_{t-1} + 0.664452 r_{ut-1}&\eta \le 0.032399 \\
+ \end{cases}\\
+ r_t(\xtMVec,\epsilon_t)=
+ \begin{cases}
+0.617296 \epsilon_t + 0.267742 q_{t-1} + 0.308648 r_{ut-1}&\eta >0.032399 \\
+0.02&\eta \le 0.032399 \\
+ \end{cases}\\
+       \end{gather*}
+}
+    \end{frame}
+
+
+    \begin{frame}
+      \frametitle{Two Period Perfect Foresight Solution}
+We can apply equation \ref{myEqn} to compute the $\xtVec$ values along a solution path where all future shocks are zero:
+{\tiny
+      \begin{gather*}
+           \left(
+   \begin{array}{c}
+    q_{t-1} \\
+    r_{t-1} \\
+    ru_{t-1} \\
+ 0.617296 \epsilon_t+0.267742 _{t-1}+0.308648 ru_{t-1}-0.141938
+       z_0^1(\xtVec,\epsilon_t)-0.535485 z_0^2(\xtMVec,\epsilon_t) \\
+    0.617296 \epsilon_t+0.267742 q_{t-1}+0.308648 ru_{t-1}-0.141938
+      z_0^1(\xtVec,\epsilon_t)+0.464515 z_0^2(\xtMVec,\epsilon_t) \\
+    \epsilon_t+0.5 ru_{t-1} \\
+    0.473924 \epsilon_t+0.0716859 q_{t-1}+0.236962 ru_{t-1}-0.573487
+      z_0^1(\xtVec,\epsilon_t)-0.143372 z_0^2(\xtMVec,\epsilon_t) \\
+    0.473924 \epsilon_t+0.0716859 q_{t-1}+0.236962 ru_{t-1}+0.426513
+      z_0^1(\xtVec,\epsilon_t)-0.143372 z_0^2(\xtMVec,\epsilon_t) \\
+    0.5 \epsilon_t+0.25 ru_{t-1} 
+   \end{array}
+   \right)
+      \end{gather*}
+}
+
+    \end{frame}
+
+    \begin{frame}
+\frametitle{Exact Two Period Perfect Foresight Solutions  Available}
+
+We will need the function {\small $z_0^2(\xtMVec,\epsilon_t)$ }that guarantees:
+{\tiny 
+\begin{gather*}
+    0.617296 \epsilon_t+0.267742 q_{t-1}+0.308648 ru_{t-1}-0.141938
+      z_0^1(\xtVec,\epsilon_t)+0.464515 z_0^2(\xtMVec,\epsilon_t) \ge 0.02\\  
+    0.473924 \epsilon_t+0.0716859 q_{t-1}+0.236962 ru_{t-1}+0.426513
+      z_0^1(\xtVec,\epsilon_t)-0.143372 z_0^2(\xtMVec,\epsilon_t)  \ge 0.02 \\
+\end{gather*}
+}
+\begin{itemize}
+\item {\small $z_0^1(\xtVec,\epsilon_t)$ } is a known function
+\item Even though $q_t$ depends {\small $z_0^1(\xtVec,\epsilon_t)$ } Mathematica requires about 6 seconds to compute this solution for arbitrary initial conditions
+\end{itemize}
+    \end{frame}
+
+    \begin{frame}
+      \frametitle{Two Period Rational Expectation Solution}
+We can apply equation \ref{myEqn} to compute the $\xtVec$ values along a solution path where only one future shock is non zero:
+{\tiny
+      \begin{gather*}
+           \left(
+   \begin{array}{c}
+    q_{t-1} \\
+    r_{t-1} \\
+    ru_{t-1} \\
+  0.163624 \epsilon_{1}+0.617296 \epsilon_t+0.267742 _{t-1}+0.308648 ru_{t-1}-0.141938
+       z_0^1(\xtVec,\epsilon_t)-0.535485 z_0^2(\xtMVec,\epsilon_t) \\
+    0.163624 \epsilon_{1}+0.617296 \epsilon_t+0.267742 q_{t-1}+0.308648 ru_{t-1}-0.141938
+      z_0^1(\xtVec,\epsilon_t)+0.464515 z_0^2(\xtMVec,\epsilon_t) \\
+    \epsilon_t+0.5 ru_{t-1} \\
+    0.661105 \epsilon_{1}+0.473924 \epsilon_t+0.0716859 q_{t-1}+0.236962 ru_{t-1}-0.573487
+      z_0^1(\xtVec,\epsilon_t)-0.143372 z_0^2(\xtMVec,\epsilon_t) \\
+   0.661105 \epsilon_{1}+ 0.473924 \epsilon_t+0.0716859 q_{t-1}+0.236962 ru_{t-1}+0.426513
+      z_0^1(\xtVec,\epsilon_t)-0.143372 z_0^2(\xtMVec,\epsilon_t) \\
+    0.5 \epsilon_t+0.25 ru_{t-1} 
+   \end{array}
+   \right)
+      \end{gather*}
+}
+
+    \end{frame}
+
+    \begin{frame}
+\frametitle{Exact Two Period Rational Expectations Solutions May Be Available}
+
+We will need the function {\small $z_0^2(\xtMVec,\epsilon_t)$ }that guarantees:
+{\tiny 
+\begin{gather*}
+ 0.163624 \epsilon_{1}+  0.617296 \epsilon_t+0.267742 q_{t-1}+0.308648 ru_{t-1}-0.141938
+      z_0^1(\xtVec,\epsilon_t)+0.464515 z_0^2(\xtMVec,\epsilon_t) \ge 0.02\\  
+    0.661105 \epsilon_{1}+    0.473924 \epsilon_t+0.0716859 q_{t-1}+0.236962 ru_{t-1}+0.426513
+      z_0^1(\xtVec,\epsilon_t)-0.143372 z_0^2(\xtMVec,\epsilon_t)  \ge 0.02 \\
+\end{gather*}
+}
+\begin{itemize}
+\item {\small $\expct{z_0^1(\xtVec,\epsilon_t)}$ } is a known function
+\end{itemize}
+    \end{frame}
+    \begin{frame}
+      \frametitle{Computations Will Require Approximation and
+        Recursion}
+      \begin{itemize}
+      \item Exact perfect foresight solutions for 3 periods require more than 900 seconds
+      \item A Recursive Formulation Precludes Recomputing Approximation Shorter Each Horizons
+      \item Low Order Projection and Interpolation Approximates are Inexpensive to Compute
+      \item It appears that Interpolation Works Better for this example
+      \end{itemize}
+    \end{frame}
+
+    \begin{itemize}
+    \item relative to complete rational expectations solution, 
+errors of approximation enter from 
+\begin{itemize}
+\item interpolation to compute z's for the future
+\item truncation errors
+\item using perfect foresight instead of ratex
+\end{itemize}
+\item simulations iterated forward will differ from the path constructed with a short horizon for applying the constraint
+  \item
+    \end{itemize}
+%\input{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/interpOneCalcs}
+
+
+%    \begin{frame}
+%      \frametitle{Computation Time}
+
+
+% {\tiny
+%      \begin{minipage}{1.0\linewidth}
+%      \input{compTimeTable}
+%      \end{minipage}
+% }
+%    \end{frame}
+    \begin{frame}
+      \frametitle{Accuracy Components}
+      \begin{itemize}
+      \item For a given path lenth how well are system equations satisfied
+      \item Compared to the best solution how far apart are solutions
+      \item how far perfect foresight from rational expections
+      \item compute infinity norm and the worst violation for r
+      \item what does it mean to ``simulate'' a path
+      \item my algorithm computes machine tolerance over the modelled future so that next period solution uses a shorter modelled future
+      \item if iterating forward will get a different path presumable ``better,'' but this changes the expectations for the whole path. in the limit, the
+changes don't matter but significant for short horizons can quantify what is short
+\item distinuguish interpolation error from truncation error even for ratex, iterating should use the shorter horizon z functions along the path
+      \end{itemize}
+    \end{frame}
+    \begin{frame}
+      \frametitle{Perfect Foresight Solutions}
+      \begin{itemize}
+\item For a given solution path  from some set of initial conditions 
+I compute the product of the discrepancy in the H equations multiplied by 
+the distance from the constraint -- a complementary slackness conditions
+      \item For a given path lenth, the procedure computes the solution to within machine precision for all values asserted to accomodate the constraint
+      \item Apparently for this particular problem  even 0 order interpolation produces
+are 
+      \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+      \frametitle{Impact of Future Expectational Errors}
+      
+{\small
+\input{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/impactFuture}
+}
+    \end{frame}
+
+%     \begin{frame}
+%       \frametitle{Accuracy Tables}
+  
+% {\tiny
+%   \input{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/accurRERecur3642257967}  
+% }
+%     \end{frame}
+
+
+
+%     \begin{frame}
+%       \frametitle{Accuracy Tables}
+  
+% {\tiny
+%   \input{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/accurRERecur3642265782}  
+% }
+%     \end{frame}
+
+%\input{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/timePFNullRecurNow}  
+
+
+    \begin{frame}
+      \frametitle{Computation Time Tables}
+
+
+
+  
+{\tiny
+\input{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/timePFNullRecurNow}  
+}
+    \end{frame}
+
+
+    \begin{frame}
+      \frametitle{Computation Time Tables}
+  
+ {\tiny
+   \input{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/timeRENullRecurNow}  
+ }
+    \end{frame}
+
+
+
+
+    \begin{frame}
+      \frametitle{Computation Time Tables}
+  
+ {\tiny
+   \input{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/timePFExactRecurNow}  
+ }
+    \end{frame}
+
+
+    \begin{frame}
+      \frametitle{Computation Time Tables}
+  
+ {\tiny
+   \input{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/timeREExactRecurNow}  
+ }
+    \end{frame}
+
+
+
+
+    \begin{frame}
+      \frametitle{Path Simulation to Assess Accuracy}
+      
+
+      \begin{itemize}
+      \item May need to simulate long paths to assess the accuracy
+      \item errors in future expectations filter back to present
+      \item estimate  impact via the formulae
+      \item try and choose parameters to make the eigenvalues of F close to one
+      \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+      \frametitle{Convergence Criteria}
+      \begin{tabular}{|l|p{4cm}|c|}
+\hline
+        FPForInitState&FixedPoint of a vector function&Mathematica \$MachinePrecision\\
+\hline
+construcInterpPF&Interpolation Polynomial:  interpolation order (iOrd) and number of grid points. (nPts)&iOrd=\{1,2,3\}, nPts=\{3,5,10,20\}\\
+\hline
+construcInterpRE&Interpolation Polynomial:  interpolation order (iOrd) and number of grid points. (nPts), Numerical Integration 
+AccuracyGoal,2, Compiled,Automatic,  PrecisionGoal, 2, WorkingPrecision ,2&\\
+\hline
+iterPF,iterRE convergence&Infinity Norm& \{$10^{-4},10^{-6},10^{-8}$\}\\
+\hline
+      \end{tabular}
+    \end{frame}
+
+
+   \begin{frame}
+     \frametitle{Clean up first}
+     \begin{itemize}
+     \item mathematica presentation manipulate function
+     \item alternative to Judd renormalization strategy for assessing models
+     \item minimizing errors determines algorithm. formulat applicable for many solution strategies.  including perfect foresight rational expectations or penalty function or invariant solution
+     \item Incorporate regime switching characterization.  What happens after constraint.
+     \item report max constraint violation and number?
+     \item possible to do shorter horizon calculations for completeness
+     \item how good is using a truncated sum of constant errors in formula to predict truncation error
+     \item keep getting same value for hmatapp when only 1 iteration of assessPF$0.00245262, {qq -> 0.5, ru -> 0.08, Private`ep -> 0.02}$
+     \item time evaluating final interpolation function versus constructing
+     \item deal with and eliminate mat<hematica warning messages
+       \item hmatapp should delete evaluating point where constraint not enforced
+       \item how to measure discrepancy.  if ignore constraint comp slack condition misleadingly small if mult by satisfied equation
+     \item aPath[] still uses fpForInitStateFunc[].  Is that okay? what about an approximation here
+     \item identify memoize conflicts when changing parameters or model
+\item identify describe algorithm components
+     \item Infinity norm convergence fixedpoint convergence
+\item computations with asymptotic at and away from constraint limiting cases, $\bar{r}$ never, always  stochastic 0 to large
+\item difference between simulating forward and computing aPath ever for perfect foresight
+\item difference for getting interpolating polynomial for whole path as opposed to just the time t value for iterating
+\item necessary or better to carry around the family of zFuncs?
+\item can weight errors in sytem equation and in violating constraint
+     \end{itemize}
+   \end{frame}
+
+
+   \begin{frame}
+     \frametitle{Clean up}
+     \begin{itemize}
+     \item ``when not stochastic the problem goes away''  how to choose a decision rule under perfect foresight since all complimentary slackness conditions easy to accomodate. seems as though always resort to contradictions at ``end of path''
+     \item timing for why recursive necessary
+       \item eliminate old gridPts
+\item identify and itemize measures of accuracy of components using exact, interpolation, projection and by applying the original system
+\item Different measures of accuracy: 
+  \begin{itemize}
+  \item for given horizon of constraints
+  \item relative to converged solution
+  \item vary fixedpoint convergence criteria
+  \end{itemize}
+\item different dimensions of time and accuracy for perfect foresight versus rational expectations
+\item different solution concepts PF, RE others?
+     \item highlight when PF and RE differ
+     \end{itemize}
+   \end{frame}
+   % \begin{frame}
+   %   \frametitle{Clean up}
+   %   \begin{itemize}
+   %   \end{itemize}
+   % \end{frame}
+   \begin{frame}
+     \frametitle{Clean up}
+     \begin{itemize}
+     \item simulate paths compute standard error of weighted comp slac discrepancies discounted back using formula to get impact on variables.  any model possible including nonlinear  (possible machine learning algorithm)
+\item refactor for ease of implementing other models
+\item make all computations lists of scalar functions and memoize the vector computation
+\item Other models
+\item compare interpolation at a fixed set of points
+\item metric for other users to see how much future expectations matter for current period
+\item construct composition functions for leapfrogging
+\item leapfrog by computing compositions of functions
+     \item path doubling or just one iteration produce same  -- convergence  issue?
+\item compute expected value for powers for confidence intervals and for skewness kurtosis etc
+     \end{itemize}
+   \end{frame}
+   \begin{frame}
+     \frametitle{Clean up}
+     \begin{itemize}
+\item Different scenarios can leave constraint and return
+\item Probablity of escape function of state  ( sustained escape concept )
+\item measure probablity can stay away from constraint  ( zero when there, but not one when close. )
+\item compute ergodic distribution
+\item indicator functions to measure probability of events
+     \end{itemize}
+   \end{frame}
+   \begin{frame}
+     \frametitle{Clean up last}
+     \begin{itemize}
+     \item relate to \cite{hintermaier10,Christiano2000} impulse response function
+\item Redo numbering for zzz
+\item Better computationally to get close to expectations solution then iterate for fixed point of function?
+     \end{itemize}
+   \end{frame}
+
+   \begin{frame}
+     \frametitle{Future Directions}
+     \begin{itemize}
+     \item richardson extrapolation
+     \item Should also consider other behavior besides absorbing barriers change in parameters
+     \item  \begin{gather*}
+ M x_t \ge m \\
+ \end{gather*}
+\item Fold future z f b call into interpolation recursion
+\item Include  powers in order to compute confidence intervals for impulse response
+\item  more symbolic solutions, iterate recursively
+\item likely that can skimp on accuracy for distant future expectations and focus on getting near term most accurate use formula to inform choice of precision
+\item  Smolyak Points 
+\item Parallelize
+\item compute border and use piecewise
+\item strategically place points for accuracy
+  \item for non linear have to choose linearization point.  probably do unconstrained perturbation and find stochastic steady state
+     \end{itemize}
+   \end{frame}
+   \begin{frame}
+     \frametitle{Future Directions ( continued )}
+     \begin{itemize}
+\item use plot to get better points
+\item uniqueness via continuity in homotopy of variance and constraints
+\item possible to fool algorithm
+\item compile
+\item  use Java for integration
+     \end{itemize}
+   \end{frame}
+   \begin{frame}
+     \frametitle{Future Directions ( continued )}
+     \begin{itemize}
+\item generic eval of complimentary slackness
+\item derivatives
+\item condition numbers
+\item tracking border shifts
+\item projection versus interpolation
+\item Just simulate and keep good trajectories and update the z function how to distinguish per foresight and stochastic?
+\item Multivariate version of formula implementation
+     \end{itemize}
+   \end{frame}
+   \begin{frame}
+     \frametitle{Future Directions ( continued )}
+     \begin{itemize}
+\item interpretation as ``perturbation'' or other approximation method
+\item how general
+\item Stochastically imposed constraints ( future scenarios )
+\item regime switching applications
+\item impulse response functions and error bounds
+\item trade-offs computation time accuracy given interpolation and length of time imposing constraints.  Given solutions can Store in the z's a sort of special basis. One correct path implies many others if solutions invariant.   Algebraic idea of group applied to dynamic systems
+\item Volterra Series
+\item detecting asymmetries
+     \end{itemize}
+   \end{frame}
+   \begin{frame}
+ \bibliographystyle{plainnat}
+ \bibliography{anderson,files}
+     
+   \end{frame}
+
+
+     \section{Endnotes}
+\label{sec:endnotes}
+{\tiny
+     \theendnotes
+}
+
+
+
+
+%\appendix
+\newpage
+\section{Formula Applied to a Constant}
+{\tiny
+\begin{gather*}
+\phi \psi_c=  \sum_{s=0}^\infty F^s \phi \psi_c  -   F \sum_{s=0}^\infty F^s \phi \psi_c \\
+(I-F) \left (\sum_{s=0}^\infty F^s \phi \psi_c \right ) =\phi \psi_c\\
+\sum_{s=0}^\infty F^s \phi \psi_c=(I - F)^{-1}\phi \psi_c\\
+\sum_{s=0}^{k+1} F^s \phi \psi_c=F \sum_{s=0}^{k} F^s \phi \psi_c + \phi \psi_c\\
+F^{k+1} \phi \psi_c +\sum_{s=0}^{k} F^s \phi \psi_c=F \sum_{s=0}^{k} F^s \phi \psi_c + \phi \psi_c\\
+(I -F)\sum_{s=0}^{k} F^s  = (I- F^{k+1}) \phi \psi_c\\
+\sum_{s=0}^{k} F^s  = (I -F)^{-1}(I- F^{k+1}) \phi \psi_c\\
+\sum_{s=k+1}^{\infty} F^s  = (I -F)^{-1} F^{k+1}\phi \psi_c
+\end{gather*}
+}
+\section{Code}
+\begin{frame}
+\frametitle{FPForInitState}
+\label{sec:code}
+
+\begin{pseudocode}{FPForInitState}{xtm1,zFuncs}
+pathLength\GETS Length[zFuncs]-2\\
+xTExpression\GETS constructXtExpression(pathLength)\\
+csExpression\GETS constructCompSlackExpression(pathLength)\\
+zFuncAppExpressions\GETS constructCompSlackExpression(zFuncs)\\
+theSystem\GETS {xtExpression,csExpression,zFuncAppExpressions}\\
+initXGuess\GETS zFuncs[1][xtm1,0]\\
+xtZVNxt\GETS FixedPoint[xtZVNxt\GETS Solve[theSystem,xtZVNxt],initXGuess]\\
+\RETURN{xtZVNxt}
+\end{pseudocode}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{construcInterpPF}
+\label{sec:code}
+
+\begin{pseudocode}{constructInterpPF}{systemFPFuncs,iOrder,iPts}
+theGrid\GETS constructRectangularGrid[iPts]\\
+theFVals \GETS systemFPFuncs[theGrid]\\
+interpFuncs\GETS constructInterpPoly(theFVals,iOrder)\\
+\RETURN{interpFuncs}
+\end{pseudocode}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{construcInterpRE}
+\label{sec:code}
+
+\begin{pseudocode}{constructInterpRE}{systemFPFuncs,iOrder,iPts}
+theGrid\GETS constructRectangularGrid[iPts]\\
+theFVals \GETS Expectation[systemFPFuncs,theGrid]\\
+interpFuncs\GETS constructInterpPoly(theFVals,iOrder)\\
+\RETURN{interpFuncs}
+\end{pseudocode}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{iterFP iterRE}
+\label{sec:code}
+
+
+\begin{pseudocode}{iterPF}{iOrder,iPts.zFuncs}
+theSystemFuncs \GETS FPForInitState\\
+interpFuncs \GETS constructInterpPF(theFVals,iOrder)\\
+\RETURN{interpFuncs}
+\end{pseudocode}
+\begin{pseudocode}{iterRE}{iOrder,iPts.zFuncs}
+theSystemFuncs \GETS FPForInitState\\
+interpFuncs \GETS constructInterpRE(theFVals,iOrder)\\
+\RETURN{interpFuncs}
+\end{pseudocode}
+\end{frame}
+\subsection{symb01.m}
+
+\begin{frame}
+\label{sec:symb01.m}
+\end{frame}
+
+
+
+\newpage
+\subsection{symb02.m}
+
+\begin{frame}
+\label{sec:symb02.m}  
+\end{frame}
+
+
+\newpage
+\subsection{symb02Rec.m}
+\begin{frame}
+\label{sec:symb02Rec.m}  
+\end{frame}
+
+
+
+\newpage
+\subsection{symb02ValsExp.m}
+\begin{frame}
+\label{sec:symb02ValsExp.m}
+\end{frame}
+
+
+
+
+
+\end{document}

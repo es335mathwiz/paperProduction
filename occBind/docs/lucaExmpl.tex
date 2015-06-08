@@ -5,19 +5,16 @@ For example, consider the simple model
 q_{t} +\beta_p(1 - \rho_p)q_{t + 1} + \rho_pq_{t - 1} - \sigma_pr_{t} +
      r_{ut}=0\\
  r_{t} = \max (\bar{r}, \phi_pq_{t}) \\
- r_{ut} = \rho_{ru} r_{ut - 1} + \eta \epsilon_{y,t}
+ (r_{ut}-r^\ast) = \rho_{ru} (r_{ut - 1}-r^\ast) + \eta \epsilon_{y,t}
 \end{gather*}
 
 Then 
-\newcommand{\xtmVec}{  \begin{bmatrix}
-    q_t\\r_{t}\\r_{ut}
-  \end{bmatrix}
-}
 
 
 \begin{gather*}
-  x_t=\xtmVec
+  x_t=\xtVec
 \end{gather*}
+
 
 Some typical values of the parameters are:
 
@@ -32,20 +29,4 @@ Some typical values of the parameters are:
 %    \eta = 1
 \end{gather*}
 
-
-
-\begin{gather*}
-  H= \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyHmat.pdf}}}\\
-\psi_z=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPsiZ.pdf}}}\\
-\psi_\epsilon=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPsiEps.pdf}}}\\
-\end{gather*}
-
-
-
-
- \begin{gather*}
-B=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyBmat.pdf}}}\\
-\phi=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPhimat.pdf}}}\\
-F=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyFmat.pdf}}}
- \end{gather*}
-
+%\input{lucaMats}
