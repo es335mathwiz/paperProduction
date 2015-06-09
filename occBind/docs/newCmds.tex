@@ -15,3 +15,18 @@
 \newcommand{\xsln}[1]{\mathbb{X} \left [#1 \right ]}
 \newcommand{\xpth}[2]{\mathfrak{X}_{#1} \left [#2 \right ]}
 \newcommand\infnorm[1]{\left\lVert#1\right\rVert_\infty}
+
+
+
+
+\makeatletter
+\pgfplotsset{
+    /pgfplots/table/omit header/.style={%
+        /pgfplots/table/typeset cell/.append code={%
+            \ifnum\c@pgfplotstable@rowindex=-1
+                \pgfkeyslet{/pgfplots/table/@cell content}\pgfutil@empty%
+            \fi
+        }
+    }
+}
+\makeatother
