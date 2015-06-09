@@ -34,19 +34,19 @@ below.
 
 We will require $zzz\$0\$1[t]$ to satisfy:
  \begin{gather*}
-\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/try01A.pdf}}}\\
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/try01A.pdf}}}\\
 or\\
-\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/try01B.pdf}}}\\
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/try01B.pdf}}}\\
  \end{gather*}
 
 
 Which leads to:
  \begin{gather*}
-\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/red01A.pdf}}}\\
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/red01A.pdf}}}\\
 and\\
-\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/red01B.pdf}}}\\
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/red01B.pdf}}}\\
 or\\
-\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/red01C.pdf}}}
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/red01C.pdf}}}
  \end{gather*}
 
 
@@ -54,7 +54,7 @@ or\\
 To numerically compute the solution, we use:
 
 \begin{gather*}
-  0=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyEqns01.pdf}}}
+  0=\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyEqns01.pdf}}}
 \end{gather*}
 
 The first and second equations correspond to the values for $q_t,r_{ut}$.
@@ -69,15 +69,15 @@ to a value that would set $r_t=\bar{r}$ ( $\delta_t<0$).
 We can explicitly solve this system to obtain  expressions for $q_t, r_t, z_{t}(x_{t-1},\epsilon_t) $:\footnote{Need to cleanup Mathematica solution details showing erroneous default values for Piecewise}
 
 \begin{gather*}
-  qq_t=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettySoln01Q.pdf}}}
+  qq_t=\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettySoln01Q.pdf}}}
 \end{gather*}
 
 \begin{gather*}
-  r_t=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettySoln01R.pdf}}}
+  r_t=\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettySoln01R.pdf}}}
 \end{gather*}
 
 \begin{gather*}
-  z_t=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettySoln01Z.pdf}}}
+  z_t=\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettySoln01Z.pdf}}}
 \end{gather*}
 
 This is the exact solution if the constraints are no longer relevant for 
@@ -86,13 +86,13 @@ $t >0$.
 To verify this is true, compute the time t and t+1 values using the expression for z.
 
 \begin{gather*}
-  0=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPath01.pdf}}}
+  0=\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPath01.pdf}}}
 \end{gather*}
 
 Premultiply by $H$ to get
 
 \begin{gather*}
-  0=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhmatApp01.pdf}}}
+  0=\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhmatApp01.pdf}}}
 \end{gather*}
 
 Note the following graph of $r_t$ when imposing the constraint for only one period:
@@ -104,14 +104,14 @@ It will be useful to employ the use the expected value of $z[]$ in future calcul
 
 
 \begin{gather*}
-  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ01.pdf}}}\\
+  \vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ01.pdf}}}\\
 \end{gather*}
 
 
 
 
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr01.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr01.pdf}
 \end{gather*}
 
 When $r_t>0.02$, the variables satisfy the original equation system exactly.
@@ -119,7 +119,7 @@ Only when $r_t=0.02$ is this not the case.
 
 Using a projection method to compute the solution producess a close approximation as shown by the graph of the difference:
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyNumDiff01.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyNumDiff01.pdf}
 \end{gather*}
 
 
@@ -128,18 +128,18 @@ It will be useful to employ the use the expected value of $z[]$ in future calcul
 
 
 \begin{gather*}
-  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyExpZ01.pdf}}}\\
+  \vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyExpZ01.pdf}}}\\
 \end{gather*}
 
 \begin{gather*}
-  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyExpDiffZ01.pdf}}}\\
+  \vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyExpDiffZ01.pdf}}}\\
 \end{gather*}
 
 These are approximation. An exact value is avaiable at this stage involving 
 Erf ( Erfc ).
 
 \begin{gather*}
-  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyExpExactDiffZ01.pdf}}}\\
+  \vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyExpExactDiffZ01.pdf}}}\\
 \end{gather*}
 
 \input{lucaExmpl02PF}
@@ -149,7 +149,7 @@ Erf ( Erfc ).
 Note the following graph of $r_t$ when imposing constraint for only one period
 less $r_t$ when imposing constraint for only two periods:
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr01lessrr02.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr01lessrr02.pdf}
 \end{gather*}
 
 
@@ -159,12 +159,12 @@ Only when $r_t=0.02$ is this not the case.
 
 The following is the 2nd component of the product of the H and the path.
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp02A.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp02A.pdf}
 \end{gather*}
 
 The following is the 5th component of the product of the H and the path.
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp02B.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp02B.pdf}
 \end{gather*}
 
 
@@ -174,7 +174,7 @@ A plot of the difference between the z function computed using the Mathematica e
 
 
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyNumDiff02.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyNumDiff02.pdf}
 \end{gather*}
 
 
@@ -183,7 +183,7 @@ A plot of the difference between the z function computed using the Mathematica e
 Note the following graph of $r_t$ when imposing constraint for only three
  periods:
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr03.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr03.pdf}
 \end{gather*}
 
 
@@ -191,7 +191,7 @@ Note the following graph of $r_t$ when imposing constraint for only three
 Note the following graph of $r_t$ when imposing constraint for only two periods
 less $r_t$ when imposing constraint for only three periods:
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr02lessrr03.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr02lessrr03.pdf}
 \end{gather*}
 
 
@@ -201,17 +201,17 @@ Only when $r_t=0.02$ is this not the case.
 
 The following is the 2nd component of the product of the H and the path.
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp03A.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp03A.pdf}
 \end{gather*}
 
 The following is the 5th component of the product of the H and the path.
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp03B.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp03B.pdf}
 \end{gather*}
 
 The following is the 8th component of the product of the H and the path.
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp03C.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp03C.pdf}
 \end{gather*}
 
 
@@ -222,7 +222,7 @@ A plot of the difference between the z function computed using the Mathematica e
 
 
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyNumDiff03.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyNumDiff03.pdf}
 \end{gather*}
 
 
@@ -231,7 +231,7 @@ A plot of the difference between the z function computed using the Mathematica e
 Note the following graph of $r_t$ when imposing constraint for only four
  periods:
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr04.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr04.pdf}
 \end{gather*}
 
 
@@ -239,7 +239,7 @@ Note the following graph of $r_t$ when imposing constraint for only four
 Note the following graph of $r_t$ when imposing constraint for only three periods
 less $r_t$ when imposing constraint for only four periods:
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr03lessrr04.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyrr03lessrr04.pdf}
 \end{gather*}
 
 
@@ -249,23 +249,23 @@ Only when $r_t=0.02$ is this not the case.
 
 The following is the 2nd component of the product of the H and the path.
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp04A.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp04A.pdf}
 \end{gather*}
 
 The following is the 5th component of the product of the H and the path.
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp04B.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp04B.pdf}
 \end{gather*}
 
 The following is the 8th component of the product of the H and the path.
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp04C.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp04C.pdf}
 \end{gather*}
 
 
 The following is the 11th component of the product of the H and the path.
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp04D.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyhapp04D.pdf}
 \end{gather*}
 
 
@@ -275,7 +275,7 @@ A plot of the difference between the z function computed using the Mathematica e
 
 
 \begin{gather*}
-\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyNumDiff04.pdf}
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyNumDiff04.pdf}
 \end{gather*}
 
 
@@ -303,18 +303,18 @@ conputation.
 
 
 \begin{gather*}
-  H_c= \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyHmatCons.pdf}}}\\
-\psi_{zc}=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPsiZ.pdf}}}\\
-\psi_{\epsilon c}=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPsiEps.pdf}}}\\
+  H_c= \vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyHmatCons.pdf}}}\\
+\psi_{zc}=   \vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPsiZ.pdf}}}\\
+\psi_{\epsilon c}=   \vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPsiEps.pdf}}}\\
 \end{gather*}
 
 
 
 
  \begin{gather*}
-B_c=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyBmatCons.pdf}}}\\
-\phi_c=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPhimatCons.pdf}}}\\
-F_c=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyFmatCons.pdf}}}
+B_c=   \vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyBmatCons.pdf}}}\\
+\phi_c=   \vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPhimatCons.pdf}}}\\
+F_c=   \vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyFmatCons.pdf}}}
  \end{gather*}
 
 
@@ -351,7 +351,7 @@ S_1=
 \end{bmatrix}+\mathcal{c}(t)
 \end{gather*}
 \begin{gather*}
-  \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyCons0.pdf}}}
+  \vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyCons0.pdf}}}
 \end{gather*}
 
 \begin{itemize}
@@ -392,7 +392,7 @@ Although we have a simple linear problem and do not need them it may be illustra
 compute the solution using first order Chebyshev polynomials of first order we have the following weights
 
  \begin{gather*}
-\mathcal{W}_0=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/wtsCons0.pdf}}}
+\mathcal{W}_0=   \vcenter{\hbox{\includegraphics[width=10.5cm]{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/wtsCons0.pdf}}}
  \end{gather*}
 
 
@@ -400,7 +400,7 @@ Given the polynomial grid specification without the constraints, these would ord
 
 
  \begin{gather*}
-\mathcal{C}_0=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyOrdPolys0.pdf}}}
+\mathcal{C}_0=   \vcenter{\hbox{\includegraphics[width=10.5cm]{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyOrdPolys0.pdf}}}
  \end{gather*}
 
 To produce
@@ -409,21 +409,21 @@ To produce
    \begin{bmatrix}
      q_t\\ru_t
    \end{bmatrix}
-\vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPolys0.pdf}}}
+\vcenter{\hbox{\includegraphics[width=10.5cm]{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyPolys0.pdf}}}
  \end{gather*}
 
 
  \begin{gather*}
-z_0^1(x_{-1},\epsilon_0)=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ1.pdf}}}
+z_0^1(x_{-1},\epsilon_0)=   \vcenter{\hbox{\includegraphics[width=10.5cm]{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ1.pdf}}}
  \end{gather*}
 
 
  \begin{gather*}
-r_0^1(x_{-1},\epsilon_0)=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyR1.pdf}}}
+r_0^1(x_{-1},\epsilon_0)=   \vcenter{\hbox{\includegraphics[width=10.5cm]{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyR1.pdf}}}
  \end{gather*}
 
  \begin{gather*}
-q_0^1(x_{-1},\epsilon_0)=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyQ1.pdf}}}
+q_0^1(x_{-1},\epsilon_0)=   \vcenter{\hbox{\includegraphics[width=10.5cm]{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyQ1.pdf}}}
  \end{gather*}
 
 
@@ -433,21 +433,21 @@ q_0^1(x_{-1},\epsilon_0)=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/h
 We can use equations \ref{firstIneq} to compute the expected value function $Z_0^1(x_{-1})=E_{0}[z_0^1(x_{-1},\epsilon_0)]$.\footnote{Be sure to show factoring out the expectation step, varying distributions even using continuous and discrete.}
 
  \begin{gather*}
-Z_0^1(x_{-1})=   \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ1EXP.pdf}}} \intertext{where}
-\mu=\vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyMuVal.pdf}}} 
+Z_0^1(x_{-1})=   \vcenter{\hbox{\includegraphics[width=10.5cm]{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ1EXP.pdf}}} \intertext{where}
+\mu=\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyMuVal.pdf}}} 
  \end{gather*}
 
 To see that this is the solution imposing the constraint for a single period
 construct
 
 \begin{gather*}
-  q_0^1= \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyQ1EXP.pdf}}} 
+  q_0^1= \vcenter{\hbox{\includegraphics[width=10.5cm]{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyQ1EXP.pdf}}} 
 \end{gather*}
 \begin{gather*}
-  r_0^1= \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyR1EXP.pdf}}} 
+  r_0^1= \vcenter{\hbox{\includegraphics[width=10.5cm]{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyR1EXP.pdf}}} 
 \end{gather*}
 \begin{gather*}
-  r_{u0}^1= \vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyRu1EXP.pdf}}} 
+  r_{u0}^1= \vcenter{\hbox{\includegraphics[width=10.5cm]{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyRu1EXP.pdf}}} 
 \end{gather*}
 
 With
@@ -466,7 +466,7 @@ H
 \begin{bmatrix}
   x_{t-1}\\x_t\\x_{t+1}
 \end{bmatrix}=
-\vcenter{\hbox{\includegraphics[width=10.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyResid0.pdf}}} 
+\vcenter{\hbox{\includegraphics[width=10.5cm]{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyResid0.pdf}}} 
 \end{gather*}
 The residuals for the first and last  equation are 0 and the value of the 
 shock. Whenever the constraint is not binding, the residual of the second
@@ -543,7 +543,7 @@ For our example,
 
 
  \begin{gather*}
-F=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyFmat.pdf}}}
+F=   \vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyFmat.pdf}}}
  \end{gather*}
 
 
@@ -551,7 +551,7 @@ F=   \vcenter{\hbox{\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools
 
 \begin{gather*}
 \begin{bmatrix}
-  \vcenter{\hbox{\includegraphics[width=14.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ2RHS.pdf}}} 
+  \vcenter{\hbox{\includegraphics[width=14.5cm]{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ2RHS.pdf}}} 
 \end{bmatrix}
 \end{gather*}
 This expression contains time t dated state variablels.
@@ -560,7 +560,7 @@ Computing to 6th order we get
 
 \begin{gather*}
 \begin{bmatrix}
-  \vcenter{\hbox{\includegraphics[width=14.5cm]{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ2RHSNew.pdf}}} 
+  \vcenter{\hbox{\includegraphics[width=14.5cm]{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/prettyZ2RHSNew.pdf}}} 
 \end{bmatrix}
 \end{gather*}
 
@@ -602,13 +602,13 @@ Develop algorithm and formulae for ergodic distribution.
 \end{itemize}
 
 
-%\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/Z1EXPGraph.pdf}
+%\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/Z1EXPGraph.pdf}
 
 
-%\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/Z2EXPGraph.pdf}
+%\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/Z2EXPGraph.pdf}
 
 
-%\includegraphics{/msu/home/m1gsa00/git/ProjectionMethodTools/ProjectionMethodToolsJava/code/Z3EXPGraph.pdf}
+%\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/Z3EXPGraph.pdf}
 
 
 
