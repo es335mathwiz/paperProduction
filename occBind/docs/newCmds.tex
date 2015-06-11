@@ -11,10 +11,40 @@
   \end{bmatrix}
 }
 \newcommand{\inorm}[1]{\left\lVert#1\right\rVert_\infty}
-\newcommand{\expct}[1]{\mathcal{E}_{t} \left [#1 \right ]}
+\newcommand{\expct}[1]{E_{t} \left [#1 \right ]}
+\newcommand{\expc}[1]{\mathcal{E} \left [#1 \right ]}
 \newcommand{\xsln}[1]{\mathbb{X} \left [#1 \right ]}
+\newcommand{\xslnK}[2]{\hat{\mathbb{X}}^{#1} \left [#2 \right ]}
 \newcommand{\xpth}[2]{\mathfrak{X}_{#1} \left [#2 \right ]}
 \newcommand\infnorm[1]{\left\lVert#1\right\rVert_\infty}
+
+% \newcommand{\forPhi}{\begin{bmatrix}
+% \psi_\epsilon&\psi_z
+% \end{bmatrix}}
+% \newcommand{\phiMult}{\phi \psi_\epsilon}
+% \newcommand{\bMult}{B x_{-1} + \phiMult}
+\newcommand{\phiMultBoth}[1]{
+	\phi (\psi_\epsilon \epsilon_t +\psi_z z_0^#1(x_{-1},\epsilon_t))}
+\newcommand{\bMultBoth}[1]{B x_{-1} + \phiMultBoth{#1}}
+
+
+\newcommand{\bForOne}{\bMultBoth{1}
+}
+
+% \newcommand{\bForTwo}{\bMultBoth{2}+
+% F \phi  \psi_z  
+% Z_0^1(x_0^2(x_{-1}))   
+% }
+
+
+
+\newcommand{\compSlack}{z_0^1(x_{-1},\epsilon_t) \left ( \bar{r} -\phi_p q_t\right )=0\\ z_0^1(x_{-1},\epsilon_t)> 0}
+% \begin{gather*}
+% 0= x_t-(B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \phi \psi_z 
+% \xpt{z_{t}(x_{t-1},\epsilon_t)    } )
+% \end{gather*}
+
+\newcommand{\xpt}[1]{#1}
 
 
 \makeatletter
@@ -34,4 +64,9 @@
         }
     }
 }
+\makeatother
+
+
+\makeatletter
+\newcommand*\ExpandableInput[1]{\@@input#1 }
 \makeatother
