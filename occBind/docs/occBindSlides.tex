@@ -54,7 +54,26 @@ x_t=\xsln{x_{t-1} , \epsilon_t} \,\, \intertext{ so that conditional expectation
      \section{A Relaxation Technique}
 
    \begin{frame}
-     \frametitle{A Relaxation Technique}
+ \frametitle{A Relaxation Technique}
+     \begin{itemize}
+      \item We will determine a sequence of solutions that accurately characterize the impact of honoring the occasionally binding constraints over successively longer time horizons 
+    \item There are a number of approaches authors have proposed for solutions for models with occasionally binding constraints\citep{Christiano2000,fernandez-villaverde12,guerrieri15:_occbin}
+%{Potter2000,Koop1996a,Karame2012,DeFigueiredo2006}
+\item \cite{anderson10} provides a formula useful for 
+\begin{itemize}
+	\item computing the recursive stochastic solution update
+	\item computing a bound on the error from ignoring some future constraints
+% {z_{t+s}(x_{t+s-1},\epsilon_t)    }  \intertext{in such a way that}
+\end{itemize}
+
+     \end{itemize}
+
+
+     \end{frame}
+
+
+   \begin{frame}
+     \frametitle{A Relaxation Technique ( continued)}
      
      \begin{itemize}
      	\item Completely ignoring the constraint leaves a problem with well known solutions\citep{anderson10,simssolving}
@@ -73,21 +92,13 @@ x_t=\xsln{x_{t-1} , \epsilon_t} \,\, \intertext{ so that conditional expectation
 %%   \bar{x} -  \xslnK{0}{x_{t-1}&\xslnK{0}{x_{t-1} , \epsilon_t}<\bar{x}
 %%      \end{cases}     
 %      \end{gather*}
-      \item computing solutions incrementally imposing the constraint for a single additional time period
+      \item computing solutions incrementally imposing the constraint for a single additional time period is
       \begin{itemize}
       	\item conceptually straightforward 
       	\item recursive 
       	\item stochastic-- model solutions must anticipate that trajectories can depart and re-engage the constraints  
  %     	\item computationally tedious
       \end{itemize}
-%      \item We will determine a sequence of solutions that accurately characterize the impact of honoring the occasionally binding constraints over successively longer time horizons 
-%%%     \item There are a number of approaches authors have proposed for producing  non-linear impulse response functions.Following the literature\citep{Christiano2000,fernandez-villaverde12,guerrieri15:_occbin,Karame2012,DeFigueiredo2006,Potter2000,Koop1996a}
-\item \cite{anderson10} provides a formula useful for 
-\begin{itemize}
-	\item computing the recursive stochastic solution update
-	\item computing a bound on the error from ignoring some future constraints
-% {z_{t+s}(x_{t+s-1},\epsilon_t)    }  \intertext{in such a way that}
-\end{itemize}
      \end{itemize}
    \end{frame}
    \section{A Useful Formula}
@@ -456,145 +467,151 @@ We need the function {\small $z_0^2(\xtMVec,\epsilon_t)$ }that guarantees:
 
     
 
-  \begin{frame}
-    \frametitle{Things to fix}
-    \begin{itemize}
-      \item eliminate old gridPts
-    \item deal with and eliminate Mathematica warning messages
-      \item hmatapp should delete evaluating point where constraint not enforced
-    \item aPath[] still uses fpForInitStateFunc[].  Is that okay? what about an approximation here
-    \item  RE compute more than PF for genFinal why? does it?
-    \item identify potential memoize conflicts when changing parameters or model
-\item design with default values confuse when standard error is next to last value
-\item difference between simulating forward and computing aPath even for perfect foresight
+%   \begin{frame}
+%     \frametitle{Things to fix}
+%     \begin{itemize}
+%       \item eliminate old gridPts
+%     \item deal with and eliminate Mathematica warning messages
+%       \item hmatapp should delete evaluating point where constraint not enforced
+%     \item aPath[] still uses fpForInitStateFunc[].  Is that okay? what about an approximation here
+%     \item  RE compute more than PF for genFinal why? does it?
+%     \item identify potential memoize conflicts when changing parameters or model
+% \item design with default values confuse when standard error is next to last value
+% \item difference between simulating forward and computing aPath even for perfect foresight
 
-    \end{itemize}
-  \end{frame}
+%     \end{itemize}
+%   \end{frame}
+
+%   \begin{frame}
+%     \frametitle{Things to compute soon}
+%     \begin{itemize}
+% \item Probability of escape function of state  ( sustained escape concept )
+% \item measure probability can stay away from constraint  ( zero when there, but not one when close. )
+% \item Different scenarios can leave constraint and return
+% \item Other linear models and constraints
+% \item compare interpolation at a fixed set of points
+%     \item simulate paths compute standard error of weighted comp slac discrepancies discounted back using formula to get impact on variables.  any model possible including nonlinear  (possible machine learning algorithm)
+% \item refactor for ease of implementing other models
+% \item different dimensions of time and accuracy for perfect foresight versus rational expectations
+% \item identify and itemize measures of accuracy of components using exact, interpolation, projection and by applying the original system
+%     \item timing for why recursive necessary
+%     \item report max constraint violation and number?
+%     \item other non linear models linearized compute how far out need to solve
+%     \item Mathematica presentation manipulate function
+%     \item possible to do shorter horizon calculations for completeness
+%     \item time evaluating final interpolation function versus constructing
+%     \item describe and compute Infinity norm convergence fixed point convergence
+% \item computations with asymptotic at and away from constraint limiting cases, $\bar{r}$ never, always  stochastic 0 to large
+% \item difference for getting interpolating polynomial for whole path as opposed to just the time t value for iterating
+%     \end{itemize}
+%   \end{frame}
 
   \begin{frame}
-    \frametitle{Things to compute soon}
+    \frametitle{Future Straightforward Improvements for Algorithm Design}
     \begin{itemize}
-\item Probability of escape function of state  ( sustained escape concept )
-\item measure probability can stay away from constraint  ( zero when there, but not one when close. )
-\item Different scenarios can leave constraint and return
-\item Other linear models and constraints
-\item compare interpolation at a fixed set of points
-    \item simulate paths compute standard error of weighted comp slac discrepancies discounted back using formula to get impact on variables.  any model possible including nonlinear  (possible machine learning algorithm)
-\item refactor for ease of implementing other models
-\item different dimensions of time and accuracy for perfect foresight versus rational expectations
-\item identify and itemize measures of accuracy of components using exact, interpolation, projection and by applying the original system
-    \item timing for why recursive necessary
-    \item report max constraint violation and number?
-    \item other non linear models linearized compute how far out need to solve
-    \item Mathematica presentation manipulate function
-    \item possible to do shorter horizon calculations for completeness
-    \item time evaluating final interpolation function versus constructing
-    \item describe and compute Infinity norm convergence fixed point convergence
-\item computations with asymptotic at and away from constraint limiting cases, $\bar{r}$ never, always  stochastic 0 to large
-\item difference for getting interpolating polynomial for whole path as opposed to just the time t value for iterating
-    \end{itemize}
-  \end{frame}
-
-  \begin{frame}
-    \frametitle{Future Straightforward Directions for Algorithm Design}
-    \begin{itemize}
-\item Improve the function approximations
+     \item Try Richardson extrapolation
+\item Improve the accuracy and reduce the computational cost of the function approximations
       \begin{itemize}
 \item  Use Smolyak points for Interpolation
-\item  Investigate Projection Method approximations
-\item Investigate piecewise combinations of applications 
 \item Investigate strategically placing points for accuracy
+\item  Investigate Projection Method approximations
+\item Investigate piecewise combinations of approximation methods
       \end{itemize}
-     \item Try Richardson extrapolation
-\item Parallelize Interpolation Step
-\item construct composition functions for leapfrogging
-\item leapfrog by computing compositions of functions
-    \item path doubling or just one iteration produce same  -- convergence  issue?
-\item likely that can skimp on accuracy for distant future expectations and focus on getting near term most accurate use formula to inform choice of precision
-\item trade-offs computation time accuracy given interpolation and length of time imposing constraints.  Given solutions can Store in the z's a sort of special basis. One correct path implies many others if solutions invariant.   Algebraic idea of group applied to dynamic systems
-\item Just simulate and keep good trajectories and update the z function how to distinguish per foresight and stochastic?
-\item use plot to get better points
-\item different solution concepts PF, RE others?
-     \item minimizing errors determines algorithm. formulate applicable for many solution strategies.  including perfect foresight rational expectations or penalty function or invariant solution
-\item Better computationally to get close to expectations solution then iterate for fixed point of function?
-    \item relate to \citep{hintermaier10,Christiano2000} impulse response function
-    \item highlight when PF and RE differ
-\item can weight errors in system equation and in violating constraint
-   	\item decision rules with constraints disguise inaccuracies?
-    \item ``when not stochastic the problem goes away''  how to choose a decision rule under perfect foresight since all complimentary slackness conditions easy to accommodate. seems as though always resort to contradictions at ``end of path''
-    \end{itemize}
-  \end{frame}
-  \begin{frame}
-    \frametitle{nonlinear and other Extensions}
-    \begin{itemize}
-    \item 
-    \end{itemize}
-  \end{frame}
+\item Parallelize much of the interpolation step
+%\item Construct composition functions for accelerating
+% \item leapfrog by computing compositions of functions
+%     \item path doubling or just one iteration produce same  -- convergence  issu
+
+% \item likely that can skimp on accuracy for distant future expectations and focus on getting near term most accurate use formula to inform choice of precision
+% \item trade-offs computation time accuracy given interpolation and length of time imposing constraints.  Given solutions can Store in the z's a sort of special basis. One correct path implies many others if solutions invariant.   Algebraic idea of group applied to dynamic systems
+% \item Just simulate and keep good trajectories and update the z function how to distinguish per foresight and stochastic?
+% \item use plot to get better points
+% \item different solution concepts PF, RE others?
+%      \item minimizing errors determines algorithm. formulate applicable for many solution strategies.  including perfect foresight rational expectations or penalty function or invariant solution
+% \item Better computationally to get close to expectations solution then iterate for fixed point of function?
+%     \item relate to \citep{hintermaier10,Christiano2000} impulse response function
+%     \item highlight when PF and RE differ
+% \item can weight errors in system equation and in violating constraint
+%    	\item decision rules with constraints disguise inaccuracies?
+%     \item ``when not stochastic the problem goes away''  how to choose a decis% ion rule under perfect foresight since all complimentary slackness conditions easy to accommodate. seems as though always resort to contradictions at ``end of path''
+     \end{itemize}
+   \end{frame}
+ 
+
+
+
+ % \begin{frame}
+  %   \frametitle{nonlinear and other Extensions}
+  %   \begin{itemize}
+  %   \item 
+  %   \end{itemize}
+  % \end{frame}
 
    \begin{frame}
      \frametitle{Future Algorithm Extensions}
      \begin{itemize}
      \item  Non linear inequality constraints $M(x_t) \ge m $
-     \item Other behaviors besides absorbing barriers
+     \item Other behaviors at constraints besides absorbing barriers
 \item Non linear rational expectations models
   \begin{itemize}
 \item incorporate expected values of powers for computing confidence intervals 
-\item compute ergodic distribution
 \item indicator functions to measure probability of events
+\item compute ergodic distribution
   \end{itemize}
 \item Regime switching models
      \end{itemize}
    \end{frame}
 
-   \begin{frame}
-     \frametitle{Future Directions ( continued )}
-     \begin{itemize}
-\item Include  powers in order to compute confidence intervals for impulse response
-\item compute expected value for powers for confidence intervals and for skewness kurtosis etc
-\item metric for other users to see how much future expectations matter for current period
-  \item for non linear have to choose linearization point.  probably do unconstrained perturbation and find stochastic steady state
-\item regime switching applications
-     \item Incorporate regime switching characterization.  What happens after constraint.
-     \end{itemize}
-   \end{frame}
-  \begin{frame}
-    \frametitle{Future Directions ( continued )}
-    \begin{itemize}
-\item uniqueness via continuity in homotopy of variance and constraints
-\item possible to fool algorithm
-\item compile
-\item  use Java for integration
-    \end{itemize}
-  \end{frame}
-  \begin{frame}
-    \frametitle{Future Directions ( continued )}
-    \begin{itemize}
-\item generic eval of complimentary slackness
-\item derivatives
-\item condition numbers
-\item tracking border shifts
-\item projection versus interpolation
-\item Multivariate version of formula implementation
-    \end{itemize}
-  \end{frame}
+%    \begin{frame}
+%      \frametitle{Future Directions ( continued )}
+%      \begin{itemize}
+% \item Include  powers in order to compute confidence intervals for impulse response
+% \item compute expected value for powers for confidence intervals and for skewness kurtosis etc
+% \item metric for other users to see how much future expectations matter for current period
+%   \item for non linear have to choose linearization point.  probably do unconstrained perturbation and find stochastic steady state
+% \item regime switching applications
+%      \item Incorporate regime switching characterization.  What happens after constraint.
+%      \end{itemize}
+%    \end{frame}
 
-  \begin{frame}
-    \frametitle{Future Directions Theory}
-    \begin{itemize}
-\item interpretation as ``perturbation'' or other approximation method
-\item how general
-\item Stochastically imposed constraints ( future scenarios )
-\item impulse response functions and error bounds
-\item Volterra Series
-\item detecting asymmetries
-    \end{itemize}
-  \end{frame}
-  \begin{frame}
-  \frametitle{Future Applications}
-    \begin{itemize}
-\item
-    \end{itemize}
-  \end{frame}
+%   \begin{frame}
+%     \frametitle{Future Directions ( continued )}
+%     \begin{itemize}
+% \item uniqueness via continuity in homotopy of variance and constraints
+% \item possible to fool algorithm
+% \item compile
+% \item  use Java for integration
+%     \end{itemize}
+%   \end{frame}
+
+%   \begin{frame}
+%     \frametitle{Future Directions ( continued )}
+%     \begin{itemize}
+% \item generic eval of complimentary slackness
+% \item derivatives
+% \item condition numbers
+% \item tracking border shifts
+% \item Multivariate version of formula implementation
+%     \end{itemize}
+%   \end{frame}
+
+%   \begin{frame}
+%     \frametitle{Future Directions Theory}
+%     \begin{itemize}
+% \item interpretation as ``perturbation'' or other approximation method
+% \item how general
+% \item Stochastically imposed constraints ( future scenarios )
+% \item impulse response functions and error bounds
+% \item Volterra Series
+% \item detecting asymmetries
+%     \end{itemize}
+%   \end{frame}
+%   \begin{frame}
+%   \frametitle{Future Applications}
+%     \begin{itemize}
+% \item
+%     \end{itemize}
+%   \end{frame}
 
 
 
@@ -603,6 +620,9 @@ We need the function {\small $z_0^2(\xtMVec,\epsilon_t)$ }that guarantees:
 
   \begin{frame}
     \frametitle{Conclusions}
+
+The paper 
+
     \begin{itemize}
 \item Develops a generic formula  for assessing the impact on current state variable values of errors in computing the values of future expectations
     \item Implements an algorithm for computing time invariant 
