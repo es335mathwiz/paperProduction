@@ -1,0 +1,359 @@
+\documentclass[1p]{elsarticle}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[english]{babel}
+\usepackage{array}
+\usepackage{dcolumn}
+\usepackage{datetime}
+\usepackage{theorem}
+ \newtheorem{theorem}{Theorem}
+ \newtheorem{definition}[theorem]{Definition}
+ \newtheorem{conjecture}[theorem]{Conjecture}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+
+\settimeformat{ampmtime}
+% \usepackage{fancyhdr}
+% \pagestyle{fancy}
+
+%  \lhead{\today}  \rhead{\currenttime}
+%
+%\lfoot[lf-even]{lf-odd}
+% \chead[ch-even]{ch-odd}   \cfoot[cf-even]{cf-odd}
+% \rhead[rh-even]{rh-odd}   \rfoot[rf-even]{rf-odd}
+%\usepackage[final]{changes}
+\usepackage[draft]{changes}
+
+\usepackage{amssymb}
+\usepackage{moreverb}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{pdfpages}
+
+%\definechangesauthor[Gary]{GSA}{red}
+%\definechangesauthor[Tack/Gary]{TG}{purple}
+
+\setcounter{MaxMatrixCols}{10}
+
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amscd}
+
+%\usepackage{pstricks,pst-node,pstcol,pst-tree}
+%\usepackage{program}
+%\normalbaroutside
+\usepackage{draftcopy}
+%\usepackage{newcent}
+\usepackage{bookman}
+%\usepackage{lucid}
+%\usepackage{avant}
+%\usepackage{authordate1-4}
+\usepackage{epsfig}
+\usepackage{notebook}
+\textheight9.0in
+\textwidth6.5in
+\topmargin0.0in
+\oddsidemargin0.0in
+
+%\usepackage{epsfig}
+
+\setcounter{MaxMatrixCols}{15}
+
+\newcommand{ \us }{_}
+\newcommand{ \aw }{^}
+
+\newcommand{ \myamp }{&}
+\newcommand{ \anAmp }{&}
+\newcommand{ \unds }{_}
+\newcommand{\matob}[2]{\mbox{$\left [ ~ #1 ~ \ldots ~ #2~ \right ] $}} 
+%\epsfig{file=aGraph.ps}
+
+
+%\bibliographystyle{authordate1}
+
+
+\begin{document}
+\begin{frontmatter}
+\title{Continuous Time Application of the Anderson-Moore(AIM) Algorithm for
+Imposing the Saddle Point Property in Dynamic Models}
+\author{Gary S. Anderson}
+%EndAName
+\address{Federal Reserve Board}
+\fntext[fn1]{The author appreciates comments by
+Chris Sims.
+The views in this paper are solely the responsibility of the authors
+and should not be interpreted as reflecting the views of the Board
+of Governors of the Federal Reserve System or any other person
+associated with the Federal Reserve System.}
+ 
+
+\begin{abstract}
+  \begin{description}
+  \item[Use reliablity paper notation and machinery] 
+  \item[Apply to Infinite Horizon Linear Quadratic Control]
+  \item[Handle nonlinear models] 
+  \item[Use Symbolic] Perhaps projection extension
+  \item[Continuous Time to Discrete Time Mapping] For MPS, 
+Jumping off period handled better
+\item[Find stochastic]
+\item[Find higher order derivatives]
+\item[Non optimal control, Find complicated Exogenous] 
+  \end{description}
+
+\end{abstract}
+
+\begin{keyword}
+Continuous Time \sep Dynamic Models \sep    Projection Methods \sep
+C61 \sep  C63 
+\end{keyword}
+\end{frontmatter}
+
+
+
+
+% \bibliographystyle{ifac}
+% \setlength{\unitlength}{2em}
+
+% \author{Gary S. Anderson}
+% \begin{frontmatter}
+% \title{Continuous Time Application of the Anderson-Moore(AIM) Algorithm for
+% Imposing the Saddle Point Property in Dynamic Models}
+% \author{Gary S. Anderson\thanksref{Gary}}\\
+% \address{Board of Governors\\Federal Reserve System\\Washington, DC 20551\\Voice: 202 452 2687\\Fax: 202 452 6496\\ganderson\char64frb.gov}
+% \thanks[Gary]{
+% I wish to thank Christiopher Sims
+% for helpful comments.
+% I am responsible for
+% any remaining errors.
+% The views expressed herein are mine and 
+% do not necessarily represent thshe views of the Board of Governors of the Federal
+% Reserve System.
+% }
+% \begin{abstract}
+% \cite{ANDER:AIM1,ANDER:AIM2} describe a powerful method for solving discrete
+% time linear saddle point models.
+% This paper shows how one can apply the technique to continuous time models.
+% \end{abstract}
+% \end{frontmatter}
+
+% \date{\today}
+
+
+
+% %\begin{keyword}
+% %  JEL classification:  C63--Computational Techniques Subfields Applied
+% % Econometrics, Applied Macroeconomics, Other Topics in Mathematical Economics
+% %\end{keyword}
+
+\newpage
+
+\section{Introduction and Summary}
+\label{sec:intro}
+
+
+
+\section{The Algorithm}
+\label{sec:algorithm}
+
+Perfect foresight models with solutions determined by saddle point property.
+
+\begin{gather*}
+  \begin{bmatrix}
+    H_{-\tau}&\ldots&H_{\theta}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \frac{d^0x}{dt^0}(0)\\
+\vdots\\
+    \frac{d^{\theta-1}x}{dt^{\theta}}(0)\\
+  \end{bmatrix}=0
+\end{gather*}
+
+
+With initial conditions:
+\begin{gather*}
+  Z 
+  \begin{bmatrix}
+    \frac{d^0x}{dt^0}(0)\\
+\vdots\\
+    \frac{d^{\theta-1}x}{dt^{\theta-1}}(0)\\
+  \end{bmatrix}= \xi
+\end{gather*}
+To deal with inhomogeneous system one can characterize the system in terms of
+deviations from steady state.
+
+We will endeavor to write the system in the form:\cite{bellman70}
+\begin{gather*}
+  \frac{dx}{dt}(t) = A x(t) \\ \intertext{ If A has distinct eigenvalues then }
+x(t)= \exp^{A t} x(0)
+\end{gather*}
+One can investigate the stability properties of the system by
+analyzing $A$ even when $A$ has repeated roots.
+
+The AIM algorithm transition matrix computation 
+produces A and, when necessary,
+ generates auxiliary conditions which are important for
+establishing a full set of initial conditions for the solutions.\cite{ANDER:AIM97}
+
+
+
+To apply the technique, one need only 
+compute the dominant invariant space vectors  spanning space assoicated with all
+positive roots.
+\begin{gather*}
+  V A = M V
+\end{gather*}
+But to motivate the solution, recall that one can always write
+\begin{gather*}
+  \begin{bmatrix}
+    V\\W
+  \end{bmatrix} A = 
+  \begin{bmatrix}
+    M&\\&B
+  \end{bmatrix}  \begin{bmatrix}
+    V\\W
+  \end{bmatrix}\\ \intertext{ with all the eigenvalues of $M$ positive and
+all the eigenvalues of $B$ zero or negative so that}
+ A   = 
+\begin{bmatrix}
+    V\\W
+  \end{bmatrix}^{-1}  \begin{bmatrix}
+    M&\\&B
+  \end{bmatrix}   \begin{bmatrix}
+    V\\W
+  \end{bmatrix}\\ \intertext{ so that }
+\begin{bmatrix}
+    V\\W
+  \end{bmatrix}\frac{dx}{dt} = \begin{bmatrix}
+    M&\\&B
+  \end{bmatrix} \begin{bmatrix}
+    V\\W
+  \end{bmatrix} x \\ \intertext{ so that by choosing $x$ so that}
+V x = 0\\ \intertext{ one has }
+\frac{d\begin{bmatrix}
+    V x\\W x
+  \end{bmatrix}
+}{dt} = 
+\begin{bmatrix}
+  0\\B W x
+\end{bmatrix}\\ \intertext{ and one can rest assured $Wx$ converges }
+\frac{d (W x)}{dt} = 
+ B(W x)
+\end{gather*}
+Combine results
+\begin{gather*}
+  \begin{bmatrix}
+    V\\W
+  \end{bmatrix}x(t) = 
+  \begin{bmatrix}
+    0\\ \exp^{B t}
+  \end{bmatrix}\begin{bmatrix}
+    V\\W
+  \end{bmatrix} x(0) \\ \intertext{ so that }
+x(t)=\begin{bmatrix}
+    V\\W
+  \end{bmatrix}^{-1}  \begin{bmatrix}
+    0\\ \exp^{B t}
+  \end{bmatrix} \begin{bmatrix}
+    V\\W
+  \end{bmatrix}x(0) 
+\end{gather*}
+One need only choose initial conditions guaranteeing that the initial part of
+the trajectory is orthogonal to the left invarinat space associated with 
+positive roots, that the initial part of the trajectory not violate any constraints
+uncovered in computing the transition matrix, and the other original
+initial conditions.
+
+\begin{gather*}
+Q=  \begin{bmatrix}
+    Z\\Z^\#\\V
+  \end{bmatrix}
+\end{gather*}
+For most economic models, one  will want
+an adequate number of constraints to identify a single trajectory.
+\begin{gather*}
+  Q 
+  \begin{bmatrix}
+    \frac{d^0x}{dt^0}(0)\\
+\vdots\\
+    \frac{d^{\theta-1}x}{dt^{\theta-1}}(0)\\
+  \end{bmatrix}= 
+  \begin{bmatrix}
+\xi\\0\\0    
+  \end{bmatrix}
+\end{gather*}
+
+\section{An Example}
+A recent paper by Sims\cite{sims96} presents a stochastic version of
+the following  example model.
+\begin{gather*}
+  w(t) =  \rho \left ( \int_{s=0}^\infty \exp^{-\rho s}W(t+s) ds \right ) - \alpha (u(t) -u_n)\\
+W(t) = \rho \left ( \int_{s=0}^\infty \exp^{-\rho s}w(t-s) ds \right )\\
+\dot{u}(t) = -\theta u(t) + \gamma W(t) + \mu
+\end{gather*}
+With initial conditions 
+\begin{gather*}
+  W(0)=W_0\\u(0)=u_0
+\end{gather*}
+One can rewrite the system as:
+\begin{gather*}
+\dot{u}(t) = -\theta u(t) + \gamma W(t) + \mu\\
+\dot{w}(t) = \rho (w(t) - W(t) ) - \alpha \dot{u} +\rho \alpha(u(t) - u_n)\\
+\dot{W}(t) = \rho(w(t) - W(t))
+\end{gather*}
+Or:
+\begin{gather*}
+  \begin{bmatrix}
+    -\rho&\rho&-  \alpha \rho  &1&0&\alpha\\
+  -\rho&\rho&0&0&1&0 \\
+ 0&-\gamma&\theta&0&0&1 
+  \end{bmatrix}  \begin{bmatrix}
+    \frac{d^0w}{dt^0}(0)\\
+    \frac{d^0W}{dt^0}(0)\\
+    \frac{d^0u}{dt^0}(0)\\
+    \frac{dw}{dt}(0)\\
+    \frac{dW}{dt}(0)\\
+    \frac{du}{dt}(0)
+  \end{bmatrix}
+\end{gather*}
+
+With
+\begin{gather*}
+  Z 
+  \begin{bmatrix}
+    \frac{d^0x}{dt^0}(0)\\
+\vdots\\
+    \frac{d^{\theta-1}x}{dt^{\theta-1}}(0)\\
+  \end{bmatrix}= 
+  \begin{bmatrix}
+    0&1&0\\0&0&1
+  \end{bmatrix} 
+\begin{bmatrix}
+w(0)\\W(0)\\u(0)
+\end{bmatrix}= 
+\begin{bmatrix}
+  W_0\\u_0
+\end{bmatrix}
+\end{gather*}
+
+
+%\input{contTransMat.tex}
+
+
+
+
+\nocite{sims96}
+\nocite{berry}
+\nocite{golub89}
+\nocite{blanchard80}
+\nocite{krishnamurthy89}
+
+
+\bibliographystyle{authordate2}
+
+\bibliography{files,anderson}
+
+\end{document}
