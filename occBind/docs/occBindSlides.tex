@@ -25,6 +25,15 @@ Linear Rational Expectations Models''}
 \input{newCmds}
 
 \pgfplotsset{compat=newest}
+%\setbeamertemplate{footline}[frame number]
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
+\setbeamercolor{footline}{fg=blue}
+\setbeamerfont{footline}{series=\bfseries}
 \begin{document}
 
 
@@ -116,7 +125,33 @@ x_t=\xsln{x_{t-1} , \epsilon_t} \,\, \intertext{ so that conditional expectation
 \end{frame}
 
 
+\begin{frame}
+  \frametitle{The Setup}
 
+
+  \begin{itemize}
+  \item Following \cite{marcet94}
+    \begin{gather*}
+      g(x_{t-1},x_t,\epsilon_t,E_{t}[\phi(x_{t+1})]), \,\, \forall t
+\intertext{ inequality constraints embedded in the g functions}
+      h(x_{t-1},x_t,\epsilon_t,E_{t}[\phi(x_{t+1})])\ge 0, \,\, \forall t\\
+\intertext{will consider  is stationary recursive models where the solution is stationary  and time invariant}
+E_t[\phi(x_{t+k})] =E[\phi(x_{t+k})|x_{t-1},\epsilon_t] \,\, \forall k\ge 0
+\intertext{So that}
+\tpExp{k}=E[\phi(x_{t+k})|x_{t-1},\epsilon_t]\\
+    \end{gather*}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{A Function Representation}
+  
+Claim that without loss of generality:
+
+  \begin{gather*}
+    E[g(x_{t+k-1},x_{t+k},\epsilon_{t+k},\tpExp{k})]=\\
+	 H_{-1} x_{t+s-1} + H_0 x_{t+s} + H_1 \expct{x_{t+s+1}} -( \psi_\epsilon \epsilon_t + \psi_z z_{t+s}),  \end{gather*}
+\end{frame}
 
 \begin{frame}
 	
@@ -249,14 +284,14 @@ We can apply equation \ref{myEqn} to compute the $\xtVec$ values along a solutio
     r_{t-1} \\
     ru_{t-1} \\
   0.163624 \epsilon_{1}+0.617296 \epsilon_t+0.267742 _{t-1}+0.308648 ru_{t-1}-0.141938
-      \left ( \expcK{1}{z_0^1(\xtVec,\epsilon_t)}\right )-0.535485 z_0^2(\xtMVec,\epsilon_t) \\
+      \left ( \expcK{1}{z_0^1(\xtVec,\epsilon_{t+1})}\right )-0.535485 z_0^2(\xtMVec,\epsilon_t) \\
     0.163624 \epsilon_{1}+0.617296 \epsilon_t+0.267742 q_{t-1}+0.308648 ru_{t-1}-0.141938
-       \left ( \expcK{1}{z_0^1(\xtVec,\epsilon_t)}\right )+0.464515 z_0^2(\xtMVec,\epsilon_t) \\
+       \left ( \expcK{1}{z_0^1(\xtVec,\epsilon_{t+1})}\right )+0.464515 z_0^2(\xtMVec,\epsilon_t) \\
     \epsilon_t+0.5 ru_{t-1} \\
     0.661105 \epsilon_{1}+0.473924 \epsilon_t+0.0716859 q_{t-1}+0.236962 ru_{t-1}-0.573487
-       \left ( \expcK{1}{z_0^1(\xtVec,\epsilon_t)}\right ) -0.143372 z_0^2(\xtMVec,\epsilon_t) \\
+       \left ( \expcK{1}{z_0^1(\xtVec,\epsilon_{t+1})}\right ) -0.143372 z_0^2(\xtMVec,\epsilon_t) \\
    0.661105 \epsilon_{1}+ 0.473924 \epsilon_t+0.0716859 q_{t-1}+0.236962 ru_{t-1}+0.426513
-       \left ( \expcK{1}{z_0^1(\xtVec,\epsilon_t)}\right ) -0.143372 z_0^2(\xtMVec,\epsilon_t) \\
+       \left ( \expcK{1}{z_0^1(\xtVec,\epsilon_{t+1})}\right ) -0.143372 z_0^2(\xtMVec,\epsilon_t) \\
     0.5 \epsilon_t+0.25 ru_{t-1} 
    \end{array}
    \right)
@@ -272,14 +307,14 @@ We need the function {\small $z_0^2(\xtMVec,\epsilon_t)$ }that guarantees:
 {\tiny 
 \begin{gather*}
  0.163624 \epsilon_{1}+  0.617296 \epsilon_t+0.267742 q_{t-1}+0.308648 ru_{t-1}-0.141938
-       \left ( \expcK{1}{z_0^1(\xtVec,\epsilon_t)}\right )+0.464515 z_0^2(\xtMVec,\epsilon_t) \ge 0.02\\  
+       \left ( \expcK{1}{z_0^1(\xtVec,\epsilon_{t+1})}\right )+0.464515 z_0^2(\xtMVec,\epsilon_t) \ge 0.02\\  
     0.661105 \epsilon_{1}+    0.473924 \epsilon_t+0.0716859 q_{t-1}+0.236962 ru_{t-1}+0.426513
-       \left ( \expcK{1}{z_0^1(\xtVec,\epsilon_t)}\right )-0.143372 z_0^2(\xtMVec,\epsilon_t)  \ge 0.02 \\
+       \left ( \expcK{1}{z_0^1(\xtVec,\epsilon_{t+1})}\right )-0.143372 z_0^2(\xtMVec,\epsilon_t)  \ge 0.02 \\
 \end{gather*}
 }
 \begin{itemize}
-\item {\small $\expct{z_0^1(\xtVec,\epsilon_t)}$ } is a known function
-\item Because $q_t$ depends {\small $ \left ( \expcK{1}{z_0^1(\xtVec,\epsilon_t)}\right ) $ } Mathematica requires more than 500 seconds (probably much more) to compute this solution for arbitrary initial conditions
+\item {\small $\expct{z_0^1(\xtVec,\epsilon_{t+1})}$ } is a known function
+\item Because $q_t$ depends {\small $ \left ( \expcK{1}{z_0^1(\xtVec,\epsilon_{t+1})}\right ) $ } Mathematica requires more than 500 seconds (probably much more) to compute this solution for arbitrary initial conditions
 \end{itemize}
     \end{frame}
     
@@ -465,7 +500,23 @@ are
 %
 %
 
+    \begin{frame}
+      \frametitle{more fixes}
+      
 
+      \begin{itemize}
+      \item don't really use a grid when solving for time zero values.  All approximation is in the interpolation for z's since solving fixed point problem to get current q, r z given approx for other z's  final interpolation makes it possible to avoid recalculating fixed points
+      	\item speed up time so that fmat annihilates future quicker
+      	\item count function evaluations
+      \item illustrate params
+      \item pf re 1,2,3,4
+      \item simulate compare show error formula prediction
+      \item timing and accuracy tables for reasonable params
+      \item refactor for speed
+      \item refactor out model
+      \item simulate depart and return
+      \end{itemize}
+    \end{frame}
     
 
    \begin{frame}
@@ -618,7 +669,7 @@ are
    \begin{frame}
      \frametitle{Future Directions Theory}
      \begin{itemize}
- \item interpretation as ``perturbation'' or other approximation method
+  \item interpretation as ``perturbation'' or other approximation method
  \item how general
  \item Stochastically imposed constraints ( future scenarios )
  \item impulse response functions and error bounds

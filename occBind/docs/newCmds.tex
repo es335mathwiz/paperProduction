@@ -10,14 +10,15 @@
     q_{t-1}\\r_{t-1}\\r_{ut-1}
   \end{bmatrix}
 }
-\newcommand{\inorm}[1]{\left\lVert#1\right\rVert_\infty}
 \newcommand{\expct}[1]{E_{t} \left [#1 \right ]}
 \newcommand{\expc}[1]{\mathcal{E} \left [#1 \right ]}
 \newcommand{\expcK}[2]{\mathcal{E}^{#1} \left [#2 \right ]}
 \newcommand{\xsln}[1]{\mathbb{X} \left [#1 \right ]}
 \newcommand{\xslnK}[2]{\hat{\mathbb{X}}^{#1} \left [#2 \right ]}
 \newcommand{\xpth}[2]{\mathfrak{X}_{#1} \left [#2 \right ]}
-\newcommand\infnorm[1]{\left\lVert#1\right\rVert_\infty}
+\newcommand\infNorm[1]{\left\lVert#1\right\rVert_\infty}
+\newcommand\twoNorm[1]{\left\lVert#1\right\rVert_2}
+%\newcommand{\inorm}[1]{\left\lVert#1\right\rVert_\infty}
 
 % \newcommand{\forPhi}{\begin{bmatrix}
 % \psi_\epsilon&\psi_z
@@ -66,8 +67,23 @@
     }
 }
 \makeatother
-
+ 
 
 \makeatletter
 \newcommand*\ExpandableInput[1]{\@@input#1 }
 \makeatother
+
+
+\newcommand{\tpExp}[1]{\phi^e_{#1}(x_{t-1})}
+\newcommand{\lRat}[2]{\log \left( \frac{z_{#1}}{z_{#2}}\right)}
+
+
+\newcommand{\anEdit}[1]
+{
+
+{\color{blue}
+\begin{quote}
+#1  
+\end{quote}}
+
+}
