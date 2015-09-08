@@ -1,0 +1,655 @@
+%http://mathematica.stackexchange.com/questions/11350/xkcd-style-graphs
+\documentclass[12pt]{article}
+\usepackage[authoryear]{natbib}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{pseudocode}
+\usepackage{mathtools}
+\usepackage{datetime}\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{bookman}
+\usepackage{pgfplotstable}%for generating latex from csv files
+\usepackage{booktabs}
+\usepackage{cmbright}
+
+%\usepackage{ccfonts,eulervm}
+%\usepackage[T1]{fontenc}
+
+% \usepackage{ccfonts}
+% \usepackage[T1]{fontenc}
+
+\title{``A Useful Representation For Time Invariant Functions and
+A Solution Strategy for Occasionally Binding Constraints in Rational Expectations Models''}
+\date{\today}
+\author{Gary S. Anderson}
+\input{newCmds}
+\mathtoolsset{showonlyrefs}
+
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\begin{abstract}
+Unique contribution.  Provides error bounds for judging how many terms of series to keep.
+\end{abstract}
+\section{Introduction and Summary}
+\section{Methodology Outline}
+  \subsection{A Useful Series Representation}
+
+Consider any bounded deterministic family of functions 
+\begin{gather}
+  \mathcal{X}_{t+s}(x_{t-1},\epsilon_t), \,\,\mathcal{X}_{t+s} \in{R^k}\,\,\infNorm{\mathcal{X}_{t+s}}  \le \bar{\mathcal{X}}\,\,\forall s\ge 0 \label{fFamily}.
+\end{gather}
+Where $\epsilon_t$ is an r dimensional iid random shock  known at time t. The $x_{t-1}$ are endogenous state variables fixed by history.  Any variable that can be influenced by the time $t$ stochastic shock must be dated $t$ or later.
+In what follows, these functions will represent the time t conditional expectations of solutions for dynamic stochastic models subject to occasionally binding
+constraints.
+
+
+
+Now, for any linear homogeneous $k$ dimensional 
+deterministic system, 
+\begin{gather}
+  	 H_{-1} x_{t-1} + H_0 x_t + H_1 x_{t+1}=0\label{hSystem}
+\end{gather}
+that produces  a unique stable solution, 
+it is well known\ \cite{anderson10} that
+one can write the solution for models 
+\begin{gather*}
+	 H_{-1} x_{t-1} + H_0 x_t + H_1 x_{t+1}=\psi_\epsilon \epsilon_t %+\psi_{c}
+\intertext{as}
+x_t=B x_{t-1} + \phi \psi_\epsilon \epsilon_t %+ (I - F)^{-1} \phi \psi_c
+\intertext{where}
+\phi= (H_0 +H_1 B)^{-1} %\\F=-\phi H_1 
+\end{gather*}
+
+Given the trajectories \refeq{fFamily}, define 
+$  z_{t+s}(x_{t-1},\epsilon_t)$ as  \footnote{These $z$ functions will soon prove useful in an algorithm for computing 
+unknown trajectories like \refeq{fFamily}.
+}:
+{
+
+  \begin{align}
+  z_{t+s}(x_{t-1},\epsilon_t) \equiv& H_{-1} \mathcal{X}_{t-1}(x_{t+s-1},\epsilon_t) + \nonumber\\
+& H_0 \mathcal{X}_{t+s}(x_{t-1},\epsilon_t) +  \label{defZ} \\
+& H_1 \mathcal{X}_{t+s+1}(x_{t-1},\epsilon_t) \nonumber
+  \end{align}
+
+}
+
+
+\cite{anderson10}  demonstrates that, for 
+such models
+	 \begin{gather}
+	 x_{t}(x_{t-1},\epsilon_t) =B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \sum_{s=0}^\infty F^s \phi z_{t+s}(x_{t-1},\epsilon_t) + (I - F)^{-1} \phi \psi_c
+\label{theSeries}\\
+	 x_{t+1}(x_{t-1},\epsilon_t) =B x_{t} + \sum_{s=0}^\infty F^s \phi z_{t+s+1}(x_{t-1},\epsilon_t) + (I - F)^{-1} \phi \psi_c \nonumber
+\intertext{where}
+F=-\phi H_1 
+	 \end{gather}
+	 Consequently, given a family of trajectories like those in \refeq{fFamily},
+and a stable linear homogeneous system like \refeq{hSystem},
+one can easily compute a series 
+representation for a function generating the family of
+trajectories.
+Interestingly, the formula will work for any 
+$k$ dimensional linear system with unique  stable solutions.
+Consequently, the linear model and the  constant term can  be chosen rather
+ arbitrarily.
+
+
+One could consider approximating $x_t(x_{t-1},\epsilon_t)$ by 
+truncating the series at a finite number of terms.
+ 	 \begin{gather}
+ 	 x_{t}(x_{t-1},\epsilon_t,k) \equiv B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \sum_{s=0}^k F^s \phi z_{t+s}(x_{t-1},\epsilon_t)  \label{theTruncSeries}\\ %+ (I - F)^{-1} \phi \psi_c
+\intertext{
+ As shown in appendix \refeq{truncForm}, one can bound the error in the 
+approximation of $x_t$.
+}
+ 	\infNorm{x_{t}(x_{t-1},\epsilon_t) -x_{t}(x_{t-1},\epsilon_t,k)} \le 
+  \infNorm{ (I -F)^{-1} F^{k+1}\phi} \bar{\mathcal{X}}
+ \end{gather}
+Since the eigenvalues of F are all less than one, one can expect the approximation to improve as terms are added.
+
+
+\anEdit{
+Compare to \cite{Santos}}
+
+
+For example, consider the simple neoclassical growth  model described in \cite{Maliar2005}.
+\label{sec:simple-rbc-model} For certain parameter settings, the Euler equations are given by
+\begin{gather}
+\frac{1}{c_t}-\delta\theta_t(\frac{1}{c_{t+1}})(\alpha (k_{t}^{\alpha-1}) ) = 0\\
+c_t + k_t-\theta_tk_{t-1}^\alpha = 0\\
+\ln \theta_t =\rho \ln \theta_{t-1} + \epsilon_t\label{rbcSys}
+\end{gather}
+and there is a closed form solution
+\begin{gather}
+  k_{t}= \theta_{t-1} \alpha \beta k_t^\alpha.\label{soln}
+\end{gather}
+For mean zero iid $\theta$ we can easily compute a family of trajectories like \refeq{fFamily}
+\begin{gather*}
+  \begin{bmatrix}
+c_{t+s}(k_{t-1},\theta_t,\epsilon_t)\\k_{t+s}(k_{t-1},\theta_t,\epsilon_t)    \\ \theta_{t+s}(\theta_{t-1},\theta_t,\epsilon_t)    
+  \end{bmatrix}
+\intertext{with conditional mean converging over time to }
+  \begin{bmatrix}
+    c_{ss}\\k_{ss}
+  \end{bmatrix}=
+  \begin{bmatrix}
+\nu^\alpha-\nu\\ \nu
+  \end{bmatrix}\intertext{where}
+\nu= \alpha ^{\frac{1}{1-\alpha }} \delta ^{\frac{1}{1-\alpha }}
+\end{gather*}
+
+
+
+Now, consider the following hypothetical linear homogeneous ``model'' 
+constructed from arbitrary coefficients.
+
+\begin{gather*}
+  \begin{bmatrix}
+H_{-1}&H_{0}&H_{1} 
+  \end{bmatrix}=
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/refHmat.pdf}}}
+\end{gather*}
+(\footnote{from file={../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/refHmat.pdf}})
+These coefficients  happen to produce a unique stable solution.
+\begin{gather*}
+  B=
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/refBmat.pdf}}}
+\phi=
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/refPhimat.pdf}}}\\
+F=
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/refFmat.pdf}}}
+\end{gather*} (\footnote{from file={../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/refBmat.pdf}})(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/refPhimat.pdf}})(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/refFmat.pdf}})
+We can use the family of conditional expectations
+along with the contrived reference model to recover an 
+approximation for equation \refeq{soln} along with error bounds.
+% \footnote{
+% We need not  make these adjustments for the steady state,
+% but doing so economizes on the number of terms 
+% required for a given level of approximation
+% accuracy.}
+
+Using the following parameter values
+
+\begin{gather}
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCParamSubs.pdf}}}\intertext{produces}
+  \begin{bmatrix}
+    c_{ss}\\k_{ss} \\ \theta_{ss} \label{rbcparams}
+  \end{bmatrix}=
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCSSVal.pdf}}}
+\end{gather}(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCParamSubs.pdf}})(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCSSVal.pdf}})
+
+The contrived model can produce accurate values for the solution, can require quite a few terms in the series.  Alternatively, as one might expect, developing 
+a series using the model linearized about the ergodic mean prouces aaccurate
+solution with many fewer terms.  
+
+Note that the error bounds are useful in predicting how many terms are required for a given level of accuracy. Even the contrived model with randomly chosen
+coefficients can achieve machine precision accuracy if one uses enough
+terms from the series.  It also shows that adding new terms at some point becomes useless as rounding error limits any further improvement in the calculation.
+This provides us some assurance that our iterative algorithm may be robust 
+against errors if we include enough terms.
+
+The table presents conservative estimates of the number of terms required
+since the calculation uses the infinity norm.  I estimate the infinity
+norm by using a global maximization method to compute the largest value
+attained by the infinity norm of the equation errors.computing the
+
+We can develop a robust algorithm since we can compute how many terms
+we must compute in order to guarantee a particular level of acuracy.
+I computed the largest infinity norm for the product of h over a range of
+reasonable values.$29.1482$
+
+Algorithm will allow us to construct approximation along with error bounds on the resulting approximations.
+
+
+\begin{gather*}
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/truncErr.pdf}}}
+\end{gather*}(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/truncErr.pdf}})
+  \subsection{The Problem Statement}
+
+
+We will be intersted in
+finding a time invariant function $g^\ast$ that satisfies
+\begin{gather}
+  \begin{split}
+h(x_{t+s-1},g^\ast(x_{t+s-1},\epsilon_{t+s}),\mathcal{H}[g^\ast(g^\ast(x_{t+s-1},\epsilon_{t+s}),\epsilon_{t+s+1})],\epsilon_{t+s}) \\
+m(x_{t+s-1},g^\ast(x_{t+s-1},\epsilon_{t+s}),\mathcal{H}[g^\ast(g^\ast(x_{t+s-1},\epsilon_{t+s}),\epsilon_{t+s+1})],\epsilon_{t+s}) \ge 0  \label{theProblem}
+  \end{split}
+%  \intertext{define} 
+% \mathcal{G}^\ast(x_{t+s-1},\epsilon_{t+s})= \mathcal{H}[g^\ast(g^\ast(x_{t+s-1},\epsilon_{t+s}),\epsilon_{t+s+1})] \nonumber
+ \end{gather}
+ for all $s>0$ where $\mathcal{H}$ is an operator, 
+  that maps stochastic functions of $x$ and $\epsilon$ into deterministic 
+functions of $x$ alone.  In this paper we will consider two such operators:
+
+
+\begin{description}
+\item[Perfect Foresight]
+\begin{gather*}
+     \mathcal{H}^{PF}[g^{k}(x,\epsilon_{t+T-k+1})]=
+g^{k}(x,0)\\
+\end{gather*}
+
+
+\item[Rational Expectations] 
+\begin{gather*}
+     \mathcal{H}^{RE}[g^{k}(x,\epsilon_{t+T-k+1})]=
+\mathcal{E}[g^{k}(x,\epsilon_{t+T-k+1})|x]\\
+\end{gather*}
+
+ \end{description}
+
+
+
+
+
+
+
+
+
+
+
+
+If we know $g^\ast$, and  these function generate a bounded family of 
+trajectories, we can define $z(x_{t+s-1},\epsilon_t)$ using \refeq{defZ}.
+Constructing a companion linear model would subsequently allow 
+ us to write down a series representation for the $g^\ast$ functions. 
+In what follows, we will use a representation like equation \refeq{theTruncSeries} 
+to construct a sequence of functions, $g^k$, 
+that will approximate the typically unknown solution $g^\ast$.
+
+\subsection{Constructing an Approximation}
+\label{sec:constr-an-appr}
+
+We begin by constructing a linear model of appropriate dimension 
+with a unique stable solution,
+choosing some point in time, $T$, and
+letting
+ \begin{gather}
+ g^0(x_{t+T-1},\epsilon_{t+T})=  
+B x_{t+T-1}+ \phi \psi_\epsilon\epsilon_{t+T} +
+ (I - F)^{-1} \phi \psi_c\\ \label{firstIter}
+z^{T,0}_{t+T+i}(x_{t+T-1},\epsilon_{t+T-1})=0 \,\, \forall i \ge 0
+ \end{gather}
+In other words, from time T onwards, this approximation assumes 
+that our stand-in
+ convergent linear model completely characterizes the solution.\footnote{
+The algorithm terminates with an approximation for 
+the time invariant function $g^\ast$.
+The $T$ is just a convenient index for 
+characterizing the iteration in the text.  }
+
+ Our algorithm will use  
+ \begin{gather*}
+ g^{k}(x_{t+T-(k+1)},\epsilon_{t+T-k}) \intertext{ and}
+ \{ z^{T-k,k}(x_{t+T-(k+1)},\epsilon_{t+T-k}),\ldots, z^{T,k}(x_{t+T-(k+1)},\epsilon_{t+T-k})\}
+   \end{gather*}
+  to solve for 
+ \begin{gather*}
+ g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}) \intertext{ and}
+ \{ z^{T-(k+1),k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}),\ldots, z^{T,k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})\}
+   \end{gather*}
+
+
+
+
+
+First, note that after completing any given step $k$
+we  are in a position to compute the deterministic functions 
+$\mathcal{G}^k$ and $\{\mathcal{Z}^{T-k,k},\ldots,\mathcal{Z}^{T,k}\}$:
+\begin{gather*}
+   \mathcal{G}^{k}(x)= \mathcal{H}[g^{k}(x,\epsilon_{t+T-k+1})]\\
+   \mathcal{Z}^{T-k+i,k}(x)= \mathcal{H}[z^{T-k+i,k}(x,\epsilon_{t+T-k+1})] \,\, i=0,\ldots,k. 
+\end{gather*} 
+
+The iteration step proceeds as follows:
+
+\begin{enumerate}
+\item Write
+\begin{align*}
+g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})=&\\
+&B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \\
+&\sum_{s=0}^{k+1} F^s \phi z^{T-(k+1)+s,k+1}_{t+s}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}) +\\
+& (I - F)^{-1} \phi \psi_c
+\end{align*}
+\item economize on updating some of
+the $z^{T-k+i,k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})$ by composing known
+deterministic functions with the as yet undetermined $g^{k+1}$
+\begin{gather*}
+z^{T-k+i,k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})= \mathcal{Z}^{T-k+i,k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}) \,\, \\i=0,\ldots,k  
+\end{gather*}
+ and
+\item  use the functions in \refeq{theProblem} to determine the new functions 
+ $g^{k+1}$  and  $z^{T-(k+1),k+1}$ %(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})
+
+
+\begin{gather*}
+ h(x_{t+T-(k+2)},g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}), \mathcal{G}^{k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})),\epsilon_{t+T-(k+1)})\\
+m(x_{t+T-(k+2)},g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}),\mathcal{G}^{k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})),\epsilon_{t+T-(k+1)}) \ge 0\\ \label{iterSys}
+ g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})= 
+ B x_{t+T-(k+2)}+ \phi \psi_\epsilon\epsilon_{t+T-(k+1)} +\\
+\sum_{i=1}^k F^i \phi \mathcal{Z}^{T-k+i,k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})) +\\
+ \phi z^{(T-(k+1)),k+1}_{t+i+(k+1)}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})\\
+   \end{gather*}
+\end{enumerate}
+
+These steps will likely take place point by point and will require an interpolation or projection method to characterize the functions.
+
+To determine $g_0(x_{t-1},\epsilon_t)$ we set
+
+\begin{gather*}
+	 g_{0}(x_{t-1},\epsilon_t) =B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + (I - F)^{-1} \phi \psi_c + \phi z^{T,0}_{T}(x_{t-1},\epsilon_t)
+\\
+	 \mathcal{G}^0(x) =B x + (I - F)^{-1} \phi \psi_c \nonumber
+\end{gather*}
+
+and use  equation \refeq{iterSys} to determine the unknown $z_T(x_{T-1},\epsilon_T)$
+
+\begin{gather*}
+ h(x_{t+T-1},\mathbf{x}_T,\mathbf{x}_{T+1},\epsilon_{t+T})=0\\
+ m(x_{t+T-1},\mathbf{x}_T,\mathbf{x}_{T+1},\epsilon_{t+T}) \ge 0\\
+ \intertext{ where }
+\mathbf{x}_t=B x_{T-1}+ \phi \psi_\epsilon\epsilon_t + (I - F)^{-1} \phi \psi_c+ \phi z^{T,0}_{T}(x_{T-1},\epsilon_t)\\
+\mathbf{x}_{t+1}=B(B x_{T-1}+ \phi \psi_\epsilon\epsilon_t + (I - F)^{-1} \phi \psi_c + \phi z^{T,0}_{T}(x_{T-1},\epsilon_t)) + (I - F)^{-1} \phi \psi_c\\
+   \end{gather*}
+
+
+
+
+\begin{gather*}
+  \{g_k(x_{t-1},\epsilon_t),\mathcal{Z}^k_0(x), \ldots, \mathcal{Z}^{k-1}_k(x) \} \rightarrow \\
+  \{g^{k+1}(x_{t-1},\epsilon_t),\mathcal{Z}^{k+1}_0(x), \ldots, \mathcal{Z}^{k}_{k+1}(x) \}
+\end{gather*}
+
+The code employs a simple fixed point iteration for any given $x_{t-1},\epsilon_t$.
+We begin by setting $[\prescript{0}{}{x}(x_{t-1},\epsilon_t)]=g_k(x_{t-1},\epsilon_t)$. We 
+solve for $[\prescript{l+1}{}{x}(x_{t-1},\epsilon_t)]$ and $[\prescript{l+1}{}{z}(x_{t-1},\epsilon_{t})]$ in 
+
+
+\begin{gather*}
+\{ h, m, B, \phi, F, \psi_\epsilon, \psi_z \}  \rightarrow\\
+ h(x_{t-1},[\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})], \mathcal{G}^{k}([\prescript{l}{}{x}(x_{t-1},\epsilon_{t})]),\epsilon_{t})\\
+m(x_{t-1},[\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})],\mathcal{G}^{k}([\prescript{l}{}{x}(x_{t-1},\epsilon_{t})]),\epsilon_{t}) \ge 0\\
+ [\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})]= 
+ B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +\\
+\sum_{i=1}^k F^i \phi \mathcal{Z}^{k}_i(\mathbf{x}) +\\
+ \phi [\prescript{l+1}{}{z}(x_{t-1},\epsilon_{t})]\intertext{ where}
+\mathbf{x}=[\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})]\text{ or } [\prescript{l}{}{x}(x_{t-1},\epsilon_{t})]
+   \end{gather*}
+
+
+We terminate when 
+\begin{gather*}
+    \twoNorm{  \begin{bmatrix}
+\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})-
+\prescript{l}{}{x}(x_{t-1},\epsilon_{t})\\
+\prescript{l+1}{}{z}(x_{t-1},\epsilon_{t})-
+\prescript{l}{}{z}(x_{t-1},\epsilon_{t})
+  \end{bmatrix}} \le \epsilon_{fp} = 10^{-10} \intertext{ with }
+\begin{bmatrix}
+{\hat{x}}(x_{t-1},\epsilon_{t})\\
+{\hat{z}}(x_{t-1},\epsilon_{t})
+\end{bmatrix}=
+\begin{bmatrix}
+\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})\\
+\prescript{l+1}{}{z}(x_{t-1},\epsilon_{t})
+\end{bmatrix}
+\end{gather*}
+
+We compute 
+$  \hat{g}(x_{t-1},\epsilon_{t})$ by either projection or interpolation.
+\section{Examples}
+\label{sec:examples}
+
+\anEdit{models should be well known.  Avoid spending time explaining a model.
+Luca's JME paper 3rd model.\cite{Guerrieri2015}}
+
+\anEdit{Explore what others have said about error bounds.  }
+
+\subsection{A Simple RBC Model}
+\label{sec:simple-rbc-model-1}
+
+We construct our stand-in model 
+ by linearizing the RBC model using the parameters the ergodic mean
+given in \refeq{rbcparams}
+\begin{gather}
+  \begin{bmatrix}
+H_{-1}&H_{0}&H_{1} 
+  \end{bmatrix}=
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCHmatSymb.pdf}}} \label{rbcLinSys}
+\end{gather}(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCHmatSymb.pdf}})
+
+These coefficients  produce a unique stable linear solution.
+
+\begin{gather*}
+  B=
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCBmatSymb.pdf}}},
+\phi=
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCPhimatSymb.pdf}}}\\
+F=
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCFmatSymb.pdf}}}\\
+\psi_c=
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCHSum.pdf}}}
+\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCSS.pdf}}}=\vcenter{\hbox{\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCPsissSymb.pdf}}}
+\end{gather*}(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCBmatSymb.pdf}})(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCPhimatSymb.pdf}})(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCFmatSymb.pdf}})(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCHSum.pdf}})(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/RBCSS.pdf}})
+
+Applying the formula \refeq{firstIter} produces:
+
+{\tiny
+\begin{gather*}
+  \begin{bmatrix}
+c_t\\k_t\\ \theta_t
+  \end{bmatrix}=%paperCalcsRBCExample xt00
+   \left(
+   \begin{array}{c}
+    -0.35073 \epsilon _t+0.692632 k_{t-1}+0.333194 \theta _{t-1}-0.0442851
+      z_t+0.658 z_{2 t}+0.35073 z_{3 t}-0.102893 \\
+    -0.196147 \epsilon _t+0.36 k_{t-1}+0.186339 \theta _{t-1}+0.0442851
+      z_t+0.342 z_{2 t}+0.196147 z_{3 t}-0.0666389 \\
+    -1. \epsilon _t+0.95 \theta _{t-1}+z_{3 t}+0.05 \\
+   \end{array}
+   \right)
+\end{gather*}
+}
+
+{\tiny
+%xt01=Private`computeNextXt[{Private`bmat,Private`phimat,Private`fmat,Private`psieps,Private`psic,Private`psiz},solnFunc00PF[[3+Range[3]]],{{cc},{kk},{tt}},{1}]//N//Expand//Simplify
+\begin{gather*}
+  \begin{bmatrix}
+c_{t+1}\\k_{t+1}\\ \theta_{t+1}
+  \end{bmatrix}=%paperCalcsRBCExample xt00
+  \left(
+   \begin{array}{c}
+    -0.469051 \epsilon _t+0.249347 k_{t-1}+0.445599 \theta _{t-1}+0.0306732
+      z_t+0.23688 z_{2 t}+0.469051 z_{3 t}-0.132389 \\
+    -0.256952 \epsilon _t+0.1296 k_{t-1}+0.244105 \theta _{t-1}+0.0159426
+      z_t+0.12312 z_{2 t}+0.256952 z_{3 t}-0.0813119 \\
+    -0.95 \epsilon _t+0.9025 \theta _{t-1}+0.95 z_{3 t}+0.0975 \\
+   \end{array}
+   \right)
+\end{gather*}}
+
+Substituting  these expressions into equation \refeq{rbcSys} produces
+a deterministic system such that, given specific values for 
+$(c_{t-1}, k_{t-1}, \theta_{t-1}, \epsilon_t)=(x_{t-1},\epsilon_{t})$, we can solve for 
+
+$z_{1t}(x_{t-1},\epsilon_{t}), z_{2t}(x_{t-1},\epsilon_{t}), z_{3t}(x_{t-1},\epsilon_{t})$ which 
+
+in turn completely determine 
+
+$c_{t}(x_{t-1},\epsilon_{t}), k_{t}(x_{t-1},\epsilon_{t}),\theta_{t}(x_{t-1},\epsilon_{t})$.\footnote{In this example, the lagged value,  $c_{t-1}$ does not appear in the equation system and consequently plays no role in determining the solution.}  In effect we have 
+computed a solution for a model whose trajectories satisfy equation system \refeq{rbcSys}
+for one time period and satisfy equation \refeq{rbcLinSys} subsequently. As can
+be seen in the top panel of Figure \ref{fig:cfuncfirst}, 
+imposing the constraint for even a single period captures much of the nonlinearity, but the bottom panel shows that the solution is 
+still significantly far away from the exact solution.
+
+\begin{figure}
+  \centering
+%\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/cFunc00Lin.pdf}(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/cFunc00Lin.pdf}})
+  \caption{Solution for c imposing non linear model constraints for a single period}
+%\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/cFunc00Exact.pdf}(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/cFunc00Exact.pdf}})
+  \caption{Solution for c imposing non linear model constraints for a single period}
+  \label{fig:cfuncfirst}
+\end{figure}
+
+We are now in a position to compute either
+$\mathcal{H}^{PF}[g^{0}(x,\epsilon_{t+T-k+1})]$ or
+$\mathcal{H}^{RE}[g^{0}(x,\epsilon_{t+T-k+1})]$.
+Using these functions we can computed a solution for a model whose trajectories satisfy equation system \refeq{rbcSys}
+for one time period and satisfy equation \refeq{rbcLinSys} subsequently.
+\begin{gather}
+  \label{eq:1}
+  x_t=B x_{t-1} + \phi z_0(x_{t-1},\epsilon) + F \phi \mathcal{Z}_1(x_t)\\
+  x_{t+1}=B x_{t} + \phi \mathcal{Z}_1(x_t)
+\end{gather}
+{\tiny
+\begin{gather}
+  \label{eq:2}
+   \left(
+   \begin{array}{c}
+    -0.35073 \epsilon _t+0.692632 k_{t-1}+0.333194 \theta _{t-1}-0.0442851
+      z_t+0.658 z_{2 t}+0.35073 z_{3 t}+0.225036 Z_2(x_t)+0.11995 Z_3(x_t) -0.0151455 Z_1(x_t)-0.102893 \\
+    -0.196147 \epsilon _t+0.36 k_{t-1}+0.186339 \theta _{t-1}+0.0442851
+      z_t+0.342 z_{2 t}+0.196147 z_{3 t}-0.225036 Z_2(x_t)-0.11995 Z_3(x_t)+0.0151455 Z_1(x_t)
+-0.0666389 \\
+    -1. \epsilon _t+0.95 \theta _{t-1}+z_{3 t}+0.05 \\
+   \end{array}
+   \right)
+\end{gather}
+}
+
+{\tiny
+  \begin{gather}
+    \label{eq:3}
+       \left(
+   \begin{array}{c}
+    -0.469051 \epsilon _t+0.249347 k_{t-1}+0.445599 \theta _{t-1}+0.0306732
+      z_t+0.23688 z_{2 t}+0.469051 z_{3 t}+0.502133
+     Z_2(x_t) +0.267649
+     Z_3(x_t) -0.0337948
+     Z_1(x_t) -0.132389 \\
+    -0.256952 \epsilon _t+0.1296 k_{t-1}+0.244105 \theta _{t-1}+0.0159426
+      z_t+0.12312 z_{2 t}+0.256952 z_{3 t}+0.260987
+     Z_2(x_t)+0.152965
+     Z_3(x_t)+0.0497374
+     Z_1(x_t)-0.0813119 \\
+    -0.95 \epsilon _t+0.9025 \theta _{t-1}+0.95 z_{3
+      t}+Z_3(x_t) +0.0975 \\
+   \end{array}
+   \right)
+  \end{gather}
+}
+\begin{figure}
+  \centering
+%\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/cFunc00PF.pdf}(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/cFunc00PF.pdf}})
+  \caption{Perfect foresight solution for c imposing non linear model constraints for a single period}
+  \label{fig:cfuncfirstpf}
+\end{figure}
+
+\begin{gather}
+  \label{eq:1}
+  x_t=B x_{t-1} + \phi z_0(x_{t-1},\epsilon) + F \phi \mathcal{Z}_1(x_t)+  F^2 \phi \mathcal{Z}_2(x_t)\\
+  x_{t+1}=B x_{t} + \phi \mathcal{Z}_1(x_t) + F \phi \mathcal{Z}_2(x_t)
+\end{gather}
+
+
+
+
+\subsection{A Simple Financial Model}
+\label{sec:simple-financ-model}
+
+A model specification consists of
+\begin{description}
+\item[Uniquely convergent linear rational expectations model] 
+We will need the $B, \phi, F, \psi_\epsilon, \psi_c \text{ and }\psi_z$ matrices
+\item[A function that computes the current set of constraint given a path and the current set of z functions] 
+  \begin{gather*}
+    \mathcal{C}(x_{t-1},x_{t},x_{t+1},z(x_{t-1},\epsilon_t))
+  \end{gather*}
+\end{description}
+\subsection{A Regime Switching Model}
+\label{sec:regime-switch-model}
+
+
+
+\cite{foerster13}
+
+\begin{gather*}
+c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
+ \log z_t = (1-\rho(s_t))\mu(s_t) + \rho(s_t)\log z_{t-1}+ \sigma(s_t) \epsilon_t\\
+ c_t^{\gamma-1} = \beta  
+ E_t ( c_{t+1}^{\gamma-1} (\alpha z_{t+1}^{1-\alpha} k_t^{\alpha -1} + (1-\delta) ))
+\end{gather*}
+
+
+
+\section{Implementation Details }
+\label{sec:implementation}
+
+
+
+\begin{itemize}
+\item One need only construct and solve a system large enough to determine the non zero$z$ function.
+\item any linear equation required to remains satisfied will have zero z
+\item for non linear variables that are completely backward looking one can solve for the z functions for those equations 
+ahead of time( as well as just substitute them out )
+\item use function composition evaluation to determine refined grid. possible that the set of refinements produce a fixed point  ( probably gives especially accurate interpolation
+\item lots of choices about choosing grid pointseach z could have different interpolation order or even mix chebyshev and interpolation
+\end{itemize}
+  
+
+
+
+
+
+
+\appendix
+\newpage
+
+     
+\section{The algorithms}
+\label{sec:algorithms}
+
+% \section{Things To Do}
+% \label{sec:things-do}
+
+% \begin{itemize}
+% \item guess should also use shock
+% \item code to check model definition functions' validity
+% \item flesh out constraints on function in code and add to text
+% \item describe fixed point and init guess  need to take account of shock to get fixedpoint to converge
+%\item Volterra Series and Impulse Response Functions
+% \end{itemize}
+
+\section{Truncation Error Bounds}
+\label{truncForm}
+{
+\begin{gather*}
+\phi \psi_c=  \sum_{s=0}^\infty F^s \phi \psi_c  -   F \sum_{s=0}^\infty F^s \phi \psi_c \\
+(I-F) \left (\sum_{s=0}^\infty F^s \phi \psi_c \right ) =\phi \psi_c\\
+\sum_{s=0}^\infty F^s \phi \psi_c=(I - F)^{-1}\phi \psi_c\\
+\sum_{s=0}^{k+1} F^s \phi \psi_c=F \sum_{s=0}^{k} F^s \phi \psi_c + \phi \psi_c\\
+F^{k+1} \phi \psi_c +\sum_{s=0}^{k} F^s \phi \psi_c=F \sum_{s=0}^{k} F^s \phi \psi_c + \phi \psi_c\\
+(I -F)\sum_{s=0}^{k} F^s\phi \psi_c  = (I- F^{k+1}) \phi \psi_c\\
+\sum_{s=0}^{k} F^s \phi \psi_c = (I -F)^{-1}(I- F^{k+1}) \phi \psi_c\\
+\sum_{s=k+1}^{\infty} F^s \phi \psi_c = (I -F)^{-1} F^{k+1}\phi \psi_c
+\end{gather*}
+}
+
+
+\newpage
+
+\href{http://www.dynare.org/DynareShanghai2013/deterministic.pdf}{Occasionally binding constraints in neoclassical growth model}
+
+ \bibliographystyle{plainnat}
+ \bibliography{../../bibFiles/anderson,../../bibFiles/files}
+
+\end{document}
+
+
