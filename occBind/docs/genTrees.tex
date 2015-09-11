@@ -1,0 +1,108 @@
+\documentclass[12pt]{article}
+
+\usepackage{forest}
+
+\begin{document}
+\begin{forest}
+  [genPath
+[makeProtectedSymbol]
+[genEpsVars
+   [makeProtectedSymbols]]
+[doFPart
+ [genZVars 
+   [makeProtectedSymbols]]
+]
+[nonFPart]
+]
+\end{forest}
+
+\begin{forest}
+[ageZFuncsPF
+ [ageOneZFuncPF
+  [getGridPtsLessShocks]
+]]
+\end{forest}
+
+\begin{forest}
+[makeInterpFuncRE
+[makeInterpFunc]
+[gridPts]
+[doExpect]
+]
+\end{forest}
+
+
+\begin{forest}
+[makeInterpFuncPF
+[makeInterpFunc]
+[gridPts]
+[doPF]
+]
+\end{forest}
+
+\begin{forest}
+[prepNextZZksPF
+[ageZFuncsPF]]
+\end{forest}
+
+\begin{forest}
+  [makeInterpFunc
+[gridPts]
+]]
+\end{forest}
+
+\begin{forest}
+ [gridPts[oneDimGridPts]] 
+\end{forest}
+
+\begin{forest}
+  [make ConstraintFixedPointFunc
+[makeConstraintFindrootFunc
+[subXtXtp1]
+[computeNextXt]
+[genXtm1Vars]
+[genXtVars]
+[genZVars]
+[zzGuesser]
+[genEpsVars]
+]
+]
+\end{forest}
+
+
+\begin{forest}
+[subXtXtp1
+[computeNextXt]
+[computeNextXtp1]
+[genXtm1Vars]
+]
+\end{forest}
+
+
+
+\begin{forest}
+[computeNextXtp1
+[computeNextXt]
+[applyZFuncs]
+[doIgnoreParts]
+]
+\end{forest}
+
+
+
+\begin{forest}
+[computeNextXt
+[computeNonFPart]
+[computeFPart]
+[applyZFuncs]
+[doIgnoreParts]
+]
+\end{forest}
+
+\begin{forest}
+  [computeFPart
+[applyZFuncs]
+[computeFPartk[computeFPower]]]
+\end{forest}
+\end{document}
+
