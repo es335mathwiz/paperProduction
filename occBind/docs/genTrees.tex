@@ -17,13 +17,6 @@
 \end{forest}
 
 \begin{forest}
-[ageZFuncsPF
- [ageOneZFuncPF
-  [getGridPtsLessShocks]
-]]
-\end{forest}
-
-\begin{forest}
 [makeInterpFuncRE
 [makeInterpFunc]
 [gridPts]
@@ -41,11 +34,6 @@
 \end{forest}
 
 \begin{forest}
-[prepNextZZksPF
-[ageZFuncsPF]]
-\end{forest}
-
-\begin{forest}
   [makeInterpFunc
 [gridPts]
 ]]
@@ -58,7 +46,12 @@
 \begin{forest}
   [make ConstraintFixedPointFunc
 [makeConstraintFindrootFunc
-[subXtXtp1]
+[subXtXtp1 [computeNextXt]
+[computeNextXtp1
+[computeNextXt]
+[applyZFuncs]
+[doIgnoreParts]]
+[genXtm1Vars]]
 [computeNextXt]
 [genXtm1Vars]
 [genXtVars]
@@ -70,6 +63,50 @@
 \end{forest}
 
 
+
+
+
+
+
+\begin{forest}
+[computeNextXt
+[computeNonFPart]
+[computeFPart 
+[applyZFuncs]
+[computeFPartk[computeFPower]]]
+[applyZFuncs]
+[doIgnoreParts]
+]
+\end{forest}
+
+\centerline{To discard?}
+
+
+
+\begin{forest}
+  [computeFPart
+[applyZFuncs]
+[computeFPartk[computeFPower]]]
+\end{forest}
+
+
+\begin{forest}
+[prepNextZZksPF
+[ageZFuncsPF 
+ [ageOneZFuncPF
+  [getGridPtsLessShocks]
+]]]
+\end{forest}
+
+
+
+\begin{forest}
+[ageZFuncsPF
+ [ageOneZFuncPF
+  [getGridPtsLessShocks]
+]]
+\end{forest}
+
 \begin{forest}
 [subXtXtp1
 [computeNextXt]
@@ -77,7 +114,6 @@
 [genXtm1Vars]
 ]
 \end{forest}
-
 
 
 \begin{forest}
@@ -89,20 +125,5 @@
 \end{forest}
 
 
-
-\begin{forest}
-[computeNextXt
-[computeNonFPart]
-[computeFPart]
-[applyZFuncs]
-[doIgnoreParts]
-]
-\end{forest}
-
-\begin{forest}
-  [computeFPart
-[applyZFuncs]
-[computeFPartk[computeFPower]]]
-\end{forest}
 \end{document}
 
