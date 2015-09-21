@@ -148,7 +148,7 @@ c_{t+s}(k_{t-1},\theta_t,\epsilon_t)\\k_{t+s}(k_{t-1},\theta_t,\epsilon_t)    \\
 
 
 Now, consider the following hypothetical linear homogeneous ``model'' 
-constructed from arbitrary coefficients.
+constructed from ``nearly'' arbitrary coefficients.
 
 \begin{gather*}
   \begin{bmatrix}
@@ -509,9 +509,9 @@ still significantly far away from the exact solution.
 
 \begin{figure}
   \centering
-\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/cFunc00Lin.pdf}(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/cFunc00Lin.pdf}})
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/cFuncExt00Lin.pdf}(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/cFunc00Lin.pdf}})
   \caption{Solution for c imposing non linear model constraints for a single period}
-\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/cFunc00Exact.pdf}(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/cFunc00Exact.pdf}})
+\includegraphics{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/cFuncExt00Exact.pdf}(\footnote{{../../../ProjectionMethodTools/ProjectionMethodToolsJava/code/cFunc00Exact.pdf}})
   \caption{Solution for c imposing non linear model constraints for a single period}
   \label{fig:cfuncfirst}
 \end{figure}
@@ -527,15 +527,20 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
   x_{t+1}=B x_{t} + \phi \mathcal{Z}_1(x_t)
 \end{gather}
 {\tiny
-\begin{gather}
+
+\begin{gather}%paperCalcsRBCExample.mth xt01
   \label{eq:2}
    \left(
    \begin{array}{c}
     -0.35073 \epsilon _t+0.692632 k_{t-1}+0.333194 \theta _{t-1}-0.0442851
-      z_t+0.658 z_{2 t}+0.35073 z_{3 t}+0.225036 Z_2(x_t)+0.11995 Z_3(x_t) -0.0151455 Z_1(x_t)-0.102893 \\
+      z_t+0.658 z_{2 t}+0.35073 z_{3 t}-0.0442851 Z_{1t}+0.11995 Z_{2 t}+0.225036
+      Z_{3 t}-0.0151455 Z_{4 t}-0.102893 \\
     -0.196147 \epsilon _t+0.36 k_{t-1}+0.186339 \theta _{t-1}+0.0442851
-      z_t+0.342 z_{2 t}+0.196147 z_{3 t}-0.225036 Z_2(x_t)-0.11995 Z_3(x_t)+0.0151455 Z_1(x_t)
--0.0666389 \\
+      z_t+0.342 z_{2 t}+0.196147 z_{3 t}+0.0442851 Z_{1t}-0.11995 Z_{2 t}-0.225036
+      Z_{3 t}+0.0151455 Z_{4 t}-0.0666389 \\
+    2.70858 \epsilon _t-5.34898 k_{t-1}-2.57315 \theta _{t-1}+0.342 z_t-5.08153
+      z_{2 t}-2.70858 z_{3 t}+z_{4 t}+0.342 Z_{1t}-0.926336 Z_{2 t}-1.73788 Z_{3
+      t}+0.116964 Z_{4 t}+6.35256 \\
     -1. \epsilon _t+0.95 \theta _{t-1}+z_{3 t}+0.05 \\
    \end{array}
    \right)
@@ -548,17 +553,15 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
        \left(
    \begin{array}{c}
     -0.469051 \epsilon _t+0.249347 k_{t-1}+0.445599 \theta _{t-1}+0.0306732
-      z_t+0.23688 z_{2 t}+0.469051 z_{3 t}+0.502133
-     Z_2(x_t) +0.267649
-     Z_3(x_t) -0.0337948
-     Z_1(x_t) -0.132389 \\
+      z_t+0.23688 z_{2 t}+0.469051 z_{3 t}-0.0578969 Z_t+0.694869 Z_{2
+      t}+0.419899 Z_{3 t}-0.00465525 Z_{4 t}-0.132389 \\
     -0.256952 \epsilon _t+0.1296 k_{t-1}+0.244105 \theta _{t-1}+0.0159426
-      z_t+0.12312 z_{2 t}+0.256952 z_{3 t}+0.260987
-     Z_2(x_t)+0.152965
-     Z_3(x_t)+0.0497374
-     Z_1(x_t)-0.0813119 \\
-    -0.95 \epsilon _t+0.9025 \theta _{t-1}+0.95 z_{3
-      t}+Z_3(x_t) +0.0975 \\
+      z_t+0.12312 z_{2 t}+0.256952 z_{3 t}+0.104513 Z_t+0.178868 Z_{2
+      t}-0.109902 Z_{3 t}+0.0205979 Z_{4 t}-0.0813119 \\
+    3.62234 \epsilon _t-1.92563 k_{t-1}-3.44122 \theta _{t-1}-0.23688
+      z_t-1.82935 z_{2 t}-3.62234 z_{3 t}+0.44712 Z_t-5.36626 Z_{2 t}-3.24275
+      Z_{3 t}+1.03595 Z_{4 t}+6.58035 \\
+    -0.95 \epsilon _t+0.9025 \theta _{t-1}+0.95 z_{3 t}+Z_{3 t}+0.0975 \\
    \end{array}
    \right)
   \end{gather}
@@ -570,11 +573,11 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
   \label{fig:cfuncfirstpf}
 \end{figure}
 
-\begin{gather}
-  \label{eq:1}
-  x_t=B x_{t-1} + \phi z_0(x_{t-1},\epsilon) + F \phi \mathcal{Z}_1(x_t)+  F^2 \phi \mathcal{Z}_2(x_t)\\
-  x_{t+1}=B x_{t} + \phi \mathcal{Z}_1(x_t) + F \phi \mathcal{Z}_2(x_t)
-\end{gather}
+% \begin{gather}
+%   \label{eq:1}
+%   x_t=B x_{t-1} + \phi z_0(x_{t-1},\epsilon) + F \phi \mathcal{Z}_1(x_t)+  F^2 \phi \mathcal{Z}_2(x_t)\\
+%   x_{t+1}=B x_{t} + \phi \mathcal{Z}_1(x_t) + F \phi \mathcal{Z}_2(x_t)
+% \end{gather}
 
 
 
