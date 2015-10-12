@@ -433,12 +433,12 @@ $  \hat{g}(x_{t-1},\epsilon_{t})$ by either projection or interpolation.
 \underbrace{x_{t-1},0}
 \underbrace{\xNow{1},\zNow{1}} 
 \underbrace{\xNowtp{1},\ZNow{0}{1}{t}} 
-\underbrace{0}\\
+\underbrace{\XNow{0}{t+2}{t},0}\\
 \underbrace{x_{t-1},0}
 \underbrace{\xNow{2},\zNow{2}} 
-\underbrace{\XNow{1}{t+1}{t},\ZNow{1}{1}{t}} 
-\underbrace{\XNow{0}{t+1}{t},\ZNow{0}{1}{t}} 
-\underbrace{0}\\
+\underbrace{\xNowtp{2},\ZNow{1}{1}{t}} 
+\underbrace{\XNow{1}{t+2}{t},\ZNow{0}{2}{t}} 
+\underbrace{\XNow{0}{t+3}{t},0}\\
 \end{gather}
 \section{Examples}
 \label{sec:examples}
@@ -599,12 +599,25 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
    \right)
   \end{gather}
 }
+
 \begin{figure}
   \centering
-%\includegraphics{cFunc00PF.pdf}(\footnote{{cFunc00PF.pdf}})
-  \caption{Perfect foresight solution for c imposing non linear model constraints for a single period}
-  \label{fig:cfuncfirstpf}
+%\includegraphics{cFuncTwoPerErr.pdf}(\footnote{{cFuncTwoPerErr.pdf}})
+  \caption{Solution for c imposing non linear model constraints for two periods}
+%\includegraphics{cFuncThreePerErr.pdf}(\footnote{{cFuncThreePerErr.pdf}})
+  \caption{Solution for c imposing non linear model constraints for three periods}
+  \label{fig:cfuncfirst}
 \end{figure}
+
+
+
+
+% \begin{figure}
+%   \centering
+% %\includegraphics{cFunc00PF.pdf}(\footnote{{cFunc00PF.pdf}})
+%   \caption{Perfect foresight solution for c imposing non linear model constraints for a single period}
+%   \label{fig:cfuncfirstpf}
+% \end{figure}
 
 % \begin{gather}
 %   \label{eq:1}
