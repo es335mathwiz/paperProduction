@@ -422,6 +422,15 @@ We terminate when
 
 We compute 
 $  \hat{g}(x_{t-1},\epsilon_{t})$ by either projection or interpolation.
+
+\subsection{Iteration}
+\label{sec:iteration}
+
+\begin{gather}
+  \underbrace{0}  \underbrace{\zNow{0}}  \underbrace{0}\\
+  \underbrace{0}  \underbrace{\zNow{1}} \underbrace{\ZNow{0}{1}{t}} \underbrace{0}\\
+  \underbrace{0}  \underbrace{\zNow{2}} \underbrace{\ZNow{1}{1}{t}}\underbrace{\ZNow{0}{2}{t+1g}} \underbrace{0}\\
+\end{gather}
 \section{Examples}
 \label{sec:examples}
 
