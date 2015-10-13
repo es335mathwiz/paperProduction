@@ -131,7 +131,7 @@ c_t + k_t=\theta_tk_{t-1}^\alpha \\
 \end{gather}
 and there is a closed form solution
 \begin{gather}
-  k_{t}= \theta_{t} \alpha \delta k_t^\alpha.\label{soln}\\
+  k_{t}= \theta_{t} \alpha \delta k_{t-1}^\alpha.\label{soln}\\
 c_t= \theta_t k_{t-1}^\alpha (1-\alpha \delta) \intertext{ note that}
 E_t \left ( \frac{\theta_{t+1}}{c_{t+1}} \right )=\frac{k_t^{-\alpha}}{1-\alpha\delta} \intertext{ so that rational expectations and perfect foresight solutions coincide.}
 \end{gather}
@@ -432,12 +432,13 @@ $  \hat{g}(x_{t-1},\epsilon_{t})$ by either projection or interpolation.
 \underbrace{\xNowtp{1},0}\\
 \underbrace{x_{t-1},0}
 \underbrace{\xNow{2},\zNow{2}} 
-\underbrace{\xNowtp{2},\ZNow{1}{1}{t}} 
-\underbrace{\XNow{1}{t+2}{t},0}\\
+\underbrace{\XNow{1}{t}{t},\ZNow{1}{1}{t}} 
+\underbrace{\XNow{1}{t+1}{t},0}    \intertext{where we have solved for $\xNow{2}$ and $\zNow{2}$ to satisfy the nonlinear equation system. Note that }
+\xNowtp{2}=\XNow{1}{t}{t}\\ 
 \underbrace{x_{t-1},0}
 \underbrace{\xNow{3},\zNow{3}} 
-\underbrace{\xNowtp{3},\ZNow{2}{1}{t}} 
-\underbrace{\XNow{3}{t+2}{t},\ZNow{1}{2}{t}} 
+\underbrace{\XNow{2}{t}{t},\ZNow{2}{1}{t}} 
+\underbrace{\XNow{2}{t+1}{t},\ZNow{1}{2}{t+1}} 
 \underbrace{\XNow{1}{t+3}{t},0}\\
 \end{gather}
 \section{Examples}
@@ -614,7 +615,7 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 
 % \begin{figure}
 %   \centering
-% %\includegraphics{cFunc00PF.pdf}(\footnote{{cFunc00PF.pdf}})
+%\includegraphics{cFunc00PF.pdf}(\footnote{{cFunc00PF.pdf}})
 %   \caption{Perfect foresight solution for c imposing non linear model constraints for a single period}
 %   \label{fig:cfuncfirstpf}
 % \end{figure}
