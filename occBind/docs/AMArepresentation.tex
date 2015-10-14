@@ -47,8 +47,7 @@ Consider any bounded deterministic family of functions
   \mathcal{X}_{t+s}(x_{t-1},\epsilon_t), \,\,\mathcal{X}_{t+s} \in{R^k}\,\,\infNorm{\mathcal{X}_{t+s}}  \le \bar{\mathcal{X}}\,\,\forall s\ge 0 \label{fFamily}.
 \end{gather}
 Where $\epsilon_t$ is the realization of an r dimensional iid random shock  known at time t. The $x_{t-1}$ are endogenous state variables fixed by history.  
-In what follows, these functions will represent the time t conditional expectations of solutions for dynamic stochastic models subject to occasionally binding
-constraints.
+In what follows, these functions will represent the time t conditional expectations of solutions for dynamic stochastic models which may be subject to occasionally binding constraints.
 
 
 
@@ -101,7 +100,10 @@ trajectories.
 Interestingly, the formula will work for any 
 $k$ dimensional linear system with unique  stable solutions.
 Consequently, the linear model and the  constant term can  be chosen rather
- arbitrarily.
+ arbitrarily.  This observation will give us some confidence in the 
+robustness of our algorithm for constructing series 
+representations for unknown families of functions 
+satisfying a given system of equations over time.
 
 
 One could consider approximating $x_t(x_{t-1},\epsilon_t)$ by 
@@ -129,12 +131,13 @@ For example, consider the simple neoclassical growth  model described in \cite{M
 c_t + k_t=\theta_tk_{t-1}^\alpha \\
 \ln \theta_t =\rho \ln \theta_{t-1} + \epsilon_t\label{rbcSys}
 \end{gather}
-and there is a closed form solution
+and there is a closed form solution\footnote{Note that=
+$E_t \left ( \frac{\theta_{t+1}}{c_{t+1}} \right )=\frac{k_t^{-\alpha}}{1-\alpha\delta}$ so that rational expectations and perfect foresight solutions coincide.}
 \begin{gather}
   k_{t}= \theta_{t} \alpha \delta k_{t-1}^\alpha.\label{soln}\\
-c_t= \theta_t k_{t-1}^\alpha (1-\alpha \delta) \intertext{ note that}
-E_t \left ( \frac{\theta_{t+1}}{c_{t+1}} \right )=\frac{k_t^{-\alpha}}{1-\alpha\delta} \intertext{ so that rational expectations and perfect foresight solutions coincide.}
+c_t= \theta_t k_{t-1}^\alpha (1-\alpha \delta) 
 \end{gather}
+
 For mean zero iid $\epsilon_t$ we can easily compute a family of trajectories like \refeq{fFamily}
 \begin{gather*}
   \begin{bmatrix}
@@ -153,7 +156,8 @@ c_{t+s}(k_{t-1},\theta_t,\epsilon_t)\\k_{t+s}(k_{t-1},\theta_t,\epsilon_t)    \\
 
 
 Now, consider the following hypothetical linear homogeneous ``model'' 
-constructed from ``nearly'' arbitrary coefficients.
+constructed from ``nearly'' arbitrary coefficients.\footnote{We can use any
+linear model of three variables that has unique trajectories converging to a unique steady state.}
 
 \begin{gather*}
   \begin{bmatrix}
@@ -192,9 +196,11 @@ Using the following parameter values
 \vcenter{\hbox{\includegraphics{RBCSSVal.pdf}}}
 \end{gather}(\footnote{{RBCParamSubs.pdf}})(\footnote{{RBCSSVal.pdf}})
 
-The contrived model can produce accurate values for the solution, can require quite a few terms in the series.  Alternatively, as one might expect, developing 
-a series using the model linearized about the ergodic mean prouces aaccurate
-solution with many fewer terms.  
+The contrived model can produce accurate values for the solution, but can require quite a few terms in the series to achieve a given level of accuracy. 
+ Alternatively, as one might expect, developing 
+a series using the model linearized about the ergodic mean produces a given
+level of accuracy with 
+fewer series terms.  
 
 Note that the error bounds are useful in predicting how many terms are required for a given level of accuracy. Even the contrived model with randomly chosen
 coefficients can achieve machine precision accuracy if one uses enough
@@ -224,7 +230,6 @@ We will be interested in finding solutions for models that can be written in  th
 \begin{gather*}
   h_i(x_{t-1},x_{t},x_{t+1},\epsilon_t)=h^{det}_{io}(x_{t-1},x_{t},\epsilon_t)+\sum_{j=1}^{p_i} [h^{det}_{ij}(x_{t-1},x_{t},\epsilon_t)h^{nondet}_{ij}(x_{t+1})]
 \end{gather*}
-
 This is a very broad class of models.  Economic models can typically 
 be cast in this form.  e will need to compute the conditional expectation of nonlinear expressions.  This specification will allow us to include auxiliary
 variables that we will include in the augmented model for accurately recursively computing  the appropriate expected values.
@@ -663,6 +668,9 @@ c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
 
 
 \begin{itemize}
+\item which is better to characterize discrepancy, simulation via decision rule or discrepancy between the ``computed exact'' solution path  do they coalesce
+\item parallelization
+\item improve simulation performance via z feedback
 \item One need only construct and solve a system large enough to determine the non zero $z$-function.
 \item any linear equation required to remains satisfied will have an identically zero z
 \item for non linear variables that are completely backward looking one can solve for the z functions for those equations 
