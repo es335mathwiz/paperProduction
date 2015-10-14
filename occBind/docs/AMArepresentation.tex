@@ -239,16 +239,26 @@ every head row/.style={before row={&\multicolumn{2}{c}{Arbitrary Model}&\multico
   \subsection{The Problem Statement}
 
 We will be interested in finding solutions for models that can be written in  the form
-\begin{gather*}
-  h_i(x_{t-1},x_{t},x_{t+1})=h^{det}_{io}(x_{t-1},x_{t})+\sum_{j=1}^{p_i} [h^{det}_{ij}(x_{t-1},x_{t})h^{nondet}_{ij}(x_{t+1})]
-\end{gather*}
 
 
 \begin{gather*}
-  h_i(x_{t-1},x_{t},x_{t+1},\epsilon_t)=h^{det}_{io}(x_{t-1},x_{t},\epsilon_t)+\sum_{j=1}^{p_i} [h^{det}_{ij}(x_{t-1},x_{t},\epsilon_t)h^{nondet}_{ij}(x_{t+1})]
+  h_i(x_{t-1},x_{t},x_{t+1},\epsilon_t)=h^{det}_{io}(x_{t-1},x_{t},\epsilon_t)+\sum_{j=1}^{p_i} [h^{det}_{ij}(x_{t-1},x_{t},\epsilon_t)h^{nondet}_{ij}(x_{t+1})]=0
 \end{gather*}
 This is a very broad class of models and most economic models can 
-be cast in this form.  Since we will need to compute 
+be cast in this form.  
+
+For example, the Euler equations for the  neoclassical growth  model 
+\label{sec:simple-rbc-model-ext} can be written as
+\begin{gather}
+h_{10^{det}}(\cdot)=\frac{1}{c_t},\,\,
+h_{11}^{det}()=\alpha \delta k_{t}^{\alpha-1} ,\,\,
+h_{11}^{nondet}(\cdot)=E_t \left (\frac{\theta_{t+1}}{c_{t+1}} \right )\\
+h_{20}^{det}(\cdot)=c_t + k_t-\theta_tk_{t-1}^\alpha,\,\,
+h_{21}^{det}(\cdot)=0\\
+h_{30}^{det}(\cdot)=\ln \theta_t -(\rho \ln \theta_{t-1} + \epsilon_t),\,\,
+h_{31}^{det}(\cdot)=0
+\end{gather}
+Since we will be working with models where expectations are computed at time t, $\epsilon_t$ is known and the only stochastic components are those with time subscripts greater than $t$. We will need to compute 
 the conditional expectation of nonlinear expressions,  
 this specification will allow us to include auxiliary
 variables that we will include in the augmented model for 
@@ -284,7 +294,7 @@ g^{k}(x,0)\\
 \item[Rational Expectations] 
 \begin{gather*}
      \mathcal{H}^{RE}[g^{k}(x,\epsilon_{t+T-k+1})]=
-\mathcal{E}[g^{k}(x,\epsilon_{t+T-k+1})|x]\\
+\mathcal{E}_t[g^{k}(x,\epsilon_{t+T-k+1})|x]\\
 \end{gather*}
 
  \end{description}
@@ -300,13 +310,13 @@ g^{k}(x,0)\\
 
 
 
-If we know $g^\ast$, and  these function generate a bounded family of 
-trajectories, we can define $z(x_{t+s-1},\epsilon_t)$ using \refeq{defZ}.
-Constructing a companion linear model would subsequently allow 
- us to write down a series representation for the $g^\ast$ functions. 
 In what follows, we will use a representation like equation \refeq{theTruncSeries} 
 to construct a sequence of functions, $g^k$, 
 that will approximate the typically unknown solution $g^\ast$.
+If we knew $g^\ast$, and  these function generate a bounded family of 
+trajectories, we could define $z(x_{t+s-1},\epsilon_t)$ using \refeq{defZ}.
+Constructing a companion linear model would subsequently allow 
+ us to write down a series representation for the $g^\ast$ functions.  Below, we will show how to ``reverse engineer'' the series representation for $g^\ast$.
 
 \subsection{Constructing an Approximation}
 \label{sec:constr-an-appr}
