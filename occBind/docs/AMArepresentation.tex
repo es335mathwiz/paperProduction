@@ -318,147 +318,14 @@ trajectories, we could define $z(x_{t+s-1},\epsilon_t)$ using \refeq{defZ}.
 Constructing a companion linear model would subsequently allow 
  us to write down a series representation for the $g^\ast$ functions.  Below, we will show how to ``reverse engineer'' the series representation for $g^\ast$.
 
-\subsection{Constructing an Approximation}
+\section{Constructing an Approximation}
 \label{sec:constr-an-appr}
 
-We begin by constructing a linear model of appropriate dimension 
-with a unique stable solution,
-choosing some point in time, $T$, and
-letting
- \begin{gather}
- g^0(x_{t+T-1},\epsilon_{t+T})=  
-B x_{t+T-1}+ \phi \psi_\epsilon\epsilon_{t+T} +
- (I - F)^{-1} \phi \psi_c\\ \label{firstIter}
-z^{T,0}_{t+T+i}(x_{t+T-1},\epsilon_{t+T-1})=0 \,\, \forall i \ge 0
- \end{gather}
-In other words, from time T onwards, this approximation assumes 
-that our stand-in
- convergent linear model completely characterizes the solution.\footnote{
-The algorithm terminates with an approximation for 
-the time invariant function $g^\ast$.
-The $T$ is just a convenient index for 
-characterizing the iteration in the text.  }
-
- Our algorithm will use  
- \begin{gather*}
- g^{k}(x_{t+T-(k+1)},\epsilon_{t+T-k}) \intertext{ and}
- \{ z^{T-k,k}(x_{t+T-(k+1)},\epsilon_{t+T-k}),\ldots, z^{T,k}(x_{t+T-(k+1)},\epsilon_{t+T-k})\}
-   \end{gather*}
-  to solve for 
- \begin{gather*}
- g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}) \intertext{ and}
- \{ z^{T-(k+1),k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}),\ldots, z^{T,k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})\}
-   \end{gather*}
-
-
-
-
-
-First, note that after completing any given step $k$
-we  are in a position to compute the deterministic functions 
-$\mathcal{G}^k$ and $\{\mathcal{Z}^{T-k,k},\ldots,\mathcal{Z}^{T,k}\}$:
-\begin{gather*}
-   \mathcal{G}^{k}(x)= \mathcal{H}[g^{k}(x,\epsilon_{t+T-k+1})]\\
-   \mathcal{Z}^{T-k+i,k}(x)= \mathcal{H}[z^{T-k+i,k}(x,\epsilon_{t+T-k+1})] \,\, i=0,\ldots,k. 
-\end{gather*} 
-
-The iteration step proceeds as follows:
-
-\begin{enumerate}
-\item Write
-\begin{align*}
-g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})=&\\
-&B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \\
-&\sum_{s=0}^{k+1} F^s \phi z^{T-(k+1)+s,k+1}_{t+s}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}) +\\
-& (I - F)^{-1} \phi \psi_c
-\end{align*}
-\item economize on updating some of
-the $z^{T-k+i,k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})$ by composing known
-deterministic functions with the as yet undetermined $g^{k+1}$
-\begin{gather*}
-z^{T-k+i,k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})= \mathcal{Z}^{T-k+i,k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}) \,\, \\i=0,\ldots,k  
-\end{gather*}
- and
-\item  use the functions in \refeq{theProblem} to determine the new functions 
- $g^{k+1}$  and  $z^{T-(k+1),k+1}$ %(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})
-
-
-\begin{gather*}
- h(x_{t+T-(k+2)},g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}), \mathcal{G}^{k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})),\epsilon_{t+T-(k+1)})\\
-m(x_{t+T-(k+2)},g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}),\mathcal{G}^{k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})),\epsilon_{t+T-(k+1)}) \ge 0\\ \label{iterSys}
- g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})= 
- B x_{t+T-(k+2)}+ \phi \psi_\epsilon\epsilon_{t+T-(k+1)} +\\
-\sum_{i=1}^k F^i \phi \mathcal{Z}^{T-k+i,k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})) +\\
- \phi z^{(T-(k+1)),k+1}_{t+i+(k+1)}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})\\
-   \end{gather*}
-\end{enumerate}
-
-These steps will likely take place point by point and will require an interpolation or projection method to characterize the functions.
-
-To determine $g_0(x_{t-1},\epsilon_t)$ we set
-
-\begin{gather*}
-	 g_{0}(x_{t-1},\epsilon_t) =B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + (I - F)^{-1} \phi \psi_c + \phi z^{T,0}_{T}(x_{t-1},\epsilon_t)
-\\
-	 \mathcal{G}^0(x) =B x + (I - F)^{-1} \phi \psi_c \nonumber
-\end{gather*}
-
-and use  equation \refeq{iterSys} to determine the unknown $z_T(x_{T-1},\epsilon_T)$
-
-\begin{gather*}
- h(x_{t+T-1},\mathbf{x}_T,\mathbf{x}_{T+1},\epsilon_{t+T})=0\\
- m(x_{t+T-1},\mathbf{x}_T,\mathbf{x}_{T+1},\epsilon_{t+T}) \ge 0\\
- \intertext{ where }
-\mathbf{x}_t=B x_{T-1}+ \phi \psi_\epsilon\epsilon_t + (I - F)^{-1} \phi \psi_c+ \phi z^{T,0}_{T}(x_{T-1},\epsilon_t)\\
-\mathbf{x}_{t+1}=B(B x_{T-1}+ \phi \psi_\epsilon\epsilon_t + (I - F)^{-1} \phi \psi_c + \phi z^{T,0}_{T}(x_{T-1},\epsilon_t)) + (I - F)^{-1} \phi \psi_c\\
-   \end{gather*}
-
-
-
-
-\begin{gather*}
-  \{g_k(x_{t-1},\epsilon_t),\mathcal{Z}^k_0(x), \ldots, \mathcal{Z}^{k-1}_k(x) \} \rightarrow \\
-  \{g^{k+1}(x_{t-1},\epsilon_t),\mathcal{Z}^{k+1}_0(x), \ldots, \mathcal{Z}^{k}_{k+1}(x) \}
-\end{gather*}
-
-The code employs a simple fixed point iteration for any given $x_{t-1},\epsilon_t$.
-We begin by setting $[\prescript{0}{}{x}(x_{t-1},\epsilon_t)]=g_k(x_{t-1},\epsilon_t)$. We 
-solve for $[\prescript{l+1}{}{x}(x_{t-1},\epsilon_t)]$ and $[\prescript{l+1}{}{z}(x_{t-1},\epsilon_{t})]$ in 
-
-
-\begin{gather*}
-\{ h, m, B, \phi, F, \psi_\epsilon, \psi_z \}  \rightarrow\\
- h(x_{t-1},[\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})], \mathcal{G}^{k}([\prescript{l}{}{x}(x_{t-1},\epsilon_{t})]),\epsilon_{t})\\
-m(x_{t-1},[\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})],\mathcal{G}^{k}([\prescript{l}{}{x}(x_{t-1},\epsilon_{t})]),\epsilon_{t}) \ge 0\\
- [\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})]= 
- B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +\\
-\sum_{i=1}^k F^i \phi \mathcal{Z}^{k}_i(\mathbf{x}) +\\
- \phi [\prescript{l+1}{}{z}(x_{t-1},\epsilon_{t})]\intertext{ where}
-\mathbf{x}=[\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})]\text{ or } [\prescript{l}{}{x}(x_{t-1},\epsilon_{t})]
-   \end{gather*}
-
-
-We terminate when 
-\begin{gather*}
-    \twoNorm{  \begin{bmatrix}
-\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})-
-\prescript{l}{}{x}(x_{t-1},\epsilon_{t})\\
-\prescript{l+1}{}{z}(x_{t-1},\epsilon_{t})-
-\prescript{l}{}{z}(x_{t-1},\epsilon_{t})
-  \end{bmatrix}} \le \epsilon_{fp} = 10^{-10} \intertext{ with }
-\begin{bmatrix}
-{\hat{x}}(x_{t-1},\epsilon_{t})\\
-{\hat{z}}(x_{t-1},\epsilon_{t})
-\end{bmatrix}=
-\begin{bmatrix}
-\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})\\
-\prescript{l+1}{}{z}(x_{t-1},\epsilon_{t})
-\end{bmatrix}
-\end{gather*}
-
-We compute 
-$  \hat{g}(x_{t-1},\epsilon_{t})$ by either projection or interpolation.
-
+We begin by choosing some linear model of appropriate dimension that 
+has a uniquely convergent steady state.  
+Although this is not necessary, it may be possible to obtain this model by
+linearizing the original model around the deterministic steady state.\footnote{As noted above, one could construct a series representation using any linear
+ model of appropriate dimension with a unique stable solution.  The rate of convergence and the number of terms required for a  given level of accuracy will depend upon the linear model employed.}
 \subsection{Iteration}
 \label{sec:iteration}
 
@@ -787,6 +654,144 @@ F^{k+1} \phi \psi_c +\sum_{s=0}^{k} F^s \phi \psi_c=F \sum_{s=0}^{k} F^s \phi \p
 \sum_{s=k+1}^{\infty} F^s \phi \psi_c = (I -F)^{-1} F^{k+1}\phi \psi_c
 \end{gather*}
 }
+
+\section{Probably Not Needed}
+
+
+ \begin{gather}
+ g^0(x_{t+T-1},\epsilon_{t+T})=  
+B x_{t+T-1}+ \phi \psi_\epsilon\epsilon_{t+T} +
+ (I - F)^{-1} \phi \psi_c\\ \label{firstIter}
+z^{T,0}_{t+T+i}(x_{t+T-1},\epsilon_{t+T-1})=0 \,\, \forall i \ge 0
+ \end{gather}
+In other words, from time T onwards, this approximation assumes 
+that our stand-in
+ convergent linear model completely characterizes the solution.\footnote{
+The algorithm terminates with an approximation for 
+the time invariant function $g^\ast$.
+The $T$ is just a convenient index for 
+characterizing the iteration in the text.  }
+
+ Our algorithm will use  
+ \begin{gather*}
+ g^{k}(x_{t+T-(k+1)},\epsilon_{t+T-k}) \intertext{ and}
+ \{ z^{T-k,k}(x_{t+T-(k+1)},\epsilon_{t+T-k}),\ldots, z^{T,k}(x_{t+T-(k+1)},\epsilon_{t+T-k})\}
+   \end{gather*}
+  to solve for 
+ \begin{gather*}
+ g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}) \intertext{ and}
+ \{ z^{T-(k+1),k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}),\ldots, z^{T,k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})\}
+   \end{gather*}
+
+
+
+
+
+First, note that after completing any given step $k$
+we  are in a position to compute the deterministic functions 
+$\mathcal{G}^k$ and $\{\mathcal{Z}^{T-k,k},\ldots,\mathcal{Z}^{T,k}\}$:
+\begin{gather*}
+   \mathcal{G}^{k}(x)= \mathcal{H}[g^{k}(x,\epsilon_{t+T-k+1})]\\
+   \mathcal{Z}^{T-k+i,k}(x)= \mathcal{H}[z^{T-k+i,k}(x,\epsilon_{t+T-k+1})] \,\, i=0,\ldots,k. 
+\end{gather*} 
+
+The iteration step proceeds as follows:
+
+\begin{enumerate}
+\item Write
+\begin{align*}
+g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})=&\\
+&B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \\
+&\sum_{s=0}^{k+1} F^s \phi z^{T-(k+1)+s,k+1}_{t+s}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}) +\\
+& (I - F)^{-1} \phi \psi_c
+\end{align*}
+\item economize on updating some of
+the $z^{T-k+i,k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})$ by composing known
+deterministic functions with the as yet undetermined $g^{k+1}$
+\begin{gather*}
+z^{T-k+i,k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})= \mathcal{Z}^{T-k+i,k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}) \,\, \\i=0,\ldots,k  
+\end{gather*}
+ and
+\item  use the functions in \refeq{theProblem} to determine the new functions 
+ $g^{k+1}$  and  $z^{T-(k+1),k+1}$ %(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})
+
+
+\begin{gather*}
+ h(x_{t+T-(k+2)},g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}), \mathcal{G}^{k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})),\epsilon_{t+T-(k+1)})\\
+m(x_{t+T-(k+2)},g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}),\mathcal{G}^{k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})),\epsilon_{t+T-(k+1)}) \ge 0\\ \label{iterSys}
+ g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})= 
+ B x_{t+T-(k+2)}+ \phi \psi_\epsilon\epsilon_{t+T-(k+1)} +\\
+\sum_{i=1}^k F^i \phi \mathcal{Z}^{T-k+i,k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})) +\\
+ \phi z^{(T-(k+1)),k+1}_{t+i+(k+1)}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})\\
+   \end{gather*}
+\end{enumerate}
+
+These steps will likely take place point by point and will require an interpolation or projection method to characterize the functions.
+
+To determine $g_0(x_{t-1},\epsilon_t)$ we set
+
+\begin{gather*}
+	 g_{0}(x_{t-1},\epsilon_t) =B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + (I - F)^{-1} \phi \psi_c + \phi z^{T,0}_{T}(x_{t-1},\epsilon_t)
+\\
+	 \mathcal{G}^0(x) =B x + (I - F)^{-1} \phi \psi_c \nonumber
+\end{gather*}
+
+and use  equation \refeq{iterSys} to determine the unknown $z_T(x_{T-1},\epsilon_T)$
+
+\begin{gather*}
+ h(x_{t+T-1},\mathbf{x}_T,\mathbf{x}_{T+1},\epsilon_{t+T})=0\\
+ m(x_{t+T-1},\mathbf{x}_T,\mathbf{x}_{T+1},\epsilon_{t+T}) \ge 0\\
+ \intertext{ where }
+\mathbf{x}_t=B x_{T-1}+ \phi \psi_\epsilon\epsilon_t + (I - F)^{-1} \phi \psi_c+ \phi z^{T,0}_{T}(x_{T-1},\epsilon_t)\\
+\mathbf{x}_{t+1}=B(B x_{T-1}+ \phi \psi_\epsilon\epsilon_t + (I - F)^{-1} \phi \psi_c + \phi z^{T,0}_{T}(x_{T-1},\epsilon_t)) + (I - F)^{-1} \phi \psi_c\\
+   \end{gather*}
+
+
+
+
+\begin{gather*}
+  \{g_k(x_{t-1},\epsilon_t),\mathcal{Z}^k_0(x), \ldots, \mathcal{Z}^{k-1}_k(x) \} \rightarrow \\
+  \{g^{k+1}(x_{t-1},\epsilon_t),\mathcal{Z}^{k+1}_0(x), \ldots, \mathcal{Z}^{k}_{k+1}(x) \}
+\end{gather*}
+
+The code employs a simple fixed point iteration for any given $x_{t-1},\epsilon_t$.
+We begin by setting $[\prescript{0}{}{x}(x_{t-1},\epsilon_t)]=g_k(x_{t-1},\epsilon_t)$. We 
+solve for $[\prescript{l+1}{}{x}(x_{t-1},\epsilon_t)]$ and $[\prescript{l+1}{}{z}(x_{t-1},\epsilon_{t})]$ in 
+
+
+\begin{gather*}
+\{ h, m, B, \phi, F, \psi_\epsilon, \psi_z \}  \rightarrow\\
+ h(x_{t-1},[\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})], \mathcal{G}^{k}([\prescript{l}{}{x}(x_{t-1},\epsilon_{t})]),\epsilon_{t})\\
+m(x_{t-1},[\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})],\mathcal{G}^{k}([\prescript{l}{}{x}(x_{t-1},\epsilon_{t})]),\epsilon_{t}) \ge 0\\
+ [\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})]= 
+ B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +\\
+\sum_{i=1}^k F^i \phi \mathcal{Z}^{k}_i(\mathbf{x}) +\\
+ \phi [\prescript{l+1}{}{z}(x_{t-1},\epsilon_{t})]\intertext{ where}
+\mathbf{x}=[\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})]\text{ or } [\prescript{l}{}{x}(x_{t-1},\epsilon_{t})]
+   \end{gather*}
+
+
+We terminate when 
+\begin{gather*}
+    \twoNorm{  \begin{bmatrix}
+\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})-
+\prescript{l}{}{x}(x_{t-1},\epsilon_{t})\\
+\prescript{l+1}{}{z}(x_{t-1},\epsilon_{t})-
+\prescript{l}{}{z}(x_{t-1},\epsilon_{t})
+  \end{bmatrix}} \le \epsilon_{fp} = 10^{-10} \intertext{ with }
+\begin{bmatrix}
+{\hat{x}}(x_{t-1},\epsilon_{t})\\
+{\hat{z}}(x_{t-1},\epsilon_{t})
+\end{bmatrix}=
+\begin{bmatrix}
+\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})\\
+\prescript{l+1}{}{z}(x_{t-1},\epsilon_{t})
+\end{bmatrix}
+\end{gather*}
+
+We compute 
+$  \hat{g}(x_{t-1},\epsilon_{t})$ by either projection or interpolation.
+
 
 
 \newpage
