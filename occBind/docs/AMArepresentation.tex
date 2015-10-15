@@ -470,7 +470,7 @@ Now, given
 \begin{gather}
   \{\XZPair{0},\ldots,\XZPair{k}\}\intertext{ find }
 \zNow{k+1} \ni \xNow{k+1} \intertext{satisfies Equation \ref{theProblem} where}
-  \xNow{k+1}\equiv B x_{t-1}  \phi \psi_\epsilon \epsilon_t + (I - F)^{-1} \phi \psi_c +  \phi \zNow{k+1}+
+  \xNow{k+1}\equiv B x_{t-1} + \phi \psi_\epsilon \epsilon_t + (I - F)^{-1} \phi \psi_c +  \phi \zNow{k+1}+
   \begin{cases}
 0& \mbox{if }k=0\\    
 \sum_{s=1}^{k} F^s \phi  \mathcal{Z}^{k-s}(x_{t+s}^k)&\mbox{if } k>0
