@@ -456,10 +456,33 @@ In the general iteration step we will have
 \begin{gather}
   \label{eq:1}
   x_t=B x_{t-1}  \phi \psi_\epsilon \epsilon_t + (I - F)^{-1} \phi \psi_c +
-\sum_{s=1}^{k} F^s \phi \mathcal{Z}^{k-s}(x_{t+s}^k)\\
-  x_{t+s}=\Pi_{s=0}^k \xIter{s}{ x_{t}}
+\sum_{s=0}^{k} F^s \phi \mathcal{Z}^{k-s}(x_{t+s}^{k+1})\\
+  x_{t+s}^{k+1}=\Pi_{s=0}^k \xIter{s}{ x_{t}^{k+1}}
 \end{gather}
 
+
+\section{Restatement}
+
+Define $\XZPair{0}\equiv(B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +
+ (I - F)^{-1} \phi \psi_c,0)$.
+
+Now, given
+\begin{gather}
+  \{\XZPair{0},\ldots,\XZPair{k}\}\intertext{ find }
+\zNow{k+1} \ni \xNow{k+1} \intertext{satisfies Equation \ref{theProblem} where}
+  \xNow{k+1}\equiv B x_{t-1}  \phi \psi_\epsilon \epsilon_t + (I - F)^{-1} \phi \psi_c +  \phi \zNow{k+1}+
+  \begin{cases}
+0& \mbox{if }k=0\\    
+\sum_{s=1}^{k} F^s \phi  \mathcal{Z}^{k-s}(x_{t+s}^k)&\mbox{if } k>0
+  \end{cases}
+\\
+  x_{t+s}^{k+1}=\Pi_{s=0}^k \xIter{k-s}{ x_{t}^{k+1}} \intertext{to construct}
+\ZNow{k+1}{}{}\equiv\mathcal{H}^{PF}[\zNow{k+1}] \text{ and }
+\XNow{k+1}{}{}\equiv\mathcal{H}^{PF}[\xNow{k+1}] 
+\intertext{ or }
+\ZNow{k+1}{}{}\equiv\mathcal{H}^{RE}[\zNow{k+1}]\text{ and }
+\XNow{k+1}{}{}\equiv\mathcal{H}^{RE}[\xNow{k+1}]
+\end{gather}
 
 \section{Examples}
 \label{sec:examples}
