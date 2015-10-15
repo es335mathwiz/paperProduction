@@ -230,12 +230,12 @@ columns/2/.style={column name=Bound},
 columns/3/.style={column name=Actual},
 columns/4/.style={column name=Bound},
 every head row/.style={before row={&\multicolumn{2}{c}{Arbitrary Model}&\multicolumn{2}{c}{Linearized RBC Model}\\}}
-]{truncErr.csv}
+]{./truncErr.csv}
 
   \caption{Truncation Errors: Bound and Actual}
 
 \end{table}
-
+pp
   \subsection{The Problem Statement}
 
 We will be interested in finding solutions for models that can be written in  the form
@@ -326,6 +326,101 @@ has a uniquely convergent steady state.
 Although this is not necessary, it may be possible to obtain this model by
 linearizing the original model around the deterministic steady state.\footnote{As noted above, one could construct a series representation using any linear
  model of appropriate dimension with a unique stable solution.  The rate of convergence and the number of terms required for a  given level of accuracy will depend upon the linear model employed.}
+
+
+ \begin{gather}
+ g^0(x_{t-1},\epsilon_{t})=  
+B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +
+ (I - F)^{-1} \phi \psi_c\\ \label{firstIter}
+z^{0}_{t+i}(x_{t-1},\epsilon_{t-1})=0 \,\, \forall i \ge 0
+ \end{gather}
+We are now in a position to easily compute 
+ \begin{gather}
+\mathcal{H}^{PF}[g^{0}(x,\epsilon_{t-k+1})]=
+\mathcal{H}^{RE}[g^{0}(x,\epsilon_{t-k+1})]= 
+B x+  (I - F)^{-1} \phi \psi_c
+ \end{gather}
+In other words, from time t onwards, this approximation assumes 
+that our stand-in
+ convergent linear model completely characterizes the solution.\footnote{
+The algorithm terminates with an approximation for 
+the time invariant function $g^\ast$.
+ }
+
+Next, we compute a solution in which the nonlinear equations are satisfied at time t alone while the stand-in linear system holds sway subsequently.
+Our algorithm will  compute
+\begin{gather*}
+\underbrace{x_{t-1},0} 
+\underbrace{\xNow{1},\zNow{1}}
+\underbrace{\xNowtp{1},0}
+\end{gather*}
+that satisfy the nonlinear equation system at time t.
+For a given $x_{t-1}$, we substitute
+\begin{gather}
+x_{t-1}, \,\,
+  x_t=B x_{t-1} + \phi z^1(x_{t-1},\epsilon_t) , \,\,
+  x_{t+1}=B x_{t} + \phi \mathcal{Z}_1(x_t)
+\end{gather}
+into the non linear equation system to determine the 
+$z^1(x_{t-1},\epsilon_t)$ and consequently $x_t(x_{t-1},\epsilon_t)$
+Consequently,
+ \begin{gather}
+ g^1(x_{t-1},\epsilon_{t})=  
+B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +
+\phi \psi_\epsilon z^1(x_{t-1},\epsilon_t)+
+ (I - F)^{-1} \phi \psi_c\\ \label{firstIter}
+z^{1}_{t+i}(x_{t-1},\epsilon_{t-1})=0 \,\, \forall i \ge 1
+ \end{gather}
+
+
+We are now in a position to compute our choice of
+$\mathcal{Z}_1(x)=\mathcal{H}^{PF}[g^{1}(x,\epsilon_{t-k+1})]$ or
+$\mathcal{Z}_1(x)=\mathcal{H}^{RE}[g^{1}(x,\epsilon_{t-k+1})]$.
+
+ \begin{gather}
+ g^0(x_{t-1},\epsilon_{t})=  
+B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +
+ (I - F)^{-1} \phi \psi_c\\ \label{firstIter}
+z^{0}_{t+i}(x_{t-1},\epsilon_{t-1})=0 \,\, \forall i \ge 0
+ \end{gather}
+ \begin{gather}
+ g^0(x_{t-1},\epsilon_{t})=  
+B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +
+ (I - F)^{-1} \phi \psi_c\\ \label{firstIter}
+z^{0}_{t+i}(x_{t-1},\epsilon_{t-1})=0 \,\, \forall i \ge 0
+ \end{gather}
+
+Using these functions we can then compute a solution for a model whose trajectories satisfy equation system \refeq{rbcSys}
+for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
+\begin{gather}
+  \label{eq:1}
+  x_t=B x_{t-1} + \phi z_0(x_{t-1},\epsilon) + F \phi \mathcal{Z}_1(x_t)\\
+  x_{t+1}=B x_{t} + \phi \mathcal{Z}_1(x_t)
+\end{gather}
+
+
+
+ \begin{gather}
+   \label{eq:1}
+   x_t=B x_{t-1} + \phi z_0(x_{t-1},\epsilon_t) + F \phi \mathcal{Z}_1(x_t)\\
+   x_{t+1}=B x_{t} + \phi \mathcal{Z}_1(x_t)
+ \end{gather}
+
+
+
+
+ \begin{gather*}
+ g^{k}(x_{t-(k+1)},\epsilon_{t-k}) \intertext{ and}
+ \{ z^{T-k,k}(x_{t-(k+1)},\epsilon_{t-k}),\ldots, z^{T,k}(x_{t-(k+1)},\epsilon_{t-k})\}
+   \end{gather*}
+  to solve for 
+ \begin{gather*}
+ g^{k+1}(x_{t-(k+2)},\epsilon_{t-(k+1)}) \intertext{ and}
+ \{ z^{T-(k+1),k+1}(x_{t-(k+2)},\epsilon_{t-(k+1)}),\ldots, z^{T,k+1}(x_{t-(k+2)},\epsilon_{t-(k+1)})\}
+   \end{gather*}
+
+
+
 \subsection{Iteration}
 \label{sec:iteration}
 
@@ -450,9 +545,9 @@ still significantly far away from the exact solution.
   \label{fig:cfuncfirst}
 \end{figure}
 
-We are now in a position to compute our choice of
-$\mathcal{H}^{PF}[g^{0}(x,\epsilon_{t+T-k+1})]$ or
-$\mathcal{H}^{RE}[g^{0}(x,\epsilon_{t+T-k+1})]$.
+We are now in a position to compute
+$\mathcal{H}^{PF}[g^{0}(x,\epsilon_{t-k+1})]$ or
+$\mathcal{H}^{RE}[g^{0}(x,\epsilon_{t-k+1})]$.
 Using these functions we can then compute a solution for a model whose trajectories satisfy equation system \refeq{rbcSys}
 for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 \begin{gather}
@@ -664,13 +759,10 @@ B x_{t+T-1}+ \phi \psi_\epsilon\epsilon_{t+T} +
  (I - F)^{-1} \phi \psi_c\\ \label{firstIter}
 z^{T,0}_{t+T+i}(x_{t+T-1},\epsilon_{t+T-1})=0 \,\, \forall i \ge 0
  \end{gather}
-In other words, from time T onwards, this approximation assumes 
-that our stand-in
- convergent linear model completely characterizes the solution.\footnote{
+In other words, this approximation assumes 
+that our stand-in convergent linear model completely characterizes the solution.\footnote{
 The algorithm terminates with an approximation for 
-the time invariant function $g^\ast$.
-The $T$ is just a convenient index for 
-characterizing the iteration in the text.  }
+the time invariant function $g^\ast$. }
 
  Our algorithm will use  
  \begin{gather*}
