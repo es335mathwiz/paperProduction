@@ -336,7 +336,7 @@ z^{0}_{t+i}(x_{t-1},\epsilon_{t-1})=0 \,\, \forall i \ge 0
  \end{gather}
 We are now in a position to easily compute 
  \begin{gather}
-\mathcal{H}^{PF}[g^{0}(x,\epsilon_{t-k+1})]=
+\xIter{0}=\mathcal{H}^{PF}[g^{0}(x,\epsilon_{t-k+1})]=
 \mathcal{H}^{RE}[g^{0}(x,\epsilon_{t-k+1})]= 
 B x+  (I - F)^{-1} \phi \psi_c
  \end{gather}
@@ -345,7 +345,10 @@ that our stand-in
  convergent linear model completely characterizes the solution.\footnote{
 The algorithm terminates with an approximation for 
 the time invariant function $g^\ast$.
- }
+ }  
+
+It is unlikely that $g^0(x_{t-1},\epsilon_{t})$
+satisfies equation \ref{theProblem} for arbitrary $x_{t-1}$ even for $s=0$.
 
 Next, we compute a solution in which the nonlinear equations are satisfied at time t alone while the stand-in linear system holds sway subsequently.
 Our algorithm will  compute
