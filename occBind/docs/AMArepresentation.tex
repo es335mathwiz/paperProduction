@@ -233,9 +233,9 @@ every head row/.style={before row={&\multicolumn{2}{c}{Arbitrary Model}&\multico
 ]{./truncErr.csv}
 
   \caption{Truncation Errors: Bound and Actual}
-
+\label{truncTab}
 \end{table}
-pp
+
   \subsection{The Problem Statement}
 
 We will be interested in finding solutions for models that can be written in  the form
@@ -336,19 +336,26 @@ z^{0}_{t+i}(x_{t-1},\epsilon_{t-1})=0 \,\, \forall i \ge 0
  \end{gather}
 We are now in a position to easily compute 
  \begin{gather}
-\xIter{0}=\mathcal{H}^{PF}[g^{0}(x,\epsilon_{t-k+1})]=
+\xIter{0}{x}=\mathcal{H}^{PF}[g^{0}(x,\epsilon_{t-k+1})]=
 \mathcal{H}^{RE}[g^{0}(x,\epsilon_{t-k+1})]= 
 B x+  (I - F)^{-1} \phi \psi_c
  \end{gather}
+\begin{gather*}
+\underbrace{x_{t-1},0} 
+\underbrace{\xNow{1},\zNow{1}}
+\underbrace{\xNowtp{1}=\xIter{0}{x_{t}},0}
+\end{gather*}
 In other words, from time t onwards, this approximation assumes 
 that our stand-in
  convergent linear model completely characterizes the solution.\footnote{
 The algorithm terminates with an approximation for 
 the time invariant function $g^\ast$.
  }  
-
 It is unlikely that $g^0(x_{t-1},\epsilon_{t})$
 satisfies equation \ref{theProblem} for arbitrary $x_{t-1}$ even for $s=0$.
+We can get a pessimistic upper bound for how far we are away from the solution 
+by computing the infinity norm of substituting the variables from into Equation \ref{theProblem}.\footnote{The values in Table \ref{truncTab} illustrate how
+pessimistic this approximation can be, but it turns out we can expect the accuracy of  approximate truncation errors improve as we expand the approximation series.}
 
 Next, we compute a solution in which the nonlinear equations are satisfied at time t alone while the stand-in linear system holds sway subsequently.
 Our algorithm will  compute
@@ -356,16 +363,17 @@ Our algorithm will  compute
 \underbrace{x_{t-1},0} 
 \underbrace{\xNow{1},\zNow{1}}
 \underbrace{\xNowtp{1},0}
+\underbrace{\xNowtp{2},0=\xIter{1}{x_{t+1}}}
 \end{gather*}
 that satisfy the nonlinear equation system at time t.
 For a given $x_{t-1}$, we substitute
 \begin{gather}
 x_{t-1}, \,\,
   x_t=B x_{t-1} + \phi z^1(x_{t-1},\epsilon_t) , \,\,
-  x_{t+1}=B x_{t} + \phi \mathcal{Z}_1(x_t)
+  x_{t+1}=B x_{t} + \phi \mathcal{Z}^1(x_t)
 \end{gather}
 into the non linear equation system to determine the 
-$z^1(x_{t-1},\epsilon_t)$ and consequently $x_t(x_{t-1},\epsilon_t)$
+$z^1(x_{t-1},\epsilon_t)$ and consequently $x_t^1(x_{t-1},\epsilon_t)$
 Consequently,
  \begin{gather}
  g^1(x_{t-1},\epsilon_{t})=  
@@ -374,39 +382,81 @@ B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +
  (I - F)^{-1} \phi \psi_c\\ \label{firstIter}
 z^{1}_{t+i}(x_{t-1},\epsilon_{t-1})=0 \,\, \forall i \ge 1
  \end{gather}
+Now, $g^1(x_{t-1},\epsilon_{t})$
+satisfies equation \ref{theProblem} for arbitrary $x_{t-1}$ at time $t$ with $s=0$.  However, it probably does not solve the system for $s>0$.
+We can get a pessimistic upper bound for how far we are away from the solution 
+by computing the infinity norm of substituting the variables 
+\begin{gather}
+\xNow{1},\xNowtp{1},\xNowtp{2}=\xIter{1}{x_{t+1}}
+\end{gather}
+into Equation \ref{theProblem}. If the accuracy of the approximation is adequate, we can conlude computing terms in the power series.  If not,
+we are now in a position to compute our choice of
+$\mathcal{Z}^1(x)=\mathcal{H}^{PF}[g^{1}(x,\epsilon_{t-k+1})]$ or
+$\mathcal{Z}^1(x)=\mathcal{H}^{RE}[g^{1}(x,\epsilon_{t-k+1})]$.
 
-
-We are now in a position to compute our choice of
-$\mathcal{Z}_1(x)=\mathcal{H}^{PF}[g^{1}(x,\epsilon_{t-k+1})]$ or
-$\mathcal{Z}_1(x)=\mathcal{H}^{RE}[g^{1}(x,\epsilon_{t-k+1})]$.
-
- \begin{gather}
- g^0(x_{t-1},\epsilon_{t})=  
-B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +
- (I - F)^{-1} \phi \psi_c\\ \label{firstIter}
-z^{0}_{t+i}(x_{t-1},\epsilon_{t-1})=0 \,\, \forall i \ge 0
- \end{gather}
- \begin{gather}
- g^0(x_{t-1},\epsilon_{t})=  
-B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +
- (I - F)^{-1} \phi \psi_c\\ \label{firstIter}
-z^{0}_{t+i}(x_{t-1},\epsilon_{t-1})=0 \,\, \forall i \ge 0
- \end{gather}
+%  \begin{gather}
+%  g^0(x_{t-1},\epsilon_{t})=  
+% B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +
+%  (I - F)^{-1} \phi \psi_c\\ \label{firstIter}
+% z^{0}_{t+i}(x_{t-1},\epsilon_{t-1})=0 \,\, \forall i \ge 0
+%  \end{gather}
+%  \begin{gather}
+%  g^0(x_{t-1},\epsilon_{t})=  
+% B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +
+%  (I - F)^{-1} \phi \psi_c\\ \label{firstIter}
+% z^{0}_{t+i}(x_{t-1},\epsilon_{t-1})=0 \,\, \forall i \ge 0
+%  \end{gather}
 
 Using these functions we can then compute a solution for a model whose trajectories satisfy equation system \refeq{rbcSys}
 for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
+
+\begin{gather}
+\underbrace{x_{t-1},0}
+\underbrace{\xNow{2},\zNow{2}} 
+\underbrace{\XNow{1}{t}{t},\ZNow{1}{1}{t}}
+\underbrace{\XNow{1}{t+1}{t},0}\underbrace{\XNow{0}{t+2}{t+1},0}    \intertext{where we have solved for $\xNow{2}$ and $\zNow{2}$ to satisfy the  equation system \ref{theProblem}.}
+\xNowtp{2}=\XNow{1}{t}{t}
+\end{gather}
+
 \begin{gather}
   \label{eq:1}
-  x_t=B x_{t-1} + \phi z_0(x_{t-1},\epsilon) + F \phi \mathcal{Z}_1(x_t)\\
-  x_{t+1}=B x_{t} + \phi \mathcal{Z}_1(x_t)
+  x_t=B x_{t-1} + \phi z^2(x_{t-1},\epsilon) + F \phi \mathcal{Z}^1(x_t)\\
+  x_{t+1}=B x_{t} + \phi \mathcal{Z}^1(x_t)+
+ (I - F)^{-1} \phi \psi_c\\
+  x_{t+2}=B x_{t+1} + (I - F)^{-1} \phi \psi_c\\
+  x_{t+3}=B x_{t+2} + (I - F)^{-1} \phi \psi_c
+\end{gather}
+
+The next iteration highlights an aspect of the algorithmic step which allows us
+to continue to exploit the law of iterated expectations in discoving the
+solution for the model.
+\begin{gather}
+\underbrace{x_{t-1},0}
+\underbrace{\xNow{3},\zNow{3}} 
+\underbrace{\XNow{2}{t}{t},\ZNow{2}{1}{t}} 
+\underbrace{\XNow{2}{t+1}{t},\ZNow{1}{2}{t+1}} 
+\underbrace{\XNow{1}{t+3}{t+2},0}
+\underbrace{\XNow{0}{t+4}{t+3},0}
+\end{gather}
+
+
+\begin{gather}
+  \label{eq:1}
+  x_t=B x_{t-1} + \phi z^3(x_{t-1},\epsilon) + F \phi \mathcal{Z}^2(x_t)+ F^2 \phi \mathcal{Z}^1(x_t)+
+ (I - F)^{-1} \phi \psi_c\\
+  x_{t+1}=B x_{t} + \phi \mathcal{Z}^1(x_t)+ F^2 \phi \mathcal{Z}^1(x_t)+
+ (I - F)^{-1} \phi \psi_c\\
+  x_{t+2}=B x_{t+1} + (I - F)^{-1} \phi \psi_c\\
+  x_{t+3}=B x_{t+2} + (I - F)^{-1} \phi \psi_c\\
+  x_{t+4}=B x_{t+2} + (I - F)^{-1} \phi \psi_c
 \end{gather}
 
 
 
  \begin{gather}
    \label{eq:1}
-   x_t=B x_{t-1} + \phi z_0(x_{t-1},\epsilon_t) + F \phi \mathcal{Z}_1(x_t)\\
-   x_{t+1}=B x_{t} + \phi \mathcal{Z}_1(x_t)
+   x_t=B x_{t-1} + \phi z_0(x_{t-1},\epsilon_t) + F \phi \mathcal{Z}^1(x_t)\\
+   x_{t+1}=B x_{t} + \phi \mathcal{Z}^1(x_t)
  \end{gather}
 
 
@@ -555,8 +605,8 @@ Using these functions we can then compute a solution for a model whose trajector
 for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 \begin{gather}
   \label{eq:1}
-  x_t=B x_{t-1} + \phi z_0(x_{t-1},\epsilon) + F \phi \mathcal{Z}_1(x_t)\\
-  x_{t+1}=B x_{t} + \phi \mathcal{Z}_1(x_t)
+  x_t=B x_{t-1} + \phi z_0(x_{t-1},\epsilon) + F \phi \mathcal{Z}^1(x_t)\\
+  x_{t+1}=B x_{t} + \phi \mathcal{Z}^1(x_t)
 \end{gather}
 {\tiny
 
@@ -623,8 +673,8 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 
 % \begin{gather}
 %   \label{eq:1}
-%   x_t=B x_{t-1} + \phi z_0(x_{t-1},\epsilon) + F \phi \mathcal{Z}_1(x_t)+  F^2 \phi \mathcal{Z}_2(x_t)\\
-%   x_{t+1}=B x_{t} + \phi \mathcal{Z}_1(x_t) + F \phi \mathcal{Z}_2(x_t)
+%   x_t=B x_{t-1} + \phi z_0(x_{t-1},\epsilon) + F \phi \mathcal{Z}^1(x_t)+  F^2 \phi \mathcal{Z}^2(x_t)\\
+%   x_{t+1}=B x_{t} + \phi \mathcal{Z}^1(x_t) + F \phi \mathcal{Z}^2(x_t)
 % \end{gather}
 
 
