@@ -342,8 +342,8 @@ B x+  (I - F)^{-1} \phi \psi_c
  \end{gather}
 \begin{gather*}
 \underbrace{x_{t-1},0} 
-\underbrace{\xNow{1},\zNow{1}}
-\underbrace{\xNowtp{1}=\xIter{0}{x_{t}},0}
+\underbrace{\xNow{0},\zNow{0}}
+\underbrace{\xNowtp{0}=\xIter{0}{x_{t}},0}
 \end{gather*}
 In other words, from time t onwards, this approximation assumes 
 that our stand-in
@@ -360,8 +360,8 @@ Our algorithm will  compute
 \begin{gather*}
 \underbrace{x_{t-1},0} 
 \underbrace{\xNow{1},\zNow{1}}
-\underbrace{\xNowtp{1},0}
-\underbrace{\xNowtp{2},0=\xIter{1}{x_{t+1}}}
+\underbrace{\xNowtp{1}=\xIter{1}{x_{t+1}},0}
+\underbrace{\xNowtp{1}=\xIter{0}{x_{t+1}},0}
 \end{gather*}
 that satisfy the nonlinear equation system at time t.
 For a given $x_{t-1}$, we substitute
@@ -371,8 +371,8 @@ x_{t-1}, \,\,
   x_{t+1}=B x_{t} + \phi \mathcal{Z}^1(x_t)
 \end{gather}
 into the non linear equation system to determine the 
-$z^1(x_{t-1},\epsilon_t)$ and consequently $x_t^1(x_{t-1},\epsilon_t)$
-Consequently,
+$z^1(x_{t-1},\epsilon_t)$ and consequently $x_t^1(x_{t-1},\epsilon_t)$.
+We then have
  \begin{gather}
  g^1(x_{t-1},\epsilon_{t})=  
 B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +
@@ -385,9 +385,9 @@ satisfies equation \ref{theProblem} for arbitrary $x_{t-1}$ at time $t$ with $s=
 We can get a pessimistic upper bound for how far we are away from the solution 
 by computing the infinity norm of substituting the variables 
 \begin{gather}
-\xNow{1},\xNowtp{1},\xNowtp{2}=\xIter{1}{x_{t+1}}
+\xNow{1},\xNowtp{1},\xNowtp{1}=\xIter{1}{x_{t+1}}
 \end{gather}
-into Equation \ref{theProblem}. If the accuracy of the approximation is adequate, we can conlude computing terms in the power series.  If not,
+into Equation \ref{theProblem}. If the accuracy of the approximation is adequate, we need not compute any further  terms in the power series.  If not,
 we are now in a position to compute our choice of
 $\mathcal{Z}^1(x)=\mathcal{H}^{PF}[g^{1}(x,\epsilon_{t-k+1})]$ or
 $\mathcal{Z}^1(x)=\mathcal{H}^{RE}[g^{1}(x,\epsilon_{t-k+1})]$.
@@ -411,7 +411,7 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 \begin{gather}
 \underbrace{x_{t-1},0}
 \underbrace{\xNow{2},\zNow{2}} 
-\underbrace{\XNow{1}{t}{t},\ZNow{1}{1}{t}}
+\underbrace{\xNowtp{2}=\XNow{2}{t}{t},\ZNow{2}{1}{t}}
 \underbrace{\XNow{1}{t+1}{t},0}\underbrace{\XNow{0}{t+2}{t+1},0}    \intertext{where we have solved for $\xNow{2}$ and $\zNow{2}$ to satisfy the  equation system \ref{theProblem}.}
 \xNowtp{2}=\XNow{1}{t}{t}
 \end{gather}
@@ -428,15 +428,16 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 The next iteration highlights an aspect of the algorithmic step which allows us
 to continue to exploit the law of iterated expectations in discoving the
 solution for the model.
+{\small
 \begin{gather}
 \underbrace{x_{t-1},0}
 \underbrace{\xNow{3},\zNow{3}} 
-\underbrace{\XNow{2}{t}{t},\ZNow{2}{1}{t}} 
-\underbrace{\XNow{2}{t+1}{t},\ZNow{1}{2}{t+1}} 
+\underbrace{\xNowtp{3}=\XNow{3}{t}{t},\ZNow{3}{1}{t}} 
+\underbrace{\XNow{2}{t+1}{t},\ZNow{2}{2}{t+1}} 
 \underbrace{\XNow{1}{t+3}{t+2},0}
 \underbrace{\XNow{0}{t+4}{t+3},0}
 \end{gather}
-
+}
 
 \begin{gather}
   \label{eq:1}
