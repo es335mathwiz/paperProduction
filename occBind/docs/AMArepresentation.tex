@@ -476,7 +476,11 @@ Now, given
 \sum_{s=1}^{k} F^s \phi  \mathcal{Z}^{k-s}(x_{t+s}^k)&\mbox{if } k>0
   \end{cases}
 \\
-  x_{t+s}^{k+1}=\Pi_{s=0}^k \xIter{k-s}{ x_{t}^{k+1}} \intertext{to construct}
+  x_{t+s}^{k+1}=\xIter{p}{ x_{t+s-1}^{k+1}}
+  \begin{cases}
+p=k+1-s &1\le s\le k+1\\
+p=0 &s> k+1
+  \end{cases}\intertext{to construct}
 \ZNow{k+1}{}{}\equiv\mathcal{H}^{PF}[\zNow{k+1}] \text{ and }
 \XNow{k+1}{}{}\equiv\mathcal{H}^{PF}[\xNow{k+1}] 
 \intertext{ or }
