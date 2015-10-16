@@ -273,7 +273,7 @@ finding a time invariant function $g^\ast$ that satisfies
 \begin{gather}
   \begin{split}
 h(x_{t+s-1},g^\ast(x_{t+s-1},\epsilon_{t+s}),\mathcal{H}[g^\ast(g^\ast(x_{t+s-1},\epsilon_{t+s}),\epsilon_{t+s+1})],\epsilon_{t+s}) \\
-m(x_{t+s-1},g^\ast(x_{t+s-1},\epsilon_{t+s}),\mathcal{H}[g^\ast(g^\ast(x_{t+s-1},\epsilon_{t+s}),\epsilon_{t+s+1})],\epsilon_{t+s}) \ge 0  \label{theProblem}
+%m(x_{t+s-1},g^\ast(x_{t+s-1},\epsilon_{t+s}),\mathcal{H}[g^\ast(g^\ast(x_{t+s-1},\epsilon_{t+s}),\epsilon_{t+s+1})],\epsilon_{t+s}) \ge 0  \label{theProblem}
   \end{split}
 %  \intertext{define} 
 % \mathcal{G}^\ast(x_{t+s-1},\epsilon_{t+s})= \mathcal{H}[g^\ast(g^\ast(x_{t+s-1},\epsilon_{t+s}),\epsilon_{t+s+1})] \nonumber
@@ -491,12 +491,21 @@ p=0 &s> k+1
 At time t iteration $k+1$ we solve the system
 \begin{gather*}
  h(x_{t-1},\xNow{k+1}\xNowtp{k+1},\epsilon_{t})=0\\
- m(x_{t-1},\xNow{k+1}\xNowtp{k+1},\epsilon_{t}) \ge 0\\
+% m(x_{t-1},\xNow{k+1}\xNowtp{k+1},\epsilon_{t}) \ge 0\\
    \end{gather*}
 If the problem arises from some optimization problem, 
 it may prove useful to consider the associated Lagrangean.  In that case the $m$ equations and the lagrange multiplies would be absorbed into the set of $h$ and $m$ need not eplicitly appear.
 
 
+By construction for $k\ge 0$
+\begin{gather}
+h(x_{t-1},g^{k+1}(x_{t-1},\epsilon_{t}),\mathcal{H}[g^{k+1}(g^{k+1}(x_{t-1},\epsilon_{t}),\epsilon_{t+1})],\epsilon_{t})=0 \intertext{ and for $ 1\le s\le k$}
+\mathcal{H}[h(x_{t+s-1}^{k+1}(x_{t-1},\epsilon_t),x_{t+s}^{k+1}(x_{t-1},\epsilon_t),x_{t+s+1}^{k+1}(x_{t-1},\epsilon_t),\epsilon_{t+s})]=0 \intertext{we compute}
+\discr{k+1}\equiv \mathcal{H}[h(x_{t+k}^{k+1}(x_{t-1},\epsilon_t),x_{t+k+1}^{k+1}(x_{t-1},\epsilon_t),x_{t+k+2}^{k+1}(x_{t-1},\epsilon_t),\epsilon_{t+k+1})]
+\end{gather}
+We use $\discr{k+1}$ as a measure of the potential impact of 
+computing the remaining terms in the 
+series expansion.  Under certain conditions, we can use this measure to compute and upper bound on the accuracy of the series function approximation.
 \section{Examples}
 \label{sec:examples}
 
@@ -869,7 +878,7 @@ z^{T-k+i,k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})= \mathcal{Z}^{T-k+i,k}(g^{k+1}
 
 \begin{gather*}
  h(x_{t+T-(k+2)},g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}), \mathcal{G}^{k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})),\epsilon_{t+T-(k+1)})\\
-m(x_{t+T-(k+2)},g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}),\mathcal{G}^{k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})),\epsilon_{t+T-(k+1)}) \ge 0\\ \label{iterSys}
+%m(x_{t+T-(k+2)},g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}),\mathcal{G}^{k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})),\epsilon_{t+T-(k+1)}) \ge 0\\ \label{iterSys}
  g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})= 
  B x_{t+T-(k+2)}+ \phi \psi_\epsilon\epsilon_{t+T-(k+1)} +\\
 \sum_{i=1}^k F^i \phi \mathcal{Z}^{T-k+i,k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})) +\\
@@ -891,7 +900,7 @@ and use  equation \refeq{iterSys} to determine the unknown $z_T(x_{T-1},\epsilon
 
 \begin{gather*}
  h(x_{t+T-1},\mathbf{x}_T,\mathbf{x}_{T+1},\epsilon_{t+T})=0\\
- m(x_{t+T-1},\mathbf{x}_T,\mathbf{x}_{T+1},\epsilon_{t+T}) \ge 0\\
+% m(x_{t+T-1},\mathbf{x}_T,\mathbf{x}_{T+1},\epsilon_{t+T}) \ge 0\\
  \intertext{ where }
 \mathbf{x}_t=B x_{T-1}+ \phi \psi_\epsilon\epsilon_t + (I - F)^{-1} \phi \psi_c+ \phi z^{T,0}_{T}(x_{T-1},\epsilon_t)\\
 \mathbf{x}_{t+1}=B(B x_{T-1}+ \phi \psi_\epsilon\epsilon_t + (I - F)^{-1} \phi \psi_c + \phi z^{T,0}_{T}(x_{T-1},\epsilon_t)) + (I - F)^{-1} \phi \psi_c\\
@@ -913,7 +922,7 @@ solve for $[\prescript{l+1}{}{x}(x_{t-1},\epsilon_t)]$ and $[\prescript{l+1}{}{z
 \begin{gather*}
 \{ h, m, B, \phi, F, \psi_\epsilon, \psi_z \}  \rightarrow\\
  h(x_{t-1},[\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})], \mathcal{G}^{k}([\prescript{l}{}{x}(x_{t-1},\epsilon_{t})]),\epsilon_{t})\\
-m(x_{t-1},[\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})],\mathcal{G}^{k}([\prescript{l}{}{x}(x_{t-1},\epsilon_{t})]),\epsilon_{t}) \ge 0\\
+%m(x_{t-1},[\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})],\mathcal{G}^{k}([\prescript{l}{}{x}(x_{t-1},\epsilon_{t})]),\epsilon_{t}) \ge 0\\
  [\prescript{l+1}{}{x}(x_{t-1},\epsilon_{t})]= 
  B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +\\
 \sum_{i=1}^k F^i \phi \mathcal{Z}^{k}_i(\mathbf{x}) +\\
