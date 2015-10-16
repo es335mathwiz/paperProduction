@@ -488,6 +488,15 @@ p=0 &s> k+1
 \XNow{k+1}{}{}\equiv\mathcal{H}^{RE}[\xNow{k+1}]
 \end{gather}
 
+At time t iteration $k+1$ we solve the system
+\begin{gather*}
+ h(x_{t-1},\xNow{k+1}\xNowtp{k+1},\epsilon_{t})=0\\
+ m(x_{t-1},\xNow{k+1}\xNowtp{k+1},\epsilon_{t}) \ge 0\\
+   \end{gather*}
+If the problem arises from some optimization problem, 
+it may prove useful to consider the associated Lagrangean.  In that case the $m$ equations and the lagrange multiplies would be absorbed into the set of $h$ and $m$ need not eplicitly appear.
+
+
 \section{Examples}
 \label{sec:examples}
 
