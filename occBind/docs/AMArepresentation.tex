@@ -775,6 +775,21 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 
 \subsection{Burnside Model}
 
+\large Burnside Problem
+
+\begin{gather}
+\normalsize y_t - \beta E_t \{ (1+y_{t+1}) exp{(\theta \bar{x} + \theta \sigma \epsilon_{t+1})} \} = 0
+\end {gather}
+
+\normalsize SCHMITT-GROME (S-G) Asset Pricing Model
+\begin{equation}
+y_t = \beta E_t\{e^{\theta x_{t+1}} \left[ 1+y_{t+1} \right]\}
+\end{equation}
+
+\begin{equation}
+x_t = (1-\rho) \bar{x} + \rho x_{t-1} + \sigma \eta \epsilon_t
+\end{equation}
+
 
 
 \subsection{A Simple Financial Model}
@@ -811,6 +826,9 @@ c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
 
 
 \begin{itemize}
+\item zk list should increase at each iteration unless already at lengh where trunc err negligible
+\item could increase by one each time  Z0 for infinity no impact different from 1, what about Z1. only one produces same ? 2,3,4 etc likely different
+\item if have done upthrough l, redo l probably no impact? must go to at lesast l+1 but no need past truncation limit
 \item cite holden
 \item consider models with multiple convergent stochastics steady states ( regime switching?)
 \item what if model doesnt have a solution or has many
@@ -896,33 +914,32 @@ condition number?
 \subsection{genFRFunc}
 \label{sec:genfrfunc}
 
-\begin{pseudocode}
-  
-genFRFunc[{numX_Integer,numEps_Integer,numZ_Integer},
-xkFunc_CompiledFunction,eqnsFunc_CompiledFunction]:=
-With[{funcArgs=Table[Unique["theFRFuncArgs"],{numX+numEps}],
-zArgs=Table[Unique["theFRZArgs"],{numZ}]},
-With[{zArgsInit={#,0}&/@zArgs,funcName=Unique["fName"]},
-funcName[funcArgs:{_?NumberQ..},zArgs:{_?NumberQ..}]:=
-eqnsFunc@@(Flatten[xkFunc@@Join[funcArgs,zArgs]]);
-ReplacePart[
-Function[xxxx,With[{zVals=zArgs/.FindRoot[funcName[funcArgs,zArgs],zArgsInit]},
-Join[(xkFunc@@Join[funcArgs,zVals])[[numX+Range[numX]]],
-Transpose[{zVals}]]]],
-1->funcArgs]]]
-$fixedPointLimit=30;
-genFPFunc[linMod:{BB_?MatrixQ,phi_?MatrixQ,FF_?MatrixQ,psiEps_?MatrixQ,psiC_?MatrixQ,psiZ_?MatrixQ,psiZPreComp_?MatrixQ},
-XZFuncs:{_Function..},xtGuess_?MatrixQ,eqnsFunc_CompiledFunction]:=
-With[{numX=Length[BB],numEps=Length[psiEps[[1]]],numZ=Length[psiZ[[1]]]},
-With[{funcArgs=Table[Unique["theFPFuncArgs"],{numX+numEps}]},
-ReplacePart[
-Function[xxxx,
-FixedPoint[With[{xzFuncNow=
-genFRFunc[{numX,numEps,numZ},genLilXkZkFunc[linMod,XZFuncs,#[[Range[numX]]]],
-eqnsFunc]},xzFuncNow @@funcArgs]&,xtGuess,$fixedPointLimit]],
-1->funcArgs]]]
+% \begin{pseudocode}
+% genFRFunc[{numX_Integer,numEps_Integer,numZ_Integer},
+% xkFunc_CompiledFunction,eqnsFunc_CompiledFunction]:=
+% With[{funcArgs=Table[Unique["theFRFuncArgs"],{numX+numEps}],
+% zArgs=Table[Unique["theFRZArgs"],{numZ}]},
+% With[{zArgsInit={#,0}&/@zArgs,funcName=Unique["fName"]},
+% funcName[funcArgs:{_?NumberQ..},zArgs:{_?NumberQ..}]:=
+% eqnsFunc@@(Flatten[xkFunc@@Join[funcArgs,zArgs]]);
+% ReplacePart[
+% Function[xxxx,With[{zVals=zArgs/.FindRoot[funcName[funcArgs,zArgs],zArgsInit]},
+% Join[(xkFunc@@Join[funcArgs,zVals])[[numX+Range[numX]]],
+% Transpose[{zVals}]]]],
+% 1->funcArgs]]]
+% $fixedPointLimit=30;
+% genFPFunc[linMod:{BB_?MatrixQ,phi_?MatrixQ,FF_?MatrixQ,psiEps_?MatrixQ,psiC_?MatrixQ,psiZ_?MatrixQ,psiZPreComp_?MatrixQ},
+% XZFuncs:{_Function..},xtGuess_?MatrixQ,eqnsFunc_CompiledFunction]:=
+% With[{numX=Length[BB],numEps=Length[psiEps[[1]]],numZ=Length[psiZ[[1]]]},
+% With[{funcArgs=Table[Unique["theFPFuncArgs"],{numX+numEps}]},
+% ReplacePart[
+% Function[xxxx,
+% FixedPoint[With[{xzFuncNow=
+% genFRFunc[{numX,numEps,numZ},genLilXkZkFunc[linMod,XZFuncs,#[[Range[numX]]]],
+% eqnsFunc]},xzFuncNow @@funcArgs]&,xtGuess,$fixedPointLimit]],
+% 1->funcArgs]]]
 
-\end{pseudocode}
+% \end{pseudocode}
 
 
 \begin{pseudocode}{solnSubs}{[c_{t-1},k_{t-1},\frac{1}{c_t},\theta_{t-1},\epsilon_t]}
