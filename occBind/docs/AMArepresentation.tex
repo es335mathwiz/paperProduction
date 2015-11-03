@@ -504,6 +504,15 @@ In the general iteration step we will have
 
 \section{Solution Assessment}
 \label{sec:assess}
+\begin{itemize}
+\item Iterate the decision rule forward.  The rule should compute a path for conditional expectations from an arbitary set of initial conditions.
+\item compute errors along the path
+\item employ the formula to compute the amount that the initial value should change
+\item could update this path with those values for perfect foresight
+just need for a single point zero error done for ratioinal expectations 
+i think multiple path updates necessary could be done in parallel perhaps at each of the interpolation points of the Z approximation
+\item use truncation formula to bound impact
+\end{itemize}
 
 \subsection{Iterate Decision Rule}
 
@@ -570,6 +579,10 @@ Bound infinity norm or other criteria.  ccould randomize points do approx altern
 Even bad approximations iterated settle down to some particular value depending on the relationship between the reference model and the actual model.  If they have the same long run conditional expectations the ref model approximation errors will improve over over iteration period
 
 reusing the latest will likely improve the patherrs. getting a fixed point may not be worth it. especially if not doing approximation
+
+Having computed the $z$ and $Z$ funcs for a given truncation horizion, T, we could compute the path which solves the system exactly for those T periods, but this will differ from the true solution.  We can bound the difference by checking the error at T+1.  
+
+If the path error is zero or small enough, the z functioons won't change.  We could possibly accelerate the process by using recently updated Z funcs further along the path in determining the path.  This should result in a decision rule that more closely approximates the true decision rule but requiring a shorter path to compute.
 \subsection{Pre Compute Z}
 
 
@@ -607,6 +620,7 @@ Luca's JME paper 3rd model.\cite{Guerrieri2015}}
 \subsection{A Simple RBC Model}
 \label{sec:simple-rbc-model-1}
 
+No need to augment the model. Fix this text.
 We construct our stand-in model by augmenting the model with the equation
 \begin{gather}
   \rcpC_t=\frac{1}{c_t}
@@ -693,6 +707,15 @@ be seen in the top panel of Figure \ref{fig:cfuncfirst},
 imposing the constraint for even a single period captures much of the nonlinearity, but the bottom panel shows that the solution is 
 still significantly far away from the exact solution.
 
+
+Number of function evaluations and time.
+
+fixed point not necessary.
+
+find root must use genxz func
+takes time to construct function for findroot  called twice by fixed point, but solution guarenteed on second call.
+
+Took 0.01 seconds while profiling.  Findroot called the xz func about 30 times.
 \begin{figure}
   \centering
 \includegraphics{cFuncExt00Lin.pdf}(\footnote{{cFunc00Lin.pdf}})
@@ -756,6 +779,10 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
   \end{gather}
 }
 
+
+
+
+
 \begin{figure}
   \centering
 \includegraphics{cFuncTwoPerErr.pdf}(\footnote{{cFuncTwoPerErr.pdf}})
@@ -768,22 +795,12 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 
 
 
-% \begin{figure}
-%   \centering
-%\includegraphics{cFunc00PF.pdf}(\footnote{{cFunc00PF.pdf}})
-%   \caption{Perfect foresight solution for c imposing non linear model constraints for a single period}
-%   \label{fig:cfuncfirstpf}
-% \end{figure}
-
-% \begin{gather}
-%   \label{eq:1}
-%   x_t=B x_{t-1} + \phi z_0(x_{t-1},\epsilon) + F \phi \mathcal{Z}^1(x_t)+  F^2 \phi \mathcal{Z}^2(x_t)\\
-%   x_{t+1}=B x_{t} + \phi \mathcal{Z}^1(x_t) + F \phi \mathcal{Z}^2(x_t)
-% \end{gather}
 
 
 \subsection{Burnside Model}
 
+
+\subsection{Smets and Woeters}
 
 
 \subsection{A Simple Financial Model}
@@ -817,9 +834,23 @@ c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
 \section{Implementation Details }
 \label{sec:implementation}
 
-
+\begin{itemize}
+\item mode equations
+\item simulate paths for conditional expectations
+\item evaluate model along the path
+\item use errors and formula to improve path 
+\item repeat and correct
+\item for perfect foresight easier and faster than for rational expectations 
+\item parallel possible
+\end{itemize}
 
 \begin{itemize}
+\item lnear space for models
+\item can get non linear model z's then add constraits and have diffence in z's to characterize differences in models
+\item nonlinear model adfactors ed 
+\item the program is the proof possible with category theory here?
+\item vary order of interpolation(approximation) for different variables
+\item meta algorithm design components  on the fly.  interpolation parameters for example/  even more goal possible, look t computational burden forecast solution strategy
 \item cite holden
 \item consider models with multiple convergent stochastics steady states ( regime switching?)
 \item what if model doesnt have a solution or has many
