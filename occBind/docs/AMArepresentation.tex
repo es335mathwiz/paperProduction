@@ -41,6 +41,51 @@ Unique contribution.  Provides error bounds for judging how many terms of series
 \end{abstract}
 \section{Introduction and Summary}
 \section{Methodology Outline}
+
+\subsection{General Methodology}
+\label{sec:general-methodology}
+
+To solve a wide class of models. It is difficult to characterize the model specificiation, but easier to specify the common charcteristics of the solutions.  A s a consequence the approach is very general the text will provide a variety of models that would be amenable, but the list is not meant to be exhaustive.
+
+
+The proofs of applicability 
+turn on being able to rely on the law of iterated expectations and time invariant functions.
+It is difficult to think of economic models  that don't exploit these features.
+We require models that have solutions, decision rules, that produce unique paths when iterated forward.  
+
+What is meant my iterating a decision rule depends upon assumption about the
+model and the stochastic component if any.
+We will  touch on two widely used approaches: Rational expectations and 
+perfect foresight. The theory and the algorithms would apply for any method which obeys the law of iterated Expectations.
+
+Consider a time invariant function $\xtFuncTI$, a function $x$ an $L$ dimensional variable and $\epsilon$ a $K$ dimensional random variable. 
+In this  context
+we will require
+the $\epsilon_t$ to be independently and identically distributed.
+We will require that
+  we can also compute 
+a time invariant $\XtFuncTI\equiv \expctEps{\xtFuncTI}$ with the property that
+\begin{gather*}
+\expct{t}{x_{t+k}}\equiv\begin{cases}
+\xtFunc{(x_{t-1},\epsilon_t)} &k=0\\
+\XtFunc{(\expct{t}{x_{t+k-1}})} &k>0
+\end{cases}
+\end{gather*}
+The function $\expctEps{\cdot}$ may be a mathematical expectation function, for ratonal expectations, but it could also be a function which assigns the value $0$ to all future $\epsilon_t$ for perfect foresight solutions.
+In the text that follows, we will assume that at time $t$, $\epsilon_t$ along with all the history $x_{t-k},\, \forall k>0$ are known.
+In what follows, it will become important to note that as a result, 
+$\xtFunc{(x_{t-1},\epsilon)}$ and 
+$\XtFunc{(\xtFunc{(x_{t-1},\epsilon)})}$ are not stochastic.  This will facilitate the solution of difficult decision problems such as problems with
+occasionally binding constraints.
+
+The algorithm turns on using the law of iterated expectations property.
+Consequenly, it will also work for degenerate distributions.  Since the first
+period is deterministic,  perfect-foresight solutions 
+where all future shocks are zero fit the formula.
+With these conventions, it is thus possible with invariant functions to iterate the solutions forward.
+If these solutions remain bounded, then there is a useful series representation
+for reproducing these trajectories.
+
   \subsection{A Useful Series Representation}
 
 Consider any bounded deterministic family of functions 
@@ -121,8 +166,26 @@ approximation of $x_t$.
 Since the eigenvalues of F are all less than one, one can expect the approximation to improve as terms are added.
 
 
-\anEdit{
-Compare to \cite{Santos}}
+Given a time invariant function that generates a family of bounded solutions for a range of initial conditions we have a method for constructing a time series
+replicating those trajectories.  
+Many well known economic models generate families of invariant functions.
+Typically, these solutions cannot be computed in closed form and consequently
+obtained by some numerical method.
+Below, we will describe a method for constructing the time invariant solutions
+for a given model, but 
+it will be useful to begin by considering a model with know solutions.
+We will see how to characterize the accuracy of a given reporesentation of the time invariant function.  In the context of a model that generates
+solutions that are time invariant and bounded, we can use the 
+series representation to  assess the accuracy of a proposed solution.
+
+There are typically many solutions that satisfy the model equations and associated constraints.  For example, one could vary the probability distribution for $\epsilon_t$ or use perfect foresight to obtain a variety of solutions that
+satisfy the model equations over time. But, for a given choice of probability distribution one may find there is a unique, at least locally, set of trajectories.
+
+We can asses, at least locally, 
+how well a particular proposed solution performs.\footnote{Iterating on the whole path, one likely will encounter basins of attraction between solutions.  For example starting near a perfect foresight solution, may drive one to the perfect foresight solution.  Starting close to a particular rational expectations solution might leave one there.  For the RBC model in the text, the distribution}
+
+
+\anEdit{Compare to \cite{Santos}}
 
 
 For example, consider the simple neoclassical growth  model described in \cite{Maliar2005}.
@@ -272,6 +335,42 @@ every head row/.style={before row={\multicolumn{5}{c}{``Arbitrary'' Linear Model
 \label{truncTab}
 \end{table}
 
+\subsection{Decision Rule Assessment}
+\label{sec:decis-rule-assessm}
+
+
+We typically have a model we are interested in and would like to compute an approximate solution.  For now assume that the model imposes a time invariant system of equations on the model variables.
+The source of the decision rule doesn't matter.  So long as we can iterate the
+rule forward in time to produce a family of bounded paths, we can use the
+formula to assess how close the solutions are to solving the particular.
+We need only compute the paths, apply the model equations to the path to determine how much the system equations are violated.  These calculations will 
+generate a path for the $z$ functions.  Substituting these values in the
+formula provides a measure of how much the $x_t$ must change in order for the conditional expectations path to satisfy the model equations.
+The model equations can be highly complex. Some of the examples hint at the 
+possibilities. Occasionally binding constraints addressed in a straightforward 
+way.  Conceptually, the approach is compelling.  The examples below
+offer some practical numerical insights in early implementation of these
+ideas.
+
+
+
+We will need to ``simulate'' the decision rule forward in order to judge if the conditional expectations are correct.
+We can try iterating the perfect foresight solution forward to see how well the formula predict the discrepancy.  Can vary the variance to see that it's okay for small variance.
+
+We will need to choose a horizon length. We can simulate forward until the errors contributions to changes in the initial state start to decline.
+If they don't start to decline, this is an indication that the procedure 
+predicts that the true solution could be far from the value obtained by the
+decision rule.
+
+The origin of the decision rule is irrelevant so long as one can simulate it 
+forward.
+
+
+\section{Constructing an Approximation}
+\label{sec:constr-an-appr}
+
+
+
   \subsection{The Problem Statement}
 
 We will be interested in finding solutions for models that can be written in  the form
@@ -359,8 +458,10 @@ trajectories, we could define $z(x_{t+s-1},\epsilon_t)$ using \refeq{defZ}.
 Constructing a companion linear model would subsequently allow 
  us to write down a series representation for the $g^\ast$ functions.  Below, we will show how to ``reverse engineer'' the series representation for $g^\ast$.
 
-\section{Constructing an Approximation}
-\label{sec:constr-an-appr}
+
+
+
+
 
 We begin by choosing some linear model of appropriate dimension that 
 has a uniquely convergent steady state.  
@@ -718,9 +819,9 @@ takes time to construct function for findroot  called twice by fixed point, but 
 Took 0.01 seconds while profiling.  Findroot called the xz func about 30 times.
 \begin{figure}
   \centering
-\includegraphics{cFuncExt00Lin.pdf}(\footnote{{cFunc00Lin.pdf}})
+%\includegraphics{cFuncExt00Lin.pdf}(\footnote{{cFunc00Lin.pdf}})
   \caption{Solution for c imposing non linear model constraints for a single period}
-\includegraphics{cFuncExt00Exact.pdf}(\footnote{{cFunc00Exact.pdf}})
+%\includegraphics{cFuncExt00Exact.pdf}(\footnote{{cFunc00Exact.pdf}})
   \caption{Solution for c imposing non linear model constraints for a single period}
   \label{fig:cfuncfirst}
 \end{figure}
@@ -785,9 +886,9 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 
 \begin{figure}
   \centering
-\includegraphics{cFuncTwoPerErr.pdf}(\footnote{{cFuncTwoPerErr.pdf}})
+%\includegraphics{cFuncTwoPerErr.pdf}(\footnote{{cFuncTwoPerErr.pdf}})
   \caption{Solution for c imposing non linear model constraints for two periods}
-\includegraphics{cFuncThreePerErr.pdf}(\footnote{{cFuncThreePerErr.pdf}})
+%\includegraphics{cFuncThreePerErr.pdf}(\footnote{{cFuncThreePerErr.pdf}})
   \caption{Solution for c imposing non linear model constraints for three periods}
   \label{fig:cfuncsecond}
 \end{figure}
@@ -799,6 +900,10 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 
 \subsection{Burnside Model}
 
+Another model with an exact solution can be found in \cite{burnside}
+\begin{gather}
+\normalsize y_t - \beta E_t \{ (1+y_{t+1}) exp{(\theta \bar{x} + \theta \sigma \epsilon_{t+1})} \} = 0
+\end{gather}
 
 \subsection{Smets and Woeters}
 
@@ -835,6 +940,7 @@ c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
 \label{sec:implementation}
 
 \begin{itemize}
+\item Formula also works for multilag multi lead.  Applications
 \item mode equations
 \item simulate paths for conditional expectations
 \item evaluate model along the path
@@ -842,6 +948,11 @@ c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
 \item repeat and correct
 \item for perfect foresight easier and faster than for rational expectations 
 \item parallel possible
+\item other ``expectations'' operators
+\item add factors for nonlinear models
+\item multitude of updating strategies for Z paths, true to path or accelerate perhaps blend t ensure convergence
+\item f eigenvalue assumptions proof
+
 \end{itemize}
 
 \begin{itemize}
@@ -1009,8 +1120,8 @@ z^{T-k+i,k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})= \mathcal{Z}^{T-k+i,k}(g^{k+1}
 
 
 \begin{gather}
- h(x_{t+T-(k+2)},g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}), \mathcal{G}^{k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})),\epsilon_{t+T-(k+1)})\\
-%m(x_{t+T-(k+2)},g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}),\mathcal{G}^{k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})),\epsilon_{t+T-(k+1)}) \ge 0\\ \label{iterSys}
+ h(x_{t+T-(k+2)},g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}), \mathcal{G}^{k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})),\epsilon_{t+T-(k+1)})\\ \label{iterSys}
+%m(x_{t+T-(k+2)},g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)}),\mathcal{G}^{k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})),\epsilon_{t+T-(k+1)}) \ge 0\\ 
  g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})= 
  B x_{t+T-(k+2)}+ \phi \psi_\epsilon\epsilon_{t+T-(k+1)} +\\
 \sum_{i=1}^k F^i \phi \mathcal{Z}^{T-k+i,k}(g^{k+1}(x_{t+T-(k+2)},\epsilon_{t+T-(k+1)})) +\\

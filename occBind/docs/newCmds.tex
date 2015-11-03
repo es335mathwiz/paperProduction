@@ -1,3 +1,11 @@
+\newcommand{\xtFuncTI}{\mathbf{x}(x,\epsilon)}
+\newcommand{\XtFuncTI}{\mathbf{X}(x)}
+
+\newcommand{\xtFunc}[1]{\mathbf{x}{#1}}
+\newcommand{\XtFunc}[1]{\mathbf{X}{#1}}
+
+
+
 \newcommand{\discr}[1]{\mathcal{D}^{#1}(x_{t-1},\epsilon_t)}
 
 \newcommand{\XZPair}[1]{(\mathcal{X}^{#1},\mathcal{Z}^{#1})}
@@ -33,7 +41,8 @@
     q_{t-1}\\r_{t-1}\\r_{ut-1}
   \end{bmatrix}
 }
-\newcommand{\expct}[1]{E_{t} \left [#1 \right ]}
+\newcommand{\expctEps}[1]{\mathcal{E}_{\epsilon} \left [#1 \right ]}
+\newcommand{\expct}[2]{E_{#1} \left [#2 \right ]}
 \newcommand{\expc}[1]{\mathcal{E} \left [#1 \right ]}
 \newcommand{\expcK}[2]{\mathcal{E}^{#1} \left [#2 \right ]}
 \newcommand{\xsln}[1]{\mathbb{X} \left [#1 \right ]}
