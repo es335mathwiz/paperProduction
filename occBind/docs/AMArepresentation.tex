@@ -51,9 +51,7 @@ Unique contribution.  Provides error bounds for judging how many terms of series
 Consider a time invariant function $\xtFuncTI$, where $x$ is an $L$ dimensional real variable and $\epsilon$ a $K$ dimensional random variable. 
 We will require
 the time $t$ realizations of $\epsilon$, $\epsilon_t$, to be independently and identically distributed.
-We will require that
-  we can also compute 
-a time invariant $\XtFuncTI\equiv \expctEps{\xtFuncTI}$ with the property that
+We define a time invariant function $\XtFuncTI\equiv \expctEps{\xtFuncTI}$ and denote
 \begin{gather*}
 \expct{t}{x_{t+k}}\equiv\begin{cases}
 \xtFunc{(x_{t-1},\epsilon_t)} &k=0\\
@@ -62,25 +60,19 @@ a time invariant $\XtFuncTI\equiv \expctEps{\xtFuncTI}$ with the property that
 \end{gather*}
 The function $\expctEps{\cdot}$ may be a mathematical expectation, for ratonal expectations, or a function which assigns the value $0$ to all future $\epsilon_t$ for perfect foresight solutions.
 In the text that follows, we will assume that at time $t$, $\epsilon_t$ along with all the history $x_{t-k},\, \forall k>0$ are known.
-In what follows, it will become important to note that as a result, 
+Note that as a result, 
 $\xtFunc{(x_{t-1},\epsilon)}$ and 
-$\XtFunc{(\xtFunc{(x_{t-1},\epsilon)})}$ are not stochastic.  This will facilitate the solution of difficult decision problems such as problems with
-occasionally binding constraints.
+$\expct{t}{x_{t+k}}$ are deterministic functions.  This will facilitate the solution of difficult decision problems such as problems with
+occasionally binding constraints. Many of the calculations we will do exploit the ``Law of Iterated Expectations,'' so we make its validity explicit now.
 
-\begin{itemize}
-\item Law of iterated expectations
-  \begin{gather}
-    E_t(X) = E_t(E_{t+1}(X))
-  \end{gather}
-\end{itemize}
 
-The algorithm turns on using the law of iterated expectations property.
+With these conventions,  it is possible with invariant functions to iterate the solutions forward.
+If these solutions remain bounded, we will see that there is a useful series representation
+for reproducing these trajectories.\footnote{The algorithm turns on using the law of iterated expectations property.
 Consequenly, it will also work for degenerate distributions.  Since the first
 period is deterministic,  perfect-foresight solutions 
 where all future shocks are zero fit the formula.
-With these conventions, it is thus possible with invariant functions to iterate the solutions forward.
-If these solutions remain bounded, then there is a useful series representation
-for reproducing these trajectories.
+}
 
 To solve a wide class of models. It is difficult to characterize the model specificiation, but easier to specify the common charcteristics of the solutions.  A s a consequence the approach is very general the text will provide a variety of models that would be amenable, but the list is not meant to be exhaustive.
 
@@ -101,7 +93,7 @@ Consider any bounded deterministic family of functions
   \mathcal{X}_{t+s}(x_{t-1},\epsilon_t), \,\,\mathcal{X}_{t+s} \in{R^k}\,\,\infNorm{\mathcal{X}_{t+s}}  \le \bar{\mathcal{X}}\,\,\forall s\ge 0 \label{fFamily}.
 \end{gather}
 Where $\epsilon_t$ is the realization of an r dimensional iid random shock  known at time t. The $x_{t-1}$ are endogenous state variables fixed by history.  
-In what follows, these functions will represent the time t conditional expectations of solutions for dynamic stochastic models which may be subject to occasionally binding constraints.
+In what follows, these functions will represent the time t conditional expectations of solutions for dynamic stochastic models which may be subject to occasionally binding constraints.  These functions are indexed by the variables $x_{t-1}, \epsilon_t$ so that each member of the family characterizes the evolution of a deterministic trajectory of values.
 
 
 
@@ -159,7 +151,7 @@ robustness of our algorithm for constructing series
 representations for unknown families of functions 
 satisfying a given system of equations over time.
 
-
+Note that $\XtFuncTI$  requires integrating linear functions of the $Z$.
 One could consider approximating $x_t(x_{t-1},\epsilon_t)$ by 
 truncating the series at a finite number of terms.
  	 \begin{gather}
@@ -231,7 +223,7 @@ c_{t+s}(k_{t-1},\theta_t,\epsilon_t)\\k_{t+s}(k_{t-1},\theta_t,\epsilon_t)    \\
 
 Now, consider the following hypothetical linear homogeneous ``model'' 
 constructed from ``nearly'' arbitrary coefficients.\footnote{We can use any
-linear model of three variables that has unique trajectories converging to a unique steady state.}
+linear model of three variables that has unique trajectories converging to a unique steady state. May need to have at least the $x_{t-1}$ state variables that matter. Probably need to move some of the matrices to appendix.}
 
 \begin{gather}
   \begin{bmatrix}
@@ -289,9 +281,9 @@ This provides us some assurance that our iterative algorithm can be robust
 against errors if we include enough terms.
 
 The table presents conservative estimates of the number of terms required
-since the calculation uses the infinity norm.  I estimate the infinity
+since the calculation uses the infinity norm.\footnote{Perhaps graph better.  Machine precision in tables.}  I estimate the infinity
 norm by using a global maximization method to compute the largest value
-attained by the infinity norm of the equation errors.
+attained by the infinity norm of the equation errors.\footnote{Why infinity norm?}  Column  blah shows that --- 
 
 We can develop a robust algorithm since we can compute how many terms
 we must compute in order to guarantee a particular level of acuracy.
@@ -385,8 +377,9 @@ i think multiple path updates necessary could be done in parallel perhaps at eac
 \item conditional expectations
 \item model errors
 \item bounds
-\item multiplicities matter?
-\item terminal constraints matter?
+\item how can multiplicities matter?  
+\item how can terminal constraints matter?
+\item bimodal distributions for dist of Z
 \end{itemize}
 
 
@@ -417,7 +410,10 @@ decision rule.
 The origin of the decision rule is irrelevant so long as one can simulate it 
 forward.
 
-
+\begin{itemize}
+\item compute discrepancies for PF versus rational expectations varying sigma.
+Show formulae bound error.
+\end{itemize}
 
 
 
@@ -525,6 +521,10 @@ But ultimately we will  need to make approximations.
 \subsubsection{For T=1 Machine Precision}
 \label{sec:t=1}
 
+Show simplicity and how this will help solve difficult problems.  
+This core computation gets repeated the most so should be efficient. Has big
+impact on tactability after break link for iteration step using approximation.
+
 
 We will need to solve a nonlinear equation system to obtain the values of $z$ for a given set of initial conditions.  For this problem the problem is 
 deterministic and can be rather difficult. 
@@ -545,6 +545,12 @@ proceed to the next step.
 \subsubsection{For T=2  Machine Precision}
 \label{sec:t=1}
 
+Show modest compromise  of 
+simplicity and how this will help solve difficult problems.  
+This core computation gets repeated the most so should be efficient. Has big
+impact on tactability after break link for iteration step using approximation.
+
+
 For T=2 the future $z$ depends on $x$ which depends on the current $z$.
 We need to solve these simultaneously. 
 It appears that aimple iteration seems to work fine to provide a fixed point.  
@@ -562,10 +568,20 @@ It appears that aimple iteration seems to work fine to provide a fixed point.
 \subsubsection{For T=3  Machine Precision}
 \label{sec:t=1}
 
+
+Show modest compromise  of 
+simplicity and how this will help solve difficult problems.  
+This core computation gets repeated the most so should be efficient. Has big
+impact on tactability after break link for iteration step using approximation.
+
+But Show increase in findroots.
+
 Possible but costly.
 For T=3 the future $z$ depends on $x$ which depends on the current $z$.
 We need to solve these simultaneously. 
 It appears that aimple iteration seems to work fine to provide a fixed point.  
+
+Show increase in findroots.
 
 
 \begin{itemize}
@@ -584,6 +600,8 @@ It appears that aimple iteration seems to work fine to provide a fixed point.
 
 
 \subsubsection{Precomputing Z Components}
+
+Can reduce costs, but not fast enough relative to required findroots.
 
 \begin{itemize}
 \item backward looking nonlinear equations know values for the  $z$.  Even if depend on variables that aren't lagged the z discrepancy could be precomputed.
@@ -976,9 +994,9 @@ takes time to construct function for findroot  called twice by fixed point, but 
 Took 0.01 seconds while profiling.  Findroot called the xz func about 30 times.
 \begin{figure}
   \centering
-%\includegraphics{cFuncExt00Lin.pdf}(\footnote{{cFunc00Lin.pdf}})
+\includegraphics{cFuncExt00Lin.pdf}(\footnote{{cFunc00Lin.pdf}})
   \caption{Solution for c imposing non linear model constraints for a single period}
-%\includegraphics{cFuncExt00Exact.pdf}(\footnote{{cFunc00Exact.pdf}})
+\includegraphics{cFuncExt00Exact.pdf}(\footnote{{cFunc00Exact.pdf}})
   \caption{Solution for c imposing non linear model constraints for a single period}
   \label{fig:cfuncfirst}
 \end{figure}
@@ -1043,9 +1061,9 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 
 \begin{figure}
   \centering
-%\includegraphics{cFuncTwoPerErr.pdf}(\footnote{{cFuncTwoPerErr.pdf}})
+\includegraphics{cFuncTwoPerErr.pdf}(\footnote{{cFuncTwoPerErr.pdf}})
  \caption{Solution for c imposing non linear model constraints for two periods}
-%\includegraphics{cFuncThreePerErr.pdf}(\footnote{{cFuncThreePerErr.pdf}})
+\includegraphics{cFuncThreePerErr.pdf}(\footnote{{cFuncThreePerErr.pdf}})
   \caption{Solution for c imposing non linear model constraints for three periods}
   \label{fig:cfuncsecond}
 \end{figure}
@@ -1161,6 +1179,7 @@ c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
 
 \begin{itemize}
 \item which is better to characterize discrepancy, simulation via decision rule or discrepancy between the ``computed exact'' solution path  do they coalesce
+\item refactor function arg lists
 \end{itemize}
 \section{The algorithms}
 \label{sec:algorithms}
