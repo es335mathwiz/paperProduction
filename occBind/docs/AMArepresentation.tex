@@ -86,6 +86,10 @@ What is meant my iterating a decision rule depends upon assumption about the
 model and the stochastic component if any.
 We will  touch on two widely used approaches: Rational expectations and 
 perfect foresight. The theory and the algorithms would apply for any method which obeys the law of iterated Expectations.
+
+Source of decision rule irrelevant.  Perturbation, projection, as long as time invariant criterion can assess impact of discrepancies.
+
+Judge using impulse response functions.\cite{Potter2000}
   \subsection{A  Series Representation for Time Invariant Functions}
 
 Consider any bounded deterministic family of functions 
@@ -1144,6 +1148,7 @@ c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
 \item[Proofs] \ 
 
   \begin{itemize}
+  \item unit roots in F how to handle/exploit
   \item choosing the linear model.  pushing down on F eigenvalues
   \item existence and uniqueness of solutions
 \item what if model doesnt have a solution or has many
@@ -1180,6 +1185,8 @@ c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
 \begin{itemize}
 \item which is better to characterize discrepancy, simulation via decision rule or discrepancy between the ``computed exact'' solution path  do they coalesce
 \item refactor function arg lists
+\item machine precision cutoff for tables and graph
+\item pitch functional programming
 \end{itemize}
 \section{The algorithms}
 \label{sec:algorithms}
