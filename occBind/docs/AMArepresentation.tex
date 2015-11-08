@@ -349,6 +349,17 @@ every last row/.style={after row={\hline }}
 \subsection{Assessing a Proposed Solution}
 \label{sec:decis-rule-assessm}
 
+Must use ``chunks''  augment system so that can obtain paths from
+
+Iteratation:
+\begin{gather}
+\underbrace{(x_{t-1},\epsilon_t)} 
+\underbrace{DR(x_{t-1},\epsilon_t)}
+\underbrace{\int DR(DR(x_{t-1},\epsilon_t),\epsilon_{t+1}),\epsilon_{t+1})}
+\underbrace{\ldots}
+\end{gather}
+
+Evaluating equation system along path shows solutions valid. Discrepancies call for a path change.
 
 \label{sec:assess}
 \begin{itemize}
@@ -1178,6 +1189,15 @@ c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
 \label{sec:do}
 
 \begin{itemize}
+\item plot at grid points instead of 3DPlots
+\item op counts, time accuracy
+\item precompute Z
+\item interpolation
+\item eval DR must use DR integral and chunks
+\item automate locating chunks
+\item patherr a distribution
+\item concentric rings: solve in ``easy region'' with short paths, expand outward
+\item parallelism for finding good reason communicate move processor towar that area
 \item which is better to characterize discrepancy, simulation via decision rule or discrepancy between the ``computed exact'' solution path  do they coalesce
 \item refactor function arg lists
 \end{itemize}
