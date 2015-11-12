@@ -169,6 +169,9 @@ approximation of $x_t$.
  \end{gather}
 Since the eigenvalues of F are all less than one, one can expect the approximation to improve as terms are added.
 
+Approximations are linear functions of the errors.  Just weighted by Z's.
+Given an approximation from one function can just add the difference between the two  to get a new function approximation.
+
 
 Given a time invariant function that generates a family of bounded solutions for a range of initial conditions we have a method for constructing a time series
 replicating those trajectories.  
@@ -185,8 +188,20 @@ series representation to  assess the accuracy of a proposed solution.
 There are typically many solutions that satisfy the model equations and associated constraints.  For example, one could vary the probability distribution for $\epsilon_t$ or use perfect foresight to obtain a variety of solutions that
 satisfy the model equations over time. But, for a given choice of probability distribution one may find there is a unique, at least locally, set of trajectories.
 
+Along the path, check if conditional expectations correct.  If not use the conditional expectation in addition to the hmat to measure the error.
+
 We can asses, at least locally, 
 how well a particular proposed solution performs.\footnote{Iterating on the whole path, one likely will encounter basins of attraction between solutions.  For example starting near a perfect foresight solution, may drive one to the perfect foresight solution.  Starting close to a particular rational expectations solution might leave one there.  For the RBC model in the text, the distribution}
+
+In most ways, this is a good example because there is a closed form solution
+and the model is well known and widely used as a foundation for other DSGE
+models.  It has the unfortunate aspect that perfect foresight solution 
+coincides with the ratiional expectations solution.  As a result it will be
+useful to consider the model with CRRA but not Log utility. 
+
+Also indicates that on occasion perfect foresight can give a good solution.
+The technique provides a means to compute how good the perfect foresight solution can be.
+
 
 
 \anEdit{Compare to \cite{Santos}}
@@ -353,6 +368,17 @@ every last row/.style={after row={\hline }}
 \subsection{Assessing a Proposed Solution}
 \label{sec:decis-rule-assessm}
 
+Must use ``chunks''  augment system so that can obtain paths from
+
+Iteratation:
+\begin{gather}
+\underbrace{(x_{t-1},\epsilon_t)} 
+\underbrace{DR(x_{t-1},\epsilon_t)}
+\underbrace{\int DR(DR(x_{t-1},\epsilon_t),\epsilon_{t+1}),\epsilon_{t+1})}
+\underbrace{\ldots}
+\end{gather}
+
+Evaluating equation system along path shows solutions valid. Discrepancies call for a path change.
 
 \label{sec:assess}
 \begin{itemize}
@@ -995,6 +1021,10 @@ fixed point not necessary.
 find root must use genxz func
 takes time to construct function for findroot  called twice by fixed point, but solution guarenteed on second call.
 
+\includegraphics[height=8.0in]{conExpPathsNote.pdf}(\footnote{{conExpPathsNote.pdf}})
+
+
+
 Took 0.01 seconds while profiling.  Findroot called the xz func about 30 times.
 \begin{figure}
   \centering
@@ -1148,6 +1178,7 @@ c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
 \item[Proofs] \ 
 
   \begin{itemize}
+  \item what about complex z
   \item unit roots in F how to handle/exploit
   \item choosing the linear model.  pushing down on F eigenvalues
   \item existence and uniqueness of solutions
@@ -1183,6 +1214,17 @@ c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
 \label{sec:do}
 
 \begin{itemize}
+\item For the occasionally binding, there are some trajectories that reingage even
+with perfect foreshigh.
+\item plot at grid points instead of 3DPlots
+\item op counts, time accuracy
+\item precompute Z
+\item interpolation
+\item eval DR must use DR integral and chunks
+\item automate locating chunks
+\item patherr a distribution
+\item concentric rings: solve in ``easy region'' with short paths, expand outward
+\item parallelism for finding good reason communicate move processor towar that area
 \item which is better to characterize discrepancy, simulation via decision rule or discrepancy between the ``computed exact'' solution path  do they coalesce
 \item refactor function arg lists
 \item machine precision cutoff for tables and graph
