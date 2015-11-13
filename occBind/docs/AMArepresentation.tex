@@ -19,13 +19,13 @@
 % \usepackage{ccfonts}
 % \usepackage[T1]{fontenc}
 
-\title{``A New Series Representation For Time Invariant Functions and
-A Solution Strategy for Occasionally Binding Constraints in Rational Expectations Models''}
-\date{\today -- \currenttime}
+\title{``A New Series Representation for Time Invariant Functions and
+a Solution Strategy for Occasionally Binding Constraints in Rational Expectations Models''}
+\date{\currenttime -- \today }
 
 
 
-\author{Gary S. Anderson}
+\author{Gary S. Anderson\thanks{I would like to thank Luca Guerrieri, Christopher Gust and Robert Tetlow for their comments, suggestions and ecouragement. }}
 \input{newCmds}
 \mathtoolsset{showonlyrefs}
 
@@ -35,28 +35,19 @@ A Solution Strategy for Occasionally Binding Constraints in Rational Expectation
 
 \begin{abstract}
 
-This paper presents a new representation for time invariant functions
-and shows how to use it to
-characterize solutions for a wide array of
-nonlinear rational expectations models.
-The paper shows how to compute accuracy bounds for 
-any proposed time invariant model solution.  
-The paper also provides an algorithm for constructing 
-approximate solutions for these nonlinear models.
-In that context, the paper describes how
- the series representation facilitates exploiting the 
-``law of iterated expectations'' in computing
-rational expectations solutions for
-models with occasionally binding constraints.
-
 
  
-This paper proposes a new representation for time invariant functions; this representation can be to characterize solutions for a wide array of nonlinear rational expectations models.
-The proposed approach allows computing accuracy bounds for any proposed time invariant model solution and also provides an algorithm for constructing approximate solutions for these nonlinear models.
-In this context,
-the series representation facilitates exploiting the ``law of iterated expectations'' in computing rational expectations solutions for models with occasionally binding constraints.
-Best,
-Gary
+This paper proposes a new representation for time invariant functions.
+This series representation 
+can accurately characterize the solutions for a 
+wide array of nonlinear rational expectations models 
+and provides a formula
+for computing accuracy bounds for any proposed time invariant model solution.
+The series representation serves as an impotent component in an algorithm 
+for constructing approximate solutions for nonlinear rational expectations
+models.
+In this context, it  facilitates exploiting the 
+``law of iterated expectations'' in computing rational expectations solutions for models with occasionally binding constraints.
 
 
 \end{abstract}
@@ -69,39 +60,25 @@ Gary
 \section{Introduction and Summary}
 \cite{holden15:_exist_dsge,guerrieri15:_occbin}
 
+Why do we care about the things in the abstract:
+\begin{itemize}
+\item Time invariant functions
+\item Approximation error for time invariant functions
+\item Occasionally binding constraints
+\item Volterra series?
+\item Impulse Response functions.
+\item To solve a wide class of models. 
+\end{itemize}
+
+Source of decision rule irrelevant.  Perturbation, projection, as long as time invariant criterion can assess impact of discrepancies.
+
+Judge using impulse response functions.\cite{Potter2000}
 \section{Methodology Outline}
 
-\subsection{General Methodology}
-\label{sec:general-methodology}
+\subsection{Model Context}
+\label{sec:model-context}
 
-
-Consider a time invariant function $\xtFuncTI$, where $x$ is an $L$ dimensional real variable and $\epsilon$ a $K$ dimensional random variable. 
-We will require
-the time $t$ realizations of $\epsilon$, $\epsilon_t$, to be independently and identically distributed.
-We define a time invariant function $\XtFuncTI\equiv \expctEps{\xtFuncTI}$ and denote
-\begin{gather*}
-\expct{t}{x_{t+k}}\equiv\begin{cases}
-\xtFunc{(x_{t-1},\epsilon_t)} &k=0\\
-\XtFunc{(\expct{t}{x_{t+k-1}})} &k>0
-\end{cases}
-\end{gather*}
-The function $\expctEps{\cdot}$ may be a mathematical expectation, for ratonal expectations, or a function which assigns the value $0$ to all future $\epsilon_t$ for perfect foresight solutions.
-In the text that follows, we will assume that at time $t$, $\epsilon_t$ along with all the history $x_{t-k},\, \forall k>0$ are known.
-Note that as a result, 
-$\xtFunc{(x_{t-1},\epsilon)}$ and 
-$\expct{t}{x_{t+k}}$ are deterministic functions.  This will facilitate the solution of difficult decision problems such as problems with
-occasionally binding constraints. Many of the calculations we will do exploit the ``Law of Iterated Expectations,'' so we make its validity explicit now.
-
-
-With these conventions,  it is possible with invariant functions to iterate the solutions forward.
-If these solutions remain bounded, we will see that there is a useful series representation
-for reproducing these trajectories.\footnote{The algorithm turns on using the law of iterated expectations property.
-Consequenly, it will also work for degenerate distributions.  Since the first
-period is deterministic,  perfect-foresight solutions 
-where all future shocks are zero fit the formula.
-}
-
-To solve a wide class of models. It is difficult to characterize the model specificiation, but easier to specify the common charcteristics of the solutions.  A s a consequence the approach is very general the text will provide a variety of models that would be amenable, but the list is not meant to be exhaustive.
+We focus on models with time invariant decision rule solutions. It is difficult to characterize the model specification, but easier to specify the common characteristics of the solutions.  A s a consequence the approach is very general the text will provide a variety of models that would be amenable, but the list is not meant to be exhaustive.
 
 
 The proofs of applicability 
@@ -114,10 +91,10 @@ model and the stochastic component if any.
 We will  touch on two widely used approaches: Rational expectations and 
 perfect foresight. The theory and the algorithms would apply for any method which obeys the law of iterated Expectations.
 
-Source of decision rule irrelevant.  Perturbation, projection, as long as time invariant criterion can assess impact of discrepancies.
+\subsection{General Methodology}
+\label{sec:general-methodology}
 
-Judge using impulse response functions.\cite{Potter2000}
-  \subsection{A  Series Representation for Time Invariant Functions}
+
 
 Consider any bounded deterministic family of functions 
 \begin{gather}
@@ -126,6 +103,39 @@ Consider any bounded deterministic family of functions
 Where $\epsilon_t$ is the realization of an r dimensional iid random shock  known at time t. The $x_{t-1}$ are endogenous state variables fixed by history.  
 In what follows, these functions will represent the time t conditional expectations of solutions for dynamic stochastic models which may be subject to occasionally binding constraints.  These functions are indexed by the variables $x_{t-1}, \epsilon_t$ so that each member of the family characterizes the evolution of a deterministic trajectory of values.
 
+From what to what.  $\forall t (-\infty,\infty)$ 
+
+Consider a time invariant function $\xtFuncTI$, where $x$ is an $L$ dimensional real variable and $\epsilon$ a $K$ dimensional random variable. 
+We will require
+the time $t$ realizations of $\epsilon$, $\epsilon_t$, to be independently and identically distributed.
+We define a time invariant function $\XtFuncTI\equiv \expctEps{\xtFuncTI}$ and denote
+\begin{gather*}
+\expct{t}{x_{t+k}}\equiv\begin{cases}
+\xtFunc{(x_{t-1},\epsilon_t)} &k=0\\
+\XtFunc{(\expct{t}{x_{t+k-1}})} &k>0
+\end{cases}
+\end{gather*}
+The function $\expctEps{\cdot}$ may be a mathematical expectation, for rational expectations, or a function which assigns the value $0$ to all future $\epsilon_t$ for perfect foresight solutions.
+In the text that follows, we will assume that at time $t$, $\epsilon_t$ along with all the history $x_{t-k},\, \forall k>0$ are known.
+Note that as a result, 
+$\xtFunc{(x_{t-1},\epsilon)}$ and 
+$\expct{t}{x_{t+k}}$ are deterministic functions.  
+
+This will facilitate the solution of difficult decision problems such as problems with
+occasionally binding constraints. Many of the calculations we will do exploit the ``Law of Iterated Expectations,'' so we make its validity explicit now.
+
+
+With these conventions,  it is possible with invariant functions to iterate the solutions forward.
+If these solutions remain bounded, we will see that there is a useful series representation
+ reproducing these trajectories.\footnote{The algorithm turns on using the law of iterated expectations property.
+Consequently, it will also work for degenerate distributions.  Since the first
+period is deterministic,  perfect-foresight solutions 
+where all future shocks are zero fit the formula.
+}
+
+
+
+  \subsection{A  Series Representation for Time Invariant Functions}
 
 
 Now, for any linear homogeneous 
@@ -137,7 +147,8 @@ system,
 \end{gather}
 that produces  a unique stable solution, 
 it is well known\ \cite{anderson10} that
-one can write the solution for corresponding inhomogenous stochastic models\footnote{Any variable that can be influenced by the time $t$ stochastic shock must be dated $t$ or later.}
+one can write the solution for corresponding inhomogeneous stochastic models\footnote{Any variable that can be influenced by the time $t$ stochastic shock must be dated $t$ or later.}\footnote{I conjecture that the eigenvalues of F will correspond to the reciprocal of the large eigenvalues in the model and are consequently strictly less than 1 in the models we will address.  For bounded 
+ $Z$ functions, the series will converge. It will also then be the case that $(I-F)^{-1}$ exists.}
 \begin{gather}
 	 H_{-1} x_{t-1} + H_0 x_t + H_1 x_{t+1}=\psi_\epsilon \epsilon_t +\psi_{c}
 \intertext{as}
@@ -178,11 +189,10 @@ Interestingly, the formula will work for any
 $k$ dimensional linear system with unique  stable solutions.
 Consequently, the linear model and the  constant term can  be chosen rather
  arbitrarily.  This observation will give us some confidence in the 
-robustness of our algorithm for constructing series 
+robustness of our algorithm of section \ref{sec:unknown-solutions} for constructing series 
 representations for unknown families of functions 
 satisfying a given system of equations over time.
 
-Note that $\XtFuncTI$  requires integrating linear functions of the $Z$.
 One could consider approximating $x_t(x_{t-1},\epsilon_t)$ by 
 truncating the series at a finite number of terms.
  	 \begin{gather}
@@ -196,35 +206,110 @@ approximation of $x_t$.
  \end{gather}
 Since the eigenvalues of F are all less than one, one can expect the approximation to improve as terms are added.
 
-Approximations are linear functions of the errors.  Just weighted by Z's.
-Given an approximation from one function can just add the difference between the two  to get a new function approximation.
-
 
 Given a time invariant function that generates a family of bounded solutions for a range of initial conditions we have a method for constructing a time series
 replicating those trajectories.  
-Many well known economic models generate families of invariant functions.
+Many well known economic models generate solutions consisting of
+a family of invariant functions.
 Typically, these solutions cannot be computed in closed form and consequently
 obtained by some numerical method.
 Below, we will describe a method for constructing the time invariant solutions
 for a given model, but 
 it will be useful to begin by considering a model with know solutions.
-We will see how to characterize the accuracy of a given reporesentation of the time invariant function.  In the context of a model that generates
+We will see how to characterize the accuracy of a given representation of the time invariant function.  In the context of a model that generates
 solutions that are time invariant and bounded, we can use the 
 series representation to  assess the accuracy of a proposed solution.
 
-There are typically many solutions that satisfy the model equations and associated constraints.  For example, one could vary the probability distribution for $\epsilon_t$ or use perfect foresight to obtain a variety of solutions that
-satisfy the model equations over time. But, for a given choice of probability distribution one may find there is a unique, at least locally, set of trajectories.
-
 Along the path, check if conditional expectations correct.  If not use the conditional expectation in addition to the hmat to measure the error.
 
-We can asses, at least locally, 
-how well a particular proposed solution performs.\footnote{Iterating on the whole path, one likely will encounter basins of attraction between solutions.  For example starting near a perfect foresight solution, may drive one to the perfect foresight solution.  Starting close to a particular rational expectations solution might leave one there.  For the RBC model in the text, the distribution}
+We can assess, at least locally, 
+how well a particular proposed solution performs.
 
-In most ways, this is a good example because there is a closed form solution
-and the model is well known and widely used as a foundation for other DSGE
-models.  It has the unfortunate aspect that perfect foresight solution 
-coincides with the ratiional expectations solution.  As a result it will be
-useful to consider the model with CRRA but not Log utility. 
+\subsection{Assessing a Proposed Solution}
+\label{sec:decis-rule-assessm}
+
+Must use ``chunks''  augment system so that can obtain paths from
+
+Iteration:
+\begin{gather}
+\underbrace{(x_{t-1},\epsilon_t)} 
+\underbrace{DR(x_{t-1},\epsilon_t)}
+\underbrace{\int DR(DR(x_{t-1},\epsilon_t),\epsilon_{t+1}),\epsilon_{t+1})}
+\underbrace{\ldots}
+\end{gather}
+
+Evaluating equation system along path shows solutions valid. Discrepancies call for a path change.
+
+\label{sec:assess}
+\begin{itemize}
+\item Iterate the decision rule forward.  The rule should compute a path for conditional expectations from an arbitrary set of initial conditions.
+\item compute errors along the path
+\item employ the formula to compute the amount that the initial value should change
+\item could update this path with those values for perfect foresight
+just need for a single point zero error done for rational expectations 
+i think multiple path updates necessary could be done in parallel perhaps at each of the interpolation points of the Z approximation
+\item use truncation formula to bound impact
+\end{itemize}
+
+
+
+
+
+
+
+
+
+\begin{itemize}
+\item simulate paths for conditional expectations
+\item evaluate model along the path
+\item use errors and formula to improve path 
+\item repeat and correct
+\item conditional expectations
+\item model errors
+\item bounds
+\item how can multiplicities matter?  
+\item how can terminal constraints matter?
+\item bimodal distributions for dist of Z
+\end{itemize}
+
+
+
+We typically have a model we are interested in and would like to compute an approximate solution.  For now assume that the model imposes a time invariant system of equations on the model variables.
+The source of the decision rule doesn't matter.  So long as we can iterate the
+rule forward in time to produce a family of bounded paths, we can use the
+formula to assess how close the solutions are to solving the particular.
+We need only compute the paths, apply the model equations to the path to determine how much the system equations are violated.  These calculations will 
+generate a path for the $z$ functions.  Substituting these values in the
+formula provides a measure of how much the $x_t$ must change in order for the conditional expectations path to satisfy the model equations.
+The model equations can be highly complex. Some of the examples hint at the 
+possibilities. Occasionally binding constraints addressed in a straightforward 
+way.  Conceptually, the approach is compelling.  The examples below
+offer some practical numerical insights in early implementation of these
+ideas.
+
+
+
+We will need to ``simulate'' the decision rule forward in order to judge if the conditional expectations are correct.
+We can try iterating the perfect foresight solution forward to see how well the formula predict the discrepancy.  Can vary the variance to see that it's okay for small variance.
+
+We will need to choose a horizon length. We can simulate forward until the errors contributions to changes in the initial state start to decline.
+If they don't start to decline, this is an indication that the procedure 
+predicts that the true solution could be far from the value obtained by the
+decision rule.
+
+The origin of the decision rule is irrelevant so long as one can simulate it 
+forward.
+
+\begin{itemize}
+\item compute discrepancies for PF versus rational expectations varying sigma.
+Show formulae bound error.
+\end{itemize}
+
+
+\subsection{Example: a Simple RBC Model Example with Known Solution}
+\label{sec:simple-rbc-model-2}
+
+
 
 Also indicates that on occasion perfect foresight can give a good solution.
 The technique provides a means to compute how good the perfect foresight solution can be.
@@ -340,9 +425,9 @@ Algorithm will allow us to construct approximation along with error bounds on th
 
 
 We typically do not have exact solutions for the models of interest.
-We can use these formulae to construct error bounds for solutions obtained by 
+We can use these formulas to construct error bounds for solutions obtained by 
 whatever method other methods.
-Just pick a linear reference model.  Compute a bound on the descrepancy 
+Just pick a linear reference model.  Compute a bound on the discrepancy 
 generated by substituting in the model constraints. between the model computed solutions and the 
 
 %if problems with pgfplots, could be problem with auto include .cab files
@@ -352,8 +437,8 @@ generated by substituting in the model constraints. between the model computed s
 %force-texpad-dependency:  file.ext
 
 %see https://www.texpadapp.com/support/ios/file-management/non-standard-includes
-% \begin{table}
-%   \centering
+ \begin{table}
+   \centering
     
 % \pgfplotstabletypeset[col sep=comma,
 % columns/0/.style={column type=|c,int detect,column name=N},
@@ -367,9 +452,9 @@ generated by substituting in the model constraints. between the model computed s
 
 
 
-%   \caption{Truncation Errors: Bound and Actual}
-% \label{truncTab}
-% \end{table}
+   \caption{Truncation Errors: Bound and Actual}
+ \label{truncTab}
+ \end{table}
 
 
 
@@ -392,87 +477,6 @@ generated by substituting in the model constraints. between the model computed s
 
 
 
-\subsection{Assessing a Proposed Solution}
-\label{sec:decis-rule-assessm}
-
-Must use ``chunks''  augment system so that can obtain paths from
-
-Iteratation:
-\begin{gather}
-\underbrace{(x_{t-1},\epsilon_t)} 
-\underbrace{DR(x_{t-1},\epsilon_t)}
-\underbrace{\int DR(DR(x_{t-1},\epsilon_t),\epsilon_{t+1}),\epsilon_{t+1})}
-\underbrace{\ldots}
-\end{gather}
-
-Evaluating equation system along path shows solutions valid. Discrepancies call for a path change.
-
-\label{sec:assess}
-\begin{itemize}
-\item Iterate the decision rule forward.  The rule should compute a path for conditional expectations from an arbitary set of initial conditions.
-\item compute errors along the path
-\item employ the formula to compute the amount that the initial value should change
-\item could update this path with those values for perfect foresight
-just need for a single point zero error done for ratioinal expectations 
-i think multiple path updates necessary could be done in parallel perhaps at each of the interpolation points of the Z approximation
-\item use truncation formula to bound impact
-\end{itemize}
-
-
-
-
-
-
-
-
-
-\begin{itemize}
-\item simulate paths for conditional expectations
-\item evaluate model along the path
-\item use errors and formula to improve path 
-\item repeat and correct
-\item conditional expectations
-\item model errors
-\item bounds
-\item how can multiplicities matter?  
-\item how can terminal constraints matter?
-\item bimodal distributions for dist of Z
-\end{itemize}
-
-
-
-We typically have a model we are interested in and would like to compute an approximate solution.  For now assume that the model imposes a time invariant system of equations on the model variables.
-The source of the decision rule doesn't matter.  So long as we can iterate the
-rule forward in time to produce a family of bounded paths, we can use the
-formula to assess how close the solutions are to solving the particular.
-We need only compute the paths, apply the model equations to the path to determine how much the system equations are violated.  These calculations will 
-generate a path for the $z$ functions.  Substituting these values in the
-formula provides a measure of how much the $x_t$ must change in order for the conditional expectations path to satisfy the model equations.
-The model equations can be highly complex. Some of the examples hint at the 
-possibilities. Occasionally binding constraints addressed in a straightforward 
-way.  Conceptually, the approach is compelling.  The examples below
-offer some practical numerical insights in early implementation of these
-ideas.
-
-
-
-We will need to ``simulate'' the decision rule forward in order to judge if the conditional expectations are correct.
-We can try iterating the perfect foresight solution forward to see how well the formula predict the discrepancy.  Can vary the variance to see that it's okay for small variance.
-
-We will need to choose a horizon length. We can simulate forward until the errors contributions to changes in the initial state start to decline.
-If they don't start to decline, this is an indication that the procedure 
-predicts that the true solution could be far from the value obtained by the
-decision rule.
-
-The origin of the decision rule is irrelevant so long as one can simulate it 
-forward.
-
-\begin{itemize}
-\item compute discrepancies for PF versus rational expectations varying sigma.
-Show formulae bound error.
-\end{itemize}
-
-
 
 \section{Discovering Unknown Solutions}
 \label{sec:unknown-solutions}
@@ -482,15 +486,21 @@ Our initial strategy will be to solve
 relax the requirement for a time invariant solution and to solve
 the model for a single period, then two, then three etc. We will monitor the
 quality of the decision rule as described above and terminate when we 
-can guarantee that the soltion satisfies a bound close to the exact solution.
+can guarantee that the lotion satisfies a bound close to the exact solution.
 Can describe this algorithm without approximations as follows:
 
 
+Approximations are linear functions of the errors.  Just weighted by Z's.
+Given an approximation from one function can just add the difference between the two  to get a new function approximation.
 
+
+
+There are typically many solutions that satisfy the model equations and associated constraints.  For example, one could vary the probability distribution for $\epsilon_t$ or use perfect foresight to obtain a variety of solutions that
+satisfy the model equations over time. But, for a given choice of probability distribution one may find there is a unique, at least locally, set of trajectories.
 
 
 \begin{itemize}
-\item $\mathcal{Z}^k(x) \implies (\xNow{k+1},\zNow{k+1}) \implies \mathcal{Z}^{k+1}(x)$  only the fixedpoint xguess for each value of $x_{t-1},\epsilon_t$ matters -- remember (memoize?)
+\item $\mathcal{Z}^k(x) \implies (\xNow{k+1},\zNow{k+1}) \implies \mathcal{Z}^{k+1}(x)$  only the fixed point xguess for each value of $x_{t-1},\epsilon_t$ matters -- remember (memoize?)
 \end{itemize}
 
 
@@ -526,7 +536,7 @@ At time t iteration $k+1$ we solve the system
 % m(x_{t-1},\xNow{k+1}\xNowtp{k+1},\epsilon_{t}) \ge 0\\
    \end{gather}
 If the problem arises from some optimization problem, 
-it may prove useful to consider the associated Lagrangean.  In that case the $m$ equations and the lagrange multiplies would be absorbed into the set of $h$ and $m$ need not eplicitly appear.
+it may prove useful to consider the associated Lagrangian.  In that case the $m$ equations and the Lagrange multiplies would be absorbed into the set of $h$ and $m$ need not eplicitly appear.
 
 
 
@@ -571,92 +581,8 @@ There are some short cuts as in precomputing the Z, so that at each step there a
 But ultimately we will  need to make approximations.
 
 
-\subsection{Machine Precision:  Problem Statement}
-\label{sec:t=1}
 
-
-\subsubsection{For T=1 Machine Precision}
-\label{sec:t=1}
-
-Show simplicity and how this will help solve difficult problems.  
-This core computation gets repeated the most so should be efficient. Has big
-impact on tactability after break link for iteration step using approximation.
-
-
-We will need to solve a nonlinear equation system to obtain the values of $z$ for a given set of initial conditions.  For this problem the problem is 
-deterministic and can be rather difficult. 
-The problem can be nonlinear, it can
-have inequality constraints, it can have regime changes.  So long as we can
-compute a solution and then apply our ``expectations operator'' we can 
-proceed to the next step.
-
-\begin{itemize}
-\item examples
-\item function evaluations
-\item time
-\item accuracy
-\end{itemize}
-
-
-
-\subsubsection{For T=2  Machine Precision}
-\label{sec:t=1}
-
-Show modest compromise  of 
-simplicity and how this will help solve difficult problems.  
-This core computation gets repeated the most so should be efficient. Has big
-impact on tactability after break link for iteration step using approximation.
-
-
-For T=2 the future $z$ depends on $x$ which depends on the current $z$.
-We need to solve these simultaneously. 
-It appears that aimple iteration seems to work fine to provide a fixed point.  
-
-
-\begin{itemize}
-\item examples
-\item function evaluations
-\item time
-\item accuracy
-\end{itemize}
-
-
-
-\subsubsection{For T=3  Machine Precision}
-\label{sec:t=1}
-
-
-Show modest compromise  of 
-simplicity and how this will help solve difficult problems.  
-This core computation gets repeated the most so should be efficient. Has big
-impact on tactability after break link for iteration step using approximation.
-
-But Show increase in findroots.
-
-Possible but costly.
-For T=3 the future $z$ depends on $x$ which depends on the current $z$.
-We need to solve these simultaneously. 
-It appears that aimple iteration seems to work fine to provide a fixed point.  
-
-Show increase in findroots.
-
-
-\begin{itemize}
-\item examples
-\item function evaluations
-\item time
-\item accuracy
-\end{itemize}
-
-\begin{itemize}
-\item Stick t solving path or
-\item loop on fixed point for Z
-\item accuracy and costs
-\end{itemize}
-
-
-
-\subsubsection{Precomputing Z Components}
+\subsection{Precomputing Z Components}
 
 Can reduce costs, but not fast enough relative to required findroots.
 
@@ -872,7 +798,7 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 \end{gather}
 
 The next iteration highlights an aspect of the algorithmic step which allows us
-to continue to exploit the law of iterated expectations in discoving the
+to continue to exploit the law of iterated expectations in discovering the
 solution for the model.
 {\small
 \begin{gather}
@@ -934,6 +860,8 @@ We will first focus on approximating the functions by abstracting for the expect
 \subsubsection{Expectations Integral Approximation}
 \label{sec:funct-appr}
 
+Note that $\XtFuncTI$  requires integrating linear functions of the $Z$.
+
 
 It may not be necessary to compute expectations accurately at the initial stages of the algorithm.  These become future values whose errors will be discounted by the F matrix multiplications.  Once in the vicinity of the solution
 tightening up the Z calculation could accelerate convergence.
@@ -942,18 +870,107 @@ tightening up the Z calculation could accelerate convergence.
 One could consider Tauchen approach for expectations.  Not particularly high
 dimensional integration since just one period at a time.
 
-\section{Examples}
-\label{sec:examples}
 
-\anEdit{models should be well known.  Avoid spending time explaining a model.
-Luca's JME paper 3rd model.\cite{Guerrieri2015}}
-
-\anEdit{Explore what others have said about error bounds.  }
-
-\subsection{A Simple RBC Model}
+\subsection{A Simple RBC Model Example}
 \label{sec:simple-rbc-model-1}
 
-No need to augment the model. Fix this text.
+
+In most ways, this is a good example because there is a closed form solution
+and the model is well known and widely used as a foundation for other DSGE
+models.  It has the unfortunate aspect that perfect foresight solution 
+coincides with the rational expectations solution.  As a result it will be
+useful to consider the model with CRRA but not Log utility.\footnote{Iterating on the whole path, one likely will encounter basins of attraction between solutions.  For example starting near a perfect foresight solution, may drive one to the perfect foresight solution.  Starting close to a particular rational expectations solution might leave one there.  For the RBC model in the text, the distribution}
+
+
+\subsubsection{Recovering the Known Solution:  $U(c) = Log(c)$}
+\label{sec:recov-known-solut}
+
+
+
+
+\paragraph{For T=1 Machine Precision}
+\label{sec:t=1}
+
+Show simplicity and how this will help solve difficult problems.  
+This core computation gets repeated the most so should be efficient. Has big
+impact on tactability after break link for iteration step using approximation.
+
+
+We will need to solve a nonlinear equation system to obtain the values of $z$ for a given set of initial conditions.  For this problem the problem is 
+deterministic and can be rather difficult. 
+The problem can be nonlinear, it can
+have inequality constraints, it can have regime changes.  So long as we can
+compute a solution and then apply our ``expectations operator'' we can 
+proceed to the next step.
+
+\begin{itemize}
+\item examples
+\item function evaluations
+\item time
+\item accuracy
+\end{itemize}
+
+
+
+\paragraph{For T=2  Machine Precision}
+\label{sec:t=1}
+
+Show modest compromise  of 
+simplicity and how this will help solve difficult problems.  
+This core computation gets repeated the most so should be efficient. Has big
+impact on tactability after break link for iteration step using approximation.
+
+
+For T=2 the future $z$ depends on $x$ which depends on the current $z$.
+We need to solve these simultaneously. 
+It appears that aimple iteration seems to work fine to provide a fixed point.  
+
+
+\begin{itemize}
+\item examples
+\item function evaluations
+\item time
+\item accuracy
+\end{itemize}
+
+
+
+\paragraph{For T=3  Machine Precision}
+\label{sec:t=1}
+
+
+Show modest compromise  of 
+simplicity and how this will help solve difficult problems.  
+This core computation gets repeated the most so should be efficient. Has big
+impact on tactability after break link for iteration step using approximation.
+
+But Show increase in findroots.
+
+Possible but costly.
+For T=3 the future $z$ depends on $x$ which depends on the current $z$.
+We need to solve these simultaneously. 
+It appears that aimple iteration seems to work fine to provide a fixed point.  
+
+Show increase in findroots.
+
+
+\begin{itemize}
+\item examples
+\item function evaluations
+\item time
+\item accuracy
+\end{itemize}
+
+\begin{itemize}
+\item Stick t solving path or
+\item loop on fixed point for Z
+\item accuracy and costs
+\end{itemize}
+
+
+
+
+
 We construct our stand-in model by augmenting the model with the equation
 \begin{gather}
   \rcpC_t=\frac{1}{c_t}
@@ -1129,33 +1146,16 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
   \label{fig:cfuncsecond}
 \end{figure}
 
+\subsubsection{Approximating an Unknown Solution: $U(c) \ne Log(c)$ }
+\label{sec:recov-known-solut}
 
 
 
+\subsubsection{Occasionally Binding Constraints}
+\label{sec:recov-known-solut}
 
 
-\subsection{Burnside Model}
-
-Another model with an exact solution can be found in \cite{burnside}
-\begin{gather}
-\normalsize y_t - \beta E_t \{ (1+y_{t+1}) exp{(\theta \bar{x} + \theta \sigma \epsilon_{t+1})} \} = 0\intertext{so that}
-\end{gather}
-
-
-
-\subsection{A Simple Financial Model}
-\label{sec:simple-financ-model}
-
-A model specification consists of
-\begin{description}
-\item[Uniquely convergent linear rational expectations model] 
-We will need the $B, \phi, F, \psi_\epsilon, \psi_c \text{ and }\psi_z$ matrices
-\item[A function that computes the current set of constraint given a path and the current set of z functions] 
-  \begin{gather}
-    \mathcal{C}(x_{t-1},x_{t},x_{t+1},z(x_{t-1},\epsilon_t))
-  \end{gather}
-\end{description}
-\subsection{A Regime Switching Model}
+\subsubsection{A Regime Switching Version}
 \label{sec:regime-switch-model}
 
 
@@ -1169,7 +1169,40 @@ c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
  E_t ( c_{t+1}^{\gamma-1} (\alpha z_{t+1}^{1-\alpha} k_t^{\alpha -1} + (1-\delta) ))
 \end{gather}
 
-\subsection{Smets and Woeters}
+
+\section{Other Examples}
+\label{sec:examples}
+
+\anEdit{models should be well known.  Avoid spending time explaining a model.
+Luca's JME paper 3rd model.\cite{Guerrieri2015}}
+
+\anEdit{Explore what others have said about error bounds.  }
+
+
+
+\subsection{The Burnside Model: a Model With Known Solution}
+
+Another model with an exact solution can be found in \cite{burnside}
+\begin{gather}
+\normalsize y_t - \beta E_t \{ (1+y_{t+1}) exp{(\theta \bar{x} + \theta \sigma \epsilon_{t+1})} \} = 0\intertext{so that}
+\end{gather}
+
+
+
+\subsection{A Simple Financial Model: Occasionally Binding Constraints}
+\label{sec:simple-financ-model}
+
+A model specification consists of
+\begin{description}
+\item[Uniquely convergent linear rational expectations model] 
+We will need the $B, \phi, F, \psi_\epsilon, \psi_c \text{ and }\psi_z$ matrices
+\item[A function that computes the current set of constraint given a path and the current set of z functions] 
+  \begin{gather}
+    \mathcal{C}(x_{t-1},x_{t},x_{t+1},z(x_{t-1},\epsilon_t))
+  \end{gather}
+\end{description}
+
+\subsection{Smets and Woeters: a Moderate Sized DSGE}
 
 
 \section{Future Directions}
@@ -1206,6 +1239,7 @@ c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
 
   \begin{itemize}
   \item what about complex z
+  \item can precomputing z's speed up Luca Mateo algorithm
   \item unit roots in F how to handle/exploit
   \item choosing the linear model.  pushing down on F eigenvalues
   \item existence and uniqueness of solutions
