@@ -60,17 +60,19 @@ In this context, it  facilitates exploiting the
 \section{Introduction and Summary}
 \cite{holden15:_exist_dsge,guerrieri15:_occbin}
 
-Why do we care about the things in the abstract:
+This section will describe why we care about the things mentioned 
+in the abstract:
 \begin{itemize}
-\item Time invariant functions
-\item Approximation error for time invariant functions
-\item Occasionally binding constraints
-\item Volterra series?
-\item Impulse Response functions.
-\item To solve a wide class of models. 
+\item To solve a wide class of useful but increasingly complex models. 
+\item Time invariant functions ubiquitous in economic models
+\item Approximation error for time invariant functions help us choose how to allocate resources during calculations
+\item Occasionally binding constraints increasingly a part of economic models
+\item Impulse Response functions and Potter connection to conditional expectations
+\item Source of decision rule irrelevant --  Perturbation, projection, as long as time invariant criterion can assess impact of discrepancies.
+\item leads naturally to the specification of a robust algorithm
 \end{itemize}
 
-Source of decision rule irrelevant.  Perturbation, projection, as long as time invariant criterion can assess impact of discrepancies.
+
 
 Judge using impulse response functions.\cite{Potter2000}
 \section{Methodology Outline}
@@ -78,7 +80,12 @@ Judge using impulse response functions.\cite{Potter2000}
 \subsection{Model Context}
 \label{sec:model-context}
 
-We focus on models with time invariant decision rule solutions. It is difficult to characterize the model specification, but easier to specify the common characteristics of the solutions.  A s a consequence the approach is very general the text will provide a variety of models that would be amenable, but the list is not meant to be exhaustive.
+This section will suggest that the range of applicability is wide but
+hard to characterize.
+Should be useful anyplace that bounded time invariant functions appear.
+
+We focus on models with time invariant decision rule solutions. 
+It is difficult to characterize the model specification, but easier to specify the common characteristics of the solutions.  A s a consequence the approach is very general the text will provide a variety of models that would be amenable, but the list is not meant to be exhaustive.
 
 
 The proofs of applicability 
@@ -228,7 +235,17 @@ how well a particular proposed solution performs.
 \subsection{Assessing a Proposed Solution}
 \label{sec:decis-rule-assessm}
 
-Must use ``chunks''  augment system so that can obtain paths from
+Must use ``chunks'' to augment the system in such a way that we
+can use the ``law of iterated expectations''.
+Everywhere that a collection of 
+$t+1$ variable appears together, non linearly they must be subsumed in an
+auxiliary variable, a ``chunk'', 
+that will be defined at time $t$.  As a result, at each step
+of the iteration that arises, the time $t$
+conditional expectation of that chuck will appear in the 
+linear reference model and can be accurately computed and
+used in subsequent calculations.
+
 
 Iteration:
 \begin{gather}
@@ -306,17 +323,32 @@ Show formulae bound error.
 \end{itemize}
 
 
-\subsection{Example: a Simple RBC Model Example with Known Solution}
+\subsection{Example: a Simple RBC Model Example With Known Solution}
 \label{sec:simple-rbc-model-2}
 
 
 
+In most ways, this is a good example because there is a closed form solution
+and the model is well known and widely used as a foundation for other DSGE
+models.
 Also indicates that on occasion perfect foresight can give a good solution.
 The technique provides a means to compute how good the perfect foresight solution can be.
-
+Others have computed solutions for the model with occasionally binding constraints and for regime switching variants.
 
 
 \anEdit{Compare to \cite{Santos}}
+
+The section will begin defining the more general $\eta \ne 1$ version but
+initially use the $\eta=1$ version to provide evidence 
+about the usefulness of the
+formulae.
+\begin{gather}
+\frac{1}{c_t^{\eta}}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t+1}}{c_{t+1}^\eta} \right ) \\
+c_t + k_t=\theta_tk_{t-1}^\alpha \\
+\ln \theta_t =\rho \ln \theta_{t-1} + \epsilon_t\label{rbcSys}
+\end{gather}
+
+
 
 
 For example, consider the simple neoclassical growth  model described in \cite{Maliar2005}.
@@ -417,7 +449,7 @@ norm by using a global maximization method to compute the largest value
 attained by the infinity norm of the equation errors.\footnote{Why infinity norm?}  Column  blah shows that --- 
 
 We can develop a robust algorithm since we can compute how many terms
-we must compute in order to guarantee a particular level of acuracy.
+we must compute in order to guarantee a particular level of accuracy.
 I computed the largest infinity norm for the product of h over a range of
 reasonable values.  
 
@@ -437,6 +469,7 @@ generated by substituting in the model constraints. between the model computed s
 %force-texpad-dependency:  file.ext
 
 %see https://www.texpadapp.com/support/ios/file-management/non-standard-includes
+
  \begin{table}
    \centering
     
@@ -450,7 +483,7 @@ generated by substituting in the model constraints. between the model computed s
 % every last row/.style={after row={\hline }}
 % ]{./notRbcApprox.csv}
 
-
+\framebox{Table will show truncation errors for the ``Arbitrary'' Linear Model}
 
    \caption{Truncation Errors: Bound and Actual}
  \label{truncTab}
@@ -458,8 +491,8 @@ generated by substituting in the model constraints. between the model computed s
 
 
 
-% \begin{table}
-%   \centering
+ \begin{table}
+   \centering
 
 % \pgfplotstabletypeset[col sep=comma,
 % columns/0/.style={column type=|c,int detect,column name=N},
@@ -471,15 +504,34 @@ generated by substituting in the model constraints. between the model computed s
 % every last row/.style={after row={\hline }}
 % ]{./rbcApprox.csv}
 
-%   \caption{Truncation Errors: Bound and Actual}
+\framebox{Table will show truncation errors for the  Linearized RBC Model}
 
-% \end{table}
 
+   \caption{Truncation Errors: Bound and Actual}
+
+ \end{table}
 
 
 
 \section{Discovering Unknown Solutions}
 \label{sec:unknown-solutions}
+
+This section will require a lot more work!!!!
+
+This section will describe how given the auxiliary ``chuck'' variables
+and the linearity of the $Z$ functions in the series representation
+that conditional expectations are straightforward to compute at each stage.
+That is, we begin assuming the conditional expectations are given by the
+linear reference model.  The solution at time $t$ is deterministic.
+Provided we can solve it, we have determined the deterministic $z$ functions
+that depend on $x_{t-1}$ and $\epsilon_t$.  For the next iteration,
+we can use the given the distribution of $\epsilon$
+we can compute the expected value
+of these functions conditional on a given $x_t$.  This is again a deterministic
+problem, admittedly with the complication that changes
+$x_t$ moves the entire future, but we have a formula and a family of conditional
+$Z$ functions to accommodate this fact. 
+
 
 For unknown solutions we will need a way to generate the decision rule.  
 Our initial strategy will be to solve 
@@ -536,7 +588,7 @@ At time t iteration $k+1$ we solve the system
 % m(x_{t-1},\xNow{k+1}\xNowtp{k+1},\epsilon_{t}) \ge 0\\
    \end{gather}
 If the problem arises from some optimization problem, 
-it may prove useful to consider the associated Lagrangian.  In that case the $m$ equations and the Lagrange multiplies would be absorbed into the set of $h$ and $m$ need not eplicitly appear.
+it may prove useful to consider the associated Lagrangian.  In that case the $m$ equations and the Lagrange multiplies would be absorbed into the set of $h$ and $m$ need not explicitly appear.
 
 
 
@@ -553,16 +605,16 @@ series expansion.  Under certain conditions, we can use this measure to compute 
 Compute solution for $Z_k$ for path of length k.  For fixed point, path errs should be zero through k, with error at k+1 if Z was not approximated. 
 Iteration without approximation leads to many many function evaluations as each successive Z calculation entails a fixed point calculation for the xz pairs.
 
-Will have to approximate  $Z$  could use projection or interpolation or something else?  can use information from the stage of solution to decide on degree of approximation.  start of in accurate, add accuracy as get close.  different strategies for different problems.  More evalauations where function changes more.  
-Bound infinity norm or other criteria.  ccould randomize points do approx alternatives in parallel.  assess the utiity of any given nd then proceed.
+Will have to approximate  $Z$  could use projection or interpolation or something else?  can use information from the stage of solution to decide on degree of approximation.  start of in accurate, add accuracy as get close.  different strategies for different problems.  More evaluations where function changes more.  
+Bound infinity norm or other criteria.  could randomize points do approx alternatives in parallel.  assess the utility of any given and then proceed.
 
 Even bad approximations iterated settle down to some particular value depending on the relationship between the reference model and the actual model.  If they have the same long run conditional expectations the ref model approximation errors will improve over over iteration period
 
-reusing the latest will likely improve the patherrs. getting a fixed point may not be worth it. especially if not doing approximation
+reusing the latest will likely improve the path errs. getting a fixed point may not be worth it. especially if not doing approximation
 
-Having computed the $z$ and $Z$ funcs for a given truncation horizion, T, we could compute the path which solves the system exactly for those T periods, but this will differ from the true solution.  We can bound the difference by checking the error at T+1.  
+Having computed the $z$ and $Z$ funcs for a given truncation horizon, T, we could compute the path which solves the system exactly for those T periods, but this will differ from the true solution.  We can bound the difference by checking the error at T+1.  
 
-If the path error is zero or small enough, the z functioons won't change.  We could possibly accelerate the process by using recently updated Z funcs further along the path in determining the path.  This should result in a decision rule that more closely approximates the true decision rule but requiring a shorter path to compute.
+If the path error is zero or small enough, the z functions won't change.  We could possibly accelerate the process by using recently updated Z funcs further along the path in determining the path.  This should result in a decision rule that more closely approximates the true decision rule but requiring a shorter path to compute.
 
 Provide a couple of iterations and monitor the number of function evaluations
 the number of evaluations for fixed point for perfect foresight and for
@@ -579,22 +631,6 @@ If function compositions remain simple possible to solve exactly.
 There are some short cuts as in precomputing the Z, so that at each step there are fewer calculations to make.  
 
 But ultimately we will  need to make approximations.
-
-
-
-\subsection{Precomputing Z Components}
-
-Can reduce costs, but not fast enough relative to required findroots.
-
-\begin{itemize}
-\item backward looking nonlinear equations know values for the  $z$.  Even if depend on variables that aren't lagged the z discrepancy could be precomputed.
-\item for known z, can precompute and determine how many terms need to compute before ignoring the impact
-\item One need only construct and solve a system large enough to determine the non zero $z$-function.
-\item any linear equation required to remains satisfied will have an identically zero z
-\item for non linear variables that are completely backward looking one can solve for the z functions for those equations 
-ahead of time( as well as just substitute them out )
-\end{itemize}
-Completely backward and completely forward variables pre compute
 
 
 
@@ -633,7 +669,7 @@ systems that augment these dynamic equations with additional constraints
 on the evolution of the variables.
 
 
-We will be intersted in
+We will be interested in
 finding a time invariant function $g^\ast$ that satisfies
 \begin{gather}
   \begin{split}
@@ -848,7 +884,7 @@ In the general iteration step we will have
 \item for perfect foresight easier and faster than for rational expectations 
 \end{itemize}
 
-We will first focus on approximating the functions by abstracting for the expecttions calculation and sorting out perfect foresight solutions.
+We will first focus on approximating the functions by abstracting for the expectations calculation and sorting out perfect foresight solutions.
 \paragraph{Projection}
 
 
@@ -893,7 +929,7 @@ useful to consider the model with CRRA but not Log utility.\footnote{Iterating o
 
 Show simplicity and how this will help solve difficult problems.  
 This core computation gets repeated the most so should be efficient. Has big
-impact on tactability after break link for iteration step using approximation.
+impact on tractability after break link for iteration step using approximation.
 
 
 We will need to solve a nonlinear equation system to obtain the values of $z$ for a given set of initial conditions.  For this problem the problem is 
@@ -918,12 +954,12 @@ proceed to the next step.
 Show modest compromise  of 
 simplicity and how this will help solve difficult problems.  
 This core computation gets repeated the most so should be efficient. Has big
-impact on tactability after break link for iteration step using approximation.
+impact on tact-ability after break link for iteration step using approximation.
 
 
 For T=2 the future $z$ depends on $x$ which depends on the current $z$.
 We need to solve these simultaneously. 
-It appears that aimple iteration seems to work fine to provide a fixed point.  
+It appears that simple iteration seems to work fine to provide a fixed point.  
 
 
 \begin{itemize}
@@ -942,14 +978,14 @@ It appears that aimple iteration seems to work fine to provide a fixed point.
 Show modest compromise  of 
 simplicity and how this will help solve difficult problems.  
 This core computation gets repeated the most so should be efficient. Has big
-impact on tactability after break link for iteration step using approximation.
+impact on tractability after break link for iteration step using approximation.
 
 But Show increase in findroots.
 
 Possible but costly.
 For T=3 the future $z$ depends on $x$ which depends on the current $z$.
 We need to solve these simultaneously. 
-It appears that aimple iteration seems to work fine to provide a fixed point.  
+It appears that simple iteration seems to work fine to provide a fixed point.  
 
 Show increase in findroots.
 
@@ -969,7 +1005,7 @@ Show increase in findroots.
 
 
 
-
+Needs generalization of ``chunk'' $\frac{1}{c_t}\rightarrow \left (\frac{\theta_{t+1}}{c_{t+1}^\eta} \right )$
 
 We construct our stand-in model by augmenting the model with the equation
 \begin{gather}
@@ -1054,7 +1090,7 @@ $c_{t}(x_{t-1},\epsilon_{t})$, $k_{t}(x_{t-1},\epsilon_{t})$, $\rcpC_{t}(x_{t-1}
 computed a solution for a model whose trajectories satisfy equation system \refeq{rbcSys}
 for one time period and satisfy equation \refeq{rbcLinSys} subsequently. As can
 be seen in the top panel of Figure \ref{fig:cfuncfirst}, 
-imposing the constraint for even a single period captures much of the nonlinearity, but the bottom panel shows that the solution is 
+imposing the constraint for even a single period captures much of the non linearity, but the bottom panel shows that the solution is 
 still significantly far away from the exact solution.
 
 
@@ -1063,7 +1099,7 @@ Number of function evaluations and time.
 fixed point not necessary.
 
 find root must use genxz func
-takes time to construct function for findroot  called twice by fixed point, but solution guarenteed on second call.
+takes time to construct function for findroot  called twice by fixed point, but solution guaranteed on second call.
 
 %\includegraphics[height=8.0in]{conExpPathsNote.pdf}(\footnote{{conExpPathsNote.pdf}})
 
@@ -1192,6 +1228,27 @@ Another model with an exact solution can be found in \cite{burnside}
 \subsection{A Simple Financial Model: Occasionally Binding Constraints}
 \label{sec:simple-financ-model}
 
+
+Since the equations are linear, and only one of the equations has to change 
+when the constraint binds, we only need to solve for one $z$:  the others 
+are all zero.
+
+\subsection{Precomputing Z Components}
+
+Can reduce costs, but not fast enough relative to required findroots.
+
+\begin{itemize}
+\item backward looking nonlinear equations know values for the  $z$.  Even if depend on variables that aren't lagged the z discrepancy could be precomputed.
+\item for known z, can precompute and determine how many terms need to compute before ignoring the impact
+\item One need only construct and solve a system large enough to determine the non zero $z$-function.
+\item any linear equation required to remains satisfied will have an identically zero z
+\item for non linear variables that are completely backward looking one can solve for the z functions for those equations 
+ahead of time( as well as just substitute them out )
+\end{itemize}
+Completely backward and completely forward variables pre compute
+
+
+
 A model specification consists of
 \begin{description}
 \item[Uniquely convergent linear rational expectations model] 
@@ -1212,14 +1269,14 @@ We will need the $B, \phi, F, \psi_\epsilon, \psi_c \text{ and }\psi_z$ matrices
 
   \begin{itemize}
 \item add factors for nonlinear models
-\item nonlinear model adfactors ed 
+\item nonlinear model ad factors ed 
 \item time varying coefficients possible
 \item seasonal factors
   \end{itemize}
 \item[Extensions] \ 
 
   \begin{itemize}
-\item consider models with multiple convergent stochastics steady states ( regime switching?)
+\item consider models with multiple convergent stochastic steady states ( regime switching?)
 \item other ``expectations'' operators
 \item Formula also works for multilag multi lead.  Applications
 \item the ``expectations operator'' could be generalized
@@ -1243,12 +1300,12 @@ We will need the $B, \phi, F, \psi_\epsilon, \psi_c \text{ and }\psi_z$ matrices
   \item unit roots in F how to handle/exploit
   \item choosing the linear model.  pushing down on F eigenvalues
   \item existence and uniqueness of solutions
-\item what if model doesnt have a solution or has many
+\item what if model doesn't have a solution or has many
 \item f eigenvalue assumptions proof
 \item linear space for models
-\item can get non linear model z's then add constraits and have diffence in z's to characterize differences in models
+\item can get non linear model z's then add constraints and have difference in z's to characterize differences in models
 \item the program is the proof possible with category theory here?
-\item lots of choices about choosing grid pointseach z could have different interpolation order or even mix chebyshev and interpolation
+\item lots of choices about choosing grid points each z could have different interpolation order or even mix Chebyshev and interpolation
 \item Interpolate before or after integration
   \end{itemize}
 \end{description}
@@ -1275,8 +1332,8 @@ We will need the $B, \phi, F, \psi_\epsilon, \psi_c \text{ and }\psi_z$ matrices
 \label{sec:do}
 
 \begin{itemize}
-\item For the occasionally binding, there are some trajectories that reingage even
-with perfect foreshigh.
+\item For the occasionally binding, there are some trajectories that reengage even
+with perfect foresight.
 \item plot at grid points instead of 3DPlots
 \item op counts, time accuracy
 \item precompute Z
@@ -1285,9 +1342,9 @@ with perfect foreshigh.
 \item automate locating chunks
 \item patherr a distribution
 \item concentric rings: solve in ``easy region'' with short paths, expand outward
-\item parallelism for finding good reason communicate move processor towar that area
+\item parallelism for finding good reason communicate move processor toward that area
 \item which is better to characterize discrepancy, simulation via decision rule or discrepancy between the ``computed exact'' solution path  do they coalesce
-\item refactor function arg lists
+\item re-factor function arg lists
 \item machine precision cutoff for tables and graph
 \item pitch functional programming
 \end{itemize}
