@@ -25,7 +25,7 @@ a Solution Strategy for Occasionally Binding Constraints in Rational Expectation
 
 
 
-\author{Gary S. Anderson\thanks{I would like to thank Luca Guerrieri, Christopher Gust and Robert Tetlow for their comments, suggestions and ecouragement. }}
+\author{Gary S. Anderson\thanks{I would like to thank Luca Guerrieri, Christopher Gust and Robert Tetlow for their comments and suggestions. }}
 \input{newCmds}
 \mathtoolsset{showonlyrefs}
 
@@ -43,7 +43,7 @@ can accurately characterize the solutions for a
 wide array of nonlinear rational expectations models 
 and provides a formula
 for computing accuracy bounds for any proposed time invariant model solution.
-The series representation serves as an impotent component in an algorithm 
+The series representation serves as an important component in an algorithm 
 for constructing approximate solutions for nonlinear rational expectations
 models.
 In this context, it  facilitates exploiting the 
@@ -58,10 +58,22 @@ In this context, it  facilitates exploiting the
 
 
 \section{Introduction and Summary}
-\cite{holden15:_exist_dsge,guerrieri15:_occbin}
 
-This section will describe why we care about the things mentioned 
-in the abstract:
+Economists are increasingly interested in building and solving 
+economic models that honor/include occasionally binding constraints.
+Since \cite{Christiano2000} authors have described a 
+variety of approaches.\cite{holden15:_exist_dsge,guerrieri15:_occbin,benigno09,hintermaier10,brumm10,nakov08,haefke98,nakata12,gordon11,billi11,Hintermaier2010,Guerrieri2015}
+These approaches typically specify a solution that characterizes a family of
+time invariant functions.
+
+Since these models cannot be solved exactly, each approach requires an
+approximation method and an iteration with a stopping criterion.
+It is problematic to decide when the solution is good enough.
+
+The text describes a methodology for computing an error bound on the 
+size of the change that one can expect from modifying the trajectory of the 
+solutions.
+
 \begin{itemize}
 \item To solve a wide class of useful but increasingly complex models. 
 \item Time invariant functions ubiquitous in economic models
