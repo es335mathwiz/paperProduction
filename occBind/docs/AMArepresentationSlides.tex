@@ -1,0 +1,328 @@
+\documentclass{beamer}
+\usepackage{mathtools}
+\usepackage{pgfplotstable}%for generating latex from csv files
+\usepackage{datetime}
+\usepackage{hyperref}
+
+
+\title{``A New Series Representation for Time Invariant Functions and
+a Solution Strategy for Occasionally Binding Constraints in Rational Expectations Models''}
+\date{\currenttime -- \today }
+
+
+
+\author{Gary S. Anderson\thanks{I would like to thank Luca Guerrieri, Christopher Gust and Robert Tetlow for their comments and suggestions. }}
+\input{newCmds}
+\mathtoolsset{showonlyrefs}
+\usepackage{pseudocode}
+
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \frametitle{Overview}
+  \begin{itemize}
+  \item   This paper proposes a new representation for time invariant functions.
+
+  \item This series representation 
+can accurately characterize the solutions for a 
+wide array of nonlinear rational expectations models
+\item provides a formula
+for computing accuracy bounds for any proposed time invariant model solution.
+\item The series representation serves as an important component in an algorithmfor constructing approximate solutions for nonlinear rational expectations
+models.
+\item In this context, it  facilitates exploiting the 
+``law of iterated expectations'' in computing rational expectations solutions for models with occasionally binding constraints.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Time Invariant Functions}
+
+Consider a time invariant stochastic function $\xtFuncTI$, 
+\begin{itemize}
+\item where $x$ is an $L$ dimensional real variable
+\item $\epsilon$ a $K$ dimensional random variable.
+\item time $t$ realizations of $\epsilon$, $\epsilon_t$, to be independently and identically distributed.
+\end{itemize}
+We define a time invariant deterministic function $\XtFuncTI\equiv \expctEps{\xtFuncTI}$ and denote
+\begin{gather*}
+\expct{t}{x_{t+k}}\equiv\begin{cases}
+\xtFunc{(x_{t-1},\epsilon_t)} &k=0\\
+\XtFunc{(\expct{t}{x_{t+k-1}})} &k>0
+\end{cases}
+\end{gather*}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Iterating Forward: Conditional Expectations}
+Consider Iterating the function $\mathcal{X}$ forward by 
+recursively applying $\mathcal{X}$ to compute a solution path
+\begin{gather}
+\underbrace{(x_{t-1},\epsilon_t)} 
+\underbrace{{\mathcal{X}}(x_{t-1},\epsilon_t)}
+\underbrace{\int {\mathcal{X}}({\mathcal{X}}(x_{t-1},\epsilon_t),\epsilon_{t+1})}
+\underbrace{\ldots}
+\intertext{Suppose this process produces bounded trajectories for $\mathcal{X}$}
+   \mathcal{X}_{t+s}(x_{t-1},\epsilon_t), \,\,\mathcal{X}_{t+s} \in{R^k}\,\,\infNorm{\mathcal{X}_{t+s}}  \le \bar{\mathcal{X}}\,\,\forall s\ge 0 \label{fFamily}.
+ \end{gather}
+
+It will then be possible to write down a useful series representation for 
+the function $\mathcal{X}(x_{t-1},\epsilon_t)$.
+
+ % \begin{itemize}
+ % \item Law of Iterated Expectations applies
+ %   \begin{gather*}
+ %     E_t(\mathcal{X}(x_{t+k-1},\epsilon_{t+k}))=
+ %     E_t(E_{t+k}(\mathcal{X}(x_{t+k-1},\epsilon_{t+k})))
+ %   \end{gather*}
+ % \end{itemize}
+
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Series Representation}
+
+Now, for any linear homogeneous 
+$k$ dimensional 
+deterministic 
+system, 
+\begin{gather}
+  	 H_{-1} x_{t-1} + H_0 x_t + H_1 x_{t+1}=0\label{hSystem}
+\end{gather}
+that produces  a unique stable solution, 
+it is well known\ \cite{anderson10} that
+  
+
+\begin{gather}
+	 H_{-1} x_{t-1} + H_0 x_t + H_1 x_{t+1}=\psi_\epsilon \epsilon_t +\psi_{c}
+\intertext{as}
+x_t=B x_{t-1} + \phi \psi_\epsilon \epsilon_t + (I - F)^{-1} \phi \psi_c
+\intertext{where}
+\phi= (H_0 +H_1 B)^{-1} %\\F=-\phi H_1 
+\end{gather}
+
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Series Representation}
+{\small
+Given the trajectories \refeq{fFamily}, define 
+$  z_{t+s}(x_{t-1},\epsilon_t)$ as  %\footnote{These $z$ functions will soon prove useful in an algorithm for computing unknown trajectories like \refeq{fFamily}.}:
+{
+
+  \begin{align}
+  z_{t+s}(x_{t+s-1},\epsilon_t) \equiv& H_{-1} \mathcal{X}_{t-1}(x_{t+s-1},\epsilon_t) + \nonumber\\
+& H_0 \mathcal{X}_{t+s}(x_{t-1},\epsilon_t) +  \label{defZ} \\
+& H_1 \mathcal{X}_{t+s+1}(x_{t-1},\epsilon_t) \nonumber
+  \end{align}
+}
+
+
+\cite{anderson10}  demonstrates that, for 
+such models,
+	 \begin{gather}
+	 \mathcal{X}_{t}(x_{t-1},\epsilon_t) =B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \sum_{\sForSum=0}^\infty F^s \phi z_{t+\sForSum}(x_{t-1},\epsilon_t) + (I - F)^{-1} \phi \psi_c
+\label{theSeries}\intertext{and}
+	 \mathcal{X}_{t+s+1}(x_{t-1},\epsilon_t) =B \mathcal{X}_{t+s} + \sum_{\sForSum =0}^\infty F^\sForSum \phi z_{t+s+\sForSum}(x_{t-1},\epsilon_t) + (I - F)^{-1} \phi \psi_c \,\,\,\forall s \ge  0\nonumber
+\intertext{where}
+F=-\phi H_1 
+	 \end{gather}
+}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Series Appromimation Truncation Errors}
+  \begin{itemize}
+  \item Can choose an ``arbitrary''  linear system unrelated (save for dimensionality) to origin of the solution trajectories
+  \item can choose the number of series terms
+  \item More terms more accuracy
+  \item linear system with more ``similar'' dynamics more accuracy for given number of terms
+  \item RBC example
+    \begin{itemize}
+    \item ``arbitrary'' linear system
+
+\framebox{Table will show truncation errors for the ``Arbitrary'' Linear Model}
+  \item linearized RBC  linear system
+
+\framebox{Table will show truncation errors for the  Linearized RBC Model}
+    \end{itemize}
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Correctly Computing Expectations of Nonlinear Functions}
+{\small 
+  \begin{itemize}
+  \item solutions for models that can be written in  the form
+\begin{gather}
+  h_i(x_{t-1},x_{t},x_{t+1},\epsilon_t)=h^{det}_{io}(x_{t-1},x_{t},\epsilon_t)+\\ 
+\sum_{j=1}^{p_i} [h^{det}_{ij}(x_{t-1},x_{t},\epsilon_t)h^{nondet}_{ij}(x_{t+1})]=0
+\end{gather}
+\item Euler equations for the  neoclassical growth  model 
+\label{sec:simple-rbc-model-ext} 
+\begin{gather}
+h_{10}^{det}(\cdot)=\frac{1}{c_t^\eta},\,\,
+h_{11}^{det}()=\alpha \delta k_{t}^{\alpha-1} ,\,\,
+h_{11}^{nondet}(\cdot)=E_t \left (\frac{\theta_{t+1}}{c_{t+1}^\eta} \right )\\
+h_{20}^{det}(\cdot)=c_t + k_t-\theta_tk_{t-1}^\alpha,\,\,
+h_{21}^{det}(\cdot)=0\\
+h_{30}^{det}(\cdot)=\ln \theta_t -(\rho \ln \theta_{t-1} + \epsilon_t),\,\,
+h_{31}^{det}(\cdot)=0
+\end{gather}
+\item $\epsilon_t$ is known, all stochastic components have $t+1$ time subscripts . 
+\item include auxiliary variables for each $h_{ij}^{nondet}$  -- text assumes models orignally given in this form
+  \end{itemize}
+
+% the conditional expectation of nonlinear expressions,  
+% accurately recursively computing  the appropriate expected values.
+% Below, we will consider 
+% systems that augment these dynamic equations with additional constraints 
+% on the evolution of the variables.
+
+
+
+}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Assessing Rational Expectations Solution Accuracy}
+{\small
+  \begin{itemize}
+  \item Use auxiliary variables for nonlinear stochastic ``chunks''
+\item interested in
+ finding a time invariant function $g^\ast$ that satisfies
+ \begin{gather}
+   \begin{split}
+ h(x_{t+s-1},g^\ast(x_{t+s-1},\epsilon_{t+s}),\mathcal{H}[g^\ast(g^\ast(x_{t+s-1},\epsilon_{t+s}),\epsilon_{t+s+1})],\epsilon_{t+s}) \label{theProblem} \\
+ m(x_{t+s-1},g^\ast(x_{t+s-1},\epsilon_{t+s}),\mathcal{H}[g^\ast(g^\ast(x_{t+s-},\epsilon_{t+s}),\epsilon_{t+s+1})],\epsilon_{t+s}) \ge 0  
+   \end{split}
+   \intertext{define} 
+  \mathcal{G}^\ast(x_{t+s-1},\epsilon_{t+s})= \mathcal{H}[g^\ast(g^\ast(x_{t+s-1},\epsilon_{t+s}),\epsilon_{t+s+1})] \nonumber
+  \end{gather}
+\item for all $s>0$ where $\mathcal{H}$ is an operator, 
+   that maps stochastic to deterministic functions
+ \begin{description}
+ \item[Perfect Foresight]
+ \begin{gather}
+      \mathcal{H}^{PF}[g^{k}(x,\epsilon_{t+T-k+1})]=
+ g^{k}(x,0)\\
+ \end{gather}
+ \item[Rational Expectations] 
+ \begin{gather}
+      \mathcal{H}^{RE}[g^{k}(x,\epsilon_{t+T-k+1})]=
+ \mathcal{E}_t[g^{k}(x,\epsilon_{t+T-k+1})|x]\\
+ \end{gather}
+ \end{description}
+  \end{itemize}
+}  
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{The Algorithms}
+
+
+\begin{pseudocode}{doIterRE}{linMod,XZCExpKto0,modEqns,epsDist}
+xzFuncKp1[xtm1,epst]=genFPFunc(linMod,XZCExpKto0,modEqns)\\
+XZCExpKp1to0=genXZFuncRE(xzFuncKp1[x,eps],XZCExpKp1to0,epsDist)\\
+\RETURN{xzFuncKp1[xtm1,epst],XZCExpKp1to0}  
+\end{pseudocode}
+
+\begin{pseudocode}{genFPFunc}{linMod,XZCExpKto0,modEqns}
+anFRFunc[xtGuess]=\\genFRFunc[genxkzkFunc[linMod,XZCExpKto0,xtGuess]]\\
+anFPFunc[xtm1,epst]=
+FixedPoint[anFRFunc[xt]]\\
+\RETURN{aFPFunc[xtm1,epst]}
+\end{pseudocode}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Algorithms}
+  
+
+
+\begin{pseudocode}{genFRFunc}{xzFunc,modEqns}
+forFRFunc[xzArgs]=modEqns[xzFunc[xzArgs]]\\
+xzFuncKp1[xtm1,epst]=FindRoot[forFRFunc[xzVals]]\\
+\RETURN{xzFuncKp1[xtm1,epst]}  
+\end{pseudocode}
+
+\begin{pseudocode}{genxkzkFunc}{linMod,XZCExpKto0,xtGuess}
+\RETURN{\chi[xtm1,epst,zt]}  
+\end{pseudocode}
+
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Algorithms}
+  
+
+
+{\small
+
+% Define $\XZPair{0}\equiv(B x_{t-1}+ \phi \psi_\epsilon\epsilon_{t} +
+%  (I - F)^{-1} \phi \psi_c,0)$.
+
+Now, given $x^g$, a guess for $x_t$, compute $\XZPairG{k}$ pairs:
+\begin{gather}
+  \{\XZPairG{0},\ldots,\XZPairG{k}\}\intertext{ so that we can compute}
+% \intertext{ find }
+% \zNow{k+1} \ni \xNow{k+1} \intertext{satisfies the model equations where}
+  \xNow{}=B x_{t-1} + \phi \psi_\epsilon \epsilon_t + (I - F)^{-1} \phi \psi_c +\\  \phi \zNow{k+1}+
+%  \begin{cases}
+%0& \mbox{if }k=0\\    
+\sum_{s=1}^{k} F^s \phi  \mathcal{Z}^{k+1-s}(x_{t+1}^k)%&\mbox{if } k>0
+%  \end{cases}
+\intertext{and}
+  x_{t+1}^{}= B x_{t} + (I - F)^{-1} \phi \psi_c +\\ 
+%  \begin{cases}
+%0& \mbox{if }k=0\\    
+\sum_{s=0}^{k-1} F^s \phi  \mathcal{Z}^{k+1-s}(x_{t+1}^k)%&\mbox{if } k>0
+%  \end{cases}
+\intertext{these expressions define a function $\chi$ generating}
+\chi(x_{t-1},\epsilon_t,z_t) \rightarrow
+\begin{bmatrix}
+  x_t\\z_t\\ \epsilon_t
+\end{bmatrix}\intertext{ convenient for evaluating the model function equations.}
+\end{gather}
+}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{RBC Model Example}
+  
+\begin{gather}
+\frac{1}{c_t^{\eta}}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t+1}}{c_{t+1}^\eta} \right ) \\
+c_t + k_t=\theta_tk_{t-1}^\alpha \\
+\ln \theta_t =\rho \ln \theta_{t-1} + \epsilon_t\label{rbcSys}
+\intertext{for $\eta=1$}
+\frac{1}{c_t}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t+1}}{c_{t+1}} \right ) \\
+c_t + k_t=\theta_tk_{t-1}^\alpha \\
+\ln \theta_t =\rho \ln \theta_{t-1} + \epsilon_t\label{rbcSys}
+\intertext{and there is a closed form solution}
+  k_{t}= \theta_{t} \alpha \delta k_{t-1}^\alpha.\label{soln}\\
+c_t= \theta_t k_{t-1}^\alpha (1-\alpha \delta) 
+\end{gather}
+\end{frame}
+
+ \bibliographystyle{plainnat}
+ \bibliography{../../bibFiles/anderson,../../bibFiles/files}
+
+
+\end{document}
