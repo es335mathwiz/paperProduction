@@ -3,9 +3,9 @@
 
 \newcommand{\xtFunc}[1]{\mathcal{X}{#1}}
 \newcommand{\XtFunc}[1]{\mathbf{X}{#1}}
+\newcommand{\fMap}[3]{\left ( #2 \rightarrow #1 \rightarrow #3 \right )}
 
-
-
+\newcommand{\linMod}{{\{B,\phi,F,\psi_\epsilon,\psi_c,\psi_z\}}}
 \newcommand{\discr}[1]{\mathcal{D}^{#1}(x_{t-1},\epsilon_t)}
 
 \newcommand{\XZPair}[1]{(\mathcal{X}^{#1},\mathcal{Z}^{#1})}
@@ -19,16 +19,66 @@
 \newcommand{\xNow}[1]{x^{#1}_t(x_{t-1},\epsilon_t)}
 \newcommand{\xNowtp}[1]{x^{#1}_{t+1}(x_{t-1},\epsilon_t)}
 \newcommand{\XNow}[3]{\mathcal{X}^{#1}_{#2}(x_{#3})}
+\newcommand{\tArg}{(x_{t-1},\epsilon_t)}
+\newcommand{\tArgZ}{(x_{t-1},\epsilon_t,z_t)}
 
+\newcommand{\modEqns}{\mathcal{M}}
 
+\newcommand{\modEqnsMap}
+{
+\fMap{\modEqns}{
+\begin{bmatrix}
+x_{t-1}\\x_{t}\\x_{t+1}\\ \epsilon_t
+\end{bmatrix}}{
+\begin{bmatrix}
+m_e
+\end{bmatrix}}
+}
+\newcommand{\xzFunc}{{\varphi^g}}
+\newcommand{\xzFuncMap}
+{
+\fMap{\xzFunc}{
+\begin{bmatrix}
+x_{t-1}\\ \epsilon_t\\z_t
+\end{bmatrix}}
+{\begin{bmatrix}
+x_{t-1}\\  x_t\\x_{t+1}\\ \epsilon_t
+\end{bmatrix}}
+}
 
+\newcommand{\frFunc}{{\Lambda^g}}
+\newcommand{\frFuncMap}{
+\fMap{ \frFunc}{
+ \begin{bmatrix}
+ x_{t-1}\\ \epsilon_t
+ \end{bmatrix}
+}{
+ \begin{bmatrix}
+ x_t\\z_t
+ \end{bmatrix} }
+}
 
+\newcommand{\fpFunc}{{\protect \xzSolnFunc{k+1}}}
+\newcommand{\fpFuncMap}{
+\fMap{ \fpFunc}{
+ \begin{bmatrix}
+ x_{t-1}\\ \epsilon_t
+ \end{bmatrix}
+}{
+ \begin{bmatrix}
+ x_t\\z_t
+ \end{bmatrix} }
+}
 
+\newcommand{\XZExp}[1]{\Upsilon^{#1}}
+\newcommand{\xzSolnFunc}[1]{\Omega^{#1}}
+\newcommand{\epsDist}{\mathcal{F}}
+\newcommand{\FF}{\aleph}
 
-
+\newcommand{\xtGuess}{x^g}
 
 \newcommand{\sForSum}{{\nu}}
-\newcommand{\rcpC}{{\mathbf{c}}}
+\newcommand{\rcpC}{{\mathbf{N}}}
 
 \newcommand{\xtVec}{  \begin{bmatrix}
     q_t\\r_{t}\\r_{ut}
