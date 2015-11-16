@@ -11,7 +11,7 @@ a Solution Strategy for Occasionally Binding Constraints in Rational Expectation
 
 
 
-\author{Gary S. Anderson\thanks{I would like to thank Luca Guerrieri, Christopher Gust and Robert Tetlow for their comments and suggestions. }}
+\author{Gary S. Anderson\thanks{Note that these slides will likely be updated daily till November 19th. I would like to thank Luca Guerrieri, Christopher Gust and Robert Tetlow for their comments and suggestions. }}
 \input{newCmds}
 \mathtoolsset{showonlyrefs}
 \usepackage{pseudocode}
@@ -24,17 +24,11 @@ a Solution Strategy for Occasionally Binding Constraints in Rational Expectation
 \begin{frame}
   \frametitle{Overview}
   \begin{itemize}
-  \item   This paper proposes a new representation for time invariant functions.
-
-  \item This series representation 
-can accurately characterize the solutions for a 
-wide array of nonlinear rational expectations models
-\item provides a formula
-for computing accuracy bounds for any proposed time invariant model solution.
-\item The series representation serves as an important component in an algorithmfor constructing approximate solutions for nonlinear rational expectations
-models.
-\item In this context, it  facilitates exploiting the 
-``law of iterated expectations'' in computing rational expectations solutions for models with occasionally binding constraints.
+  \item  a new representation for time invariant functions.
+  \item  series representation broadly applicable for nonlinear rational expectations models 
+\item a formula  accuracy bounds for proposed time invariant model solution.
+\item an important component in an algorithm for constructing approximate solutions 
+\item facilitates exploiting the ``law of iterated expectations'' in computing solutions for models with occasionally binding constraints.
   \end{itemize}
 \end{frame}
 
@@ -119,7 +113,7 @@ $  z_{t+s}(x_{t-1},\epsilon_t)$ as  %\footnote{These $z$ functions will soon pro
 {
 
   \begin{align}
-  z_{t+s}(x_{t+s-1},\epsilon_t) \equiv& H_{-1} \mathcal{X}_{t-1}(x_{t+s-1},\epsilon_t) + \nonumber\\
+  z_{t+s}(x_{t-1},\epsilon_t) \equiv& H_{-1} \mathcal{X}_{t-1}(x_{t+s-1},\epsilon_t) + \nonumber\\
 & H_0 \mathcal{X}_{t+s}(x_{t-1},\epsilon_t) +  \label{defZ} \\
 & H_1 \mathcal{X}_{t+s+1}(x_{t-1},\epsilon_t) \nonumber
   \end{align}
@@ -138,6 +132,25 @@ F=-\phi H_1
 }
 
 \end{frame}
+
+
+\begin{frame}
+  \frametitle{RBC Model Example}
+  
+\begin{gather}
+\frac{1}{c_t^{\eta}}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t+1}}{c_{t+1}^\eta} \right ) \\
+c_t + k_t=\theta_tk_{t-1}^\alpha \\
+\ln \theta_t =\rho \ln \theta_{t-1} + \epsilon_t\label{rbcSys}
+\intertext{for $\eta=1$}
+\frac{1}{c_t}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t+1}}{c_{t+1}} \right ) \\
+c_t + k_t=\theta_tk_{t-1}^\alpha \\
+\ln \theta_t =\rho \ln \theta_{t-1} + \epsilon_t\label{rbcSys}
+\intertext{and there is a closed form solution}
+  k_{t}= \theta_{t} \alpha \delta k_{t-1}^\alpha.\label{soln}\\
+c_t= \theta_t k_{t-1}^\alpha (1-\alpha \delta) 
+\end{gather}
+\end{frame}
+
 
 
 \begin{frame}
@@ -201,18 +214,15 @@ h_{31}^{det}(\cdot)=0
 {\small
   \begin{itemize}
   \item Use auxiliary variables for nonlinear stochastic ``chunks''
-\item interested in
- finding a time invariant function $g^\ast$ that satisfies
+  \item the $m$ function codifies changes in model equations due to
+inequality constraints or regime switching.
+\item interested in finding a time invariant function $g^\ast$ that satisfies
  \begin{gather}
    \begin{split}
- h(x_{t+s-1},g^\ast(x_{t+s-1},\epsilon_{t+s}),\mathcal{H}[g^\ast(g^\ast(x_{t+s-1},\epsilon_{t+s}),\epsilon_{t+s+1})],\epsilon_{t+s}) \label{theProblem} \\
- m(x_{t+s-1},g^\ast(x_{t+s-1},\epsilon_{t+s}),\mathcal{H}[g^\ast(g^\ast(x_{t+s-},\epsilon_{t+s}),\epsilon_{t+s+1})],\epsilon_{t+s}) \ge 0  
-   \end{split}
-   \intertext{define} 
-  \mathcal{G}^\ast(x_{t+s-1},\epsilon_{t+s})= \mathcal{H}[g^\ast(g^\ast(x_{t+s-1},\epsilon_{t+s}),\epsilon_{t+s+1})] \nonumber
+ h_{\varpi}(x_{t+s-1},g^\ast(x_{t+s-1},\epsilon_{t+s}),\mathcal{H}[g^\ast(g^\ast(x_{t+s-1},\epsilon_{t+s}),\epsilon_{t+s+1})],\epsilon_{t+s}) \label{theProblem} \\
+\varpi= m(x_{t+s-1},g^\ast(x_{t+s-1},\epsilon_{t+s}),\mathcal{H}[g^\ast(g^\ast(x_{t+s-},\epsilon_{t+s}),\epsilon_{t+s+1})],\epsilon_{t+s}) 
+   \end{split}\intertext{ for all $s>0$ where $\mathcal{H}$ is an operator,    that maps stochastic to deterministic functions}
   \end{gather}
-\item for all $s>0$ where $\mathcal{H}$ is an operator, 
-   that maps stochastic to deterministic functions
  \begin{description}
  \item[Perfect Foresight]
  \begin{gather}
@@ -227,7 +237,58 @@ h_{31}^{det}(\cdot)=0
  \end{description}
   \end{itemize}
 }  
+%  \intertext{define} 
+%  \mathcal{G}^\ast(x_{t+s-1},\epsilon_{t+s})= \mathcal{H}[g^\ast(g^\ast(x_{t+s-1},\epsilon_{t+s}),\epsilon_{t+s+1})] \nonumber
+
+
 \end{frame}
+
+\begin{frame}
+  \frametitle{Assessing Accuracy}
+{\small
+
+  \begin{itemize}
+  \item As with series approximation,
+ construct a family of bounded trajectories and compute
+$  z_{t+s}(x_{t-1},\epsilon_t)$ as  %\footnote{These $z$ functions will soon prove useful in an algorithm for computing unknown trajectories like \refeq{fFamily}.}:
+{
+\begin{gather}
+  z_{t+s}(x_{t-1},\epsilon_t) \equiv\\
+   \begin{split}
+ h_{\varpi}(\mathcal{X}_{t+s-1},g^\ast(\mathcal{X}_{t+s-1},\epsilon_{t+s}),\mathcal{H}[g^\ast(g^\ast(\mathcal{X}_{t+s-1},\epsilon_{t+s}),\epsilon_{t+s+1})],\epsilon_{t+s}) \label{theProblem} \\
+\varpi= m(\mathcal{X}_{t+s-1},g^\ast(\mathcal{X}_{t+s-1},\epsilon_{t+s}),\mathcal{H}[g^\ast(g^\ast(\mathcal{X}_{t+s-},\epsilon_{t+s}),\epsilon_{t+s+1})],\epsilon_{t+s}) 
+   \end{split}
+  \end{gather}
+}
+\item The formula provides information about how much $x_{t}$ would need
+to change in order for the trajectory to honor the constraints along the path
+\item An exact solution would produce zero for all the $z$ functions
+\item One can use a truncated series to carry out the approximation for changes in $x_t$
+  \end{itemize}
+}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Assessing Accuracy: the RBC Model Example}
+  \begin{itemize}
+  \item Validate the exact solution
+
+\framebox{``Arbitrary'' Linear Model} =\framebox{linearized RBC Linear Model}
+  \item How close is the perfect foresight solution to $\eta=1$ solution
+\framebox{Table of truncation errors ``Arbitrary'' Linear Model} $\ne$\framebox{table of truncation errors linearized RBC Linear Model}
+  \item How close is the perfect foresight solution to $\eta \ne 1$ solution
+\framebox{Table of truncation errors ``Arbitrary'' Linear Model} $\ne$\framebox{table of truncation errors linearized RBC Linear Model}
+  \item How close is the exact $\eta=1$  solution to $\eta \ne 1$ solution
+\framebox{Table of truncation errors ``Arbitrary'' Linear Model} $\ne$\framebox{table of truncation errors linearized RBC Linear Model}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Discovering Unknown Solutions}
+  
+\end{frame}
+
 
 
 
@@ -248,7 +309,6 @@ FixedPoint[anFRFunc[xt]]\\
 \RETURN{aFPFunc[xtm1,epst]}
 \end{pseudocode}
 \end{frame}
-
 
 \begin{frame}
   \frametitle{Algorithms}
@@ -289,36 +349,19 @@ Now, given $x^g$, a guess for $x_t$, compute $\XZPairG{k}$ pairs:
 \sum_{s=1}^{k} F^s \phi  \mathcal{Z}^{k+1-s}(x_{t+1}^k)%&\mbox{if } k>0
 %  \end{cases}
 \intertext{and}
-  x_{t+1}^{}= B x_{t} + (I - F)^{-1} \phi \psi_c +\\ 
+  x_{t+1}^{}= B x_{t} + (I - F)^{-1} \phi \psi_c +
 %  \begin{cases}
 %0& \mbox{if }k=0\\    
 \sum_{s=0}^{k-1} F^s \phi  \mathcal{Z}^{k+1-s}(x_{t+1}^k)%&\mbox{if } k>0
 %  \end{cases}
-\intertext{these expressions define a function $\chi$ generating}
+\intertext{these expressions define a function $\chi$ generating a vector convenient for evaluating the model function equations.}
 \chi(x_{t-1},\epsilon_t,z_t) \rightarrow
 \begin{bmatrix}
-  x_t\\z_t\\ \epsilon_t
-\end{bmatrix}\intertext{ convenient for evaluating the model function equations.}
+x_{t-1}\\  x_t\\x_{t+1}\\ \epsilon_t
+\end{bmatrix}
 \end{gather}
 }
 
-\end{frame}
-
-\begin{frame}
-  \frametitle{RBC Model Example}
-  
-\begin{gather}
-\frac{1}{c_t^{\eta}}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t+1}}{c_{t+1}^\eta} \right ) \\
-c_t + k_t=\theta_tk_{t-1}^\alpha \\
-\ln \theta_t =\rho \ln \theta_{t-1} + \epsilon_t\label{rbcSys}
-\intertext{for $\eta=1$}
-\frac{1}{c_t}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t+1}}{c_{t+1}} \right ) \\
-c_t + k_t=\theta_tk_{t-1}^\alpha \\
-\ln \theta_t =\rho \ln \theta_{t-1} + \epsilon_t\label{rbcSys}
-\intertext{and there is a closed form solution}
-  k_{t}= \theta_{t} \alpha \delta k_{t-1}^\alpha.\label{soln}\\
-c_t= \theta_t k_{t-1}^\alpha (1-\alpha \delta) 
-\end{gather}
 \end{frame}
 
  \bibliographystyle{plainnat}
