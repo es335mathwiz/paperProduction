@@ -17,21 +17,40 @@ a Solution Strategy for Occasionally Binding Constraints in Rational Expectation
 \usepackage{pseudocode}
 
 \begin{document}
+
+
 \begin{frame}
   \titlepage
 \end{frame}
 
+
+
 \begin{frame}
-  \frametitle{Overview}
+  \frametitle{Context and Motivation}
   \begin{itemize}
-  \item  a new representation for time invariant functions.
-  \item  series representation broadly applicable for nonlinear rational expectations models 
-\item a formula  accuracy bounds for proposed time invariant model solution.
-\item an important component in an algorithm for constructing approximate solutions 
-\item facilitates exploiting the ``law of iterated expectations'' in computing solutions for models with occasionally binding constraints.
+  \item Why bother with all this math/computing stuff?
+  \item Non linear models in general more important 
+  \item Modeling Occasionally Binding Constraints (OBC) increasingly important
+  \item Useful to have  a coherent framework for attacking a variety of complicated models 
+  \item Specific Authors and Examples...
+
   \end{itemize}
 \end{frame}
 
+
+
+\begin{frame}
+  \frametitle{Overview}
+  \begin{itemize}
+  \item  new representation for time invariant functions.
+  \item  series representation broadly applicable for nonlinear rational expectations models 
+\item  formula for accuracy bounds for any 
+proposed time invariant model solution.
+\item an important component in an algorithm for constructing approximate solutions 
+\item facilitates exploiting the ``law of iterated expectations'' in computing solutions for models with occasionally binding constraints.
+\item Mathematica code implementing the algorithms
+  \end{itemize}
+\end{frame}
 \begin{frame}
   \frametitle{Time Invariant Functions}
 
@@ -175,7 +194,7 @@ F=
 
 
 \begin{frame}
-  \frametitle{Series Appromimation Truncation Errors}
+  \frametitle{Series Approximation Truncation Errors}
   \begin{itemize}
   \item Can choose an ``arbitrary''  linear system unrelated (save for dimensionality) to origin of the solution trajectories
   \item can choose the number of series terms
@@ -319,7 +338,7 @@ A, conceptually, very simple solution strategy:
   \item Compute solutions valid for time t, 
 but that assume the trajectories evolve according to the convergent linear model.
   \item Given solutions valid for time $t$ to $t+k$, extend the solutions to be valid for time $t$ to $t+k+1$ \label{stepNo}
-\item Repeat from step \ref{stepNo} unless truncation formulas indicate the solution is sufficiently accurate
+\item Repeat step \ref{stepNo} unless truncation formulas indicate the solution is sufficiently accurate
   \end{enumerate}
 
 
@@ -390,7 +409,7 @@ compute
     x_t^1\tArg=B x_{t-1} + \phi \psi_e\epsilon_t + \phi z^1_t\tArg\\
     E_t(x^1_{t+1}\tArg)=B x^1_{t}\tArg
   \end{gather}
-\item The model equations provide a deterministic sytem  for computing $  z^1_t=\begin{bmatrix}
+\item The model equations provide a deterministic system  for computing $  z^1_t=\begin{bmatrix}
     z^1_{1t}\tArg\\
     z^1_{2t}\tArg\\
     z^1_{3t}\tArg\\
@@ -436,7 +455,7 @@ compute
 \item The solution satisfies the nonlinear model equations for two 
 period and the stand-in linear model for subsequent periods.
 \item unlike the first step, $x^2_t$ appears on both sides of equation \refeq{bothS}
-\item  suprisingly, a simple fixed point iteration solves the nonlinear system
+\item  surprisingly, a simple fixed point iteration solves the nonlinear system
 \item Assess accuracy
   \end{itemize}
 }
@@ -453,18 +472,36 @@ period and the stand-in linear model for subsequent periods.
 
 
 \begin{frame}
-  \frametitle{Convergence to Known Solution }
+  \frametitle{Model Definition: Functional Programming Style}
+{\small
   \begin{itemize}
-  \item Functional Progamming Style
+  \item Model Definition
     \begin{description}
-\item[doIter] Increments the number of periods the model equation are honored
-\item[genFPFunc] Makes a guess for $x^g_t$, calculates $E_t x^g_{t+1}$ uses the 
-formula \refeq{theSeries} to compute $x_t$.  It repeats this process until 
-$x_t=x^g_t$ no longer changes.
-\item[genFRFunc] Given a guess for $x^g_t$ for calculating conditional expectations for future variables, it uses the the model equations  to solve for $z_t$
-and consequently $x_t$
-\item[ $\aleph$] uses the formula and a guess for $x^g_t$ for calculating conditional expectations for future variables to apply the formula \refeq{theSeries}
+      \item[Model Equations $\modEqns()$]\ 
+   {\tiny     \begin{gather}
+          \label{eq:4}
+          \modEqnsMap
+        \end{gather}}
+      \item[Linear Reference Model: $\linMod$]$\linModMats$
+      \item[Probability Distributions: $\epsDist_i()$] 
     \end{description}
+  \item Solution Programs/Functions
+    \begin{description}
+\item[doIterRE (See slide \ref{doIterREDef})] Increment periods the model equation are honored
+\item[genFPFunc (See slide \ref{genFPFuncDef})] Guess  $x^g_t$, calculate $E_t x^g_{t+1}$, use
+formula \refeq{theSeries} to compute $x_t$, set $x^g_t=x_t$, repeat until $x^g_t$ no longer changes.
+\item[genFRFunc (See slide \ref{genFRFuncDef})] Given  $x^g_t$ and corresponding conditional expectations,  use model equations  to solve for $z_t$ and $x_t$
+\item[ $\aleph$ (See slide \ref{alephDef})] Given $x^g_t$ and corresponding conditional expectations
+apply formula \refeq{theSeries} to compute $x_t$  and $x^g_{t+1}$ 
+    \end{description}
+  \end{itemize}
+}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Convergence to Known Solution}
+  \begin{itemize}
  \item  Machine Precision versus Approximation via  Interpolation
   \item Show graphs of solution
   \item Show graphs of error
@@ -472,13 +509,31 @@ and consequently $x_t$
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Occasionally Binding Constraints}
+  \begin{itemize}
+  \item Model definition
+  \item Show graphs of solution
+  \item Show graphs of error
+  \item Report accuracy assessment bounds
+  \end{itemize}
+\end{frame}
 
+
+\begin{frame}
+  \frametitle{Regime Switching }
+  \begin{itemize}
+  \item Model definition
+  \item Show graphs of solution
+  \item Show graphs of error
+  \item Report accuracy assessment bounds
+  \end{itemize}
+\end{frame}
 
 \begin{frame}
   \frametitle{Algorithms}
   
-
-
+\label{alephDef}
 {\small
 
 
@@ -532,6 +587,7 @@ x_{t-1}\\  x_t\\x^g_{t+1}\\ \epsilon_t
 \RETURN{\xzFunc\tArgZ}  
 \end{pseudocode}
 
+\label{genFRFuncDef}
 
 
 
@@ -559,6 +615,7 @@ forFRFunc\tArgZ=\modEqns(\xzFunc\tArgZ)\\
  \begin{frame}
    \frametitle{Algorithms}
    
+\label{genFPFuncDef}
 
  \begin{pseudocode}{genFPFunc}{\XZExp{k}()|\linMod,\modEqns()}
  anFRFunc(\xtGuess)=\\genFRFunc(\aleph(\linMod,\XZExp{k}(),\xtGuess))\\
@@ -587,6 +644,7 @@ forFRFunc\tArgZ=\modEqns(\xzFunc\tArgZ)\\
 \begin{frame}
   \frametitle{The Algorithms}
 
+\label{doIterREDef}
 
  \begin{pseudocode}{doIterRE}{\XZExp{k}()|\linMod,\modEqns(),\epsDist()}
  \xzSolnFunc{k+1}\tArg=genFPFunc(\XZExp{k}(),\linMod,\modEqns())\\
