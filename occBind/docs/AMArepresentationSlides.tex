@@ -157,21 +157,21 @@ F=-\phi H_1
   \frametitle{RBC Model Example}
   
 \begin{gather}
-\frac{1}{c_t^{\eta}}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t+1}}{c_{t+1}^\eta} \right ) \\
-c_t + k_t=\theta_tk_{t-1}^\alpha \\
+\frac{1}{c_t^{\eta}}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t}}{c_{t+1}^\eta} \right ) \\
+c_t + k_t=\theta_{t-1}k_{t-1}^\alpha \\
 \ln \theta_t =\rho \ln \theta_{t-1} + \epsilon_t\label{rbcSys}
 \intertext{for $\eta=1$}
-\frac{1}{c_t}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t+1}}{c_{t+1}} \right ) \\
-c_t + k_t=\theta_tk_{t-1}^\alpha \\
+\frac{1}{c_t}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t}}{c_{t+1}} \right ) \\
+c_t + k_t=\theta_{t-1}k_{t-1}^\alpha \\
 \ln \theta_t =\rho \ln \theta_{t-1} + \epsilon_t\label{rbcSys}
 \intertext{and there is a closed form solution}
-  k_{t}= \theta_{t} \alpha \delta k_{t-1}^\alpha.\label{soln}\\
-c_t= \theta_t k_{t-1}^\alpha (1-\alpha \delta) 
+  k_{t}= \theta_{t-1} \alpha \delta k_{t-1}^\alpha.\label{soln}\\
+c_t= \theta_{t-1} k_{t-1}^\alpha (1-\alpha \delta) 
 \end{gather}
 \end{frame}
 
 \begin{frame}
-  \frametitle{An "Almost Arbitrary" Linear Model}
+  \frametitle{An ``Almost Arbitrary'' Linear Model}
  {\small 
 Consider the following constructed from ``nearly'' arbitrary coefficients.
 \begin{gather}
@@ -230,9 +230,9 @@ F=
 \label{sec:simple-rbc-model-ext} 
 \begin{gather}
 h_{10}^{det}(\cdot)=\frac{1}{c_t^\eta},\,\,
-h_{11}^{det}()=\alpha \delta k_{t}^{\alpha-1} ,\,\,
-h_{11}^{nondet}(\cdot)=E_t \left (\frac{\theta_{t+1}}{c_{t+1}^\eta} \right )\\
-h_{20}^{det}(\cdot)=c_t + k_t-\theta_tk_{t-1}^\alpha,\,\,
+h_{11}^{det}()=\alpha \delta \theta_{t}k_{t}^{\alpha-1} ,\,\,
+h_{11}^{nondet}(\cdot)=E_t \left (\frac{1}{c_{t+1}^\eta} \right )\\
+h_{20}^{det}(\cdot)=c_t + k_t-\theta_{t-1}k_{t-1}^\alpha,\,\,
 h_{21}^{det}(\cdot)=0\\
 h_{30}^{det}(\cdot)=\ln \theta_t -(\rho \ln \theta_{t-1} + \epsilon_t),\,\,
 h_{31}^{det}(\cdot)=0
@@ -527,6 +527,36 @@ apply formula \refeq{theSeries} to compute $x_t$  and $x^g_{t+1}$
   \item Show graphs of solution
   \item Show graphs of error
   \item Report accuracy assessment bounds
+  \end{itemize}
+      
+    \end{frame}
+    \begin{frame}
+
+    \frametitle{Algorithms}
+    \begin{itemize}
+    \item algorithm and code for assessment
+    \item layout constraint example
+    \item layout regime change example
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item Where compositions done
+    \begin{itemize}
+    \item tests
+    \item exact path tests
+    \end{itemize}
+  \item algorithm converges
+  \item generic code 
+    \begin{itemize}
+    \item assess
+  \item construct
+    \end{itemize}
+  \item rid external xguess use X0Z0
+  \item formula informative
+  \item good path iteration graphic
   \end{itemize}
 \end{frame}
 
