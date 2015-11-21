@@ -23,14 +23,24 @@ a Solution Strategy for Occasionally Binding Constraints in Rational Expectation
   \titlepage
 \end{frame}
 
-
+\begin{frame}
+  \frametitle{Disclaimer}
+  \begin{quote}
+    NOTE: Staff working papers in the Finance and Economics Discussion Series (FEDS) are preliminary materials circulated to stimulate discussion and critical comment. The analysis and conclusions set forth are those of the authors and do not indicate concurrence by other members of the research staff or the Board of Governors. References in publications to the Finance and Economics Discussion Series (other than acknowledgement) should be cleared with the author(s) to protect the tentative character of these papers.
+  \end{quote}
+\end{frame}
 
 \begin{frame}
   \frametitle{Context and Motivation}
   \begin{itemize}
   \item Presentation highlights tools requiring significant math/computing overhead.
 Why bother?
-  \item Useful to have  a coherent framework for attacking a variety of complicated models 
+\item put depreciation rate and other maliar features back in?
+  \item Useful to have  a coherent framework for attacking a variety of complicated models
+  \item may be case that ``chucks'' allow for all conditional expectations path 
+work like perfect foresight paths and satisfy the model equations
+\item Connection cond exp function  for rest of path and. Perfect foresiggt.  0 errors except first period
+\item model input code, dynare input, cloud site
   \item Non linear models in general more important
   \item Like policy iteration. What is different other than series rep
   \item Modeling Occasionally Binding Constraints (OBC) increasingly important
@@ -185,6 +195,24 @@ F=-\phi H_1
 
 \end{frame}
 
+\begin{frame}
+  \frametitle{Spanning $\epsilon$}
+
+Assuming that the $\epsilon_t$ are mean zero:
+  \begin{gather}
+    \label{eq:5}
+	 \mathcal{X}_{t}(x_{t-1},\epsilon_t) -	
+\overline{\mathcal{X}_{t}(x_{t-1})} =\\
+ \sum_{\sForSum=0}^\infty F^s \phi \left \{z_{t+\sForSum}(x_{t-1},\epsilon_t)- 
+\overline{z_{t+\sForSum}(x_{t-1})} \right \}\intertext{it may be possible to solve of $\epsilon_t^{CE}(x_{t-1})$ so that}
+\mathcal{X}_{t}(x_{t-1},\epsilon_t^{CE}(x_{t-1})) =	\overline{\mathcal{X}_{t}(x_{t-1})}\intertext{and the conditional expectation along the path 
+could be obtained by using these shocks.\footnote{could use this for ergodic distribution moments}}
+  \end{gather}
+
+  
+\end{frame}
+
+
 
 \begin{frame}
   \frametitle{RBC Model Example}
@@ -192,14 +220,14 @@ F=-\phi H_1
 \begin{gather}
 \frac{1}{c_t^{\eta}}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t}}{c_{t+1}^\eta} \right ) \\
 c_t + k_t=\theta_{t-1}k_{t-1}^\alpha \\
-\ln \theta_t =\rho \ln \theta_{t-1} + \epsilon_t\label{rbcSys}
+ \theta_t =\theta_{t-1}^\rho e^{\epsilon_t}\label{rbcSys}
 \intertext{for $\eta=1$}
 \frac{1}{c_t}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t}}{c_{t+1}} \right ) \\
 c_t + k_t=\theta_{t-1}k_{t-1}^\alpha \\
-\ln \theta_t =\rho \ln \theta_{t-1} + \epsilon_t\label{rbcSys}
+\theta_t =\theta_{t-1}^\rho e^{\epsilon_t}\label{rbcSys}
 \intertext{and there is a closed form solution}
-  k_{t}= \theta_{t-1} \alpha \delta k_{t-1}^\alpha.\label{soln}\\
-c_t= \theta_{t-1} k_{t-1}^\alpha (1-\alpha \delta) 
+  k_{t}= \alpha \delta \theta_{t} k_{t-1}^\alpha.\label{soln}\\
+c_t=  (1-\alpha \delta) \theta_{t} k_{t-1}^\alpha
 \end{gather}
 \end{frame}
 
@@ -765,6 +793,7 @@ forFRFunc\tArgZ=\modEqns(\xzFunc\tArgZ)\\
  \begin{frame}
    \frametitle{To Do}
    \begin{itemize}
+   \item Hess Sims formula with index
   \item Only the nonlinear parts of models matter.  Counterintuitive until intuitive.  Two very diff linear models no iteration just get the Z's
   \item this is the sense in which arbitrary is robust
    \item op counts
