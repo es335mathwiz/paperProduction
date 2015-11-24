@@ -1,10 +1,5 @@
 \documentclass[letter]{beamer}
-\usepackage{mathtools}
-\usepackage{pgfplotstable}%for generating latex from csv files
-\usepackage{datetime}
-\usepackage{hyperref}
-\usepackage{graphicx}
-
+\input{newCmds}
 \title{``A New Series Representation for Time Invariant Functions and
 a Solution Strategy for Occasionally Binding Constraints in Rational Expectations Models''}
 \date{\currenttime -- \today }
@@ -12,7 +7,6 @@ a Solution Strategy for Occasionally Binding Constraints in Rational Expectation
 
 
 \author{Gary S. Anderson\thanks{Note that these slides will likely be updated daily till November 19th. I would like to thank Luca Guerrieri, Christopher Gust, Hess Chung, Benjamin Johannsen  and Robert Tetlow for their comments and suggestions. }}
-\input{newCmds}
 \mathtoolsset{showonlyrefs}
 \usepackage{pseudocode}
 
@@ -137,7 +131,6 @@ the function $\mathcal{X}(x_{t-1},\epsilon_t)$.
 
 \end{frame}
 
-
 \begin{frame}
   \frametitle{Series Representation}
   \begin{itemize}
@@ -175,7 +168,7 @@ $  z_{t+s}(x_{t-1},\epsilon_t)$ as  %\footnote{These $z$ functions will soon pro
 {
 
   \begin{align}
-  z_{t+s}(x_{t-1},\epsilon_t) \equiv& H_{-1} \mathcal{X}_{t-1}(x_{t+s-1},\epsilon_t) + \nonumber\\
+  z_{t+s}(x_{t-1},\epsilon_t) \equiv& H_{-1} \mathcal{X}_{t+s-1}(x_{t-1},\epsilon_t) + \nonumber\\
 & H_0 \mathcal{X}_{t+s}(x_{t-1},\epsilon_t) +  \label{defZ} \\
 & H_1 \mathcal{X}_{t+s+1}(x_{t-1},\epsilon_t) \nonumber
   \end{align}
@@ -265,22 +258,25 @@ F=
     \end{gather}
   \item More terms more accuracy
   \item linear system with more ``similar'' dynamics more accuracy for given number of terms
-  \item An RBC example
-    \begin{itemize}
-    \item ``arbitrary'' linear system
-
-\framebox{Table will show truncation errors for the ``Arbitrary'' Linear Model}
-  \item linearized RBC  linear system
-
-\framebox{Table will show truncation errors for the  Linearized RBC Model}
-    \end{itemize}
-
   \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{An RBC example: Bound Versus Actual}
+  \begin{itemize}
+  \item $B_n$ Infinity norm of truncation error matrix times $z_n$
+  \item $Z_n$ Size of difference between truncated series and exact value
+  \item Pessimistic Bounds
+  \item Arbitrary Model Converges, but Linearized RBC performs better
+  \end{itemize}
+ \includegraphics[height=1.3in]{arbBoundsVActual.pdf}
+ \includegraphics[height=1.3in]{simpBoundsVActual.pdf}
 \end{frame}
 \begin{frame}
   \frametitle{Assessing Rational Expectations Solution Accuracy}
 {\small
   \begin{itemize}
+  \item Also locates where approx is bad
   \item the $m$ function codifies changes in model equations due to
 inequality constraints or regime switching.$(\varpi \in \{1,\ldots,n\})$
 \item interested in finding a time invariant function $g^\ast$ that satisfies
@@ -329,26 +325,65 @@ $  z_{t+s}(x_{t-1},\epsilon_t)$ as  %\footnote{These $z$ functions will soon pro
 }
 \item The formula \refeq{theSeries} provides information about how much $x_{t}$ would need
 to change in order for the trajectory to honor the constraints along the path
-\item An exact solution would produce zero for all the $z$ functions
+\item An exact solution should produce zero for all the $z$ functions
 \item One can use a truncated series to carry out the approximation for changes in $x_t$
+\item Useful to have measures of accuracy that don' rely upon knowing the solution beforehand
+\item can adopt Judd approach for loss function for characterizing importance of errors
   \end{itemize}
 }
 \end{frame}
+\begin{frame}
+  \frametitle{Exact Solution Correct to Machine Precision}
+ \includegraphics[height=1.3in]{exactNormErrorZeroEQ1.pdf}
+ \includegraphics[height=1.3in]{exactNormErrorZeroEQ2.pdf}
 
-% \begin{frame}
-%   \frametitle{Assessing Accuracy: the RBC Model Example}
-%   \begin{itemize}
-%   \item Validate the exact solution
+ \includegraphics[height=1.3in]{exactNormErrorZeroEQ3.pdf}
+ \includegraphics[height=1.3in]{exactNormErrorZeroEQ4.pdf}
+\end{frame}
+\begin{itemize}
+\item Should use ``worst'' $\epsilon_t$
+\item at each point can compute the value to machine precision since exact function is known
+\item Graph Generated using an interpolation of the norm of the errors for each equation
+\item Using this approximation to compute the infinity norm for the vector of
+errors produces $10^{-19}$.
+\item Can use the calculations in the formula for $x_t$ to put an upper bound
+on how much $x_t$ has to change in order to get agreement in all the equations
+\end{itemize}
 
-% \framebox{``Arbitrary'' Linear Model} =\framebox{linearized RBC Linear Model}
-%   \item How close is the perfect foresight solution to $\eta=1$ solution
-% \framebox{Table of truncation errors ``Arbitrary'' Linear Model} $\ne$\framebox{table of truncation errors linearized RBC Linear Model}
-%   \item How close is the perfect foresight solution to $\eta \ne 1$ solution
-% \framebox{Table of truncation errors ``Arbitrary'' Linear Model} $\ne$\framebox{table of truncation errors linearized RBC Linear Model}
-%   \item How close is the exact $\eta=1$  solution to $\eta \ne 1$ solution
-% \framebox{Table of truncation errors ``Arbitrary'' Linear Model} $\ne$\framebox{table of truncation errors linearized RBC Linear Model}
-%   \end{itemize}
-% \end{frame}
+\begin{frame}
+  \frametitle{Various Decision Rules and Error Bounds}
+
+  \begin{itemize}
+  \item Using the ``worst'' $\epsilon_t$
+  
+  \begin{tabular}{|l|r|r|r|r|}
+    \multicolumn{1}{|c|}{Decision Rule}&
+    \multicolumn{1}{|c|}{Bound: Global}&
+    \multicolumn{1}{|c|}{Bound: Local}&
+    \multicolumn{1}{|c|}{Actual Max Error:Global}&
+    \multicolumn{1}{|c|}{Actual Max Error:Local}\\
+Exact&0&0&0&0\\
+  \end{tabular}
+
+  \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Assessing Accuracy: the RBC Model Example}
+  \begin{itemize}
+  \item Validate the exact solution
+
+\framebox{``Arbitrary'' Linear Model} =\framebox{linearized RBC Linear Model}
+  \item How close is the perfect foresight solution to $\eta=1$ solution
+\framebox{Table of truncation errors ``Arbitrary'' Linear Model} $\ne$\framebox{table of truncation errors linearized RBC Linear Model}
+  \item How close is the perfect foresight solution to $\eta \ne 1$ solution
+\framebox{Table of truncation errors ``Arbitrary'' Linear Model} $\ne$\framebox{table of truncation errors linearized RBC Linear Model}
+  \item How close is the exact $\eta=1$  solution to $\eta \ne 1$ solution
+\framebox{Table of truncation errors ``Arbitrary'' Linear Model} $\ne$\framebox{table of truncation errors linearized RBC Linear Model}
+  \end{itemize}
+\end{frame}
 
 \begin{frame}
   \frametitle{Correctly Computing Expectations of Nonlinear Functions}
@@ -369,6 +404,7 @@ a deterministic solution at time $t$
   \frametitle{Correctly Computing Expectations of Nonlinear Functions}
 {\small 
   \begin{itemize}
+  \item Series formula doesn't depend on the mechanism underlying the generation of the solution paths, so up to now could silent on expectations and information sets and worries about expectations of nonlinear functions
   \item solutions for models that can be written in  the form
 \begin{gather}
   h_i(x_{t-1},x_{t},x_{t+1},\epsilon_t)=h^{det}_{io}(x_{t-1},x_{t},\epsilon_t)+\\ 
@@ -398,6 +434,12 @@ h_{31}^{det}(\cdot)=0
 
 
 }
+\end{frame}
+
+
+
+
+
 \end{frame}
 
 
@@ -793,6 +835,9 @@ forFRFunc\tArgZ=\modEqns(\xzFunc\tArgZ)\\
  \begin{frame}
    \frametitle{To Do}
    \begin{itemize}
+   \item flows and convergence properties: why algorithm works, guarantee convergence?
+   \item tighter bounds: flows use local value as new period less
+   \item gridspts can just add its using grid spec or smolyak or there specs add to list
    \item Hess Sims formula with index
   \item Only the nonlinear parts of models matter.  Counterintuitive until intuitive.  Two very diff linear models no iteration just get the Z's
   \item this is the sense in which arbitrary is robust

@@ -1,3 +1,20 @@
+\usepackage{amsmath}
+\usepackage{pgfplotstable}%for generating latex from csv files
+\usepackage{mathtools}
+\usepackage{datetime}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+
+\newcommand{\nlEqnLHS}[4]{
+  h_i(#1,#2,E_0(#3),\epsilon_#4)}
+
+\newcommand{\nlEqn}[4]{
+h^{det}_{io}(#1,#2,\epsilon_#4)+
+\sum_{j=1}^{p_i} [h^{det}_{ij}(#1,#2,\epsilon_#4)h^{nondet}_{ij}(E_#4(#3))]
+}
+
+
 \newcommand*\xoverline[2][0.75]{%
     \sbox{\myboxA}{$\m@th#2$}%
     \setbox\myboxB\null% Phantom box

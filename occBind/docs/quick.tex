@@ -1,0 +1,53 @@
+\documentclass[letter]{beamer}
+\input{newCmds}
+\begin{document}
+\begin{frame}
+  \frametitle{The Law of Iterated Expectations}
+{\small
+ 
+  \begin{gather*}
+	 \mathcal{X}_{t}(x_{t-1},\epsilon_t) =B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \sum_{\sForSum=0}^\infty F^s \phi z_{t+\sForSum}(x_{t-1},\epsilon_t) + (I - F)^{-1} \phi \psi_c
+\label{theSeries}\intertext{and}
+	 \mathcal{X}_{t+s+1}(x_{t-1},\epsilon_t) =B \mathcal{X}_{t+s} + \sum_{\sForSum =0}^\infty F^\sForSum \phi z_{t+s+\sForSum}(x_{t-1},\epsilon_t) + (I - F)^{-1} \phi \psi_c \,\,\,\forall s \ge  0
+  \end{gather*}
+
+\begin{gather}
+  h_i(x_{t-1},x_{t},x_{t+1},\epsilon_t)=h^{det}_{io}(x_{t-1},x_{t},\epsilon_t)+\\ 
+\sum_{j=1}^{p_i} [h^{det}_{ij}(x_{t-1},x_{t},\epsilon_t)h^{nondet}_{ij}(x_{t+1})]=0
+\end{gather}
+}
+
+\end{frame}
+
+\begin{frame}
+
+Note that $E_t \epsilon_{t+s}=0, \forall s>0$
+
+  \begin{itemize}
+  \item $k=0$
+  \begin{gather}
+x_0^0()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^0()\\
+x_{1}^0()=B x_0^0()\intertext{solves}
+\nlEqnLHS{x_{-1}}{x_0^0}{x_{1}^0}{0}=\\\nlEqn{x_{-1}}{x_0^0}{x_{1}^0}{0}=0\\
+x_{k}=B^kx_0^0\, \text{solve $\linMod$}
+  \end{gather}
+  \end{itemize}
+
+
+\end{frame}
+
+\begin{frame}
+
+  \begin{itemize}
+  \item $k=1$
+  \begin{gather}
+x_0^1()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^1()+ F \phi z_1^1()\\
+x_1^1()=B x_0^1()+\phi z_1^1()\intertext{solves}
+\nlEqn{x_{-1}}{x_0^1}{x_{1}^1}{0} \intertext{ must have}
+E_0(\nlEqn{x_0}{x_1^1}{x_2^1}{1})
+  \end{gather}
+  \end{itemize}
+
+
+\end{frame}
+\end{document}
