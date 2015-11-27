@@ -46,8 +46,10 @@ for computing accuracy bounds for any proposed time invariant model solution.
 The series representation serves as an important component in an algorithm 
 for constructing approximate solutions for nonlinear rational expectations
 models.
-In this context, it  facilitates exploiting the 
-``law of iterated expectations'' in computing rational expectations solutions for models with occasionally binding constraints.
+
+
+% In this context, it  facilitates exploiting the 
+% ``law of iterated expectations'' in computing rational expectations solutions for models with occasionally binding constraints.
 
 
 \end{abstract}
@@ -100,15 +102,16 @@ We focus on models with time invariant decision rule solutions.
 It is difficult to characterize the model specification, but easier to specify the common characteristics of the solutions.  A s a consequence the approach is very general the text will provide a variety of models that would be amenable, but the list is not meant to be exhaustive.
 
 
-The proofs of applicability 
-turn on being able to rely on the law of iterated expectations and time invariant functions.
+% The proofs of applicability 
+% turn on being able to rely on the law of iterated expectations and time invariant functions.
 It is difficult to think of economic models  that don't exploit these features.
 We require models that have solutions, decision rules, that produce unique paths when iterated forward.  
 
 What is meant my iterating a decision rule depends upon assumption about the
 model and the stochastic component if any.
 We will  touch on two widely used approaches: Rational expectations and 
-perfect foresight. The theory and the algorithms would apply for any method which obeys the law of iterated Expectations.
+perfect foresight. 
+%The theory and the algorithms would apply for any method which obeys the law of iterated Expectations.
 
 \subsection{General Methodology}
 \label{sec:general-methodology}
@@ -141,13 +144,16 @@ $\xtFunc{(x_{t-1},\epsilon)}$ and
 $\expct{t}{x_{t+k}}$ are deterministic functions.  
 
 This will facilitate the solution of difficult decision problems such as problems with
-occasionally binding constraints. Many of the calculations we will do exploit the ``Law of Iterated Expectations,'' so we make its validity explicit now.
+occasionally binding constraints. 
+%Many of the calculations we will do exploit the ``Law of Iterated Expectations,%'' so we make its validity explicit now.
 
 
 With these conventions,  it is possible with invariant functions to iterate the solutions forward.
 If these solutions remain bounded, we will see that there is a useful series representation
- reproducing these trajectories.\footnote{The algorithm turns on using the law of iterated expectations property.
-Consequently, it will also work for degenerate distributions.  Since the first
+ reproducing these trajectories.\footnote{
+%The algorithm turns on using the law of iterated expectations property.
+%Consequently, it will also work for degenerate distributions.
+  Since the first
 period is deterministic,  perfect-foresight solutions 
 where all future shocks are zero fit the formula. The don't need to come from time invariant function -- maybe a proof that can approximate any bounded family by a time invariant function.
 }
@@ -248,7 +254,8 @@ how well a particular proposed solution performs.
 \label{sec:decis-rule-assessm}
 
 Must use ``chunks'' to augment the system in such a way that we
-can use the ``law of iterated expectations''.
+can compute expectations correctly.
+%use the ``law of iterated expectations''.
 Everywhere that a collection of 
 $t+1$ variable appears together, non linearly they must be subsumed in an
 auxiliary variable, a ``chunk'', 
@@ -695,8 +702,9 @@ functions of $x$ alone.  In this paper we will consider two such operators:
 
 
 
-Could be any function that ``integrates out'' the $\epsilon$ so long as 
-iterated ``expectations'' enforced.
+Could be any function that ``integrates out'' the $\epsilon$.
+\footnote{What property, not the ``law of iterated expectations'' do I require.}
+%so long as iterated ``expectations'' enforced.
 
 
 \begin{description}
@@ -844,8 +852,8 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 \end{gather}
 
 The next iteration highlights an aspect of the algorithmic step which allows us
-to continue to exploit the law of iterated expectations in discovering the
-solution for the model.
+to continue to exploit something not the ``law of iterated expectations''
+%the law of iterated expectations in discovering the solution for the model.
 {\small
 \begin{gather}
 \underbrace{x_{t-1},0}
@@ -1342,6 +1350,7 @@ We will need the $B, \phi, F, \psi_\epsilon, \psi_c \text{ and }\psi_z$ matrices
 \label{sec:do}
 
 \begin{itemize}
+\item investigate the possiblity solving for $m_\infty,z_\infty$
 \item For the occasionally binding, there are some trajectories that reengage even
 with perfect foresight.
 \item plot at grid points instead of 3DPlots

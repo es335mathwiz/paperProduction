@@ -75,7 +75,8 @@ time invariant functions.
 \item  formula for accuracy bounds for any 
 proposed time invariant model solution.
 \item an important component in an algorithm for constructing approximate solutions 
-\item facilitates exploiting the ``law of iterated expectations'' in computing solutions for complicated models (ie OCB).
+\item facilitates exploiting something not the ``law of iterated expectations'' in computing solutions for complicated models (ie OCB).
+%\item facilitates exploiting the ``law of iterated expectations'' in computing solutions for complicated models (ie OCB).
 \item Mathematica code implementing the algorithms
   \end{itemize}
 \end{frame}
@@ -440,7 +441,7 @@ h_{31}^{det}(\cdot)=0
 
 
 
-\end{frame}
+%\end{frame}
 
 
 
@@ -835,6 +836,9 @@ forFRFunc\tArgZ=\modEqns(\xzFunc\tArgZ)\\
  \begin{frame}
    \frametitle{To Do}
    \begin{itemize}
+   \item characterize as conditional expectation
+\href{https://en.wikipedia.org/wiki/Conditional_expectation}{conditional expectation wikipedia}
+ \item investigate the possiblity solving for $m_\infty,z_\infty$
    \item flows and convergence properties: why algorithm works, guarantee convergence?
    \item tighter bounds: flows use local value as new period less
    \item gridspts can just add its using grid spec or smolyak or there specs add to list

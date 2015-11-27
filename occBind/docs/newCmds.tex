@@ -5,13 +5,25 @@
 \usepackage{hyperref}
 \usepackage{graphicx}
 
+\newcommand{\detF}{\mathcal{D}}
+\newcommand{\stochF}{\mathcal{S}}
 
-\newcommand{\nlEqnLHS}[4]{
+\newcommand{\onlEqnLHS}[4]{
   h_i(#1,#2,E_0(#3),\epsilon_#4)}
 
-\newcommand{\nlEqn}[4]{
+\newcommand{\onlEqn}[4]{
 h^{det}_{io}(#1,#2,\epsilon_#4)+
 \sum_{j=1}^{p_i} [h^{det}_{ij}(#1,#2,\epsilon_#4)h^{nondet}_{ij}(E_#4(#3))]
+}
+
+
+
+\newcommand{\nlEqnLHS}[4]{
+  h(#1,#2,E_t(#3),\epsilon_#4)}
+
+\newcommand{\nlEqn}[4]{
+h^{det}(#1,#2,\epsilon_#4)+
+H^{det}(#1,#2,\epsilon_#4)E_#4(#3)
 }
 
 

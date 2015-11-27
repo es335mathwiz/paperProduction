@@ -2,7 +2,45 @@
 \input{newCmds}
 \begin{document}
 \begin{frame}
-  \frametitle{The Law of Iterated Expectations}
+  \frametitle{The law I don't use}
+   \begin{itemize}
+ \item Law of Iterated Expectations applies
+   \begin{gather*}
+     E_t(\mathcal{X}(x_{t+k-1},\epsilon_{t+k}))=
+     E_t(E_{t+k}(\mathcal{X}(x_{t+k-1},\epsilon_{t+k})))
+   \end{gather*}
+ \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{``Markovian'' trajectories -- not time invariance}
+  \begin{itemize}
+  \item I don't not need or use the ``Law of Iterated Expectations'' to construct solutions.  One could interpret  result of the computations produces as obeying a version of the Law, but. in hindsight,
+ it does not appear to be a useful concept for 
+developing or explaining the algorithm
+  \item My series representation is not connected to time invariance
+  \item The algorithm for discovering unknown solutions does not rely on time invariance\footnote{ however, for the application at hand, the solution approaches a time invariant function  in the limit.}
+  \item     For my application the $\epsilon$'s are causing 
+confusion because they play two roles.
+Consider a family of, distinctly not time invariant functions 
+$\stochF_t(x_{t-1},\epsilon_t): {R}^{L+1} \rightarrow \mathcal{R}^L$ along with $\epsilon_t \sim $ iid.
+    \begin{enumerate}
+\item The distribution of the $\epsilon_t$ makes it possible to compute 
+a family of deterministic functions $\detF_t(x)=E( \stochF_t(x,\epsilon_t)|x) $
+    \item at some initial time, say t=0, an $\epsilon_0$ 
+along with an $x_{-1}$, determines a unique $x_0=\stochF_0(x_{-1},\epsilon_0)$.
+Subsequently, $x_{t+s}=\detF_{t+s}(x_{t+s-1})\,\, \forall s>0$
+    \end{enumerate}
+ \item The series representation requires a unique trajectory beginning with $x_0=\stochF_0(x_{-1},\epsilon_0)$ and 
+evolving forward for any given $x_0$ by $x_t=\detF_t(x_{t-1})\,\, \forall t>0$. 
+
+  \end{itemize}
+    
+  \end{frame}
+  \begin{frame}
+
 {\small
  
   \begin{gather*}
@@ -11,43 +49,221 @@
 	 \mathcal{X}_{t+s+1}(x_{t-1},\epsilon_t) =B \mathcal{X}_{t+s} + \sum_{\sForSum =0}^\infty F^\sForSum \phi z_{t+s+\sForSum}(x_{t-1},\epsilon_t) + (I - F)^{-1} \phi \psi_c \,\,\,\forall s \ge  0
   \end{gather*}
 
-\begin{gather}
-  h_i(x_{t-1},x_{t},x_{t+1},\epsilon_t)=h^{det}_{io}(x_{t-1},x_{t},\epsilon_t)+\\ 
-\sum_{j=1}^{p_i} [h^{det}_{ij}(x_{t-1},x_{t},\epsilon_t)h^{nondet}_{ij}(x_{t+1})]=0
-\end{gather}
+Must write equations in the form: 
+
+\begin{gather*}
+\nlEqnLHS{x_{t-1}}{x_t}{x_{t+1}}{t}=\\
+\nlEqn{x_{t-1}}{x_t}{x_{t+1}}{t}=0\\
+ (L \times 1) +  (L \times L ) \cdot (L \times 1)
+\end{gather*}
 }
 
 \end{frame}
 
 \begin{frame}
 
-Note that $E_t \epsilon_{t+s}=0, \forall s>0$
-
+ Denote  $f(x_{t-1},\epsilon_t) \equiv f()$
+Construct a sequence of function $(m_k(),z_k())$ That compute conditional expectations paths honoring successively longer soluiton horizons:\footnote{We set $\psi_c=0$  without loss of generality 
+in the expressions that follow merely to save on notation.}
+Begin with ignoring nonlinear equations completely.
   \begin{itemize}
-  \item $k=0$
-  \begin{gather}
-x_0^0()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^0()\\
-x_{1}^0()=B x_0^0()\intertext{solves}
-\nlEqnLHS{x_{-1}}{x_0^0}{x_{1}^0}{0}=\\\nlEqn{x_{-1}}{x_0^0}{x_{1}^0}{0}=0\\
-x_{k}=B^kx_0^0\, \text{solve $\linMod$}
-  \end{gather}
+  \item $k=0$ assume $z_k()=0, \, \forall k$
+  \begin{gather*}
+x_0^0()=m_0()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^0()\\
+x_{1}^0=B x_0^0+\phi \psi_\epsilon \epsilon_1 \intertext{so that since $E_t \epsilon_{t+s}=0 \,\,\forall s>0$}
+E_0x_{1}^0=B x_0^0\intertext{ can compute conditional expectations.}
+M_0(x)=B x_0^0, \, 
+Z_0(x)=0
+  \end{gather*}
   \end{itemize}
-
+% \forall s>0$,
 
 \end{frame}
 
 \begin{frame}
 
-  \begin{itemize}
-  \item $k=1$
-  \begin{gather}
-x_0^1()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^1()+ F \phi z_1^1()\\
-x_1^1()=B x_0^1()+\phi z_1^1()\intertext{solves}
-\nlEqn{x_{-1}}{x_0^1}{x_{1}^1}{0} \intertext{ must have}
-E_0(\nlEqn{x_0}{x_1^1}{x_2^1}{1})
-  \end{gather}
-  \end{itemize}
+{\tiny
 
+  \begin{itemize}
+  \item $k=1$ assume $z_k()=0, \, \forall k>0$
+  \begin{gather*}
+x_0^1()=m_1()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^1()\\
+\intertext{ we use the $k=0$ solution in effect imposing the linear model for the evolution of the model equations }
+E_0(x_1^1)=M_0(x_0^1())=B x_0^1()\intertext{We use the deterministic equation}
+\nlEqn{x_{-1}}{x_0^1}{x_{1}^1}{0} 
+\intertext{to solve for } 
+z_0^1() \text{ and }  x_0^1()\intertext{We can compute  the deterministic 
+conditional expectations functions 
+for $x_0$ and $z_0$ given some $x$ but prior to knowlege of $\epsilon_0$.}
+X_1(x) \text{ and }  Z_1(x)
+  \end{gather*}
+  \end{itemize}
+}
+\end{frame}
+
+
+
+\begin{frame}
+
+{\tiny
+
+  \begin{itemize}
+  \item $k=2$ assume $z_k()=0, \, \forall k>1$.
+We can use our $k=1$ solution to write:
+  \begin{gather*}
+x_0^2()=m_2()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^2()+
+ F \phi Z_1(x_0^2())\\
+E_0(x_1^2())=M_1(x_0^2()) \\
+\nlEqn{x_{-1}}{x_0^2}{M_1(x_0^2())}{0} \\
+  \end{gather*}
+  \item $k=3$ assume $z_k()=0, \, \forall k>2$.
+We can use our $k=2$ solution to write:
+  \begin{gather*}
+x_0^3()=m_2()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^3()+
+ F \phi Z_2(x_0^3())+
+ F^2 \phi Z_1(x_1^3())\\
+E_0(x_1^3())=M_1(x_0^3()) \\
+\nlEqn{x_{-1}}{x_0^3}{M_1(x_0^3())}{0} \\
+  \end{gather*}
+  \end{itemize}
+}
+\end{frame}
+
+
+
+\begin{frame}
+
+{\tiny
+
+  \begin{itemize}
+  \item $k=k^\ast$ assume $z_k()=0, \, \forall k>k^\ast$.
+We can use our $k^\ast$ solution to write:
+  \begin{gather*}
+x_0^{k^\ast+1}()=m_{k^\ast+1}()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^{k^\ast+1}()+
+\sum_{s=1}^{k^\ast}  F^s \phi Z_s(x_s^{k^\ast+1}())\\
+E_0(x_1^{k^\ast + 1}())=M_{k^\ast}(x_0^{k^\ast}()) \\
+\nlEqn{x_{-1}}{x_0^2}{M_{k^\ast}(x_0^{k^\ast+1}())}{0} \\ \intertext{where the $Z$ are evaluated along the  conditional expectations path}
+x_1^{k^\ast+1}=  X_{k^\ast}(x_0^{k\ast+1})\\ x_2^{k^\ast+1}=  X_{k^\ast-1}(X_{k^\ast}(x_0^{k\ast+1}))\\ \vdots \\x_{k^\ast}^{k^\ast+1}= X_{1}(X_{2}(\ldots( X_{k^\ast-1}(X_{k^\ast}(x_0^{k\ast+1}))))
+  \end{gather*}
+  \end{itemize}
+}
+\end{frame}
+
+
+
+\begin{frame}
+
+{\tiny
+
+  \begin{itemize}
+  \item $k=1$ assume $z_k()=0, \, \forall k>1$
+  \begin{gather*}
+x_0^1()=m_1()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^1()+ F \phi z_1^1()\\
+x_1^1()=B x_0^1()+\phi \psi_\epsilon \epsilon_1+\phi z_1^1()\\
+x_2^1()=B x_1^1()+\phi \psi_\epsilon \epsilon_2\intertext{solves}
+\nlEqn{x_{-1}}{x_0^1}{x_{1}^1}{0} \\
+\nlEqn{x_0}{x_1^1}{x_2^1}{1}
+\intertext{we can use our $k=0$ solution in the second equation}
+x_1^1(x_0,\epsilon_1) = x_0^0(x_0,\epsilon_1),\,\,
+z_1^1(x_0,\epsilon_1) = z_0^0(x_0,\epsilon_1) \intertext{and}
+E_0(x_1^1(x_0,\epsilon_1)) = E_0( m_0(x_0,\epsilon_1))=
+E_0(B x_0 +\phi \psi_\epsilon \epsilon_1 + \phi z_0^0(x_0,\epsilon_1))\\
+E_0(x_1^1(x_0,\epsilon_1)) =B x_0 + \phi E_0(z_0^0(x_0,\epsilon_1))=\\
+B x_0^1() + \phi Z_0^0(x_0)=
+B x_0^1() + \phi Z_0^0(x_0^1()) \intertext{leaving  a deterministic equation to solve for $z_0^1()$ (and consequently $x_0^1()$)}
+  \end{gather*}
+  \end{itemize}
+}
+\end{frame}
+
+
+
+\begin{frame}
+
+ Denote  $f(x_{t-1},\epsilon_t) \equiv f()$
+Construct a sequence of function $(m_k(),z_k())$ That compute conditional expectations paths honoring successively longer soluiton horizons:\footnote{We set $\psi_c=0$  without loss of generality 
+in the expressions that follow merely to save on notation.}
+
+  \begin{itemize}
+  \item $k=0$ assume $z_k()=0, \, \forall k>0$
+  \begin{gather*}
+x_0^0()=m_0()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^0()\\
+x_{1}^0=B x_0^0+\phi \psi_\epsilon \epsilon_1 \intertext{so that since $E_t \epsilon_{t+s}=0 \,\,\forall s>0$}
+E_0x_{1}^0=B x_0^0()\intertext{compute $z_0^0()$ ( 
+and consequently $x_0^0$ ) that solves the deterministic equation}
+\nlEqn{x_{-1}}{x_0^0}{x_{1}^0}{0}=0 
+  \end{gather*}
+  \end{itemize}
+% \forall s>0$,
 
 \end{frame}
+
+
+
+\begin{frame}
+
+{\tiny
+
+  \begin{itemize}
+  \item $k=2$ assume $z_k()=0, \, \forall k>2$
+  \begin{gather*}
+x_0^2()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^2()+ F \phi z_1^2()+ F \phi z_2^2()\\
+x_1^2()=B x_0^2()+\phi \psi_\epsilon \epsilon_1+\phi z_1^2()+F\phi z_2^2()\\
+x_2^2()=B x_0^2()+\phi \psi_\epsilon \epsilon_2+\phi z_2^2()\\
+x_3^2()=B x_0^2()+\phi \psi_\epsilon \epsilon_3
+\intertext{solves}
+\nlEqn{x_{-1}}{x_0^2}{x_{1}^2}{0} \\
+\nlEqn{x_0}{x_1^2}{x_2^2}{1}\\
+\nlEqn{x_1}{x_2^2}{x_3^2}{2}
+\intertext{so that}
+x_1^2(x_0,\epsilon_1) = x_0^0(x_0,\epsilon_1),\,\,
+z_1^2(x_0,\epsilon_1) = z_0^0(x_0,\epsilon_1) \\
+x_2^2(x_1,\epsilon_2) = x_0^0(x_1,\epsilon_2),\,\,
+z_2^2(x_1,\epsilon_2) = z_0^0(x_1,\epsilon_2) \intertext{and}
+E_0(x_1^2(x_0,\epsilon_1)) = E_0( x_0^0(x_0,\epsilon_1))=
+E_0(B x_0 +\phi \psi_\epsilon \epsilon_1 + \phi z_0^0(x_0,\epsilon_1))\\
+E_0(x_1^2(x_0,\epsilon_1)) =B x_0 + \phi E_0(z_0^0(x_0,\epsilon_1))=\\
+B x_0^2() + \phi Z_0^0(x_0)=
+B x_0^2() + \phi Z_0^0(x_0^2())
+  \end{gather*}
+  \end{itemize}
+}
+\end{frame}
+
+
+
+\begin{frame}
+
+{\small
+
+  \begin{itemize}
+  \item Given $k$
+  \begin{gather*}
+x_0^k()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \sum_{s=0}^k F^s \phi z_s^k()\\
+x_1^k()=B x_0()+\phi \psi_\epsilon \epsilon_1+ \sum_{s=1}^k F^{s-1} \phi z_s^k()\\
+\vdots\\
+x_k^k()=B x_{k-1}()+\phi \psi_\epsilon \epsilon_k+ \phi z_k^k()\intertext{solves}
+\nlEqn{x_{-1}}{x_0^k}{x_{1}^k}{0} \\
+\nlEqn{x_0}{x_1^k}{x_2^k}{1}\\
+\vdots \\
+\nlEqn{x_{k-1}}{x_k^k}{x_{k+1}^k}{k}
+  \end{gather*}
+  \end{itemize}
+}
+\end{frame}
+
+\begin{frame}
+
+
+  \begin{gather*}
+    x_k^k()=x_0^0(x_{k-1}^k()),     z_k^k()=z_0^0(x_{k-1}^k())\\
+  \end{gather*}
+
+  Construct
+
+  \begin{gather*}
+x_0^{k+1}()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \sum_{s=0}^{k+1} F^{s} \phi z_s^{k}()\\
+  \end{gather*}
+\end{frame}
+
 \end{document}
