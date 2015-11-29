@@ -2,43 +2,71 @@
 \input{newCmds}
 \begin{document}
 \begin{frame}
-  \frametitle{The law I don't use}
-   \begin{itemize}
- \item Law of Iterated Expectations applies
-   \begin{gather*}
-     E_t(\mathcal{X}(x_{t+k-1},\epsilon_{t+k}))=
-     E_t(E_{t+k}(\mathcal{X}(x_{t+k-1},\epsilon_{t+k})))
-   \end{gather*}
- \end{itemize}
-
-\end{frame}
-
-
-\begin{frame}
-  \frametitle{``Markovian'' trajectories -- not time invariance}
+  \frametitle{My algorithm is based on basic properties of deterministic maps.}
   \begin{itemize}
-  \item I don't not need or use the ``Law of Iterated Expectations'' to construct solutions.  One could interpret  result of the computations produces as obeying a version of the Law, but. in hindsight,
- it does not appear to be a useful concept for 
-developing or explaining the algorithm
-  \item My series representation is not connected to time invariance
-  \item The algorithm for discovering unknown solutions does not rely on time invariance\footnote{ however, for the application at hand, the solution approaches a time invariant function  in the limit.}
-  \item     For my application the $\epsilon$'s are causing 
-confusion because they play two roles.
-Consider a family of, distinctly not time invariant functions 
-$\stochF_t(x_{t-1},\epsilon_t): {R}^{L+1} \rightarrow \mathcal{R}^L$ along with $\epsilon_t \sim $ iid.
+  \item     The $\epsilon$'s are causing 
+confusion because they play two distinct roles.
+To see the two roles, consider a family of stochastic functions 
+$\{\stochF{T},\ldots,\stochF{0}\}$ with 
+$\stochF{T-t}(x,\epsilon_t): {\mathcal{R}}^{L+1} \rightarrow \mathcal{R}^L$ along with $\epsilon_t \sim $ iid.
     \begin{enumerate}
 \item The distribution of the $\epsilon_t$ makes it possible to compute 
-a family of deterministic functions $\detF_t(x)=E( \stochF_t(x,\epsilon_t)|x) $
+a family of deterministic functions $\detF{k}(x)=E( \stochF{k}(x,\epsilon_t)|x) $
     \item at some initial time, say t=0, an $\epsilon_0$ 
-along with an $x_{-1}$, determines a unique $x_0=\stochF_0(x_{-1},\epsilon_0)$.
-Subsequently, $x_{t+s}=\detF_{t+s}(x_{t+s-1})\,\, \forall s>0$
+along with an $x_{-1}$, determines a unique $x_0=\stochF{T}(x_{-1},\epsilon_0)$.
+Subsequently, $x_{t}=\detF{{T-t}}(x_{t-1})\,\, \forall t>0$
     \end{enumerate}
- \item The series representation requires a unique trajectory beginning with $x_0=\stochF_0(x_{-1},\epsilon_0)$ and 
-evolving forward for any given $x_0$ by $x_t=\detF_t(x_{t-1})\,\, \forall t>0$. 
-
+ \item The series representation requires a unique trajectory beginning with $x_0=\stochF{T}(x_{-1},\epsilon_0)$ and 
+evolving forward from any given $x_0$:  $x_t=\detF{T-t}(x_{t-1})\,\, \forall t>0$. 
+  \item The algorithm for discovering unknown solutions does not rely on time invariance. 
+\item However, when it converges, the algorithm constructs a time invariant function.
   \end{itemize}
     
   \end{frame}
+
+%\footnote{We set $\psi_c=0$  without loss of generality 
+%in the expressions that follow merely to save on notation.}
+
+\begin{frame}
+\frametitle{The reference model and the target model}
+\begin{itemize}
+\item The target model is of the form
+\begin{gather*}
+\nlEqnLHS{x_{t-1}}{x_t}{x_{t+1}}{t}=\\
+\nlEqn{x_{t-1}}{x_t}{x_{t+1}}{t}=0\\
+ (L \times 1) +  (L \times L ) \cdot (L \times 1)
+\end{gather*}
+\item The algorithm begins with solutions satisfying 
+the reference model and
+constructs a sequence of functions
+ honoring the target model equations for successively 
+longer solution horizons.
+
+\item It will be useful to express the sequence of stochastic 
+functions using
+  \begin{gather*}
+	 \stochF{k}(x_{t-1},\epsilon_t) =B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \\ \sum_{\sForSum=0}^\infty F^s \phi z_{t+\sForSum}(x_{t-1},\epsilon_t) + (I - F)^{-1} \phi \psi_c
+\label{theSeries}
+  \end{gather*}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{$k=0$ completely ignore the target model}
+  \begin{itemize}
+\item 
+  \begin{gather*}
+\stochF{0}()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^0()\\
+x_{1}^0=B x_0^0+\phi \psi_\epsilon \epsilon_1 \intertext{so that since $E_t \epsilon_{t+s}=0 \,\,\forall s>0$}
+E_0x_{1}^0=B x_0^0\intertext{ can compute conditional expectations.}
+M_0(x)=B x_0^0, \, 
+Z_0(x)=0
+  \end{gather*}
+  \end{itemize}
+\end{frame}
+
+
+
   \begin{frame}
 
 {\small
@@ -57,26 +85,6 @@ Must write equations in the form:
  (L \times 1) +  (L \times L ) \cdot (L \times 1)
 \end{gather*}
 }
-
-\end{frame}
-
-\begin{frame}
-
- Denote  $f(x_{t-1},\epsilon_t) \equiv f()$
-Construct a sequence of function $(m_k(),z_k())$ That compute conditional expectations paths honoring successively longer soluiton horizons:\footnote{We set $\psi_c=0$  without loss of generality 
-in the expressions that follow merely to save on notation.}
-Begin with ignoring nonlinear equations completely.
-  \begin{itemize}
-  \item $k=0$ assume $z_k()=0, \, \forall k$
-  \begin{gather*}
-x_0^0()=m_0()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^0()\\
-x_{1}^0=B x_0^0+\phi \psi_\epsilon \epsilon_1 \intertext{so that since $E_t \epsilon_{t+s}=0 \,\,\forall s>0$}
-E_0x_{1}^0=B x_0^0\intertext{ can compute conditional expectations.}
-M_0(x)=B x_0^0, \, 
-Z_0(x)=0
-  \end{gather*}
-  \end{itemize}
-% \forall s>0$,
 
 \end{frame}
 
@@ -265,5 +273,23 @@ x_k^k()=B x_{k-1}()+\phi \psi_\epsilon \epsilon_k+ \phi z_k^k()\intertext{solves
 x_0^{k+1}()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \sum_{s=0}^{k+1} F^{s} \phi z_s^{k}()\\
   \end{gather*}
 \end{frame}
+% \begin{frame}
+%   \frametitle{The law I don't use}
+%    \begin{itemize}
+%  \item Law of Iterated Expectations applies
+%    \begin{gather*}
+%      E_t(\mathcal{X}(x_{t+k-1},\epsilon_{t+k}))=
+%      E_t(E_{t+k}(\mathcal{X}(x_{t+k-1},\epsilon_{t+k})))
+%    \end{gather*}
+%   \item I don't not need or use the ``Law of Iterated Expectations'' to construct solutions.  One could interpret  result of the computations produces as obeying a version of the Law, but. in hindsight,
+%  it does not appear to be a useful concept for 
+% developing or explaining the algorithm
+%   \item My series representation is not connected to time invariance
+
+%  \end{itemize}
+
+% \end{frame}
+
+
 
 \end{document}
