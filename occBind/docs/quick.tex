@@ -1,25 +1,27 @@
 \documentclass[letter]{beamer}
 \input{newCmds}
 \begin{document}
+
+
 \begin{frame}
-  \frametitle{My algorithm is based on basic properties of deterministic maps.}
+  \frametitle{Algorithm based on basic properties of deterministic maps.}
   \begin{itemize}
-  \item     The $\epsilon$'s are causing 
-confusion because they play two distinct roles.
+  \item     The $\epsilon$'s  play two distinct roles in the algorithm.
 To see the two roles, consider a family of stochastic functions 
 $\{\stochF{T},\ldots,\stochF{0}\}$ with 
-$\stochF{T-t}(x,\epsilon_t): {\mathcal{R}}^{L+1} \rightarrow \mathcal{R}^L$ along with $\epsilon_t \sim $ iid.
+$\stochF{k}(x,\epsilon_t): {\mathcal{R}}^{L+1} \rightarrow \mathcal{R}^L$ 
     \begin{enumerate}
-\item The distribution of the $\epsilon_t$ makes it possible to compute 
-a family of deterministic functions $\detF{k}(x)=E( \stochF{k}(x,\epsilon_t)|x) $
-    \item at some initial time, say t=0, an $\epsilon_0$ 
-along with an $x_{-1}$, determines a unique $x_0=\stochF{T}(x_{-1},\epsilon_0)$.
+\item I assume  $\epsilon_t \sim $ iid. Knowing the distribution 
+of the $\epsilon_t$ makes it possible to compute 
+a corresponding family of deterministic functions $\detF{k}(x)=E( \stochF{k}(x,\epsilon_t)|x) $
+    \item I assume that at some initial time, say t=0, a particular 
+ $\epsilon_0$ draw 
+along with an $x_{-1}$, determines a unique $x_0=\stochF{T}\initXE$.
 Subsequently, $x_{t}=\detF{{T-t}}(x_{t-1})\,\, \forall t>0$
     \end{enumerate}
- \item The series representation requires a unique trajectory beginning with $x_0=\stochF{T}(x_{-1},\epsilon_0)$ and 
-evolving forward from any given $x_0$:  $x_t=\detF{T-t}(x_{t-1})\,\, \forall t>0$. 
-  \item The algorithm for discovering unknown solutions does not rely on time invariance. 
-\item However, when it converges, the algorithm constructs a time invariant function.
+ \item The series representation requires a unique trajectory beginning with $x_0=\stochF{T}\initXE$ and 
+evolving forward from any $x_0$ given by, a potentially time varying deterministic map,  $x_t=\detF{T-t}(x_{t-1})\,\, \forall t>0$. 
+  \item The algorithm for discovering unknown solutions does not rely on time invariance.
   \end{itemize}
     
   \end{frame}
@@ -28,267 +30,238 @@ evolving forward from any given $x_0$:  $x_t=\detF{T-t}(x_{t-1})\,\, \forall t>0
 %in the expressions that follow merely to save on notation.}
 
 \begin{frame}
-\frametitle{The reference model and the target model}
+\frametitle{The model of interest and a linear reference model}
 \begin{itemize}
 \item The target model is of the form
-\begin{gather*}
+\begin{gather}
 \nlEqnLHS{x_{t-1}}{x_t}{x_{t+1}}{t}=\\
-\nlEqn{x_{t-1}}{x_t}{x_{t+1}}{t}=0\\
- (L \times 1) +  (L \times L ) \cdot (L \times 1)
-\end{gather*}
-\item The algorithm begins with solutions satisfying 
-the reference model and
+\nlEqn{x_{t-1}}{x_t}{x_{t+1}}{t}=0\\ \label{refMod}
+ (L \times 1) +  (L \times L ) \cdot (L \times 1)\\
+\nlEqnSel{x_{t-1}}{x_t}{x_{t+1}}{t}\\ 
+\end{gather}
+
+
+
+\item The algorithm constructs a sequence of stochastic 
+functions 
+  \begin{gather}
+	 \stochF{k}\initXE =B x_{t-1}+ (I - F)^{-1} \phi \psi_c+  \phi \psi_\epsilon\epsilon_0  +\\ \phi z^{\{k\}}\initXE+ \sum_{\sForSum=1}^{k-1} F^s \phi z^{\{k-\nu\}}_{\sForSum}\initXE 
+\label{theSeries}
+  \end{gather}
+
+\item One can show that the algorithm begins with solutions satisfying 
+the linear reference model $\linModMats$ and
 constructs a sequence of functions
  honoring the target model equations for successively 
 longer solution horizons.
-
-\item It will be useful to express the sequence of stochastic 
-functions using
-  \begin{gather*}
-	 \stochF{k}(x_{t-1},\epsilon_t) =B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \\ \sum_{\sForSum=0}^\infty F^s \phi z_{t+\sForSum}(x_{t-1},\epsilon_t) + (I - F)^{-1} \phi \psi_c
-\label{theSeries}
-  \end{gather*}
   \end{itemize}
 \end{frame}
-
 \begin{frame}
-\frametitle{$k=0$ completely ignore the target model}
+  \frametitle{Recursive updating}
+{\small
   \begin{itemize}
+  \item Given a linear reference model,$\linModMats$,  any bounded 
+sequence of deterministic maps $\{\detF{T},\ldots,\detF{0}\}, \,\, T>0$ generates 
+a series representation
+  \begin{gather}
+     \label{eq:2}
+	 \mathcal{X}_{t}(x_{t-1}) =B x_{t-1}+  (I - F)^{-1} \phi \psi_c +\\ \sum_{\sForSum=0}^{T-1} F^s \phi z_{T-\sForSum}(x_{t-1}) \intertext{it is straightforward to 
+update to a new series representation for the map trajectories resulting from prepending an additional deterministic map to the sequence $\detF{T+1},\ldots,\detF{0}\}$}
+	 \mathcal{X}_{t}(x_{t-1}) =B x_{t-1}+  (I - F)^{-1} \phi \psi_c +\\ 
+\phi z_{T+1}(x_{t-1}) + \sum_{\sForSum=1}^{T} F^s \phi z_{T+1-\sForSum}(x_{t-1}) 
+  \end{gather}
 \item 
-  \begin{gather*}
-\stochF{0}()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^0()\\
-x_{1}^0=B x_0^0+\phi \psi_\epsilon \epsilon_1 \intertext{so that since $E_t \epsilon_{t+s}=0 \,\,\forall s>0$}
-E_0x_{1}^0=B x_0^0\intertext{ can compute conditional expectations.}
-M_0(x)=B x_0^0, \, 
-Z_0(x)=0
-  \end{gather*}
   \end{itemize}
+}
 \end{frame}
 
-
-
-  \begin{frame}
-
+\begin{frame}
+\frametitle{Early iterations}
 {\small
- 
-  \begin{gather*}
-	 \mathcal{X}_{t}(x_{t-1},\epsilon_t) =B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \sum_{\sForSum=0}^\infty F^s \phi z_{t+\sForSum}(x_{t-1},\epsilon_t) + (I - F)^{-1} \phi \psi_c
-\label{theSeries}\intertext{and}
-	 \mathcal{X}_{t+s+1}(x_{t-1},\epsilon_t) =B \mathcal{X}_{t+s} + \sum_{\sForSum =0}^\infty F^\sForSum \phi z_{t+s+\sForSum}(x_{t-1},\epsilon_t) + (I - F)^{-1} \phi \psi_c \,\,\,\forall s \ge  0
-  \end{gather*}
-
-Must write equations in the form: 
-
-\begin{gather*}
-\nlEqnLHS{x_{t-1}}{x_t}{x_{t+1}}{t}=\\
-\nlEqn{x_{t-1}}{x_t}{x_{t+1}}{t}=0\\
- (L \times 1) +  (L \times L ) \cdot (L \times 1)
-\end{gather*}
-}
-
-\end{frame}
-
-\begin{frame}
-
-{\tiny
-
   \begin{itemize}
-  \item $k=1$ assume $z_k()=0, \, \forall k>0$
-  \begin{gather*}
-x_0^1()=m_1()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^1()\\
-\intertext{ we use the $k=0$ solution in effect imposing the linear model for the evolution of the model equations }
-E_0(x_1^1)=M_0(x_0^1())=B x_0^1()\intertext{We use the deterministic equation}
-\nlEqn{x_{-1}}{x_0^1}{x_{1}^1}{0} 
-\intertext{to solve for } 
-z_0^1() \text{ and }  x_0^1()\intertext{We can compute  the deterministic 
-conditional expectations functions 
-for $x_0$ and $z_0$ given some $x$ but prior to knowlege of $\epsilon_0$.}
-X_1(x) \text{ and }  Z_1(x)
-  \end{gather*}
+  \item $k=0$: Completely ignore the target model
+  \begin{gather}
+z^{\itSup{0}}\initXE=0 \intertext{ so that}
+\stochF{0}\initXE=B x_{-1} + (I - F)^{-1} \phi \psi_c +\phi \psi_\epsilon \epsilon_0  \intertext{initialize the sequence of deterministic maps with }
+\{\detF{0}\initX=B x \}
+  \end{gather}
+  \item $k=1$: Employ the target model for one period. Use
+  \begin{gather}
+x_0\initXE=B x_{-1}+ (I - F)^{-1} \phi \psi_c +\phi \psi_\epsilon \epsilon_0 + \phi z^{\itSup{1}}\initXE\\
+E(x_1\initXE)=\detF{0}(x_0\initXE) \intertext{in the deterministic equation 
+\refeq{refMod} to determine $z^{\itSup{1}}\initXE$ so}
+\stochF{1}\initXE = B x_{-1}+ (I - F)^{-1} \phi \psi_c +\phi \psi_\epsilon \epsilon_0 + 
+\phi z^{\itSup{1}}\initXE \intertext{%Define $Z^{\itSup{1}}(x)\equiv E \left [ z^{\itSup{1}}\initXEN | x \right ]$ and 
+ augment the sequence}
+\{\detF{1}\initX=B x  + \phi Z^{\itSup{1}}(x),\detF{0}\}
+  \end{gather}
   \end{itemize}
 }
 \end{frame}
 
-
-
 \begin{frame}
-
-{\tiny
-
-  \begin{itemize}
-  \item $k=2$ assume $z_k()=0, \, \forall k>1$.
-We can use our $k=1$ solution to write:
-  \begin{gather*}
-x_0^2()=m_2()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^2()+
- F \phi Z_1(x_0^2())\\
-E_0(x_1^2())=M_1(x_0^2()) \\
-\nlEqn{x_{-1}}{x_0^2}{M_1(x_0^2())}{0} \\
-  \end{gather*}
-  \item $k=3$ assume $z_k()=0, \, \forall k>2$.
-We can use our $k=2$ solution to write:
-  \begin{gather*}
-x_0^3()=m_2()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^3()+
- F \phi Z_2(x_0^3())+
- F^2 \phi Z_1(x_1^3())\\
-E_0(x_1^3())=M_1(x_0^3()) \\
-\nlEqn{x_{-1}}{x_0^3}{M_1(x_0^3())}{0} \\
-  \end{gather*}
-  \end{itemize}
-}
-\end{frame}
-
-
-
-\begin{frame}
-
-{\tiny
-
-  \begin{itemize}
-  \item $k=k^\ast$ assume $z_k()=0, \, \forall k>k^\ast$.
-We can use our $k^\ast$ solution to write:
-  \begin{gather*}
-x_0^{k^\ast+1}()=m_{k^\ast+1}()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^{k^\ast+1}()+
-\sum_{s=1}^{k^\ast}  F^s \phi Z_s(x_s^{k^\ast+1}())\\
-E_0(x_1^{k^\ast + 1}())=M_{k^\ast}(x_0^{k^\ast}()) \\
-\nlEqn{x_{-1}}{x_0^2}{M_{k^\ast}(x_0^{k^\ast+1}())}{0} \\ \intertext{where the $Z$ are evaluated along the  conditional expectations path}
-x_1^{k^\ast+1}=  X_{k^\ast}(x_0^{k\ast+1})\\ x_2^{k^\ast+1}=  X_{k^\ast-1}(X_{k^\ast}(x_0^{k\ast+1}))\\ \vdots \\x_{k^\ast}^{k^\ast+1}= X_{1}(X_{2}(\ldots( X_{k^\ast-1}(X_{k^\ast}(x_0^{k\ast+1}))))
-  \end{gather*}
-  \end{itemize}
-}
-\end{frame}
-
-
-
-\begin{frame}
-
-{\tiny
-
-  \begin{itemize}
-  \item $k=1$ assume $z_k()=0, \, \forall k>1$
-  \begin{gather*}
-x_0^1()=m_1()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^1()+ F \phi z_1^1()\\
-x_1^1()=B x_0^1()+\phi \psi_\epsilon \epsilon_1+\phi z_1^1()\\
-x_2^1()=B x_1^1()+\phi \psi_\epsilon \epsilon_2\intertext{solves}
-\nlEqn{x_{-1}}{x_0^1}{x_{1}^1}{0} \\
-\nlEqn{x_0}{x_1^1}{x_2^1}{1}
-\intertext{we can use our $k=0$ solution in the second equation}
-x_1^1(x_0,\epsilon_1) = x_0^0(x_0,\epsilon_1),\,\,
-z_1^1(x_0,\epsilon_1) = z_0^0(x_0,\epsilon_1) \intertext{and}
-E_0(x_1^1(x_0,\epsilon_1)) = E_0( m_0(x_0,\epsilon_1))=
-E_0(B x_0 +\phi \psi_\epsilon \epsilon_1 + \phi z_0^0(x_0,\epsilon_1))\\
-E_0(x_1^1(x_0,\epsilon_1)) =B x_0 + \phi E_0(z_0^0(x_0,\epsilon_1))=\\
-B x_0^1() + \phi Z_0^0(x_0)=
-B x_0^1() + \phi Z_0^0(x_0^1()) \intertext{leaving  a deterministic equation to solve for $z_0^1()$ (and consequently $x_0^1()$)}
-  \end{gather*}
-  \end{itemize}
-}
-\end{frame}
-
-
-
-\begin{frame}
-
- Denote  $f(x_{t-1},\epsilon_t) \equiv f()$
-Construct a sequence of function $(m_k(),z_k())$ That compute conditional expectations paths honoring successively longer soluiton horizons:\footnote{We set $\psi_c=0$  without loss of generality 
-in the expressions that follow merely to save on notation.}
-
-  \begin{itemize}
-  \item $k=0$ assume $z_k()=0, \, \forall k>0$
-  \begin{gather*}
-x_0^0()=m_0()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^0()\\
-x_{1}^0=B x_0^0+\phi \psi_\epsilon \epsilon_1 \intertext{so that since $E_t \epsilon_{t+s}=0 \,\,\forall s>0$}
-E_0x_{1}^0=B x_0^0()\intertext{compute $z_0^0()$ ( 
-and consequently $x_0^0$ ) that solves the deterministic equation}
-\nlEqn{x_{-1}}{x_0^0}{x_{1}^0}{0}=0 
-  \end{gather*}
-  \end{itemize}
-% \forall s>0$,
-
-\end{frame}
-
-
-
-\begin{frame}
-
-{\tiny
-
-  \begin{itemize}
-  \item $k=2$ assume $z_k()=0, \, \forall k>2$
-  \begin{gather*}
-x_0^2()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \phi z_0^2()+ F \phi z_1^2()+ F \phi z_2^2()\\
-x_1^2()=B x_0^2()+\phi \psi_\epsilon \epsilon_1+\phi z_1^2()+F\phi z_2^2()\\
-x_2^2()=B x_0^2()+\phi \psi_\epsilon \epsilon_2+\phi z_2^2()\\
-x_3^2()=B x_0^2()+\phi \psi_\epsilon \epsilon_3
-\intertext{solves}
-\nlEqn{x_{-1}}{x_0^2}{x_{1}^2}{0} \\
-\nlEqn{x_0}{x_1^2}{x_2^2}{1}\\
-\nlEqn{x_1}{x_2^2}{x_3^2}{2}
-\intertext{so that}
-x_1^2(x_0,\epsilon_1) = x_0^0(x_0,\epsilon_1),\,\,
-z_1^2(x_0,\epsilon_1) = z_0^0(x_0,\epsilon_1) \\
-x_2^2(x_1,\epsilon_2) = x_0^0(x_1,\epsilon_2),\,\,
-z_2^2(x_1,\epsilon_2) = z_0^0(x_1,\epsilon_2) \intertext{and}
-E_0(x_1^2(x_0,\epsilon_1)) = E_0( x_0^0(x_0,\epsilon_1))=
-E_0(B x_0 +\phi \psi_\epsilon \epsilon_1 + \phi z_0^0(x_0,\epsilon_1))\\
-E_0(x_1^2(x_0,\epsilon_1)) =B x_0 + \phi E_0(z_0^0(x_0,\epsilon_1))=\\
-B x_0^2() + \phi Z_0^0(x_0)=
-B x_0^2() + \phi Z_0^0(x_0^2())
-  \end{gather*}
-  \end{itemize}
-}
-\end{frame}
-
-
-
-\begin{frame}
-
+\frametitle{Early iterations}
 {\small
-
   \begin{itemize}
-  \item Given $k$
-  \begin{gather*}
-x_0^k()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \sum_{s=0}^k F^s \phi z_s^k()\\
-x_1^k()=B x_0()+\phi \psi_\epsilon \epsilon_1+ \sum_{s=1}^k F^{s-1} \phi z_s^k()\\
-\vdots\\
-x_k^k()=B x_{k-1}()+\phi \psi_\epsilon \epsilon_k+ \phi z_k^k()\intertext{solves}
-\nlEqn{x_{-1}}{x_0^k}{x_{1}^k}{0} \\
-\nlEqn{x_0}{x_1^k}{x_2^k}{1}\\
-\vdots \\
-\nlEqn{x_{k-1}}{x_k^k}{x_{k+1}^k}{k}
-  \end{gather*}
+  \item $k=2$: Employ the target model for two periods. Use
+  \begin{gather}
+x_0\initXE=B x_{-1}+ (I - F)^{-1} \phi \psi_c +\phi \psi_\epsilon \epsilon_0 +\\ \phi z^{\itSup{2}}\initXE + F \phi Z^{\itSup{1}}(x_0\initXE)\\
+E(x_1\initXE)=\detF{1}(x_0\initXE) \intertext{in the deterministic equation 
+\refeq{refMod} to determine $z^{\itSup{2}}\initXE$}
+\stochF{2}\initXE = B x_{-1}+ (I - F)^{-1} \phi \psi_c +\phi \psi_\epsilon \epsilon_0 +\\ \phi z^{\itSup{2}}\initXE + F \phi Z^{\itSup{1}}(x_0\initXE)\intertext{
+Define $Z^{\itSup{2}}(x)\equiv 
+E \left [ z^{\itSup{2}}\initXEN | x \right ]$}
+\{\detF{2}\initX=B x  + \phi  Z^{\itSup{2}}(x) + F \phi Z^{\itSup{1}}(x_0\initXE),
+\detF{1}\initX,\detF{0}\initX\}
+  \end{gather}
+  \end{itemize}
+}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Early iterations}
+{\small
+  \begin{itemize}
+  \item $k=3$: Employ the target model for two periods. Use
+  \begin{gather}
+x_0\initXE=B x_{-1}+ (I - F)^{-1} \phi \psi_c +\phi \psi_\epsilon \epsilon_0 + \phi z^{\itSup{3}}\initXE +\\ F \phi Z^{\itSup{2}}(x_0\initXE) + F^2 \phi Z^{\itSup{1}}(\detF{2}(x_0\initXE))\\
+E(x_1\initXE)=\detF{2}(x_0\initXE) \intertext{in the deterministic equation 
+\refeq{refMod} to determine $z^{\itSup{3}}\initXE$}
+\stochF{3}\initXE = B x_{-1}+ (I - F)^{-1} \phi \psi_c +\phi \psi_\epsilon \epsilon_0 + \phi z^{\itSup{3}}\initXE + \\F \phi Z^{\itSup{2}}(x_0\initXE) +F^2 \phi Z^{\itSup{1}}(\detF{2}(x_0\initXE))\intertext{
+Define $Z^{\itSup{3}}(x)\equiv 
+E \left [ z^{\itSup{3}}\initXEN | x \right ]$}
+\detF{2}\initX=B x  + \phi  Z^{\itSup{3}}(x) + 
+F \phi Z^{\itSup{2}}(x_0\initXE) + \\F^2 \phi Z^{\itSup{1}}(\detF{1}(x_0\initXE))
+  \end{gather}
   \end{itemize}
 }
 \end{frame}
 
 \begin{frame}
-
-
-  \begin{gather*}
-    x_k^k()=x_0^0(x_{k-1}^k()),     z_k^k()=z_0^0(x_{k-1}^k())\\
-  \end{gather*}
-
-  Construct
-
-  \begin{gather*}
-x_0^{k+1}()=B x_{-1} +\phi \psi_\epsilon \epsilon_0 + \sum_{s=0}^{k+1} F^{s} \phi z_s^{k}()\\
-  \end{gather*}
+\frametitle{General iterations}
+{\small
+  \begin{itemize}
+  \item $k=K+1$: Employ the target model for $K+1$ periods. Use
+  \begin{gather}
+x_0\initXE=B x_{-1}+ (I - F)^{-1} \phi \psi_c +\phi \psi_\epsilon \epsilon_0 + \phi z^{\itSup{K+1}}\initXE +\\ \sum_\sForSum^K F^\nu \phi Z^{\itSup{K+1-s}}\detComp{x_0\initXE} \\
+E(x_1\initXE)=\detF{K}(x_0\initXE) \intertext{in the deterministic equation 
+\refeq{refMod} to determine $z^{\itSup{K+1}}\initXE$}
+\stochF{K+1}\initXE = B x_{-1}+ (I - F)^{-1} \phi \psi_c +\phi \psi_\epsilon \epsilon_0 + \phi z^{\itSup{K+1}}\initXE + \\
+\sum_\sForSum^K F^\nu \phi Z^{\itSup{K+1-s}}\detComp{x_0\initXE} 
+  \end{gather}
+  \end{itemize}
+}
 \end{frame}
-% \begin{frame}
-%   \frametitle{The law I don't use}
-%    \begin{itemize}
-%  \item Law of Iterated Expectations applies
-%    \begin{gather*}
-%      E_t(\mathcal{X}(x_{t+k-1},\epsilon_{t+k}))=
-%      E_t(E_{t+k}(\mathcal{X}(x_{t+k-1},\epsilon_{t+k})))
-%    \end{gather*}
-%   \item I don't not need or use the ``Law of Iterated Expectations'' to construct solutions.  One could interpret  result of the computations produces as obeying a version of the Law, but. in hindsight,
-%  it does not appear to be a useful concept for 
-% developing or explaining the algorithm
-%   \item My series representation is not connected to time invariance
 
-%  \end{itemize}
+\begin{frame}
+  \frametitle{Barthelemy and Marx  Model 1
+\cite{marxbarthelemy2012}}
 
-% \end{frame}
+\begin{gather}
+  \label{eq:3}
+a_t - a^{\rho_0}_{t-1} \exp(\epsilon_t)\\
+  \lambda_t-U^\prime(c_t)\\
+\beta E_t[ \alpha a_{t+1} k_t^{\alpha-1} - (1-\delta)\lambda_{t+1}] -\lambda_t \\
+c_t+k_t-a_t k_t^\alpha - (1-\delta)k_{t-1}
+\end{gather}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Barthelemy and Marx  Model 2: Regime Switching
+\cite{marxbarthelemy2012}}
+
+
+\cite{troy2007}
+\begin{gather}
+  \label{eq:4}
+  i_t =E_t \pi_{t+1} + r_t\\
+r_t= \rho r_{t-1} +u_t\\
+i_t=\alpha_{s_t} \pi_t
+\end{gather}
+
+Bounded solutions if and only if all eigenvalues of 
+\begin{gather}
+  \label{eq:5}
+  \begin{bmatrix}
+    \frac{1}{|a_1|}&0\\
+0&    \frac{1}{|a_2|}
+  \end{bmatrix}
+  \begin{bmatrix}
+    p_{11}&p_{12}\\p_{21}&p_{22}
+  \end{bmatrix}
+\end{gather}
+ are inside unit circle
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Barthelemy and Marx  Model 3: ZLB
+\cite{marxbarthelemy2012}}
+
+\begin{gather}
+x_t=E_t x_{t+1} - \sigma (i_t - E_t \pi_{t+1} - r_t^n)\\
+\pi_t = \beta E_t\pi_{t+1} + \kappa x_t + u_t\\
+i_t\ge -r^\ast\\
+i_t= \max ( -r^\ast,\alpha \pi_t)
+\end{gather}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{\cite{Guerrieri2015}}
+{\small
+  \begin{gather}
+    \label{eq:6}
+h_0 \lucaArgs =
+\begin{bmatrix}
+q_t -( \rho q_{t-1} - \sigma r_t + r^u_t)\\
+  (r^u_t-r^\ast) = \rho_u (r^u_{t-1}-r^\ast) +  \epsilon^u_t\\
+r_t-  \gamma q_t \\
+\end{bmatrix}\\
+h_1 \lucaArgs =
+\begin{bmatrix}
+q_t -( \rho q_{t-1} - \sigma r_t + r^u_t)\\
+  (r^u_t-r^\ast) = \rho_u (r^u_{t-1}-r^\ast) +  \epsilon^u_t\\
+r_t-  \bar{r} \\
+\end{bmatrix}\\
+ H_{0,1}\lucaArgs=
+ \begin{bmatrix}
+   -\beta (1 - \rho)&0&0\\0&0&0\\0&0&0
+ \end{bmatrix}\\
+% q_t =(\beta (1 - \rho) q_{t+1} + \rho q_{t-1} - 
+%       \sigma r_t + r^u_t)\\
+%   (r^u_t-r^\ast) = \rho_u (r^u_{t-1}-r^\ast) +  \epsilon^u_t\\
+% r_t-   \begin{cases}
+%  \gamma q_t & \gamma q_t \ge  \bar{r}\\
+%  \bar{r}&\gamma q_t < \bar{r}
+%    \end{cases}=0
+\varpi=%m\lucaArgs=
+\begin{cases}
+  0& \gamma q_t \ge  \bar{r}\\
+  1& \gamma q_t <  \bar{r}
+\end{cases}
+\end{gather}
+}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Liu, Waggoner and Zha \cite{liu11:_sourc}}
+  \begin{itemize}
+  \item moderate-sized nonlinear model DSGE
+  \item regime switching
+  \item non linear and log linearized versions
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\cite{werner13,shi12:_liquid}}
+  
+\end{frame}
+
+ \bibliographystyle{plainnat}
+ \bibliography{../../bibFiles/anderson,../../bibFiles/files}
 
 
 

@@ -5,6 +5,13 @@
 \usepackage{hyperref}
 \usepackage{graphicx}
 
+\newcommand{\lucaArgs}{{ \left (\lucaX{t-1},\lucaX{t},\epsilon_t  \right )}}
+\newcommand{\lucaX}[1]{
+  \begin{bmatrix}
+    q_{#1}\\r_{#1}\\r^u_{#1}
+  \end{bmatrix}}
+
+
 \newcommand{\detF}[1]{\mathcal{D}^{\{#1\}}}
 \newcommand{\stochF}[1]{\mathcal{S}^{\{#1\}}}
 
@@ -19,12 +26,29 @@ h^{det}_{io}(#1,#2,\epsilon_#4)+
 
 
 \newcommand{\nlEqnLHS}[4]{
-  h(#1,#2,E_t(#3),\epsilon_#4)}
+  h_\varpi(#1,#2,E_t(#3),\epsilon_#4)}
 
 \newcommand{\nlEqn}[4]{
-h^{det}(#1,#2,\epsilon_#4)+
-H^{det}(#1,#2,\epsilon_#4)E_#4(#3)
+h_\varpi^{det}(#1,#2,\epsilon_#4)+
+H_\varpi^{det}(#1,#2,\epsilon_#4)E_#4(#3)
 }
+
+\newcommand{\nlEqnSelLHS}[4]{
+ \varpi= m_\varpi(#1,#2,E_t(#3),\epsilon_#4)}
+
+\newcommand{\nlEqnSel}[4]{
+\varpi=m_\varpi^{det}(#1,#2,\epsilon_#4)+
+M_\varpi^{det}(#1,#2,\epsilon_#4)E_#4(#3)
+}
+
+
+% \newcommand{\nlEqnLHS}[4]{
+%   h(#1,#2,E_t(#3),\epsilon_#4)}
+
+% \newcommand{\nlEqn}[4]{
+% h^{det}(#1,#2,\epsilon_#4)+
+% H^{det}(#1,#2,\epsilon_#4)E_#4(#3)
+% }
 
 
 \newcommand*\xoverline[2][0.75]{%
@@ -43,15 +67,25 @@ H^{det}(#1,#2,\epsilon_#4)E_#4(#3)
     \fi}
 \makeatother
 
+\mathtoolsset{showonlyrefs}
+\usepackage{pseudocode}
+
+%\newcommand{\detComp}{{\mathbf{detComp}}}
+\newcommand{\detComp}[1]{{\detF{K-\nu}( \cdots \detF{K-1}(\detF{K}(#1))))}}
+\newcommand{\itSup}[1]{{\{#1\}}}
+\newcommand{\initXEN}{(x_,\epsilon_t)}
+\newcommand{\initXE}{(x_{-1},\epsilon_0)}
+\newcommand{\initX}{(x)}
 \newcommand{\xtFuncTI}{\mathcal{X}(x,\epsilon)}
 \newcommand{\XtFuncTI}{\mathbf{X}(x)}
 
+\newcommand{\xsubtFunc}[2]{\mathcal{X}_{#1}{#2}}
 \newcommand{\xtFunc}[1]{\mathcal{X}{#1}}
 \newcommand{\XtFunc}[1]{\mathbf{X}{#1}}
 \newcommand{\fMap}[3]{\left ( #2 \rightarrow #1 \rightarrow #3 \right )}
 
 \newcommand{\linMod}{{\mathcal{L}}}
-\newcommand{\linModMats}{{\{B,\phi,F,\psi_\epsilon,\psi_c,\psi_z\}}}
+\newcommand{\linModMats}{{\{H,B,\phi,F,\psi_\epsilon,\psi_c,\psi_z\}}}
 \newcommand{\discr}[1]{\mathcal{D}^{#1}(x_{t-1},\epsilon_t)}
 
 \newcommand{\XZPair}[1]{(\mathcal{X}^{#1},\mathcal{Z}^{#1})}

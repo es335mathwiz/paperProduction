@@ -48,6 +48,8 @@ for constructing approximate solutions for nonlinear rational expectations
 models.
 
 
+It has been recently shown how to reliably compute global approximations for time-invariant solutions for a wide class of nonlinear rational expectations models. It has also been shown how to apply these techniques to compute rational expectations solutions for models subject to both regime changes and occasionally binding constraints.  The technique recursively computes  solutions that honor the constraints for successively longer horizons. The technique also provides a metric for determining apriori how long the horizon must be for accurate determination of the current state vector. The solutions computed by the technique accommodate the possibility that model trajectories can depart from and re-engage the constraints as well as transition between various regimes.
+
 % In this context, it  facilitates exploiting the 
 % ``law of iterated expectations'' in computing rational expectations solutions for models with occasionally binding constraints.
 
@@ -1313,6 +1315,8 @@ We will need the $B, \phi, F, \psi_\epsilon, \psi_c \text{ and }\psi_z$ matrices
 \item[Proofs] \ 
 
   \begin{itemize}
+  \item equation by equation convergence i promote some equations to converged ahead of others like those that don't depend on future
+  \item equation by equation impact on x
   \item what about complex z
   \item can precomputing z's speed up Luca Mateo algorithm
   \item unit roots in F how to handle/exploit
@@ -1350,6 +1354,8 @@ We will need the $B, \phi, F, \psi_\epsilon, \psi_c \text{ and }\psi_z$ matrices
 \label{sec:do}
 
 \begin{itemize}
+\item models with exponential growth using an explosive linear reference model or a change of varibles linear growth model
+\item distribution seem to be okay to depend on lagged state perhaps even current state endogeniety okay, perhaps ``staging'' would be better t_1,t_2 within time t
 \item investigate the possiblity solving for $m_\infty,z_\infty$
 \item For the occasionally binding, there are some trajectories that reengage even
 with perfect foresight.
