@@ -1,7 +1,5 @@
 (* Mathematica Package *)
-Information[e]
-Off[Global`e::shdw]
-BeginPackage["AccelerateAMA`", { "JLink`","SymbolicAMA`", "NumericAMA`", "AMAModel`","Experimental`", "Format`","AMAModelDefinition`"}]
+BeginPackage["AccelerateAMA`", {"ProtectedSymbols`","JLink`","SymbolicAMA`", "NumericAMA`", "AMAModel`","Experimental`", "Format`","AMAModelDefinition`"}]
 
 
 getModelDims::usage="getModelDims[modDir_String,modName_String] returns {Length[vars],getLags[eqns],getLeads[eqns],Length[params],linearQ[eqns]}"
@@ -63,7 +61,7 @@ genSSEqns::usage = "genSSEqns  "
 
 Begin["`Private`"] (* Begin Private Context *) 
 
-makeSSValSubs[vars_List]:=#[Global`t_]->ToExpression[ToString[#]<>"SSVal"]&/@vars;
+makeSSValSubs[vars_List]:=#[t_]->ToExpression[ToString[#]<>"SSVal"]&/@vars;
 
 
 
@@ -165,7 +163,7 @@ Global`getFRootSS[modName]=fRootSoln;
 
 giveUpQ[expr_,msg_String]:=If[Not[FreeQ[expr,$Aborted]],Throw[expr,msg]]
 
-zapInnovSubs=Global`eps[_][_]->0;
+zapInnovSubs=eps[_][_]->0;
 
 trySolveSS[modName_String]:=trySolveSS[Global`getAMAEqns[modName],Global`getAMAVars[modName]]
 trySolveSS[eqns_List,vars_List]:=
@@ -177,13 +175,13 @@ If[FreeQ[someSSSubs,Solve],someSSSubs/.
 ]]
 
 
-ssSubs={Global`eps[_][_]->0,xx_[Global`t+_.]:>xx};
+ssSubs={eps[_][_]->0,xx_[t+_.]:>xx};
 
 
 genSSEqns[modName_String]:=With[{theVars=Sort[Global`getAMAVars[modName]]},
 	With[{ssValVarSubs=makeSSValSubs[theVars]},
 		With[{ssEqns=(Global`getAMAEqns[modName]/.ssValVarSubs)/.ssSubs,
-			ssEqnVars=Through[theVars[Global`t]]/.ssValVarSubs},
+			ssEqnVars=Through[theVars[t]]/.ssValVarSubs},
 		{ssEqnVars,ssEqns,diffRow[#,ssEqnVars]&/@ssEqns}]]]
 
 diffRow[aRow_,vars_List]:=D[aRow,#]&/@vars
@@ -218,7 +216,7 @@ compEigSpace[lilMat_?MatrixQ,evals_List,paramSubs_List] :=
 largeLocs[evals//.paramSubs]
 
 
-makeSSValSubs[vars_List]:=#[Global`t_]->ToExpression[ToString[#]<>"SSVal"]&/@vars;
+makeSSValSubs[vars_List]:=#[t_]->ToExpression[ToString[#]<>"SSVal"]&/@vars;
 
 largeLocs[theVals_List]:=
 With[{mags=(#>1)&/@Abs[theVals]},Flatten[Position[mags,True]]]
@@ -257,10 +255,10 @@ bigEvecs[[All,lilCols]]=lil;
 bigEvecs]
 
 getLags[eqns_List] := With[{}, 
-    With[{lgld = Union[Cases[eqns, (xx_)[yy:Global`t + (zz_.)] -> zz, Infinity]]}, 
+    With[{lgld = Union[Cases[eqns, (xx_)[yy:t + (zz_.)] -> zz, Infinity]]}, 
      -Min[lgld]]]
 getLeads[eqns_List] := With[{}, 
-    With[{lgld = Union[Cases[eqns, (xx_)[yy:Global`t + (zz_.)] -> zz, Infinity]]}, 
+    With[{lgld = Union[Cases[eqns, (xx_)[yy:t + (zz_.)] -> zz, Infinity]]}, 
      Max[lgld]]]
 
 
@@ -327,7 +325,7 @@ System`$Path=Drop[System`$Path,1];
 {Length[vars],getLags[eqns],getLeads[eqns],Length[params],linearQ[eqns]}]
 
 
-linearQ[eqns_List]:=FreeQ[equationsToMatrix[eqns],Global`t]
+linearQ[eqns_List]:=FreeQ[equationsToMatrix[eqns],t]
 
 
 

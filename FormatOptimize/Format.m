@@ -114,11 +114,9 @@
  This is a particular weakness of FortranForm.
  Suggestions for improvements and enhancements are welcome. *)
 
+(* FilterOptions has been superseded by FilterRules as of Mathematica 6 *)
+(* BeginPackage["Format`", "Utilities`FilterOptions`"] *)
 BeginPackage["Format`"]
-isVersion8=StringMatchQ[$Version,RegularExpression["^8..*"]]
-
-If[isVersion8,
-Needs["Utilities`FilterOptions`"]]
 
 Assign::usage = "Assign[lhs,rhs,outputformat,options]\n
 Assign converts the assignment of lhs to rhs into specified
@@ -665,16 +663,19 @@ AssignOptimize->True, AssignPrecision->MachinePrecision,
 AssignRange->False, AssignReplace->{" "->""}, AssignTemporary->{"t",Array},
 AssignToArray->{}, AssignToFile->"", AssignTrig->True, AssignZero->True};
 
-myFilterOptions[theFunc_Symbol,theOpts_?OptionQ]:=
-If[isVersion8,FilterOptions[theFunc,theOpts],
-Sequence@@FilterRules[{theOpts},Options@theFunc]]
-
 CAssign[lhs_:"",expr_?(!OptionQ[#]&),opts___?OptionQ]:=
   Module[{optvals},
     optvals /; 
+(*
       And[
-        (optvals = OptionTest[expr,GetShape[lhs],CAssign,myFilterOptions[CAssign,opts]])=!=$Failed,
-        optvals = CMain[lhs,expr,optvals,{myFilterOptions[Experimental`OptimizeExpression,opts]}];
+        (optvals = OptionTest[expr,GetShape[lhs],CAssign,FilterOptions[CAssign,opts]])=!=$Failed,
+        optvals = CMain[lhs,expr,optvals,{FilterOptions[Experimental`OptimizeExpression,opts]}];
+        True
+      ]
+*)
+      And[
+        (optvals = OptionTest[expr,GetShape[lhs],CAssign,Sequence@@FilterRules[{opts},Options@CAssign]])=!=$Failed,
+        optvals = CMain[lhs,expr,optvals,FilterRules[{opts},Options@Experimental`OptimizeExpression]];
         True
       ]
   ];
@@ -873,15 +874,23 @@ AssignToFile->"", AssignTrig->True, AssignZero->True};
 FortranAssign[lhs_:"",expr_?(!OptionQ[#]&),opts___?OptionQ]:=
   Module[{optvals},
     optvals /;
+(*
       And[
         (optvals = OptionTest[expr,GetShape[lhs],FortranAssign,
-          myFilterOptions[FortranAssign,opts]])=!=$Failed,
-        optvals = FMain[lhs,expr,optvals,{myFilterOptions[Experimental`OptimizeExpression,opts]}];
+          FilterOptions[FortranAssign,opts]])=!=$Failed,
+        optvals = FMain[lhs,expr,optvals,{FilterOptions[Experimental`OptimizeExpression,opts]}];
+        True
+      ]
+*)
+      And[
+        (optvals = OptionTest[expr,GetShape[lhs],FortranAssign,
+          Sequence@@FilterRules[{opts},Options@FortranAssign]])=!=$Failed,
+        optvals = FMain[lhs,expr,optvals,FilterRules[{opts},Options@Experimental`OptimizeExpression]];
         True
       ]
   ];
 
-fmexp[0.]:= {0, 1};
+fmexp[0.]:= {0., 1};
 fmexp[r_]:= MantissaExponent[r];
 
 SetAttributes[FMain,HoldFirst];
@@ -889,7 +898,7 @@ SetAttributes[FMain,HoldFirst];
 FMain[lhs_,expr_,{linbrk_,acase_,aend_,fnumsQ_,hypQ_,indent_,index_,albl_,
 amxsz_,optQ_,prec_,rangeQ_,arep_,tvar_,atoarry_,atofile_,trigQ_,zeroQ_},optopts_]:=
   Block[{d,e,$RecursionLimit=Infinity},
-    Module[{newexpr,expsymb,AvoidRule=False},
+    Module[{newexpr,expsymb,AvoidRule=False,ver6=False},
 
       AssignTemporaryIndex = 0;
 
@@ -904,6 +913,17 @@ amxsz_,optQ_,prec_,rangeQ_,arep_,tvar_,atoarry_,atofile_,trigQ_,zeroQ_},optopts_
         Real/: Format[r_Real,FortranForm]:=
                  (SequenceForm[First[#] 10, expsymb, -1+Last[#]]& @
                     fmexp[r]) /; (AvoidRule=!AvoidRule);
+
+(* Workaround for Mathematica 6                                       *)
+(* Version 6 applies the above Format rule to a negative number twice *)
+
+        If[StringMatchQ[ToString[Format[-1.5, FortranForm]], ___ ~~ "d0d0"],
+          ver6 = True;
+          Real/: Format[r_Real,FortranForm]=.;
+          Real/: Format[r_Real?NonNegative,FortranForm]:=
+                 (SequenceForm[First[#] 10, expsymb, -1+Last[#]]& @
+                    fmexp[r]) /; (AvoidRule=!AvoidRule);
+        ];
       ];
 
 (* Perform assignments and code translation. *)
@@ -924,7 +944,9 @@ amxsz_,optQ_,prec_,rangeQ_,arep_,tvar_,atoarry_,atofile_,trigQ_,zeroQ_},optopts_
 (* Remove real number rule. *)
 
       If[fnumsQ,
-        Format[Format`Private`r$_Real,FortranForm]=.;
+        If[ver6,
+          Format[Format`Private`r$_Real?NonNegative,FortranForm]=.;,
+          Format[Format`Private`r$_Real,FortranForm]=.;];
         Protect[Real];
       ];
 

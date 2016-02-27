@@ -168,7 +168,7 @@ Consecutively numbered variables are returned."
 
 (* Default optimization symbol. *)
 
-SetAttributes[o,NProtectedAll];
+SetAttributes[o,NHoldAll];
 
 o::usage="o is the default optimization symbol introduced by
 Optimize when performing common sub-expression optimization."
