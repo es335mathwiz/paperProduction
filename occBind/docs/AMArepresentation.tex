@@ -123,6 +123,9 @@ Judge using impulse response functions.\cite{Potter2000}
   \item  How can we take the  steps?
   \item Time invariant stochastic functions 
 lead naturally to an associated family of deterministic maps
+
+\item Should be useful anyplace that bounded time invariant functions appear.
+
 \item Deterministic maps have a convenient series representation
 \item Should be useful anyplace that bounded time invariant functions appear.
   \end{itemize}
@@ -149,25 +152,30 @@ lead naturally to an associated family of deterministic maps
 This section will suggest that the range of applicability is wide but
 hard to characterize.
 
-
-
 We focus on models with time invariant decision rule solutions. 
-It is difficult to characterize the model specification, but easier to specify the common characteristics of the solutions.  A s a consequence the approach is very general the text will provide a variety of models that would be amenable, but the list is not meant to be exhaustive.
+It is difficult to characterize the model specification, but easier to specify the common characteristics of the solutions. 
+ As a consequence the approach is very general the text will provide a variety of models that would be amenable, but the list is not meant to be exhaustive.
 
 
 % The proofs of applicability 
 % turn on being able to rely on the law of iterated expectations and time invariant functions.
 
+We require models that have solutions, decision rules, that produce unique paths when iterated forward.  
 
  {\bf Time Invariant Functions}
 
+
+
+
 For notational simplicity, consider a {\it time invariant } stochastic function $\xtFuncTI$, 
+
 {\bf  needs references }
 \begin{itemize}
 \item where $x$ is an $L$ dimensional real variable
 \item $\epsilon$ a $K$ dimensional random variable.
 \item time $t$ realizations of $\epsilon$, $\epsilon_t$, are independently and identically distributed.  
 \end{itemize}
+
 We define a time invariant deterministic function $\XtFuncTI\equiv \expctEps{\xtFuncTI}$ and denote
 \begin{gather*}
 \xsubtFunc{t+k}{(x_{t-1},\epsilon_t)}\equiv\begin{cases}
@@ -186,15 +194,30 @@ We define a time invariant deterministic function $\XtFuncTI\equiv \expctEps{\xt
 \infNorm{\xsubtFunc{t+k}{(x_{t-1},\epsilon_t)}}  \le \bar{\mathcal{X}}\,\,\forall s\ge 0 \label{fFamily}.
  \end{gather}
 
+{\bf need references }
+
+\begin{itemize}
+\item where $x$ is an $L$ dimensional real variable
+\item $\epsilon$ a $K$ dimensional random variable.
+\item time $t$ realizations of $\epsilon$, $\epsilon_t$, are independently and identically distributed.  
+\item Many rational expectations models have solutions characterized by a stochastic function $\mathcal{X}(x_{t-1},\epsilon_t):\mathcal{R}^n \times \mathcal{R}^k \rightarrow \mathcal{R}^n$ $\epsilon_t \sim iid$
+
+\end{itemize}
 
  {\bf Iterating Stochastic Functions Forward: Conditional Expectations}
 
  \begin{itemize}
+
 \item Many rational expectations models have solutions characterized by a stochastic function $\mathcal{X}(x_{t-1},\epsilon_t):\mathcal{R}^n \times \mathcal{R}^k \rightarrow \mathcal{R}^n$ $\epsilon_t \sim iid$
 \item It is difficult to think of economic models  that don't exploit these features.
 We require models that have solutions, decision rules, that produce unique paths when iterated forward.  
 \item Consider Iterating the function $\mathcal{X}$ forward by 
 recursively applying $\XtFunc{}$ to compute a solution path
+
+
+\item Consider Iterating the function $\mathcal{X}$ forward by 
+recursively applying $\XtFunc{}$ to compute a solution path
+\item It is difficult to think of economic models  that don't exploit these features.
 
 
  \item It will then, be possible to write down a useful 
@@ -271,7 +294,14 @@ where all future shocks are zero fit the formula. The don't need to come from ti
 
 
 
+
+
 {\bf Series Representation}
+
+\subsubsection{Linear System Preliminaries}
+\label{sec:line-syst-prel}
+
+
 
   \begin{itemize}
   \item 
@@ -317,7 +347,7 @@ $  z_{t+s}(x_{t-1},\epsilon_t)$ as  %\footnote{These $z$ functions will soon pro
 }
 
 
-\cite{anderson10}  also proves that, for these linear models,
+\cite{anderson10}  shows that, for these linear models,
 	 \begin{gather}
 	 \mathcal{X}_{t}(x_{t-1},\epsilon_t) =B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + (I - F)^{-1} \phi \psi_c +\\ \sum_{\sForSum=0}^\infty F^s \phi z_{t+\sForSum}(x_{t-1},\epsilon_t) 
 \label{theSeries}\intertext{and}
@@ -408,7 +438,7 @@ Typically, these solutions cannot be computed in closed form and consequently
 obtained by some numerical method.
 Below, we will describe a method for constructing the time invariant solutions
 for a given model, but 
-it will be useful to begin by considering a model with know solutions.
+it will be useful to begin by considering a model with known solutions.
 We will see how to characterize the accuracy of a given representation of the time invariant function.  In the context of a model that generates
 solutions that are time invariant and bounded, we can use the 
 series representation to  assess the accuracy of a proposed solution.
@@ -416,98 +446,8 @@ series representation to  assess the accuracy of a proposed solution.
 Along the path, check if conditional expectations correct.  If not use the conditional expectation in addition to the hmat to measure the error.
 
 We can assess, at least locally, 
-how well a particular proposed solution performs.
-
-\subsection{Assessing a Proposed Solution}
-\label{sec:decis-rule-assessm}
-
-Must use ``chunks'' to augment the system in such a way that we
-can compute expectations correctly.
-%use the ``law of iterated expectations''.
-Everywhere that a collection of 
-$t+1$ variable appears together, non linearly they must be subsumed in an
-auxiliary variable, a ``chunk'', 
-that will be defined at time $t$.  As a result, at each step
-of the iteration that arises, the time $t$
-conditional expectation of that chuck will appear in the 
-linear reference model and can be accurately computed and
-used in subsequent calculations.
-
-
-Iteration:
-\begin{gather}
-\underbrace{(x_{t-1},\epsilon_t)} 
-\underbrace{DR(x_{t-1},\epsilon_t)}
-\underbrace{\int DR(DR(x_{t-1},\epsilon_t),\epsilon_{t+1}),\epsilon_{t+1})}
-\underbrace{\ldots}
-\end{gather}
-
-Evaluating equation system along path shows solutions valid. Discrepancies call for a path change.
-
-\label{sec:assess}
-\begin{itemize}
-\item Iterate the decision rule forward.  The rule should compute a path for conditional expectations from an arbitrary set of initial conditions.
-\item compute errors along the path
-\item employ the formula to compute the amount that the initial value should change
-\item could update this path with those values for perfect foresight
-just need for a single point zero error done for rational expectations 
-i think multiple path updates necessary could be done in parallel perhaps at each of the interpolation points of the Z approximation
-\item use truncation formula to bound impact
-\end{itemize}
-
-
-
-
-
-
-
-
-
-\begin{itemize}
-\item simulate paths for conditional expectations
-\item evaluate model along the path
-\item use errors and formula to improve path 
-\item repeat and correct
-\item conditional expectations
-\item model errors
-\item bounds
-\item how can multiplicities matter?  
-\item how can terminal constraints matter?
-\item bimodal distributions for dist of Z
-\end{itemize}
-
-
-
-We typically have a model we are interested in and would like to compute an approximate solution.  For now assume that the model imposes a time invariant system of equations on the model variables.
-The source of the decision rule doesn't matter.  So long as we can iterate the
-rule forward in time to produce a family of bounded paths, we can use the
-formula to assess how close the solutions are to solving the particular.
-We need only compute the paths, apply the model equations to the path to determine how much the system equations are violated.  These calculations will 
-generate a path for the $z$ functions.  Substituting these values in the
-formula provides a measure of how much the $x_t$ must change in order for the conditional expectations path to satisfy the model equations.
-The model equations can be highly complex. Some of the examples hint at the 
-possibilities. Occasionally binding constraints addressed in a straightforward 
-way.  Conceptually, the approach is compelling.  The examples below
-offer some practical numerical insights in early implementation of these
-ideas.
-
-
-
-We will need to ``simulate'' the decision rule forward in order to judge if the conditional expectations are correct.
-We can try iterating the perfect foresight solution forward to see how well the formula predict the discrepancy.  Can vary the variance to see that it's okay for small variance.
-
-We will need to choose a horizon length. We can simulate forward until the errors contributions to changes in the initial state start to decline.
-If they don't start to decline, this is an indication that the procedure 
-predicts that the true solution could be far from the value obtained by the
-decision rule.
-
-The origin of the decision rule is irrelevant so long as one can simulate it 
-forward.
-
-\begin{itemize}
-\item compute discrepancies for PF versus rational expectations varying sigma.
-Show formulae bound error.
-\end{itemize}
+how well a particular proposed solution performs.  
+See Section \ref{sec:decis-rule-assessm}
 
 
 \subsection{Example: a Simple RBC Model Example With Known Solution}
@@ -628,28 +568,6 @@ c_{t+s}(k_{t-1},\theta_t,\epsilon_t)\\k_{t+s}(k_{t-1},\theta_t,\epsilon_t)    \\
 \end{gather}
 
 
-
-Now, consider the following hypothetical linear homogeneous ``model'' 
-constructed from ``nearly'' arbitrary coefficients.\footnote{We can use any
-linear model of three variables that has unique trajectories converging to a unique steady state. May need to have at least the $x_{t-1}$ state variables that matter. Probably need to move some of the matrices to appendix.}
-
-\begin{gather}
-  \begin{bmatrix}
-H_{-1}&H_{0}&H_{1} 
-  \end{bmatrix}=
-\vcenter{\hbox{\includegraphics{refHmat.pdf}}}\intertext{with}
-\psi_\epsilon=0, \,\,  \psi_z=I
-\end{gather}
-(\footnote{{refHmat.pdf}})
-These coefficients  happen to produce a unique stable solution.
-\begin{gather}
-  B=
-\vcenter{\hbox{\includegraphics{refBmat.pdf}}}
-\phi=
-\vcenter{\hbox{\includegraphics{refPhimat.pdf}}}\\
-F=
-\vcenter{\hbox{\includegraphics{refFmat.pdf}}}
-\end{gather} (\footnote{files generated by demoApprox.mth}\footnote{{refBmat.pdf}})(\footnote{{refPhimat.pdf}})(\footnote{{refFmat.pdf}})
 We can use the family of conditional expectations
 along with the contrived reference model to recover an 
 approximation for equation \refeq{soln} along with error bounds.
@@ -756,6 +674,98 @@ generated by substituting in the model constraints. between the model computed s
 
  \end{table}
 
+\subsection{Assessing the Accuracy of a Proposed Solution}
+\label{sec:decis-rule-assessm}
+
+Must use ``chunks'' to augment the system in such a way that we
+can compute expectations correctly.
+%use the ``law of iterated expectations''.
+Everywhere that a collection of 
+$t+1$ variable appears together, non linearly they must be subsumed in an
+auxiliary variable, a ``chunk'', 
+that will be defined at time $t$.  As a result, at each step
+of the iteration that arises, the time $t$
+conditional expectation of that chunk will appear in the 
+linear reference model and can be accurately computed and
+used in subsequent calculations.
+
+
+Iteration:
+\begin{gather}
+\underbrace{(x_{t-1},\epsilon_t)} 
+\underbrace{DR(x_{t-1},\epsilon_t)}
+\underbrace{\int DR(DR(x_{t-1},\epsilon_t),\epsilon_{t+1}),\epsilon_{t+1})}
+\underbrace{\ldots}
+\end{gather}
+
+Evaluating equation system along path shows solutions valid. Discrepancies call for a path change.
+
+\label{sec:assess}
+\begin{itemize}
+\item Iterate the decision rule forward.  The rule should compute a path for conditional expectations from an arbitrary set of initial conditions.
+\item compute errors along the path
+\item employ the formula to compute the amount that the initial value should change
+\item could update this path with those values for perfect foresight
+just need for a single point zero error done for rational expectations 
+i think multiple path updates necessary could be done in parallel perhaps at each of the interpolation points of the Z approximation
+\item use truncation formula to bound impact
+\end{itemize}
+
+
+
+
+
+
+
+
+
+\begin{itemize}
+\item simulate paths for conditional expectations
+\item evaluate model along the path
+\item use errors and formula to improve path 
+\item repeat and correct
+\item conditional expectations
+\item model errors
+\item bounds
+\item how can multiplicities matter?  
+\item how can terminal constraints matter?
+\item bimodal distributions for dist of Z
+\end{itemize}
+
+
+
+We typically have a model we are interested in and would like to compute an approximate solution.  For now assume that the model imposes a time invariant system of equations on the model variables.
+The source of the decision rule doesn't matter.  So long as we can iterate the
+rule forward in time to produce a family of bounded paths, we can use the
+formula to assess how close the solutions are to solving the particular.
+We need only compute the paths, apply the model equations to the path to determine how much the system equations are violated.  These calculations will 
+generate a path for the $z$ functions.  Substituting these values in the
+formula provides a measure of how much the $x_t$ must change in order for the conditional expectations path to satisfy the model equations.
+The model equations can be highly complex. Some of the examples hint at the 
+possibilities. Occasionally binding constraints addressed in a straightforward 
+way.  Conceptually, the approach is compelling.  The examples below
+offer some practical numerical insights in early implementation of these
+ideas.
+
+
+
+We will need to ``simulate'' the decision rule forward in order to judge if the conditional expectations are correct.
+We can try iterating the perfect foresight solution forward to see how well the formula predict the discrepancy.  Can vary the variance to see that it's okay for small variance.
+
+We will need to choose a horizon length. We can simulate forward until the errors contributions to changes in the initial state start to decline.
+If they don't start to decline, this is an indication that the procedure 
+predicts that the true solution could be far from the value obtained by the
+decision rule.
+
+The origin of the decision rule is irrelevant so long as one can simulate it 
+forward.
+
+\begin{itemize}
+\item compute discrepancies for PF versus rational expectations varying sigma.
+Show formulae bound error.
+\end{itemize}
+
+
 
 
 \section{Discovering Unknown Solutions}
@@ -763,7 +773,7 @@ generated by substituting in the model constraints. between the model computed s
 
 This section will require a lot more work!!!!
 
-This section will describe how given the auxiliary ``chuck'' variables
+This section will describe how given the auxiliary ``chunk'' variables
 and the linearity of the $Z$ functions in the series representation
 that conditional expectations are straightforward to compute at each stage.
 That is, we begin assuming the conditional expectations are given by the
@@ -2428,7 +2438,7 @@ Bounded solutions if and only if all eigenvalues of
 % \item Connection cond exp function  for rest of path and. Perfect foresiggt.  0 errors except first period
 % \item model input code, dynare input, cloud site
 
-%   \item may be case that ``chucks'' allow for all conditional expectations path 
+%   \item may be case that ``chunks'' allow for all conditional expectations path 
 % work like perfect foresight paths and satisfy the model equations
 
 % \item put depreciation rate and other maliar features back in?
