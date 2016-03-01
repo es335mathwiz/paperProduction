@@ -49,7 +49,12 @@ for constructing approximate solutions for nonlinear rational expectations
 models.
 
 
-It has been recently shown how to reliably compute global approximations for time-invariant solutions for a wide class of nonlinear rational expectations models. It has also been shown how to apply these techniques to compute rational expectations solutions for models subject to both regime changes and occasionally binding constraints.  The technique recursively computes  solutions that honor the constraints for successively longer horizons. The technique also provides a metric for determining apriori how long the horizon must be for accurate determination of the current state vector. The solutions computed by the technique accommodate the possibility that model trajectories can depart from and re-engage the constraints as well as transition between various regimes.
+
+
+  The technique recursively computes  solutions that honor the constraints for successively longer horizons. The technique also provides a metric for determining apriori how long the horizon must be for accurate determination of the current state vector. The solutions computed by the technique accommodate the possibility that model trajectories can depart from and re-engage the constraints as well as transition between various regimes.
+  
+  
+  It has been recently shown how to reliably compute global approximations for time-invariant solutions for a wide class of nonlinear rational expectations models. It has also been shown how to apply these techniques to compute rational expectations solutions for models subject to both regime changes and occasionally binding constraints.
 
 % In this context, it  facilitates exploiting the 
 % ``law of iterated expectations'' in computing rational expectations solutions for models with occasionally binding constraints.
@@ -119,6 +124,7 @@ Judge using impulse response functions.\cite{Potter2000}
   \item Time invariant stochastic functions 
 lead naturally to an associated family of deterministic maps
 \item Deterministic maps have a convenient series representation
+\item Should be useful anyplace that bounded time invariant functions appear.
   \end{itemize}
 
 
@@ -142,7 +148,8 @@ lead naturally to an associated family of deterministic maps
 
 This section will suggest that the range of applicability is wide but
 hard to characterize.
-Should be useful anyplace that bounded time invariant functions appear.
+
+
 
 We focus on models with time invariant decision rule solutions. 
 It is difficult to characterize the model specification, but easier to specify the common characteristics of the solutions.  A s a consequence the approach is very general the text will provide a variety of models that would be amenable, but the list is not meant to be exhaustive.
@@ -150,12 +157,12 @@ It is difficult to characterize the model specification, but easier to specify t
 
 % The proofs of applicability 
 % turn on being able to rely on the law of iterated expectations and time invariant functions.
-It is difficult to think of economic models  that don't exploit these features.
-We require models that have solutions, decision rules, that produce unique paths when iterated forward.  
+
 
  {\bf Time Invariant Functions}
 
 For notational simplicity, consider a {\it time invariant } stochastic function $\xtFuncTI$, 
+{\bf  needs references }
 \begin{itemize}
 \item where $x$ is an $L$ dimensional real variable
 \item $\epsilon$ a $K$ dimensional random variable.
@@ -169,12 +176,6 @@ We define a time invariant deterministic function $\XtFuncTI\equiv \expctEps{\xt
 \end{cases}
 \end{gather*}
 
- {\bf Iterating Stochastic Functions Forward: Conditional Expectations}
-
- \begin{itemize}
-\item Many rational expectations models have solutions characterized by a stochastic function $\mathcal{X}(x_{t-1},\epsilon_t):\mathcal{R}^n \times \mathcal{R}^k \rightarrow \mathcal{R}^n$ $\epsilon_t \sim iid$
-\item Consider Iterating the function $\mathcal{X}$ forward by 
-recursively applying $\XtFunc{}$ to compute a solution path
 \begin{gather}
 \underbrace{(x_{t-1},\epsilon_t)} 
 \underbrace{{\mathcal{X}}(x_{t-1},\epsilon_t)}
@@ -184,6 +185,17 @@ recursively applying $\XtFunc{}$ to compute a solution path
 \intertext{Suppose this iteration produces bounded trajectories }
 \infNorm{\xsubtFunc{t+k}{(x_{t-1},\epsilon_t)}}  \le \bar{\mathcal{X}}\,\,\forall s\ge 0 \label{fFamily}.
  \end{gather}
+
+
+ {\bf Iterating Stochastic Functions Forward: Conditional Expectations}
+
+ \begin{itemize}
+\item Many rational expectations models have solutions characterized by a stochastic function $\mathcal{X}(x_{t-1},\epsilon_t):\mathcal{R}^n \times \mathcal{R}^k \rightarrow \mathcal{R}^n$ $\epsilon_t \sim iid$
+\item It is difficult to think of economic models  that don't exploit these features.
+We require models that have solutions, decision rules, that produce unique paths when iterated forward.  
+\item Consider Iterating the function $\mathcal{X}$ forward by 
+recursively applying $\XtFunc{}$ to compute a solution path
+
 
  \item It will then, be possible to write down a useful 
 series representation for
@@ -1593,7 +1605,7 @@ inequality constraints or regime switching.$(\varpi \in \{1,\ldots,n\})$
       \mathcal{H}^{RE}[g^{k}(x,\epsilon_{t+T-k+1})]=
  \mathcal{E}_t[g^{k}(x,\epsilon_{t+T-k+1})|x]\\
  \end{gather}
- \end{description}
+ \end{description}i
   \end{itemize}
 }  
 %  \intertext{define} 
