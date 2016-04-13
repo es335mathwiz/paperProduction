@@ -19,8 +19,8 @@
 % \usepackage{ccfonts}
 % \usepackage[T1]{fontenc}
 
-\title{``A New Series Representation for Deterministic Maps and
-a Solution Strategy for Occasionally Binding Constraints in Rational Expectations Models''}
+\title{A New Representation for Dynamic Economic Model Solutions}
+
 \date{\currenttime -- \today }
 
 
@@ -38,11 +38,15 @@ a Solution Strategy for Occasionally Binding Constraints in Rational Expectation
 
 
  
-This paper proposes a new representation for time invariant functions.
-This series representation 
-can accurately characterize the solutions for a 
-wide array of nonlinear rational expectations models 
-and provides a formula
+This paper proposes a new series representation for bounded
+solutions to dynamic models. 
+This series representation can be used to
+determine a series represenation for 
+time invariant discrete time maps that characterize the solutions
+to many models.  Consequently, the technique constitutes an important component
+in a technique for accurately characterizing the solutions for a 
+wide array of nonlinear rational expectations models.
+It can also  provide a formula
 for computing accuracy bounds for any proposed time invariant model solution.
 The series representation serves as an important component in an algorithm 
 for constructing approximate solutions for nonlinear rational expectations
@@ -51,10 +55,9 @@ models.
 
 
 
-  The technique recursively computes  solutions that honor the constraints for successively longer horizons. The technique also provides a metric for determining apriori how long the horizon must be for accurate determination of the current state vector. The solutions computed by the technique accommodate the possibility that model trajectories can depart from and re-engage the constraints as well as transition between various regimes.
+  The technique recursively computes  solutions that honor the constraints for successively longer horizons. The technique also provides a metric for determining apriori how long the horizon must be for a given level of accuracy of the
+state vector. The solutions computed by the technique accommodate the possibility that model trajectories can depart from and re-engage inequality constraints as well as transition between various regimes.
   
-  
-  It has been recently shown how to reliably compute global approximations for time-invariant solutions for a wide class of nonlinear rational expectations models. It has also been shown how to apply these techniques to compute rational expectations solutions for models subject to both regime changes and occasionally binding constraints.
 
 % In this context, it  facilitates exploiting the 
 % ``law of iterated expectations'' in computing rational expectations solutions for models with occasionally binding constraints.
@@ -69,39 +72,60 @@ models.
 
 \section{Introduction and Summary}
 
+\begin{itemize}
+\item \href{http://www.sosmath.com/diffeq/first/orthogonal/orthogonal.html}{Orthogonalize family of trajectories? }
+\item \href{https://books.google.co.uk/books?id=HAFef5EaFNoC&pg=PA390&lpg=PA390&dq=trajectories+algebra+bundle+family&source=bl&ots=tBarU62EAz&sig=3_lyHByY2pYgihoxvaQwMTgB00g&hl=en&sa=X&ved=0ahUKEwjtofHD8fzLAhUFmBoKHXOIDZ0Q6AEIKzAB#v=onepage&q=trajectories%20algebra%20bundle%20family&f=false}{algebraic}
+     \item \href{http://www.mat.ufmg.br/~israel/Publicacoes/Vivis/inv.pdf}{foliations?}
+     \item \href{https://books.google.co.uk/books?id=7__QA8b_ldEC&pg=PA247&lpg=PA247&dq=trajectories+algebra+bundle+family&source=bl&ots=4B07EP1GzO&sig=ePjJXwFYYORyA-fSoXvTS-vMeIw&hl=en&sa=X&ved=0ahUKEwjtofHD8fzLAhUFmBoKHXOIDZ0Q6AEINTAD#v=onepage&q=trajectories%20algebra%20bundle%20family&f=false}{topology}
+          \item space of trajectoies good place to compare models:  equivalence classes approximation
+          \item \href{http://www.mat.ucm.es/~arrondo/curso-chile.pdf}{more algebraic geometry}
+\end{itemize}
+
+
 Economists are increasingly interested in building and solving 
-economic models that honor/include occasionally binding constraints.
+economic models that include occasionally binding constraints.
 Since \cite{Christiano2000} authors have described a 
-variety of approaches.\cite{holden15:_exist_dsge,guerrieri15:_occbin,benigno09,hintermaier10,brumm10,nakov08,haefke98,nakata12,gordon11,billi11,Hintermaier2010,Guerrieri2015}
+variety of approaches. See, for example, \cite{holden15:_exist_dsge,guerrieri15:_occbin,benigno09,hintermaier10,brumm10,nakov08,haefke98,nakata12,gordon11,billi11,Hintermaier2010,Guerrieri2015}.
 These approaches typically specify a solution that characterizes a family of
 time invariant functions.
+
+\begin{itemize}
+\item exploit markov property
+\item bounded
+\item in what way is ``expectation'' or distributions important?
+\item how about quantiles or medians or modes  tracking some other feature of solution
+\item $\epsilon_t$ only special in determining $x_t$ from $x_{t-1}$ in connection with distribution.  what other maps? why need distribuiton or expectation?  linearity?
+\item reverse engineer?  I estimation via trajectories back to model derivative along path wrt parameters for estimation and bayesian speed ups?
+\item key is unique ``deterministic'' path
+\end{itemize}
 
 
 Context and Motivation
  \begin{itemize}
   \item Non linear models more pervasive
-  \item Modeling occasionally binding constraints (OBC) essential
-  \item Since \cite{Christiano2000} authors have described a variety of approaches. 
+\item Time invariant functions ubiquitous in economic models
+\item Approximation error for time invariant functions help us choose how to allocate resources during calculations
+\item Occasionally binding constraints increasingly a part of economic models
 
-\cite{holden15:_exist_dsge,guerrieri15:_occbin,benigno09,hintermaier10,brumm10,nakov08,haefke98,nakata12,gordon11,billi11,Hintermaier2010,Guerrieri2015}
+  \item Modeling occasionally binding constraints (OBC) essential
+
+
 \item Series representation provides  a coherent framework for attacking a wide variety of complicated nonlinear models
       \end{itemize}
 
 Since these models cannot be solved exactly, each approach requires an
 approximation method and an iteration with a stopping criterion.
-It is problematic to decide when the solution is good enough.
+It can be  problematic to decide when the solution is good enough.
 
 The text describes a methodology for computing an error bound on the 
-size of the change that one can expect from modifying the trajectory of the 
+ the trajectory of the 
 solutions.
 
 \begin{itemize}
 \item To solve a wide class of useful but increasingly complex models. 
-\item Time invariant functions ubiquitous in economic models
-\item Approximation error for time invariant functions help us choose how to allocate resources during calculations
-\item Occasionally binding constraints increasingly a part of economic models
 \item Impulse Response functions and Potter connection to conditional expectations
-\item Source of decision rule irrelevant --  Perturbation, projection, as long as time invariant criterion can assess impact of discrepancies.
+
+\item can provide error bounds Source of decision rule irrelevant --  Perturbation, projection, as long as time invariant criterion can assess impact of discrepancies.
 \item leads naturally to the specification of a robust algorithm
 \end{itemize}
 
@@ -120,10 +144,11 @@ Judge using impulse response functions.\cite{Potter2000}
 \fbox{Series Approximation}
   \end{gather}
   \begin{itemize}
+  \item nonlinear system,  characterize time invariant soluion, tuncate
   \item  How can we take the  steps?
   \item Time invariant stochastic functions 
 lead naturally to an associated family of deterministic maps
-
+\item Applicable for nonlinear models with OBC: a reference linear model plays the role of a ``recording device''
 \item Should be useful anyplace that bounded time invariant functions appear.
 
 \item Deterministic maps have a convenient series representation
@@ -141,10 +166,11 @@ lead naturally to an associated family of deterministic maps
 \item An important component in an algorithm for constructing approximate solutions 
 \item Facilitates exploiting recursive computation of the solutions for complicated models.
   \end{itemize}
-%\item facilitates exploiting the ``law of iterated expectations'' in computing solutions for complicated models.
+\item facilitates exploiting the ``law of iterated expectations'' in computing solutions for complicated models.
+\item
+\href{https://en.wikipedia.org/wiki/Law_of_total_expectation#Iterated_expectations_with_nested_conditioning_sets}{law}
 %\item convergence to time invariant model solution.
 \item Mathematica code implementing the algorithms
-\item Applicable for nonlinear models with OBC: a reference linear model plays the role of a ``recording device''
   \end{itemize}
 \subsection{Model Context}
 \label{sec:model-context}
@@ -154,9 +180,15 @@ hard to characterize.
 
 We focus on models with time invariant decision rule solutions. 
 It is difficult to characterize the model specification, but easier to specify the common characteristics of the solutions. 
+One can usefully apply the technique to any model with a family of 
+trajectories that are determined by initial conditions.
  As a consequence the approach is very general the text will provide a variety of models that would be amenable, but the list is not meant to be exhaustive.
 
-
+ \begin{itemize}
+ \item examples of equation systems solution families
+ \item any without time invariant functions
+ \item nonexpectation examples
+ \end{itemize}
 % The proofs of applicability 
 % turn on being able to rely on the law of iterated expectations and time invariant functions.
 
@@ -167,13 +199,14 @@ We require models that have solutions, decision rules, that produce unique paths
 
 
 
-For notational simplicity, consider a {\it time invariant } stochastic function $\xtFuncTI$, 
+Consider a {\it time invariant } stochastic function $\xtFuncTI$, 
 
 {\bf  needs references }
 \begin{itemize}
 \item where $x$ is an $L$ dimensional real variable
 \item $\epsilon$ a $K$ dimensional random variable.
 \item time $t$ realizations of $\epsilon$, $\epsilon_t$, are independently and identically distributed.  
+\item scalar mode or constrained scalar with mass point in illustration
 \end{itemize}
 
 We define a time invariant deterministic function $\XtFuncTI\equiv \expctEps{\xtFuncTI}$ and denote
@@ -183,6 +216,10 @@ We define a time invariant deterministic function $\XtFuncTI\equiv \expctEps{\xt
 \XtFunc{(\xsubtFunc{t+k-1}{(x_{t-1},\epsilon_t)})} &k>0
 \end{cases}
 \end{gather*}
+
+\begin{itemize}
+\item provide scalar graphic
+\end{itemize}
 
 \begin{gather}
 \underbrace{(x_{t-1},\epsilon_t)} 
@@ -314,12 +351,12 @@ system
 \end{gather}
   
  that produces  a unique stable solution, 
-it is well known\ \cite{anderson10} that  inhomogeneous solutions can be computed
+it is well known\ \cite{anderson10} that  inhomogeneous solutions 
 
 
 \begin{gather}
 	 H_{-1} x_{t-1} + H_0 x_t + H_1 x_{t+1}=\psi_\epsilon \epsilon_t +\psi_{c}
-\intertext{as}
+\intertext{ can be computed as}
 x_t=B x_{t-1} + \phi \psi_\epsilon \epsilon_t + (I - F)^{-1} \phi \psi_c
 \intertext{where}
 \phi= (H_0 +H_1 B)^{-1}  \text{ and } \,\,F=-\phi H_1 
@@ -347,7 +384,7 @@ $  z_{t+s}(x_{t-1},\epsilon_t)$ as  %\footnote{These $z$ functions will soon pro
 }
 
 
-\cite{anderson10}  shows that, for these linear models,
+\cite{anderson10}  shows that, 
 	 \begin{gather}
 	 \mathcal{X}_{t}(x_{t-1},\epsilon_t) =B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + (I - F)^{-1} \phi \psi_c +\\ \sum_{\sForSum=0}^\infty F^s \phi z_{t+\sForSum}(x_{t-1},\epsilon_t) 
 \label{theSeries}\intertext{and}
@@ -360,49 +397,6 @@ $  z_{t+s}(x_{t-1},\epsilon_t)$ as  %\footnote{These $z$ functions will soon pro
 
 
 
-
-Now, for any linear homogeneous 
-$k$ dimensional 
-deterministic 
-system, 
-\begin{gather}
-  	 H_{-1} x_{t-1} + H_0 x_t + H_1 x_{t+1}=0\label{hSystem}
-\end{gather}
-that produces  a unique stable solution, 
-it is well known\ \cite{anderson10} that
-one can write the solution for corresponding inhomogeneous stochastic models\footnote{Any variable that can be influenced by the time $t$ stochastic shock must be dated $t$ or later.}\footnote{I conjecture that the eigenvalues of F will correspond to the reciprocal of the large eigenvalues in the model and are consequently strictly less than 1 in the models we will address.  For bounded 
- $Z$ functions, the series will converge. It will also then be the case that $(I-F)^{-1}$ exists.}
-\begin{gather}
-	 H_{-1} x_{t-1} + H_0 x_t + H_1 x_{t+1}=\psi_\epsilon \epsilon_t +\psi_{c}
-\intertext{as}
-x_t=B x_{t-1} + \phi \psi_\epsilon \epsilon_t + (I - F)^{-1} \phi \psi_c
-\intertext{where}
-\phi= (H_0 +H_1 B)^{-1} %\\F=-\phi H_1 
-\end{gather}
-
-Given the trajectories \refeq{fFamily}, define 
-$  z_{t+s}(x_{t-1},\epsilon_t)$ as  \footnote{These $z$ functions will soon prove useful in an algorithm for computing 
-unknown trajectories like \refeq{fFamily}.
-}:
-{
-
-  \begin{align}
-  z_{t+s}(x_{t+s-1},\epsilon_t) \equiv& H_{-1} \mathcal{X}_{t-1}(x_{t+s-1},\epsilon_t) + \nonumber\\
-& H_0 \mathcal{X}_{t+s}(x_{t-1},\epsilon_t) +  \label{defZ} \\
-& H_1 \mathcal{X}_{t+s+1}(x_{t-1},\epsilon_t) \nonumber
-  \end{align}
-}
-
-
-\cite{anderson10}  demonstrates that, for 
-such models,
-	 \begin{gather}
-	 \mathcal{X}_{t}(x_{t-1},\epsilon_t) =B x_{t-1}+ \phi \psi_\epsilon\epsilon_t + \sum_{\sForSum=0}^\infty F^s \phi z_{t+\sForSum}(x_{t-1},\epsilon_t) + (I - F)^{-1} \phi \psi_c
-\label{theSeries}\intertext{and}
-	 \mathcal{X}_{t+s+1}(x_{t-1},\epsilon_t) =B \mathcal{X}_{t+s} + \sum_{\sForSum =0}^\infty F^\sForSum \phi z_{t+s+\sForSum}(x_{t-1},\epsilon_t) + (I - F)^{-1} \phi \psi_c \,\,\,\forall s \ge  0\nonumber
-\intertext{where}
-F=-\phi H_1 
-	 \end{gather}
 	 Consequently, given a family of trajectories like those in \refeq{fFamily},
 and a stable linear homogeneous system like \refeq{hSystem},
 one can easily compute a series 
@@ -430,15 +424,16 @@ approximation of $x_t$.
 Since the eigenvalues of F are all less than one, one can expect the approximation to improve as terms are added.
 
 
-Given a time invariant function that generates a family of bounded solutions for a range of initial conditions we have a method for constructing a time series
+Given a time invariant function that generates a family of bounded trajectories
+ for a range of initial conditions we have a method for constructing a time series
 replicating those trajectories.  
 Many well known economic models generate solutions consisting of
 a family of invariant functions.
 Typically, these solutions cannot be computed in closed form and consequently
 obtained by some numerical method.
-Below, we will describe a method for constructing the time invariant solutions
-for a given model, but 
-it will be useful to begin by considering a model with known solutions.
+Before  we describe a method for constructing the time invariant solutions
+for a arbitrary  models, 
+we will begin by considering a model with known solutions.
 We will see how to characterize the accuracy of a given representation of the time invariant function.  In the context of a model that generates
 solutions that are time invariant and bounded, we can use the 
 series representation to  assess the accuracy of a proposed solution.
@@ -550,7 +545,9 @@ $E_t \left ( \frac{\theta_{t+1}}{c_{t+1}} \right )=\frac{k_t^{-\alpha}}{1-\alpha
 c_t= \theta_t k_{t-1}^\alpha (1-\alpha \delta) 
 \end{gather}
 
-
+\begin{itemize}
+\item why $\theta_t$
+\end{itemize}
 
 For mean zero iid $\epsilon_t$ we can easily compute a family of trajectories like \refeq{fFamily}
 \begin{gather}
@@ -686,7 +683,7 @@ auxiliary variable, a ``chunk'',
 that will be defined at time $t$.  As a result, at each step
 of the iteration that arises, the time $t$
 conditional expectation of that chunk will appear in the 
-linear reference model and can be accurately computed and
+linear reference model and can be correctly computed and
 used in subsequent calculations.
 
 
