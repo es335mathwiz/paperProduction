@@ -1,3 +1,8 @@
+(* FilterOptions has been superseded by FilterRules as of Mathematica 6 *)
+(* BeginPackage["Format`", "Utilities`FilterOptions`"] *)
+BeginPackage["Format`",{"ProtectedSymbols`"}]
+
+
 (* :Name: Format` *)
 
 (* :Title: Extensions to the built-in Format rules and more... *)
@@ -113,10 +118,6 @@
  expressions especially if too strict a tolerance is specified.
  This is a particular weakness of FortranForm.
  Suggestions for improvements and enhancements are welcome. *)
-
-(* FilterOptions has been superseded by FilterRules as of Mathematica 6 *)
-(* BeginPackage["Format`", "Utilities`FilterOptions`"] *)
-BeginPackage["Format`"]
 
 Assign::usage = "Assign[lhs,rhs,outputformat,options]\n
 Assign converts the assignment of lhs to rhs into specified
@@ -277,8 +278,8 @@ Continuing with unoptimized expression."
 
 d::usage="d is the exponent used to format double precision
 numbers in FortranAssign.";
-e::usage="e is the exponent used to format single precision
-numbers in FortranAssign.";
+(*e::usage="e is the exponent used to format single precision
+numbers in FortranAssign.";  I put it in my ProtectedSymbols package*)
 
 (* Symbols used to format CAssign, FortranAssign and MapleAssign functions. *)
 

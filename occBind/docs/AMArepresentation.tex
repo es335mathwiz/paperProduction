@@ -13,7 +13,7 @@
 \usepackage{pgfplotstable}%for generating latex from csv files
 \usepackage{booktabs}
 \usepackage{cmbright}
-\usepackage{babel}
+%\usepackage{babel}
 
 %\usepackage{ccfonts,eulervm}
 %\usepackage[T1]{fontenc}
@@ -447,12 +447,24 @@ how well a particular proposed solution performs.
 See Section \ref{sec:decis-rule-assessm}
 
 
-\subsection{Example: a Simple RBC Model Example With Known Solution}
+\subsubsection{Any Bounded Family of Paths}
+
+For example pseudorandom numbers over the unit interval.  Each seed provides an ``initial condition'' producing a bounded sequence of numbers.   
+One can compute a series representation approximating the families of random
+sequences.
+
+\subsubsection{Example: A Simple RBC Model Example With Known Solution}
 \label{sec:simple-rbc-model-2}
 
 
  {\bf RBC Model Example}
-  
+  See for example\cite{Maliar2005}
+ \begin{gather*}
+   \max\left \{  u(c_t^t) + E_t \sum_{\tau=t}^\infty \beta \delta^{\tau+1-t}u(c_{\tau+1}^t)\right \}\\
+c_\tau^t + k_\tau^{t+1}=(1-d)k_\tau^{t-1} + \theta_\tau f(k_\tau^{t-1})\\
+f(k_\tau^{t-1})= k_\tau^\alpha
+ \end{gather*}
+
 \begin{gather}
 \frac{1}{c_t^{\eta}}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t}}{c_{t+1}^\eta} \right ) \\
 c_t + k_t=\theta_{t-1}k_{t-1}^\alpha \\
@@ -1162,7 +1174,7 @@ One could consider Tauchen approach for expectations.  Not particularly high
 dimensional integration since just one period at a time.
 
 
-\subsection{A Simple RBC Model Example}
+\subsection{Revisiting the Simple RBC Model Example}
 \label{sec:simple-rbc-model-1}
 
 
@@ -2574,16 +2586,17 @@ z_t
  \end{gather}
 
 
-% \section{Things To Do}
-% \label{sec:things-do}
-
-% \begin{itemize}
-% \item guess should also use shock
-% \item code to check model definition functions' validity
-% \item flesh out constraints on function in code and add to text
-% \item describe fixed point and init guess  need to take account of shock to get fixedpoint to converge
-%\item Volterra Series and Impulse Response Functions
-% \end{itemize}
+ \section{Things To Do}
+ \label{sec:things-do}
+ \begin{itemize}
+ \item guess should also use shock
+ \item code to check model definition functions' validity
+ \item flesh out constraints on function in code and add to text
+ \item describe fixed point and init guess  need to take account of shock to ge fixedpoint to converge
+\item Volterra Series and Impulse Response Functions
+\item norm for differences between paths ( sequences )
+\item implications for continuous time
+ \end{itemize}
 
 \section{Truncation Error Bounds}
 \label{truncForm}
