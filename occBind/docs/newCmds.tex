@@ -1,9 +1,35 @@
-\usepackage{amsmath}
-\usepackage{pgfplotstable}%for generating latex from csv files
+\usepackage{pseudocode}
 \usepackage{mathtools}
 \usepackage{datetime}
 \usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
 \usepackage{graphicx}
+\usepackage{bookman}
+\usepackage{pgfplotstable}%for generating latex from csv files
+\usepackage{booktabs}
+\usepackage{cmbright}
+%\usepackage{babel}
+
+%\usepackage{ccfonts,eulervm}
+%\usepackage[T1]{fontenc}
+
+% \usepackage{ccfonts}
+% \usepackage[T1]{fontenc}
+
+
+
+
+
+\usepackage{amsmath}
+\usepackage{pgfplotstable}%for generating latex from csv files
+\usepackage{mathtools}
+
+\usepackage{datetime}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\newcommand\infNorm[1]{\left\lVert#1\right\rVert_\infty}
 
 \newcommand{\lucaArgs}{{ \left (\lucaX{t-1},\lucaX{t},\epsilon_t  \right )}}
 \newcommand{\lucaX}[1]{
@@ -180,7 +206,7 @@ x_{t-1}\\  x_t\\x_{t+1}\\ \epsilon_t
 \newcommand{\xsln}[1]{\mathbb{X} \left [#1 \right ]}
 \newcommand{\xslnK}[2]{\hat{\mathbb{X}}^{#1} \left [#2 \right ]}
 \newcommand{\xpth}[2]{\mathfrak{X}_{#1} \left [#2 \right ]}
-\newcommand\infNorm[1]{\left\lVert#1\right\rVert_\infty}
+
 \newcommand\twoNorm[1]{\left\lVert#1\right\rVert_2}
 %\newcommand{\inorm}[1]{\left\lVert#1\right\rVert_\infty}
 
