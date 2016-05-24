@@ -24,7 +24,7 @@
 This paper proposes a new series representation for bounded
 solutions to dynamic models. 
 This series representation can be used to
-determine a series represenation for 
+determine a series representation for 
 time invariant discrete time maps that characterize the solutions
 to many models.  Consequently, the technique constitutes an important component
 in a technique for accurately characterizing the solutions for a 
@@ -165,16 +165,16 @@ Consider the following constructed from ``almost'' arbitrary coefficients
   \begin{bmatrix}
 H_{-1}&H_{0}&H_{1} 
   \end{bmatrix}=
-\vcenter{\hbox{\includegraphics{../../../AMASeriesRepresentation/AMASeriesRepresentation/refHmat.pdf}}}\intertext{with $\psi_c=\psi_\epsilon=0, \,\,  \psi_z=I$.
+\vcenter{\hbox{\includegraphics{refHmat.pdf}}}\intertext{with $\psi_c=\psi_\epsilon=0, \,\,  \psi_z=I$.
 These coefficients are not completely arbitrary in so far as the series 
 representation requires that the linear model
 has a unique stable solution.}
   B=
-\vcenter{\hbox{\includegraphics{../../../AMASeriesRepresentation/AMASeriesRepresentation/refBmat.pdf}}}\\
+\vcenter{\hbox{\includegraphics{refBmat.pdf}}}\\
 \phi=
-\vcenter{\hbox{\includegraphics{../../../AMASeriesRepresentation/AMASeriesRepresentation/refPhimat.pdf}}}\\
+\vcenter{\hbox{\includegraphics{refPhimat.pdf}}}\\
 F=
-\vcenter{\hbox{\includegraphics{../../../AMASeriesRepresentation/AMASeriesRepresentation/refFmat.pdf}}}
+\vcenter{\hbox{\includegraphics{refFmat.pdf}}}
 \end{gather} 
 
 
@@ -202,12 +202,12 @@ unbounded trajectories.}
 
 \begin{figure}
   \centering
-\includegraphics[width=2in]{../../../AMASeriesRepresentation/AMASeriesRepresentation/piPath.pdf}
-\includegraphics[width=2in]{../../../AMASeriesRepresentation/AMASeriesRepresentation/oscillPath.pdf}
-\includegraphics[width=2in]{../../../AMASeriesRepresentation/AMASeriesRepresentation/pseudoPath.pdf}
+\includegraphics[width=2in]{piPath.pdf}
+\includegraphics[width=2in]{oscillPath.pdf}
+\includegraphics[width=2in]{pseudoPath.pdf}
 
-\includegraphics[width=3in]{../../../AMASeriesRepresentation/AMASeriesRepresentation/theZs.pdf}
-\includegraphics[width=3in]{../../../AMASeriesRepresentation/AMASeriesRepresentation/arbTruncErr.pdf}  
+\includegraphics[width=3in]{theZs.pdf}
+\includegraphics[width=3in]{arbTruncErr.pdf}  
 \caption{RBC Truncation Error Bound Versus Actual}
   \caption{State Variables and the  z's Corresponding to  $x_{-1}=(1,2,3),\epsilon=(2,1,2)$} \label{arbFig}
 \end{figure}
@@ -299,7 +299,7 @@ Using the following parameter values
 
 \begin{figure}
   \centering
-\includegraphics{../../../AMASeriesRepresentation/AMASeriesRepresentation/simpBoundsVActual.pdf}  
+\includegraphics{simpBoundsVActual.pdf}  
   \label{rbcTrunc}
   \caption{RBC Truncation Error Bound Versus Actual}
 \end{figure}
@@ -717,13 +717,14 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
   \label{fig:cfuncsecond}
 \end{figure}
 
-\subsubsection{Approximating an Unknown Solution: $U(c) \ne Log(c)$ }
+\subsubsection{Approximating the Known Solution: $U(c) = Log(c)$ }
 \label{sec:recov-known-solut}
 
-
+\subsubsection{Approximating an Unknown Solution: $U(c) \ne Log(c)$ }
+\label{sec:unknown-solut}
 
 \subsubsection{Occasionally Binding Constraints}
-\label{sec:recov-known-solut}
+\label{sec:obc-solut}
 
 
 \subsubsection{A Regime Switching Version}
@@ -753,7 +754,7 @@ c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
 \section{Arbitrary Path Generator Programs}
 \label{sec:arbitr-path-gener}
 
-\listinginput{1}{../../../AMASeriesRepresentation/AMASeriesRepresentation/arbGenPath.mth}
+\listinginput{1}{arbGenPath.mth}
 
  \bibliographystyle{plainnat}
  \bibliography{../../bibFiles/anderson,../../bibFiles/files}
