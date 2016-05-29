@@ -741,11 +741,28 @@ c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
  E_t ( c_{t+1}^{\gamma-1} (\alpha z_{t+1}^{1-\alpha} k_t^{\alpha -1} + (1-\delta) ))
 \end{gather}
 
+Compressing objects: 100% (7/7), done.
+Writing objects: 100% (7/7), 11.85 KiB, done.
 
 
 \begin{itemize}
 \item do compositions in place instead of stacking
 \item Use derivatives in approximation to solve illustrates how expectations ``smooth'' out the function ``kinks''
+\item time invariance and constraints on paths
+\item perturbation techniques on $x+{t-1}, \epsilon$
+\item $\epsilon$ could be any exogenous even time varying factor
+\item compute derivative of composition of function and use in update of decision rule from path errors
+\item add diagnostic tests to checkLinMod checkMod
+\item specify model definition requirements 
+\item exploit linearity get derivative for update
+\item generate a ``differential equation''
+\item makeDRFunc and reconcile assessment and update code
+\item use composition instead of stacking make interpolation decision rule pair
+\item way to use centered and backward sums of z's
+\item use derivative of sum and integral in update of function
+\item time invariance iteration constraints on z's and paths
+\item time invariance and function updates
+\item $z(x,\epsilon,y)$? just need y ``exogenous''  y discrete, continuous, stochastic
 \end{itemize}
 
 \newpage
