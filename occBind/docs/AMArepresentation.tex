@@ -763,6 +763,61 @@ Writing objects: 100% (7/7), 11.85 KiB, done.
 \item time invariance iteration constraints on z's and paths
 \item time invariance and function updates
 \item $z(x,\epsilon,y)$? just need y ``exogenous''  y discrete, continuous, stochastic
+\item progress monitor
+\item smolyak
+\item constraint
+\item regime
+\item error messages
+\item lucamod big shock
+\item how to ``snug up'' solution using global feature of AMA series
+\item linearity of representation and updating
+\item deprecate path extension
+\item fact that are decision rule constrains z's How? z's are all part of a decision rule uniqueness topology
+\item one step defines all values  --  this should be exploitable
+\item decision rule differs slightly from conditional expetation that gets iterated shock puts you on a path
+\item mention possible to use Sims inputs
+\item continuous time
+\item $\Delta(x_{t-1},\epsilon_t) \implies \Delta Z(x_{t-1}) \implies PATH \implies NewZs$
+\item suspect there is a corresponding PDE that may be easy to solve numerically
+\item problem probably already solved in topology ( category theory )
+\item perhaps can approx the exact PDE by using just a few terms
+\item for time invariant map just need to get one step right so shouldn't need to worry about iterated compositions in formula for differential equaiton
+\item Euler residuals like Luca and other measures like Villaverde use maliar measures 
+\item findroot, nsolve other for deterministic problem
+\item use all equations ==
+\item nsolve choose multiple --  more constraints
+\item \href{mathematica nsolve info}{http://mathematica.stackexchange.com/questions/47112/what-algorithms-does-nsolve-use}
+\item \href{some choices}{http://mathematica.stackexchange.com/questions/40543/methods-for-nsolve}
+  \begin{itemize}
+  \item "EndomorphismMatrix"
+"CompanionMatrix"
+\item 
+"Legacy"
+\item 
+"Aberth"
+\item 
+"JenkinsTraub"
+  \end{itemize}
+\item do maliar exercises
+\item do rubio exercises
+\item do luca exercises
+\item equations CompiledFunction if findroot
+\item equations Function if NSolve
+\item java minimizer with constraints 
+\item $dr1 = \sum ... z_1, dr2 = \sum ... z_2,,, dr2 - dr1= \sum ... (z_2-z_1)$
+\item $dr_\ast - dr1= \sum ... (z_\ast-z_1)$
+\item warnings about extrapolation
+\item generate PDE
+\item time invariance constraints on zs 
+\item $ \Delta z \implies \Delta z \implies \Delta path$
+\item implement derivative
+\item functions with through can likely be parallelized also maps
+\item kernel fireup time?
+\item behavior when multiple solutions and when no solutions
+\item how best to associate eqnFuncs with lilxkzkfunc 
+\item multistep iterateions should match steady state solution exactly (see 
+AMASeriesRepresentationExamples notebook for developing derivatives
+\item should develop a test suite demonstrating identities satisfied
 \end{itemize}
 
 \newpage
