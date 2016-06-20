@@ -7,6 +7,31 @@
 
 \usepackage{mathtools}
 \usepackage{datetime}
+\usepackage{amsfonts}
+
+\newcommand{\Rn}[1]{{\mathcal{R}^{#1}}}
+\newcommand{\numX}{{N_x}}
+\newcommand{\numZ}{{N_z}}
+\newcommand{\numEps}{{N_\epsilon}}
+\newcommand{\numR}{{N_r}}
+\newcommand{\bigXFuncSig}{{\mathbb{X}:(\Rn{\numX}\times 1)\rightarrow
+(\Rn{({\numX+\numZ})}\times 1)}}
+\newcommand{\lilXFuncSig}{{\mathbf{x}:(\Rn{\numX+\numEps+\numZ}\times 1)\rightarrow
+(\Rn{({3\numX+\numEps+\numZ})}\times 1)}}
+\newcommand{\eqnFuncSig}{{\mathcal{M}:\Rn{3\numX+\numEps+\numZ}\rightarrow\Rn{\numX}}}
+\newcommand{\frfpnsFuncSig}{{\mathcal{M}:\Rn{\numX+\numEps}\rightarrow\Rn{\numX+\numZ}}}
+
+
+
+\newcommand{\bigXRegimeFuncSig}{{\mathbb{X}:(\Rn{\numX+1}\times 1)\rightarrow
+(\Rn{({\numX+\numZ})}\times 1)}}
+\newcommand{\lilXRegimeFuncSig}{{\mathbf{x}:(\Rn{\numX+1+\numEps+\numZ}\times 1)\rightarrow
+(\Rn{({3(\numX+1)+\numEps+\numZ})}\times 1)}}
+\newcommand{\eqnRegimeFuncSig}{{\mathcal{M}:\Rn{3(\numX+1)+\numEps+\numZ}\rightarrow\Rn{\numX}}}
+\newcommand{\frfpnsRegimeFuncSig}{{\mathcal{M}:\Rn{\numX+1+\numEps}\rightarrow\Rn{\numX+\numZ}}}
+
+
+
 
 \newcommand{\linMod}{{\mathcal{L}}}
 \newcommand{\linModMats}{{\{H,\psi_\epsilon,\psi_c;B,\phi,F\}}}

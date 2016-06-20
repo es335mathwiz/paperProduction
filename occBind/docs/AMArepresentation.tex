@@ -764,6 +764,8 @@ Writing objects: 100% (7/7), 11.85 KiB, done.
 \item time invariance and function updates
 \item $z(x,\epsilon,y)$? just need y ``exogenous''  y discrete, continuous, stochastic
 \item progress monitor
+\item big shocks abort linear liftoff good cautionary example
+\item parallel
 \item smolyak
 \item constraint
 \item regime
@@ -818,6 +820,7 @@ Writing objects: 100% (7/7), 11.85 KiB, done.
 \item multistep iterateions should match steady state solution exactly (see 
 AMASeriesRepresentationExamples notebook for developing derivatives
 \item should develop a test suite demonstrating identities satisfied
+\item update path using newton step,  Stack` $\frac{\partial Z()}{\partial x_{t-1}}$
 \end{itemize}
 
 \newpage
@@ -827,6 +830,131 @@ AMASeriesRepresentationExamples notebook for developing derivatives
 \label{sec:arbitr-path-gener}
 
 \listinginput{1}{arbGenPath.mth}
+
+\section{Program Signatures}
+\label{sec:program-listings}
+\begin{tabular}{|l|c|}
+\hline
+Number of $x_t$ variables&$\numX$\\
+\hline
+Number of $z_t$ variables&$\numZ$\\
+\hline
+Number of $\epsilon_t$ variables&$\numEps$\\
+\hline
+Number of regimes variables&$\numR$\\
+\hline
+The Linear Reference Model&$\linMod\equiv\linModMats$\\  
+\hline
+Model Equation Function&$\eqnFuncSig$\\
+\hline
+\end{tabular}
+\subsection{genLilXkZkFunc}
+\label{sec:genlilxkzkfunc}
+\begin{gather*}
+\linMod \times \{  \bigXFuncSig, k \} \times \Rn{(\numX+\numEps)} \rightarrow
+\lilXFuncSig
+\end{gather*}
+
+\subsection{genFRFunc}
+\label{sec:genfrfunc}
+
+
+\begin{gather*}
+\{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times (\eqnFuncSig)    \rightarrow\\
+\frfpnsFuncSig
+\end{gather*}
+
+
+
+\subsection{genNSFunc}
+\label{sec:gennsfunc}
+
+\begin{gather*}
+\{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times (\eqnFuncSig)    \rightarrow\\
+\frfpnsFuncSig
+\end{gather*}
+
+
+\subsection{genFPFunc}
+\label{sec:genfpfunc}
+\begin{gather*}
+\linMod \times \{  \bigXFuncSig, k \} \times (\eqnFuncSig)    \rightarrow\\ 
+\frfpnsFuncSig
+\end{gather*}
+
+
+
+\subsection{genLilXkZkRegimeFunc}
+\label{sec:genlilxkzkregimefunc}
+{\small
+\begin{gather*}
+\linMod \times \{(\{  \bigXFuncSig, k_i \})_{k_i=1},\ldots,(\{  \bigXFuncSig, k_i \})_{k_i=\numR}\} \times\\ \Rn{(\numX+\numEps)} \rightarrow\\
+\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}
+\end{gather*}
+}
+
+
+
+
+
+\subsection{genFRRegimeFunc}
+\label{sec:genfrregimefunc}
+
+
+
+{\small
+\begin{gather*}
+\{\numX,\numEps,\numZ\}\times\\
+\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+ \times (\eqnRegimeFuncSig )\rightarrow\\
+\frfpnsRegimeFuncSig
+\end{gather*}
+}
+
+
+
+
+
+\subsection{genNSRegimeFunc}
+\label{sec:gennsfunc}
+
+
+
+\subsection{genFPRegimeFunc}
+\label{sec:genfpregimefunc}
+
+
+
+
+{\small
+\begin{gather*}
+\{\numX,\numEps,\numZ\}\times\\
+\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+ \times (\eqnRegimeFuncSig )\rightarrow\\
+\frfpnsRegimeFuncSig
+\end{gather*}
+}
+
+\subsection{doIterREInterp}
+\label{sec:doiterreinterp}
+
+\begin{gather*}
+  \linMod \times 
+\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+ \times (\eqnRegimeFuncSig ) \times gspec \times distspec \rightarrow\\
+\{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+\end{gather*}
+
+
+
+\subsection{nestIterREInterp}
+\label{sec:nestiterreinterp}
+
+% \begin{gather*}
+  
+% \end{gather*}
+
+
 
  \bibliographystyle{plainnat}
  \bibliography{../../bibFiles/anderson,../../bibFiles/files}
