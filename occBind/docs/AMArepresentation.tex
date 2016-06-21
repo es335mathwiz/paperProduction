@@ -821,8 +821,10 @@ Writing objects: 100% (7/7), 11.85 KiB, done.
 AMASeriesRepresentationExamples notebook for developing derivatives
 \item should develop a test suite demonstrating identities satisfied
 \item update path using newton step,  Stack` $\frac{\partial Z()}{\partial x_{t-1}}$
+\item verify chunks can have t-1 and t  values
+\item solve closed form example in one verifying iteration
 \end{itemize}
-
+`	
 \newpage
 \appendix
 
@@ -940,7 +942,7 @@ Model Equation Function&$\eqnFuncSig$\\
 
 \begin{gather*}
   \linMod \times 
-\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
  \times (\eqnRegimeFuncSig ) \times gspec \times distspec \rightarrow\\
 \{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
 \end{gather*}
@@ -950,10 +952,14 @@ Model Equation Function&$\eqnFuncSig$\\
 \subsection{nestIterREInterp}
 \label{sec:nestiterreinterp}
 
-% \begin{gather*}
-  
-% \end{gather*}
 
+
+\begin{gather*}
+  \linMod \times 
+w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+ \times (\eqnRegimeFuncSig ) \times gspec \times distspec \rightarrow\\
+\{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+\end{gather*}
 
 
  \bibliographystyle{plainnat}
