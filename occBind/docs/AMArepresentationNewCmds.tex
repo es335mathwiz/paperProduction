@@ -1,11 +1,24 @@
+\usepackage{pseudocode}
+\usepackage{dirtree}
+% \usepackage[utf8]{inputenc}
+% \usepackage{listings,xcolor}
+
+% \usepackage{soul}
+% \usepackage{ulem}
+
+
+
+
+
 \usepackage[round,authoryear]{natbib}
-\usepackage[margin=1.0in]{geometry}
+%\usepackage[margin=1.0in]{geometry}
 \usepackage{graphicx}
 \usepackage{moreverb}
 \usepackage{hyperref}
 \newcommand\infNorm[1]{\left\lVert#1\right\rVert_\infty}
 
 \usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
 \usepackage{datetime}
 \usepackage{amsfonts}
 
@@ -14,6 +27,7 @@
 \newcommand{\numZ}{{N_z}}
 \newcommand{\numEps}{{N_\epsilon}}
 \newcommand{\numR}{{N_r}}
+\newcommand{\numIters}{{K}}
 \newcommand{\bigXFuncSig}{{\mathbb{X}:(\Rn{\numX}\times 1)\rightarrow
 (\Rn{({\numX+\numZ})}\times 1)}}
 \newcommand{\lilXFuncSig}{{\mathbf{x}:(\Rn{\numX+\numEps+\numZ}\times 1)\rightarrow
@@ -27,10 +41,20 @@
 (\Rn{({\numX+\numZ})}\times 1)}}
 \newcommand{\lilXRegimeFuncSig}{{\mathbf{x}:(\Rn{\numX+1+\numEps+\numZ}\times 1)\rightarrow
 (\Rn{({3(\numX+1)+\numEps+\numZ})}\times 1)}}
-\newcommand{\eqnRegimeFuncSig}{{\mathcal{M}:\Rn{3(\numX+1)+\numEps+\numZ}\rightarrow\Rn{\numX}}}
-\newcommand{\frfpnsRegimeFuncSig}{{\mathcal{M}:\Rn{\numX+1+\numEps}\rightarrow\Rn{\numX+\numZ}}}
+\newcommand{\eqnRegimeFuncSig}{{
+\{\mathcal{M}_1:\Rn{3(\numX+1)+\numEps+\numZ}\rightarrow\Rn{\numX},
+\ldots,
+\mathcal{M}_\numR:\Rn{3(\numX+1)+\numEps+\numZ}\rightarrow\Rn{\numX}\}
+}}
+\newcommand{\frfpnsRegimeFuncHelp}[1]{{\mathcal{M}_{#1}:\Rn{\numX+\numEps}\rightarrow\Rn{\numX+\numZ}}}
 
+\newcommand{\frfpnsRegimeFuncSig}{{
+\{ (\frfpnsRegimeFuncHelp{1}), \ldots ,  (\frfpnsRegimeFuncHelp{\numR})\}
+}}
 
+\newcommand{\dstSpec}{{\mathbf{distSpec}}}
+\newcommand{\expctSpec}{{\mathbf{expctSpec}}}
+\newcommand{\grdSpec}{{\mathbf{grdSpec}}}
 
 
 \newcommand{\linMod}{{\mathcal{L}}}

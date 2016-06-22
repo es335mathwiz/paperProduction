@@ -11,7 +11,7 @@
 
 \author{Gary S. Anderson\thanks{The analysis and conclusions set forth are those of the author and do not indicate concurrence by other members of the research staff or the Board of Governors. I would like to thank Luca Guerrieri, Christopher Gust, Hess Chung, Benjamin Johannsen  and Robert Tetlow for their comments and suggestions. }}
 
-\mathtoolsset{showonlyrefs}
+
 
 
 \begin{document}
@@ -62,7 +62,7 @@ state vector. The solutions computed by the technique accommodate the possibilit
 
 Consider a family of functions:
  \begin{gather}
-   \xWarg \in{R^L}\,\,\infNorm{\xWarg}  \le \bar{\mathcal{X}}\,\,\forall s\ge -1 \label{fFamily}.
+   \xWarg \in{R^L}\,\,\infNorm{\xWarg}  \le \bar{\mathcal{X}}\,\,\forall t> 0 \label{fFamily}.
  \end{gather}
 The $x_{-1}$ is an  $L$ dimensional state vector and $\epsilon$ is a $K$ dimensional ``shock'' vector that together index
 individual trajectories for future state vectors.  
@@ -823,6 +823,14 @@ AMASeriesRepresentationExamples notebook for developing derivatives
 \item update path using newton step,  Stack` $\frac{\partial Z()}{\partial x_{t-1}}$
 \item verify chunks can have t-1 and t  values
 \item solve closed form example in one verifying iteration
+\item ``pruned'' perturbation solution for initial guess at cond exp
+\item can use to assess ``pruned'' perturbation solution
+\item just collocation could be projection
+\item make sure multiple shocks okay; implementation versus theoretical constraint
+\item  could use different linmods for each regime
+\item inits for nsolve, handholding for nsolve
+\item improve monitors for misapplied functions
+\item nsolve about 500 times a long as findroot
 \end{itemize}
 `	
 \newpage
@@ -845,6 +853,12 @@ Number of $\epsilon_t$ variables&$\numEps$\\
 \hline
 Number of regimes variables&$\numR$\\
 \hline
+Number of recursive iterations&$\numIters$\\
+\hline
+Interpolation Grid Specification&$\dstSpec$\\
+\hline
+Shock Distributions  Specification&$\dstSpec$\\
+\hline
 The Linear Reference Model&$\linMod\equiv\linModMats$\\  
 \hline
 Model Equation Function&$\eqnFuncSig$\\
@@ -857,7 +871,7 @@ Model Equation Function&$\eqnFuncSig$\\
 \lilXFuncSig
 \end{gather*}
 
-\subsection{genFRFunc}
+\subsection{genFRFunc,genNSFunc}
 \label{sec:genfrfunc}
 
 
@@ -866,15 +880,6 @@ Model Equation Function&$\eqnFuncSig$\\
 \frfpnsFuncSig
 \end{gather*}
 
-
-
-\subsection{genNSFunc}
-\label{sec:gennsfunc}
-
-\begin{gather*}
-\{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times (\eqnFuncSig)    \rightarrow\\
-\frfpnsFuncSig
-\end{gather*}
 
 
 \subsection{genFPFunc}
@@ -886,7 +891,43 @@ Model Equation Function&$\eqnFuncSig$\\
 
 
 
-\subsection{genLilXkZkRegimeFunc}
+
+\subsection{genXZREInterpFunc}
+\label{sec:genfpfunc}
+\begin{gather*}
+\{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times \grdSpec \times  \dstSpec   \rightarrow\\
+\bigXFuncSig
+\end{gather*}
+
+
+
+\subsection{doIterREInterp}
+\label{sec:doiterreinterp}
+
+\begin{gather*}
+  \linMod \times 
+w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+ \times (\eqnFuncSig ) \times \grdSpec \times \dstSpec \rightarrow\\
+\{\frfpnsFuncSig, \{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+\end{gather*}
+
+
+
+\subsection{nestIterREInterp}
+\label{sec:nestiterreinterp}
+
+
+
+\begin{gather*}
+  \linMod \times 
+\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+ \times (\eqnFuncSig ) \times \grdSpec \times \dstSpec \times \numIters \rightarrow\\
+\{\frfpnsFuncSig, \{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+\end{gather*}
+
+
+
+\subsection{genLilXkZkRegimeFuncs}
 \label{sec:genlilxkzkregimefunc}
 {\small
 \begin{gather*}
@@ -899,7 +940,7 @@ Model Equation Function&$\eqnFuncSig$\\
 
 
 
-\subsection{genFRRegimeFunc}
+\subsection{genFRRegimeFuncs, genNSRegimeFuncs}
 \label{sec:genfrregimefunc}
 
 
@@ -917,12 +958,10 @@ Model Equation Function&$\eqnFuncSig$\\
 
 
 
-\subsection{genNSRegimeFunc}
-\label{sec:gennsfunc}
 
 
 
-\subsection{genFPRegimeFunc}
+\subsection{genFPRegimeFuncs}
 \label{sec:genfpregimefunc}
 
 
@@ -937,19 +976,31 @@ Model Equation Function&$\eqnFuncSig$\\
 \end{gather*}
 }
 
-\subsection{doIterREInterp}
+
+
+
+\subsection{genXZREInterpRegimeFuncs}
+\label{sec:genfpfunc}
+\begin{gather*}
+\{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times \dstSpec \times  \expctSpec   \rightarrow\\
+\frfpnsFuncSig
+\end{gather*}
+
+
+
+\subsection{doIterREInterpRegime}
 \label{sec:doiterreinterp}
 
 \begin{gather*}
   \linMod \times 
 w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
- \times (\eqnRegimeFuncSig ) \times gspec \times distspec \rightarrow\\
+ \times (\eqnRegimeFuncSig ) \times \grdSpec \times \dstSpec \rightarrow\\
 \{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
 \end{gather*}
 
 
 
-\subsection{nestIterREInterp}
+\subsection{nestIterREInterpRegime}
 \label{sec:nestiterreinterp}
 
 
@@ -957,7 +1008,7 @@ w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 \begin{gather*}
   \linMod \times 
 w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
- \times (\eqnRegimeFuncSig ) \times gspec \times distspec \rightarrow\\
+ \times (\eqnRegimeFuncSig ) \times \grdSpec \times \dstSpec  \times \numIters \rightarrow\\
 \{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
 \end{gather*}
 
