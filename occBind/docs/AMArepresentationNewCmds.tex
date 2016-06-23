@@ -22,31 +22,43 @@
 \usepackage{datetime}
 \usepackage{amsfonts}
 
+\newcommand{\xguss}{x^{tguess}}
+\newcommand{\xtpguss}{x^{tp1guess}}
+
+
+
 \newcommand{\Rn}[1]{{\mathcal{R}^{#1}}}
 \newcommand{\numX}{{N_x}}
 \newcommand{\numZ}{{N_z}}
 \newcommand{\numEps}{{N_\epsilon}}
 \newcommand{\numR}{{N_r}}
 \newcommand{\numIters}{{K}}
-\newcommand{\bigXFuncSig}{{\mathbb{X}:(\Rn{\numX}\times 1)\rightarrow
+\newcommand{\numTerms}{{M}}
+
+
+\newcommand{\slvr}{{\mathcal{S}}}
+\newcommand{\solverSig}{{
+\frfpnsRegimeFuncHelp{1})
+}}
+\newcommand{\bigXFuncSig}{{(\Rn{\numX}\times 1)\rightarrow
 (\Rn{({\numX+\numZ})}\times 1)}}
-\newcommand{\lilXFuncSig}{{\mathbf{x}:(\Rn{\numX+\numEps+\numZ}\times 1)\rightarrow
+\newcommand{\lilXFuncSig}{{(\Rn{\numX+\numEps+\numZ}\times 1)\rightarrow
 (\Rn{({3\numX+\numEps+\numZ})}\times 1)}}
-\newcommand{\eqnFuncSig}{{\mathcal{M}:\Rn{3\numX+\numEps+\numZ}\rightarrow\Rn{\numX}}}
-\newcommand{\frfpnsFuncSig}{{\mathcal{M}:\Rn{\numX+\numEps}\rightarrow\Rn{\numX+\numZ}}}
+\newcommand{\eqnFuncSig}{{\Rn{3\numX+\numEps+\numZ}\rightarrow\Rn{\numX}}}
+\newcommand{\frfpnsFuncSig}{{\Rn{\numX+\numEps}\rightarrow\Rn{\numX+\numZ}}}
 
 
 
-\newcommand{\bigXRegimeFuncSig}{{\mathbb{X}:(\Rn{\numX+1}\times 1)\rightarrow
+\newcommand{\bigXRegimeFuncSig}{{(\Rn{\numX+1}\times 1)\rightarrow
 (\Rn{({\numX+\numZ})}\times 1)}}
-\newcommand{\lilXRegimeFuncSig}{{\mathbf{x}:(\Rn{\numX+1+\numEps+\numZ}\times 1)\rightarrow
+\newcommand{\lilXRegimeFuncSig}{{(\Rn{\numX+1+\numEps+\numZ}\times 1)\rightarrow
 (\Rn{({3(\numX+1)+\numEps+\numZ})}\times 1)}}
 \newcommand{\eqnRegimeFuncSig}{{
-\{\mathcal{M}_1:\Rn{3(\numX+1)+\numEps+\numZ}\rightarrow\Rn{\numX},
+\{\Rn{3(\numX+1)+\numEps+\numZ}\rightarrow\Rn{\numX},
 \ldots,
-\mathcal{M}_\numR:\Rn{3(\numX+1)+\numEps+\numZ}\rightarrow\Rn{\numX}\}
+\Rn{3(\numX+1)+\numEps+\numZ}\rightarrow\Rn{\numX}\}
 }}
-\newcommand{\frfpnsRegimeFuncHelp}[1]{{\mathcal{M}_{#1}:\Rn{\numX+\numEps}\rightarrow\Rn{\numX+\numZ}}}
+\newcommand{\frfpnsRegimeFuncHelp}{{\Rn{\numX+\numEps}\rightarrow\Rn{\numX+\numZ}}}
 
 \newcommand{\frfpnsRegimeFuncSig}{{
 \{ (\frfpnsRegimeFuncHelp{1}), \ldots ,  (\frfpnsRegimeFuncHelp{\numR})\}
