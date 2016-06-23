@@ -72,8 +72,8 @@ Consider a family of functions:
  \begin{itemize}
  \item The $x_{-1}$ is an  $L$ dimensional state vector
  \item $\epsilon$ is a $K$ dimensional ``shock'' vector
- \item  together index individual trajectories for future state vectors.  
- \item No continuity or smoothness required  -- just boundedness
+ \item  $(x_{-1},\epsilon)$ index individual trajectories for  state vectors.  
+ \item No continuity, monotonicity or smoothness required  -- just boundedness
  \end{itemize}
 
 \end{frame}
@@ -162,10 +162,6 @@ F=
 
 \begin{frame}
   
-\begin{figure}
-  \centering
-  \caption{Error Bound Versus Actual Error} \label{figArbTrunc}
-\end{figure}
 
 
 
@@ -253,27 +249,6 @@ h_{31}^{det}(\cdot)=0
 \end{gather}
 
 \end{frame}
-\begin{frame}
-  
-
-\begin{description}
-\item[Perfect Foresight]
-\begin{gather}
-     \mathcal{H}^{PF}[g^{k}(x,\epsilon_{t+T-k+1})]=
-g^{k}(x,0)\\
-\end{gather}
-
-
-\item[Rational Expectations] 
-\begin{gather}
-     \mathcal{H}^{RE}[g^{k}(x,\epsilon_{t+T-k+1})]=
-\mathcal{E}_t[g^{k}(x,\epsilon_{t+T-k+1})|x]\\
-\end{gather}
-
- \end{description}
-
-
-\end{frame}
 
 
 
@@ -306,32 +281,56 @@ Model Equation Function&$\eqnFuncSig$\\
 
 \begin{frame}
   \begin{gather}
-  g^k(x_{t-1},\epsilon_t)=
+  \xzFunc^k(x_{t-1},\epsilon_t)=
   \begin{bmatrix}
     x_{t-1}\\ x_t\\ \xtpguss
   \end{bmatrix}\\
-x_t= \sum stuff,\,\,\,
-\xtpguss=G^{k-1}(\xguss) = \sum stuff(\xguss)
+x_t= \sumLinPart +\\ \sumZPart\\
+\xtpguss=\XZFunc^{k-1}(\xguss) = \sum stuff(\xguss)
   \end{gather}
 \end{frame}
+\begin{frame}
+  
+ \begin{description}
+\item[Perfect Foresight]
+\begin{gather}
+\XZFunc^{k}(x)=     \mathcal{H}^{PF}[\xzFunc^{k}(x,\epsilon_{t+T-k+1})]=\\
+\XZFunc^{k}(x)=\EsumLinPart + \\  \EsumZPartZero
+\end{gather}
+
+ \item[Rational Expectations] 
+ \begin{gather}
+ \XZFunc^{k}(x)=     \mathcal{H}^{RE}[\xzFunc^{k}(x,\epsilon_{t+T-k+1})]=
+ \expct{\xzFunc^{k}(x,\epsilon_{t+T-k+1})}\\
+ \XZFunc^{k}(x)=\EsumLinPart +\\ \EsumZPartEpsilon
+ \end{gather}
+
+  \end{description}
+
+
+\end{frame}
+
+
 
 \begin{frame}
 \frametitle{Solvers}
   \begin{gather}
+\eqnFunc:eqnFuncSig\\
     \slvr : \solverSig
   \end{gather}
 \end{frame}
+
 
 
 \begin{frame}
 \frametitle{genLilXkZkFunc}
 \label{sec:genlilxkzkfunc}
 \begin{gather}
-g^k(x_{t-1},\epsilon_t):\lilXFuncSig\\
-G^k(x_{t-1})=\int g^k(x_{t-1},\epsilon_t):\lilXFuncSig\\
-G^k(x_{t-1}):\bigXFuncSig\\
-g^{k+1}(x_{t-1},\epsilon_t):\lilXFuncSig\\
-  \Gamma_1(\linMod,\{G^k,\numTerms\},\xguss)
+\xzFunc^k(x_{t-1},\epsilon_t):\lilXFuncSig\\
+\XZFunc^k(x_{t-1})=\expct{ \xzFunc^k(x_{t-1},\epsilon_t):\lilXFuncSig}\\
+\XZFunc^k(x_{t-1}):\bigXFuncSig\\
+\xzFunc^{k+1}(x_{t-1},\epsilon_t):\lilXFuncSig\\
+  \Gamma_1(\linMod,\{\XZFunc^k,\numTerms\},\xguss)
 \end{gather}
 {\small
 \begin{gather*}
