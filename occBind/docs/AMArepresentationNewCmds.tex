@@ -1,5 +1,5 @@
-\usepackage{pseudocode}
-\usepackage{dirtree}
+%\usepackage{pseudocode}
+%\usepackage{dirtree}
 % \usepackage[utf8]{inputenc}
 % \usepackage{listings,xcolor}
 
@@ -8,7 +8,10 @@
 
 
 
-
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
 
 \usepackage[round,authoryear]{natbib}
 %\usepackage[margin=1.0in]{geometry}
@@ -22,6 +25,9 @@
 \usepackage{datetime}
 \usepackage{amsfonts}
 
+\newcommand{\xgusst}[1]{x^{guess}_{#1}}
+\newcommand{\xnxt}[1]{x^{next}_{#1}}
+\newcommand{\zgusst}[1]{z^{guess}_{#1}}
 \newcommand{\xguss}{x^{tguess}}
 \newcommand{\xtpguss}{x^{tp1guess}}
 
@@ -33,7 +39,14 @@
 \newcommand{\numEps}{{N_\epsilon}}
 \newcommand{\numR}{{N_r}}
 \newcommand{\numIters}{{K}}
-\newcommand{\numTerms}{{M}}
+\newcommand{\numTerms}{{N_{terms}}}
+
+
+\newcommand{\ADRUE}{{\bf ADRUEF}}
+\newcommand{\ADR}{{\bf ADRF}}
+
+\newcommand{\xtmEpsArg}{{(x_{t-1},\epsilon_t)}} 
+\newcommand{\xtArg}{{(x_{t}) }}
 
 
 \newcommand{\sumLinPart}{{
@@ -42,34 +55,55 @@ B x_{t-1}+ \phi \psi_\epsilon\epsilon + (I - F)^{-1} \phi \psi_c
 \newcommand{\sumZPart}{{
  \sum_{\sForSum=0}^\infty F^s \phi z_{t+\sForSum}(x_{t-1},\epsilon) 
 }}
+\newcommand{\sumZPartZero}{{
+ \phi z_{t}(x_{t-1},\epsilon) 
+}}
+\newcommand{\sumZPartPos}{{
+ \sum_{\sForSum=1}^\infty F^s \phi Z_{t+\sForSum}(x_{t-1},\epsilon) 
+}}
 
 \newcommand{\EsumLinPart}{{
 	 B x_{t-1}+ (I - F)^{-1} \phi \psi_c 
 }}
 \newcommand{\EsumZPartZero}{{
-	  \sum_{\sForSum=0}^\infty F^s \phi z_{t+\sForSum}(x_{t-1},0) 
+	  \sum_{\sForSum=0}^\infty F^s \phi Z^{PF}_{t+\sForSum}(x_{t-1},0) 
 }}
 \newcommand{\EsumZPartEpsilon}{{
 	  \sum_{\sForSum=0}^\infty F^s \phi \expct{z_{t+\sForSum}(x_{t-1},\epsilon)}
 }}
+\newcommand{\EsumCapZPart}[1]{{
+	  \sum_{\sForSum=0}^\infty F^s \phi {Z^{#1}_{t+\sForSum}(x_{t-1})}
+}}
+\newcommand{\uncnxpt}[2]{{\mathcal{E}\left [ #1 \left | #2 \right . \right ]}}
 \newcommand{\expct}[1]{{\mathcal{E}\left [ #1 xs\right ]}}
 
-\newcommand{\xzFunc}{{\mathbb{g}}}
+\newcommand{\xzFuncGuess}{{\mathbb{g}}}
+\newcommand{\xzFuncGuessSig}{{(\Rn{\numX+\numEps+\numZ}\times 1)\rightarrow
+(\Rn{({3\numX+\numEps+\numZ})}\times 1)}}
+
+
+\newcommand{\xzFunc}{{{\gamma}}}
+\newcommand{\xzFuncSig}{{(\Rn{\numX+\numEps+\numZ}\times 1)\rightarrow
+(\Rn{({3\numX+\numEps+\numZ})}\times 1)}}
+
 \newcommand{\XZFunc}{{\mathbb{G}}}
-
-
-\newcommand{\slvr}{{\mathcal{S}}}
-\newcommand{\solverSig}{{
-\frfpnsRegimeFuncHelp{1})
-}}
 \newcommand{\bigXFuncSig}{{(\Rn{\numX}\times 1)\rightarrow
 (\Rn{({\numX+\numZ})}\times 1)}}
-\newcommand{\lilXFuncSig}{{(\Rn{\numX+\numEps+\numZ}\times 1)\rightarrow
-(\Rn{({3\numX+\numEps+\numZ})}\times 1)}}
-\newcommand{\eqnFuncSig}{{\Rn{3\numX+\numEps+\numZ}\rightarrow\Rn{\numX}}}
-\newcommand{\frfpnsFuncSig}{{\Rn{\numX+\numEps}\rightarrow\Rn{\numX+\numZ}}}
+
+
+\newcommand{\genXGFP}{{\mathcal{U}}}
+\newcommand{\xgFP}{{\mathcal{V}}}
+\newcommand{\genSlvr}{{\mathcal{T}}}
+\newcommand{\slvr}{{\mathcal{S}}}
+\newcommand{\solverSig}{{
+\frfpnsRegimeFuncHelp
+}}
 
 \newcommand{\eqnFunc}{\mathbb{M}}
+\newcommand{\eqnFuncSig}{{\Rn{3\numX+\numEps+\numZ}\rightarrow\Rn{\numX}}}
+
+
+\newcommand{\frfpnsFuncSig}{{\Rn{\numX+\numEps}\rightarrow\Rn{\numX+\numZ}}}
 
 \newcommand{\bigXRegimeFuncSig}{{(\Rn{\numX+1}\times 1)\rightarrow
 (\Rn{({\numX+\numZ})}\times 1)}}

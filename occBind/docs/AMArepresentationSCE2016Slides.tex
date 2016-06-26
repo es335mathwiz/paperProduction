@@ -19,25 +19,32 @@
 
 \section{Introduction and Summary}
 
+\begin{frame}
+
  \begin{itemize}
- \item Initial Diversion but Useful Payoffs
- \item Likely Useful for Wide class Dynamic Economic Models
-   \begin{itemize}
-   \item structure the solution allows attack many difficult problems
-   \item bounded solution paths
-   \item today focus on time invariant decision rules 
-   \item splits problem into two phases
+ \item Proposing a series representation for a broad class of functions
+ \item Easy to compute representation for representing
+families of trajectories
+\item only requires that the trajectories are bounded
+\item originally motivated by solving models occassionally binding constraints
+\item series representation seems much more general flexible than I originally imagined
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+     \begin{itemize}
+   \item Today focus on time invariant decision rules 
+   \item Representation allows us to split problem of discovering decision rules into two phases
      \begin{itemize}
      \item solving a potentially difficult deterministic problem given a guess for conditional expectations
      \item updating the conditional expectations
    \end{itemize}
-   \begin{itemize}
      \item occassionally binding constraints
      \item regime switching
-   \end{itemize}
-\end{itemize}
 \end{itemize}
 
+\end{frame}
 \section{The Series Representation}
 
 
@@ -160,12 +167,6 @@ F=
 
 \end{frame}
 
-\begin{frame}
-  
-
-
-
-\end{frame}
 
 
   \begin{frame}
@@ -250,6 +251,101 @@ h_{31}^{det}(\cdot)=0
 
 \end{frame}
 
+\begin{frame}
+  \frametitle{Some definitions}
+  \begin{description}
+  \item[$\numX$ Dimensional Linear Reference Model] \ 
+
+$\linMod \equiv \linModMats$ Some linear model with state space of dimension
+$\numX$ and unique solutions converging 
+to some steady state
+  \item[Augmented Decision Rule Function(\ADR)]  \ 
+$\xzFunc: \xzFuncSig$  A function of $\xtmEpsArg$ providing an approximation 
+for $\begin{bmatrix}
+  x_t\\z_t
+\end{bmatrix}$
+  \item[Augmented Decision Rule Unconditional Expectation Function(\ADRUE)]  \ 
+
+$\XZFunc: \xzFuncGuessSig$  A function of $x_t$ providing an approximation 
+for the unconditional expectation  
+$\uncnxpt{x_{t+1}}{x_t}\equiv  \uncnxpt{\xzFunc(x_t,\epsilon_{t+1}}{x_t}$
+
+  \end{description}
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]
+  \begin{itemize}
+  \item Choose a linear reference  model, $\linMod$, of dimension $\numX$
+\item Choose an initial \ADRUE,  $\XZFunc^0$
+\item Determine the number of terms for the series $\numTerms$
+  \end{itemize}
+  \begin{algorithm}[H]{Improve \ADRUE\ $\xzFunc^k$ and $(\xtArg)$}
+\SetKwInOut{Input}{input}\\
+\SetKwInOut{Output}{ouput}
+\Input{$\linMod, \XZFunc^k, \numTerms$}
+\Output{$\xzFunc^{k+1}, \XZFunc^{k+1}$}
+initialize $\xnxt{t}=\emptyset, \xgusst{t}\leftarrow \XZFunc^k(x_{t-1})$\;
+\While{$\xgusst{t} \ne \xnxt{t}$}
+{recursively compute $\{\xgusst{t+1}\ldots\xgusst{t+\numTerms-1}\}$\;
+compute corresponding $\{\zgusst{t+1}\ldots\zgusst{t+\numTerms-1}\}$\;
+use \refeq{seriesForm} to compute $\xzFuncGuess(xtArg;\xgusst{t})$\;
+solve $\eqnFunc(\xzFuncGuess(\xtArg;\xgusst{t})$ to determine $z_t$\;
+use \refeq{seriesForm} to determine $\xnxt{t}$\;
+}
+\end{algorithm}
+\end{frame}
+
+
+
+
+
+\begin{frame}
+  \begin{gather}
+  \xzFuncGuess^k \left (
+  \begin{bmatrix}
+    x_{t-1} \\\epsilon_t
+  \end{bmatrix}; \linMod,\xguss
+\right )=
+  \begin{bmatrix}
+    x_{t-1}\\ x_t\\ \xtpguss
+  \end{bmatrix}\\
+x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)\\
+\xtpguss=\XZFunc^{k-1}(\xguss) = \sumZPartZero +  \sumZPartPos(\xguss)\label{seriesForm}
+  \end{gather}
+\end{frame}
+\begin{frame}
+\frametitle{Perfect Foresight}
+
+
+\begin{gather}
+\XZFunc^{k}(x)=     \mathcal{H}^{PF}[\xzFunc^{k}(x,\epsilon_{t+T-k+1})]=\\
+\XZFunc^{k}(x)=\EsumLinPart +   \EsumZPartZero\\
+ \XZFunc^{k}(x)=\EsumLinPart + \EsumCapZPart{PF}
+\end{gather}
+
+\end{frame}
+\begin{frame}
+  
+ \frametitle{Rational Expectations}
+
+ \begin{gather}
+ \XZFunc^{k}(x)=     \mathcal{H}^{RE}[\xzFunc^{k}(x,\epsilon_{t+T-k+1})]=
+ \expct{\xzFunc^{k}(x,\epsilon_{t+T-k+1})}\\
+  \XZFunc^{k}(x)=\EsumLinPart + \EsumZPartEpsilon\\
+ \XZFunc^{k}(x)=\EsumLinPart + \EsumCapZPart{RE}
+ \end{gather}
+
+
+
+
+\end{frame}
+
+
+
+
 
 
 \begin{frame}
@@ -279,66 +375,87 @@ Model Equation Function&$\eqnFuncSig$\\
 
 \end{frame}
 
-\begin{frame}
-  \begin{gather}
-  \xzFunc^k(x_{t-1},\epsilon_t)=
-  \begin{bmatrix}
-    x_{t-1}\\ x_t\\ \xtpguss
-  \end{bmatrix}\\
-x_t= \sumLinPart +\\ \sumZPart\\
-\xtpguss=\XZFunc^{k-1}(\xguss) = \sum stuff(\xguss)
-  \end{gather}
-\end{frame}
-\begin{frame}
-  
- \begin{description}
-\item[Perfect Foresight]
-\begin{gather}
-\XZFunc^{k}(x)=     \mathcal{H}^{PF}[\xzFunc^{k}(x,\epsilon_{t+T-k+1})]=\\
-\XZFunc^{k}(x)=\EsumLinPart + \\  \EsumZPartZero
-\end{gather}
-
- \item[Rational Expectations] 
- \begin{gather}
- \XZFunc^{k}(x)=     \mathcal{H}^{RE}[\xzFunc^{k}(x,\epsilon_{t+T-k+1})]=
- \expct{\xzFunc^{k}(x,\epsilon_{t+T-k+1})}\\
- \XZFunc^{k}(x)=\EsumLinPart +\\ \EsumZPartEpsilon
- \end{gather}
-
-  \end{description}
-
-
-\end{frame}
-
-
 
 \begin{frame}
 \frametitle{Solvers}
+{\small
+\begin{itemize}
+\item genFRFunc  -- Mathematica FindRoot for equations alone
+\item genNSFunc  -- Mathematica NSolve for equations and inequalities
+\end{itemize}
+}
   \begin{gather}
-\eqnFunc:eqnFuncSig\\
-    \slvr : \solverSig
+\genSlvr:\{\numX,\numEps,\numZ\}\times \xzFunc\times \eqnFunc    \rightarrow\slvr \intertext{ where }
+\xzFunc(\xguss):\xzFuncGuessSig\\
+\eqnFunc:\eqnFuncSig\\
+    \slvr : \solverSig\\
+\slvr \left (
+\begin{bmatrix}
+  x_{t-1}\\\epsilon
+\end{bmatrix}
+;\xguss \right ) \rightarrow
+\begin{bmatrix}
+  x_t(\xguss)\\z_t(\xguss)
+\end{bmatrix}
   \end{gather}
 \end{frame}
 
+\begin{frame}
+  \frametitle{FixedPoint for $\xguss$}
+{\small
+\begin{gather*}
+\genXGFP:\genSlvr\times \linMod \times \{  \XZFunc, \numTerms\} \times \eqnFunc    \rightarrow\\ 
+\xgFP : \frfpnsFuncSig\\ \intertext{where}
+\XZFunc : \bigXFuncSig\\
+\eqnFunc: \eqnFuncSig \intertext{so that}
+\xgFP \left (
+  \begin{bmatrix}
+    x_{t-1}\\ \epsilon_t
+  \end{bmatrix}
+\right )\rightarrow
+\begin{bmatrix}
+  x_{t}\\z_{t}
+\end{bmatrix}
+\end{gather*}
+}
+\begin{itemize}
+\item $\xgFP$ is a function that for a given $\XZFunc^k$ provides $
+l  \begin{bmatrix}
+    x_{t}\\ z_t
+  \end{bmatrix}$ consistent with a $x_{t-1}, \epsilon_t$
 
+\end{itemize}
+
+\end{frame}
 
 \begin{frame}
 \frametitle{genLilXkZkFunc}
 \label{sec:genlilxkzkfunc}
 \begin{gather}
-\xzFunc^k(x_{t-1},\epsilon_t):\lilXFuncSig\\
-\XZFunc^k(x_{t-1})=\expct{ \xzFunc^k(x_{t-1},\epsilon_t):\lilXFuncSig}\\
+\xzFunc^k(x_{t-1},\epsilon_t):\xzFuncGuessSig\\
+\XZFunc^k(x_{t-1})=\expct{ \xzFunc^k(x_{t-1},\epsilon_t):\xzFuncGuessSig}\\
 \XZFunc^k(x_{t-1}):\bigXFuncSig\\
-\xzFunc^{k+1}(x_{t-1},\epsilon_t):\lilXFuncSig\\
+\xzFunc^{k+1}(x_{t-1},\epsilon_t):\xzFuncGuessSig\\
   \Gamma_1(\linMod,\{\XZFunc^k,\numTerms\},\xguss)
 \end{gather}
 {\small
 \begin{gather*}
 \linMod \times \{  \bigXFuncSig, k \} \times \Rn{(\numX+\numEps)} \rightarrow
-\lilXFuncSig
+\xzFuncGuessSig
 \end{gather*}
 }
 \end{frame}
+
+
+% \begin{frame}
+%   \begin{algorithm}{Improve Augmented Approximate Decision Rule н$\xzFunc(\xNow{})$}
+%     \begin{algorithmic}
+% x      
+%     \end{algorithmic}
+%   \end{algorithm}
+% \end{frame}
+
+
 
 \begin{frame}
 \frametitle{genFRFunc,genNSFunc}
@@ -363,7 +480,7 @@ a tentative $x_t$ use this as a new guess.
 \begin{frame}
 \frametitle{genFRFunc,genNSFunc}
 \begin{gather*}
-\{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times (\eqnFuncSig)    \rightarrow\\
+\{\numX,\numEps,\numZ\}\times(\xzFuncGuessSig)\times (\eqnFuncSig)    \rightarrow\\
 \frfpnsFuncSig
 \end{gather*}
 \end{frame}
@@ -382,7 +499,7 @@ a tentative $x_t$ use this as a new guess.
 \frametitle{genXZREInterpFunc}
 \label{sec:genfpfunc}
 \begin{gather*}
-\{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times \grdSpec \times  \dstSpec   \rightarrow\\
+\{\numX,\numEps,\numZ\}\times(\xzFuncGuessSig)\times \grdSpec \times  \dstSpec   \rightarrow\\
 \bigXFuncSig
 \end{gather*}
 
@@ -395,9 +512,9 @@ a tentative $x_t$ use this as a new guess.
 
 \begin{gather*}
   \linMod \times 
-w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+w\{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
  \times (\eqnFuncSig ) \times \grdSpec \times \dstSpec \rightarrow\\
-\{\frfpnsFuncSig, \{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+\{\frfpnsFuncSig, \{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
 \end{gather*}
 
 
@@ -411,9 +528,9 @@ w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 
 \begin{gather*}
   \linMod \times 
-\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+\{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
  \times (\eqnFuncSig ) \times \grdSpec \times \dstSpec \times \numIters \rightarrow\\
-\{\frfpnsFuncSig, \{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+\{\frfpnsFuncSig, \{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
 \end{gather*}
 
 
@@ -425,7 +542,7 @@ w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 {\small
 \begin{gather*}
 \linMod \times \{(\{  \bigXFuncSig, k_i \})_{k_i=1},\ldots,(\{  \bigXFuncSig, k_i \})_{k_i=\numR}\} \times\\ \Rn{(\numX+\numEps)} \rightarrow\\
-\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}
+\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}
 \end{gather*}
 }
 
@@ -443,7 +560,7 @@ w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 {\small
 \begin{gather*}
 \{\numX,\numEps,\numZ\}\times\\
-\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
  \times (\eqnRegimeFuncSig )\rightarrow\\
 \frfpnsRegimeFuncSig
 \end{gather*}
@@ -467,7 +584,7 @@ w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 {\small
 \begin{gather*}
 \{\numX,\numEps,\numZ\}\times\\
-\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
  \times (\eqnRegimeFuncSig )\rightarrow\\
 \frfpnsRegimeFuncSig
 \end{gather*}
@@ -481,7 +598,7 @@ w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 \frametitle{genXZREInterpRegimeFuncs}
 \label{sec:genfpfunc}
 \begin{gather*}
-\{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times \dstSpec \times  \expctSpec   \rightarrow\\
+\{\numX,\numEps,\numZ\}\times(\xzFuncGuessSig)\times \dstSpec \times  \expctSpec   \rightarrow\\
 \frfpnsFuncSig
 \end{gather*}
 
@@ -494,9 +611,9 @@ w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 
 \begin{gather*}
   \linMod \times 
-w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+w\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
  \times (\eqnRegimeFuncSig ) \times \grdSpec \times \dstSpec \rightarrow\\
-\{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+\{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
 \end{gather*}
 
 
@@ -510,9 +627,9 @@ w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 
 \begin{gather*}
   \linMod \times 
-w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
  \times (\eqnRegimeFuncSig ) \times \grdSpec \times \dstSpec  \times \numIters \rightarrow\\
-\{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+\{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
 \end{gather*}
 
 
