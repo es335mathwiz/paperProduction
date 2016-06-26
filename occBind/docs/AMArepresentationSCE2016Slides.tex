@@ -348,223 +348,223 @@ x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)\\
 
 
 
-\begin{frame}
-\frametitle{Program Signatures}
-\label{sec:program-listings}
-\begin{tabular}{|l|c|}
-\hline
-Number of $x_t$ variables&$\numX$\\
-\hline
-Number of $z_t$ variables&$\numZ$\\
-\hline
-Number of $\epsilon_t$ variables&$\numEps$\\
-\hline
-Number of regimes variables&$\numR$\\
-\hline
-Number of recursive iterations&$\numIters$\\
-\hline
-Interpolation Grid Specification&$\dstSpec$\\
-\hline
-Shock Distributions  Specification&$\dstSpec$\\
-\hline
-The Linear Reference Model&$\linMod\equiv\linModMats$\\  
-\hline
-Model Equation Function&$\eqnFuncSig$\\
-\hline
-\end{tabular}
-
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Solvers}
-{\small
-\begin{itemize}
-\item genFRFunc  -- Mathematica FindRoot for equations alone
-\item genNSFunc  -- Mathematica NSolve for equations and inequalities
-\end{itemize}
-}
-  \begin{gather}
-\genSlvr:\{\numX,\numEps,\numZ\}\times \xzFunc\times \eqnFunc    \rightarrow\slvr \intertext{ where }
-\xzFunc(\xguss):\xzFuncGuessSig\\
-\eqnFunc:\eqnFuncSig\\
-    \slvr : \solverSig\\
-\slvr \left (
-\begin{bmatrix}
-  x_{t-1}\\\epsilon
-\end{bmatrix}
-;\xguss \right ) \rightarrow
-\begin{bmatrix}
-  x_t(\xguss)\\z_t(\xguss)
-\end{bmatrix}
-  \end{gather}
-\end{frame}
-
-\begin{frame}
-  \frametitle{FixedPoint for $\xguss$}
-{\small
-\begin{gather*}
-\genXGFP:\genSlvr\times \linMod \times \{  \XZFunc, \numTerms\} \times \eqnFunc    \rightarrow\\ 
-\xgFP : \frfpnsFuncSig\\ \intertext{where}
-\XZFunc : \bigXFuncSig\\
-\eqnFunc: \eqnFuncSig \intertext{so that}
-\xgFP \left (
-  \begin{bmatrix}
-    x_{t-1}\\ \epsilon_t
-  \end{bmatrix}
-\right )\rightarrow
-\begin{bmatrix}
-  x_{t}\\z_{t}
-\end{bmatrix}
-\end{gather*}
-}
-\begin{itemize}
-\item $\xgFP$ is a function that for a given $\XZFunc^k$ provides $
-l  \begin{bmatrix}
-    x_{t}\\ z_t
-  \end{bmatrix}$ consistent with a $x_{t-1}, \epsilon_t$
-
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}
-\frametitle{genLilXkZkFunc}
-\label{sec:genlilxkzkfunc}
-\begin{gather}
-\xzFunc^k(x_{t-1},\epsilon_t):\xzFuncGuessSig\\
-\XZFunc^k(x_{t-1})=\expct{ \xzFunc^k(x_{t-1},\epsilon_t):\xzFuncGuessSig}\\
-\XZFunc^k(x_{t-1}):\bigXFuncSig\\
-\xzFunc^{k+1}(x_{t-1},\epsilon_t):\xzFuncGuessSig\\
-  \Gamma_1(\linMod,\{\XZFunc^k,\numTerms\},\xguss)
-\end{gather}
-{\small
-\begin{gather*}
-\linMod \times \{  \bigXFuncSig, k \} \times \Rn{(\numX+\numEps)} \rightarrow
-\xzFuncGuessSig
-\end{gather*}
-}
-\end{frame}
-
-
 % \begin{frame}
-%   \begin{algorithm}{Improve Augmented Approximate Decision Rule н$\xzFunc(\xNow{})$}
-%     \begin{algorithmic}
-% x      
-%     \end{algorithmic}
-%   \end{algorithm}
+% \frametitle{Program Signatures}
+% \label{sec:program-listings}
+% \begin{tabular}{|l|c|}
+% \hline
+% Number of $x_t$ variables&$\numX$\\
+% \hline
+% Number of $z_t$ variables&$\numZ$\\
+% \hline
+% Number of $\epsilon_t$ variables&$\numEps$\\
+% \hline
+% Number of regimes variables&$\numR$\\
+% \hline
+% Number of recursive iterations&$\numIters$\\
+% \hline
+% Interpolation Grid Specification&$\dstSpec$\\
+% \hline
+% Shock Distributions  Specification&$\dstSpec$\\
+% \hline
+% The Linear Reference Model&$\linMod\equiv\linModMats$\\  
+% \hline
+% Model Equation Function&$\eqnFuncSig$\\
+% \hline
+% \end{tabular}
+
 % \end{frame}
 
 
+% \begin{frame}
+% \frametitle{Solvers}
+% {\small
+% \begin{itemize}
+% \item genFRFunc  -- Mathematica FindRoot for equations alone
+% \item genNSFunc  -- Mathematica NSolve for equations and inequalities
+% \end{itemize}
+% }
+%   \begin{gather}
+% \genSlvr:\{\numX,\numEps,\numZ\}\times \xzFunc\times \eqnFunc    \rightarrow\slvr \intertext{ where }
+% \xzFunc(\xguss):\xzFuncGuessSig\\
+% \eqnFunc:\eqnFuncSig\\
+%     \slvr : \solverSig\\
+% \slvr \left (
+% \begin{bmatrix}
+%   x_{t-1}\\\epsilon
+% \end{bmatrix}
+% ;\xguss \right ) \rightarrow
+% \begin{bmatrix}
+%   x_t(\xguss)\\z_t(\xguss)
+% \end{bmatrix}
+%   \end{gather}
+% \end{frame}
 
-\begin{frame}
-\frametitle{genFRFunc,genNSFunc}
-\label{sec:genfrfunc}
-  \begin{itemize}
-  \item use accuracy requirement and truncation error formula to determine number of terms
-  \item begin with the linear reference model to construct $xz^0$ and $XZ^0$
-  \item construct an initial guess for a next $xz^{k+1}$ func which embeds
-for any given $(x_{t-1},\epsilon_t)$ a guess for $x_t$ 
-  \item use the solver to solve for tentative $z_t$ and consequently 
-a tentative $x_t$ use this as a new guess.  
-\item Repeat until guess doesn't change producing  a new $xz^{k+1}$
-\item Compute $XZ^{k+1}$
-\item Repeat above process until $xz$ and consequently $XZ$ don't change
-  \end{itemize}
-\end{frame}
+% \begin{frame}
+%   \frametitle{FixedPoint for $\xguss$}
+% {\small
+% \begin{gather*}
+% \genXGFP:\genSlvr\times \linMod \times \{  \XZFunc, \numTerms\} \times \eqnFunc    \rightarrow\\ 
+% \xgFP : \frfpnsFuncSig\\ \intertext{where}
+% \XZFunc : \bigXFuncSig\\
+% \eqnFunc: \eqnFuncSig \intertext{so that}
+% \xgFP \left (
+%   \begin{bmatrix}
+%     x_{t-1}\\ \epsilon_t
+%   \end{bmatrix}
+% \right )\rightarrow
+% \begin{bmatrix}
+%   x_{t}\\z_{t}
+% \end{bmatrix}
+% \end{gather*}
+% }
+% \begin{itemize}
+% \item $\xgFP$ is a function that for a given $\XZFunc^k$ provides $
+% l  \begin{bmatrix}
+%     x_{t}\\ z_t
+%   \end{bmatrix}$ consistent with a $x_{t-1}, \epsilon_t$
 
-\begin{frame}
+% \end{itemize}
+
+% \end{frame}
+
+% \begin{frame}
+% \frametitle{genLilXkZkFunc}
+% \label{sec:genlilxkzkfunc}
+% \begin{gather}
+% \xzFunc^k(x_{t-1},\epsilon_t):\xzFuncGuessSig\\
+% \XZFunc^k(x_{t-1})=\expct{ \xzFunc^k(x_{t-1},\epsilon_t):\xzFuncGuessSig}\\
+% \XZFunc^k(x_{t-1}):\bigXFuncSig\\
+% \xzFunc^{k+1}(x_{t-1},\epsilon_t):\xzFuncGuessSig\\
+%   \Gamma_1(\linMod,\{\XZFunc^k,\numTerms\},\xguss)
+% \end{gather}
+% {\small
+% \begin{gather*}
+% \linMod \times \{  \bigXFuncSig, k \} \times \Rn{(\numX+\numEps)} \rightarrow
+% \xzFuncGuessSig
+% \end{gather*}
+% }
+% \end{frame}
+
+
+% % \begin{frame}
+% %   \begin{algorithm}{Improve Augmented Approximate Decision Rule н$\xzFunc(\xNow{})$}
+% %     \begin{algorithmic}
+% % x      
+% %     \end{algorithmic}
+% %   \end{algorithm}
+% % \end{frame}
+
+
+
+% \begin{frame}
+% \frametitle{genFRFunc,genNSFunc}
+% \label{sec:genfrfunc}
+%   \begin{itemize}
+%   \item use accuracy requirement and truncation error formula to determine number of terms
+%   \item begin with the linear reference model to construct $xz^0$ and $XZ^0$
+%   \item construct an initial guess for a next $xz^{k+1}$ func which embeds
+% for any given $(x_{t-1},\epsilon_t)$ a guess for $x_t$ 
+%   \item use the solver to solve for tentative $z_t$ and consequently 
+% a tentative $x_t$ use this as a new guess.  
+% \item Repeat until guess doesn't change producing  a new $xz^{k+1}$
+% \item Compute $XZ^{k+1}$
+% \item Repeat above process until $xz$ and consequently $XZ$ don't change
+%   \end{itemize}
+% \end{frame}
+
+% \begin{frame}
   
-\end{frame}
+% \end{frame}
 
-\begin{frame}
-\frametitle{genFRFunc,genNSFunc}
-\begin{gather*}
-\{\numX,\numEps,\numZ\}\times(\xzFuncGuessSig)\times (\eqnFuncSig)    \rightarrow\\
-\frfpnsFuncSig
-\end{gather*}
-\end{frame}
+% \begin{frame}
+% \frametitle{genFRFunc,genNSFunc}
+% \begin{gather*}
+% \{\numX,\numEps,\numZ\}\times(\xzFuncGuessSig)\times (\eqnFuncSig)    \rightarrow\\
+% \frfpnsFuncSig
+% \end{gather*}
+% \end{frame}
 
-\begin{frame}
-\frametitle{genFPFunc}
-\label{sec:genfpfunc}
-\begin{gather*}
-\linMod \times \{  \bigXFuncSig, k \} \times (\eqnFuncSig)    \rightarrow\\ 
-\frfpnsFuncSig
-\end{gather*}
+% \begin{frame}
+% \frametitle{genFPFunc}
+% \label{sec:genfpfunc}
+% \begin{gather*}
+% \linMod \times \{  \bigXFuncSig, k \} \times (\eqnFuncSig)    \rightarrow\\ 
+% \frfpnsFuncSig
+% \end{gather*}
 
-\end{frame}
+% \end{frame}
 
-\begin{frame}
-\frametitle{genXZREInterpFunc}
-\label{sec:genfpfunc}
-\begin{gather*}
-\{\numX,\numEps,\numZ\}\times(\xzFuncGuessSig)\times \grdSpec \times  \dstSpec   \rightarrow\\
-\bigXFuncSig
-\end{gather*}
+% \begin{frame}
+% \frametitle{genXZREInterpFunc}
+% \label{sec:genfpfunc}
+% \begin{gather*}
+% \{\numX,\numEps,\numZ\}\times(\xzFuncGuessSig)\times \grdSpec \times  \dstSpec   \rightarrow\\
+% \bigXFuncSig
+% \end{gather*}
 
 
 
-\end{frame}
-\begin{frame}
-\frametitle{doIterREInterp}
-\label{sec:doiterreinterp}
+% \end{frame}
+% \begin{frame}
+% \frametitle{doIterREInterp}
+% \label{sec:doiterreinterp}
 
-\begin{gather*}
-  \linMod \times 
-w\{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
- \times (\eqnFuncSig ) \times \grdSpec \times \dstSpec \rightarrow\\
-\{\frfpnsFuncSig, \{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
-\end{gather*}
+% \begin{gather*}
+%   \linMod \times 
+% w\{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
+%  \times (\eqnFuncSig ) \times \grdSpec \times \dstSpec \rightarrow\\
+% \{\frfpnsFuncSig, \{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
+% \end{gather*}
 
 
 
-\end{frame}
-\begin{frame}
-\frametitle{nestIterREInterp}
-\label{sec:nestiterreinterp}
+% \end{frame}
+% \begin{frame}
+% \frametitle{nestIterREInterp}
+% \label{sec:nestiterreinterp}
 
 
 
-\begin{gather*}
-  \linMod \times 
-\{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
- \times (\eqnFuncSig ) \times \grdSpec \times \dstSpec \times \numIters \rightarrow\\
-\{\frfpnsFuncSig, \{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
-\end{gather*}
+% \begin{gather*}
+%   \linMod \times 
+% \{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
+%  \times (\eqnFuncSig ) \times \grdSpec \times \dstSpec \times \numIters \rightarrow\\
+% \{\frfpnsFuncSig, \{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
+% \end{gather*}
 
 
 
-\end{frame}
-\begin{frame}
-\frametitle{genLilXkZkRegimeFuncs}
-\label{sec:genlilxkzkregimefunc}
-{\small
-\begin{gather*}
-\linMod \times \{(\{  \bigXFuncSig, k_i \})_{k_i=1},\ldots,(\{  \bigXFuncSig, k_i \})_{k_i=\numR}\} \times\\ \Rn{(\numX+\numEps)} \rightarrow\\
-\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}
-\end{gather*}
-}
+% \end{frame}
+% \begin{frame}
+% \frametitle{genLilXkZkRegimeFuncs}
+% \label{sec:genlilxkzkregimefunc}
+% {\small
+% \begin{gather*}
+% \linMod \times \{(\{  \bigXFuncSig, k_i \})_{k_i=1},\ldots,(\{  \bigXFuncSig, k_i \})_{k_i=\numR}\} \times\\ \Rn{(\numX+\numEps)} \rightarrow\\
+% \{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}
+% \end{gather*}
+% }
 
 
 
 
 
-\end{frame}
-\begin{frame}
-\frametitle{genFRRegimeFuncs, genNSRegimeFuncs}
-\label{sec:genfrregimefunc}
+% \end{frame}
+% \begin{frame}
+% \frametitle{genFRRegimeFuncs, genNSRegimeFuncs}
+% \label{sec:genfrregimefunc}
 
 
 
-{\small
-\begin{gather*}
-\{\numX,\numEps,\numZ\}\times\\
-\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
- \times (\eqnRegimeFuncSig )\rightarrow\\
-\frfpnsRegimeFuncSig
-\end{gather*}
-}
+% {\small
+% \begin{gather*}
+% \{\numX,\numEps,\numZ\}\times\\
+% \{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
+%  \times (\eqnRegimeFuncSig )\rightarrow\\
+% \frfpnsRegimeFuncSig
+% \end{gather*}
+% }
 
 
 
@@ -573,135 +573,135 @@ w\{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
 
 
 
-\end{frame}
-\begin{frame}
-\frametitle{genFPRegimeFuncs}
-\label{sec:genfpregimefunc}
+% \end{frame}
+% \begin{frame}
+% \frametitle{genFPRegimeFuncs}
+% \label{sec:genfpregimefunc}
 
 
 
 
-{\small
-\begin{gather*}
-\{\numX,\numEps,\numZ\}\times\\
-\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
- \times (\eqnRegimeFuncSig )\rightarrow\\
-\frfpnsRegimeFuncSig
-\end{gather*}
-}
+% {\small
+% \begin{gather*}
+% \{\numX,\numEps,\numZ\}\times\\
+% \{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
+%  \times (\eqnRegimeFuncSig )\rightarrow\\
+% \frfpnsRegimeFuncSig
+% \end{gather*}
+% }
 
 
 
 
-\end{frame}
-\begin{frame}
-\frametitle{genXZREInterpRegimeFuncs}
-\label{sec:genfpfunc}
-\begin{gather*}
-\{\numX,\numEps,\numZ\}\times(\xzFuncGuessSig)\times \dstSpec \times  \expctSpec   \rightarrow\\
-\frfpnsFuncSig
-\end{gather*}
+% \end{frame}
+% \begin{frame}
+% \frametitle{genXZREInterpRegimeFuncs}
+% \label{sec:genfpfunc}
+% \begin{gather*}
+% \{\numX,\numEps,\numZ\}\times(\xzFuncGuessSig)\times \dstSpec \times  \expctSpec   \rightarrow\\
+% \frfpnsFuncSig
+% \end{gather*}
 
 
 
-\end{frame}
-\begin{frame}
-\frametitle{doIterREInterpRegime}
-\label{sec:doiterreinterp}
+% \end{frame}
+% \begin{frame}
+% \frametitle{doIterREInterpRegime}
+% \label{sec:doiterreinterp}
 
-\begin{gather*}
-  \linMod \times 
-w\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
- \times (\eqnRegimeFuncSig ) \times \grdSpec \times \dstSpec \rightarrow\\
-\{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
-\end{gather*}
+% \begin{gather*}
+%   \linMod \times 
+% w\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
+%  \times (\eqnRegimeFuncSig ) \times \grdSpec \times \dstSpec \rightarrow\\
+% \{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
+% \end{gather*}
 
 
 
-\end{frame}
-\begin{frame}
-\frametitle{nestIterREInterpRegime}
-\label{sec:nestiterreinterp}
+% \end{frame}
+% \begin{frame}
+% \frametitle{nestIterREInterpRegime}
+% \label{sec:nestiterreinterp}
 
 
 
-\begin{gather*}
-  \linMod \times 
-\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
- \times (\eqnRegimeFuncSig ) \times \grdSpec \times \dstSpec  \times \numIters \rightarrow\\
-\{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
-\end{gather*}
+% \begin{gather*}
+%   \linMod \times 
+% \{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
+%  \times (\eqnRegimeFuncSig ) \times \grdSpec \times \dstSpec  \times \numIters \rightarrow\\
+% \{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
+% \end{gather*}
 
 
-\end{frame}
-\begin{frame}
-\frametitle{Representing a Path}
+% \end{frame}
+% \begin{frame}
+% \frametitle{Representing a Path}
 
-\end{frame}
-\begin{frame}
-\frametitle{Representing a Family of Paths}
+% \end{frame}
+% \begin{frame}
+% \frametitle{Representing a Family of Paths}
 
-\end{frame}
-\begin{frame}
-\frametitle{Useful Properties of Series Solution}
+% \end{frame}
+% \begin{frame}
+% \frametitle{Useful Properties of Series Solution}
 
-\begin{itemize}
-\item linear sum of functions
-\item far away points matter less
-\item Bounds on errors
-\end{itemize}
+% \begin{itemize}
+% \item linear sum of functions
+% \item far away points matter less
+% \item Bounds on errors
+% \end{itemize}
 
 
 
-\end{frame}
-\begin{frame}
-\frametitle{An RBC Model Example}
-\end{frame}
-\begin{frame}
-\frametitle{Known Solution: Conditional Expectations Path}
-\begin{itemize}
-\item can easily compute series
-\item algorithm can recover known solution
-\end{itemize}
+% \end{frame}
+% \begin{frame}
+% \frametitle{An RBC Model Example}
+% \end{frame}
+% \begin{frame}
+% \frametitle{Known Solution: Conditional Expectations Path}
+% \begin{itemize}
+% \item can easily compute series
+% \item algorithm can recover known solution
+% \end{itemize}
 
 
-\end{frame}
-\begin{frame}
-\frametitle{UnKnown Solution: Conditional Expectations Path}
-\begin{itemize}
-\item can discover unknown solutions
-\end{itemize}
+% \end{frame}
+% \begin{frame}
+% \frametitle{UnKnown Solution: Conditional Expectations Path}
+% \begin{itemize}
+% \item can discover unknown solutions
+% \end{itemize}
 
 
 
-\end{frame}
-\begin{frame}
-\frametitle{Occassionally Binding Constraints}
-\begin{itemize}
-\item can discover unknown solutions
-\end{itemize}
+% \end{frame}
+% \begin{frame}
+% \frametitle{Occassionally Binding Constraints}
+% \begin{itemize}
+% \item can discover unknown solutions
+% \end{itemize}
 
 
 
-\end{frame}
-\begin{frame}
-\frametitle{Regime Switching}
-\begin{itemize}
-\item can discover unknown solutions
-\end{itemize}
+% \end{frame}
+% \begin{frame}
+% \frametitle{Regime Switching}
+% \begin{itemize}
+% \item can discover unknown solutions
+% \end{itemize}
 
 
-\end{frame}
-\begin{frame}
-\frametitle{Regime Switching with Occassionally Binding Constraints}
-\begin{itemize}
-\item can discover unknown solutions
-\end{itemize}
+% \end{frame}
+% \begin{frame}
+% \frametitle{Regime Switching with Occassionally Binding Constraints}
+% \begin{itemize}
+% \item can discover unknown solutions
+% \end{itemize}
 
-\end{frame}
-\begin{frame}
-\frametitle{Future Directions}
-\end{frame}
+% \end{frame}
+% \begin{frame}
+% \frametitle{Future Directions}
+% \end{frame}
 \begin{frame}
   \frametitle{Future Directions}
   \begin{itemize}
