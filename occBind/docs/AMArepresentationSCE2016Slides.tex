@@ -260,7 +260,7 @@ $\linMod \equiv \linModMats$ Some linear model with state space of dimension
 $\numX$ and unique solutions converging 
 to some steady state
   \item[Augmented Decision Rule Function(\ADR)]  \ 
-$\xzFunc: \xzFuncSig$  A function of $\xtmEpsArg$ providing an approximation 
+$\xzFunc: \xzFuncSig$  A function of $(\xtmEpsArg)$ providing an approximation 
 for $\begin{bmatrix}
   x_t\\z_t
 \end{bmatrix}$
@@ -277,27 +277,42 @@ $\uncnxpt{x_{t+1}}{x_t}\equiv  \uncnxpt{\xzFunc(x_t,\epsilon_{t+1}}{x_t}$
 
 
 \begin{frame}[fragile]
+
+{\small
   \begin{itemize}
   \item Choose a linear reference  model, $\linMod$, of dimension $\numX$
 \item Choose an initial \ADRUE,  $\XZFunc^0$
 \item Determine the number of terms for the series $\numTerms$
-  \end{itemize}
-  \begin{algorithm}[H]{Improve \ADRUE\ $\xzFunc^k$ and $(\xtArg)$}
+  \end{itemize}}
+  \begin{algorithm}[H]{Improve \ADR\ $\xzFunc^k(\xtmEpsArg)$}
 \SetKwInOut{Input}{input}\\
 \SetKwInOut{Output}{ouput}
 \Input{$\linMod, \XZFunc^k, \numTerms$}
-\Output{$\xzFunc^{k+1}, \XZFunc^{k+1}$}
+\Output{$\xzFunc^{k+1}(\xtmEpsArg)$}
 initialize $\xnxt{t}=\emptyset, \xgusst{t}\leftarrow \XZFunc^k(x_{t-1})$\;
 \While{$\xgusst{t} \ne \xnxt{t}$}
 {recursively compute $\{\xgusst{t+1}\ldots\xgusst{t+\numTerms-1}\}$\;
 compute corresponding $\{\zgusst{t+1}\ldots\zgusst{t+\numTerms-1}\}$\;
-use \refeq{seriesForm} to compute $\xzFuncGuess(xtArg;\xgusst{t})$\;
-solve $\eqnFunc(\xzFuncGuess(\xtArg;\xgusst{t})$ to determine $z_t$\;
+use \refeq{seriesForm} to compute $\xzFuncGuess(\xtArg;\xgusst{t})$\;
+solve $\eqnFunc(\xzFuncGuess(\xtArg;\xgusst{t}))$ to determine $z_t$\;
 use \refeq{seriesForm} to determine $\xnxt{t}$\;
 }
+$\xzFunc^{k+1}(\xtmEpsArg)=\xnxt{t}$ and 
+$\XZFunc^{k+1}(\xtArg)=\int \xzFunc^{k+1}(\xtArg,\epsilon) d\epsilon$
 \end{algorithm}
+
 \end{frame}
 
+\begin{frame}
+  \frametitle{Algorithm Operation Counts}
+  \begin{description}
+  \item[Solve Deterministic Problem]
+    \begin{description}
+    \item[Expectation Computations] 
+    \item[Function Generation] 
+    \end{description}
+  \end{description}
+\end{frame}
 
 
 
@@ -316,8 +331,11 @@ x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)\\
 \xtpguss=\XZFunc^{k-1}(\xguss) = \sumZPartZero +  \sumZPartPos(\xguss)\label{seriesForm}
   \end{gather}
 \end{frame}
+
 \begin{frame}
 \frametitle{Perfect Foresight}
+
+
 
 
 \begin{gather}
@@ -338,13 +356,76 @@ x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)\\
  \XZFunc^{k}(x)=\EsumLinPart + \EsumCapZPart{RE}
  \end{gather}
 
+\end{frame}
+
+\begin{frame}
+  \frametitle{RBC Known Solution Truncation Error }
+  \begin{description}
+  \item[Deterministic Solution] 
+  \item[Expectation Computation] 
+\item[Function Generation]
+  \end{description}
+
+\end{frame}
 
 
+\begin{frame}
+  \frametitle{RBC Unknown Solution Truncation Error }
+  \begin{description}
+  \item[Deterministic Solution] 
+  \item[Expectation Computation] 
+\item[Function Generation]
+  \end{description}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{RBC Occasionally Binding Constraints Truncation Error }
+  \begin{description}
+  \item[Deterministic Solution] 
+  \item[Expectation Computation] 
+\item[Function Generation]
+  \end{description}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{RBC Regime Switching Truncation Error }
+  \begin{description}
+  \item[Deterministic Solution] 
+  \item[Expectation Computation] 
+\item[Function Generation]
+  \end{description}
 
 \end{frame}
 
 
 
+\begin{frame}
+  \frametitle{RBC Occasionally Binding Constraints and Regime Switching  Truncation Error }
+  \begin{description}
+  \item[Deterministic Solution] 
+  \item[Expectation Computation] 
+\item[Function Generation]
+  \end{description}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{some cat for functions}
+  \begin{tikzcd}
+    A \arrow [ r,"f"]
+\arrow[dr,swap,"g\circ f"]&
+B \arrow[dr,"g\circ h"]
+\\{}&
+C \arrow[r,swap,"h"]
+&
+D
+  \end{tikzcd}
+\end{frame}
 
 
 
@@ -705,6 +786,11 @@ x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)\\
 \begin{frame}
   \frametitle{Future Directions}
   \begin{itemize}
+  \item model solutions with closed form values produce right series stable difference equations?
+  \item add points for interpolation outside range
+  \item filter fixedpoint and findroot failures
+  \item add list of solvers to ``try'' if there are falures
+  \item record performance of solvers using sow reap (functional?)
   \item Heterogeneous Agents Problems
   \item Convergence Properties
     \begin{itemize}
@@ -714,6 +800,8 @@ x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)\\
 \item algorithmic details
   \begin{itemize}
  \item Smolyak nodes
+ \item Judd Ergodic region
+ \item F small eigenvalues
  \item Projection Methods
  \item Perturbation Methods for initial guess
   \end{itemize}
@@ -728,6 +816,7 @@ x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)\\
 
 \end{frame}
 
+\appendix
 
 
 \end{document}
