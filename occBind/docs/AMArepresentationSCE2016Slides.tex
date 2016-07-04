@@ -184,6 +184,7 @@ c_t + k_t=\theta_{t-1}k_{t-1}^\alpha \\
  \end{gather*}
 
   \end{frame}
+
 \begin{frame}
 \frametitle{for $\eta=\delta=1$}
 
@@ -216,6 +217,26 @@ c_{t+s}(k_{t-1},\theta_t,\epsilon_t)\\k_{t+s}(k_{t-1},\theta_t,\epsilon_t)    \\
 \end{gather}
 
 \end{frame}
+
+
+
+  \begin{frame}
+    \frametitle{Truncations Errors: Arbitrary System and Linearized System}
+
+
+\begin{figure}[H]
+  \centering
+\includegraphics[width=2in]{arbTruncErrSimp.pdf}  
+\includegraphics[width=2in]{TruncErrSimp.pdf}  
+\caption{RBC Model Series Truncation Error Bounds Versus Actual}
+  \caption{ $x_{-1}=( {{0.2}, {0.18}, {1.1}}), \epsilon=0.01$} \label{arbFig}
+\end{figure}
+
+
+  \end{frame}
+
+
+
 
 
 \begin{frame}
@@ -253,24 +274,37 @@ h_{31}^{det}(\cdot)=0
 
 \begin{frame}
   \frametitle{Some definitions}
-  \begin{description}
-  \item[$\numX$ Dimensional Linear Reference Model] \ 
 
-$\linMod \equiv \linModMats$ Some linear model with state space of dimension
+{\small
+
+  \begin{description}
+  \item[$\numX$-Dimensional Linear Reference Model] \ 
+
+$\linMod \equiv \linModMats$ A linear model with state space of dimension
 $\numX$ and unique solutions converging 
 to some steady state
   \item[Augmented Decision Rule Function(\ADR)]  \ 
-$\xzFunc: \xzFuncSig$  A function of $(\xtmEpsArg)$ providing an approximation 
+$\xzFunc: \xzFuncSig$ \\
+ A function of $
+\begin{bmatrix}
+  x_{t-1}\\\epsilon_t
+\end{bmatrix}
+$ providing an approximation 
 for $\begin{bmatrix}
   x_t\\z_t
 \end{bmatrix}$
-  \item[Augmented Decision Rule Unconditional Expectation Function(\ADRUE)]  \ 
+  \item[Augmented Decision Rule Unconditional Expectation Function(\ADRUE)] 
 
-$\XZFunc: \xzFuncGuessSig$  A function of $x_t$ providing an approximation 
+$\XZFunc: \xzFuncGuessSig$ \\ A function of $x_t$ providing an approximation 
 for the unconditional expectation  
-$\uncnxpt{x_{t+1}}{x_t}\equiv  \uncnxpt{\xzFunc(x_t,\epsilon_{t+1}}{x_t}$
+$\uncnxpt{\begin{bmatrix}
+  x_{t+1}\\z_{t+1}
+\end{bmatrix}}{x_t}\equiv  \uncnxpt{\xzFunc(x_t,\epsilon_{t+1})}{x_t}$
 
   \end{description}
+
+}
+
 \end{frame}
 
 
@@ -279,16 +313,16 @@ $\uncnxpt{x_{t+1}}{x_t}\equiv  \uncnxpt{\xzFunc(x_t,\epsilon_{t+1}}{x_t}$
 \begin{frame}[fragile]
 
 {\small
-  \begin{itemize}
-  \item Choose a linear reference  model, $\linMod$, of dimension $\numX$
-\item Choose an initial \ADRUE,  $\XZFunc^0$
-\item Determine the number of terms for the series $\numTerms$
-  \end{itemize}}
-  \begin{algorithm}[H]{Improve \ADR\ $\xzFunc^k(\xtmEpsArg)$}
+Given a linear reference  model, $\linMod$, of dimension $\numX$,
+the number of terms for the series $\numTerms$  and interpolation/collocation points,  $\thePts \equiv \thePoints$.
+Choose an initial \ADRUE,  $\XZFunc^0$
+}
+
+{\small
+  \begin{algorithm}[H]{For each $(\xtmEpsArg) \in \thePts $, improve the \ADR\ $\xzFunc^k(\xtmEpsArg)$}
 \SetKwInOut{Input}{input}\\
 \SetKwInOut{Output}{ouput}
 \Input{$\linMod, \XZFunc^k, \numTerms$}
-\Output{$\xzFunc^{k+1}(\xtmEpsArg)$}
 initialize $\xnxt{t}=\emptyset, \xgusst{t}\leftarrow \XZFunc^k(x_{t-1})$\;
 \While{$\xgusst{t} \ne \xnxt{t}$}
 {recursively compute $\{\xgusst{t+1}\ldots\xgusst{t+\numTerms-1}\}$\;
@@ -297,9 +331,10 @@ use \refeq{seriesForm} to compute $\xzFuncGuess(\xtArg;\xgusst{t})$\;
 solve $\eqnFunc(\xzFuncGuess(\xtArg;\xgusst{t}))$ to determine $z_t$\;
 use \refeq{seriesForm} to determine $\xnxt{t}$\;
 }
-$\xzFunc^{k+1}(\xtmEpsArg)=\xnxt{t}$ and 
-$\XZFunc^{k+1}(\xtArg)=\int \xzFunc^{k+1}(\xtArg,\epsilon) d\epsilon$
+\Output{$\xzFunc^{k+1}(\xtmEpsArg)=\xnxt{t}$}
+%$\XZFunc^{k+1}(\xtArg)=\int \xzFunc^{k+1}(\xtArg,\epsilon) d\epsilon$
 \end{algorithm}
+}
 
 \end{frame}
 
@@ -786,6 +821,12 @@ D
 \begin{frame}
   \frametitle{Future Directions}
   \begin{itemize}
+  \item frbus implications
+  \item bound other people's solutions, compare to bound Euler errors
+  \item show can determin number series terms then accracy depends on number of nodes
+  \item should normalize h since just scaling up moves bounds around
+  \item can precompute z's for exogenous backward looking quantities
+  \item evaluation points for XZ and xz need not be the same
   \item model solutions with closed form values produce right series stable difference equations?
   \item add points for interpolation outside range
   \item filter fixedpoint and findroot failures
