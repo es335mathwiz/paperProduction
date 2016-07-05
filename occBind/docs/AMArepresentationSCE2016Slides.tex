@@ -310,49 +310,9 @@ $\uncnxpt{\begin{bmatrix}
 
 
 
-\begin{frame}[fragile]
+\begin{frame}
 
 {\small
-Given a linear reference  model, $\linMod$, of dimension $\numX$,
-the number of terms for the series $\numTerms$  and interpolation/collocation points,  $\thePts \equiv \thePoints$.
-Choose an initial \ADRUE,  $\XZFunc^0$
-}
-
-{\small
-  \begin{algorithm}[H]{For each $(\xtmEpsArg) \in \thePts $, improve the \ADR\ $\xzFunc^k(\xtmEpsArg)$}
-\SetKwInOut{Input}{input}\\
-\SetKwInOut{Output}{ouput}
-\Input{$\linMod, \XZFunc^k, \numTerms$}
-initialize $\xnxt{t}=\emptyset, \xgusst{t}\leftarrow \XZFunc^k(x_{t-1})$\;
-\While{$\xgusst{t} \ne \xnxt{t}$}
-{recursively compute $\{\xgusst{t+1}\ldots\xgusst{t+\numTerms-1}\}$\;
-compute corresponding $\{\zgusst{t+1}\ldots\zgusst{t+\numTerms-1}\}$\;
-use \refeq{seriesForm} to compute $\xzFuncGuess(\xtArg;\xgusst{t})$\;
-solve $\eqnFunc(\xzFuncGuess(\xtArg;\xgusst{t}))$ to determine $z_t$\;
-use \refeq{seriesForm} to determine $\xnxt{t}$\;
-}
-\Output{$\xzFunc^{k+1}(\xtmEpsArg)=\xnxt{t}$}
-%$\XZFunc^{k+1}(\xtArg)=\int \xzFunc^{k+1}(\xtArg,\epsilon) d\epsilon$
-\end{algorithm}
-}
-
-\end{frame}
-
-\begin{frame}
-  \frametitle{Algorithm Operation Counts}
-  \begin{description}
-  \item[Solve Deterministic Problem]
-    \begin{description}
-    \item[Expectation Computations] 
-    \item[Function Generation] 
-    \end{description}
-  \end{description}
-\end{frame}
-
-
-
-
-\begin{frame}
   \begin{gather}
   \xzFuncGuess^k \left (
   \begin{bmatrix}
@@ -362,9 +322,10 @@ use \refeq{seriesForm} to determine $\xnxt{t}$\;
   \begin{bmatrix}
     x_{t-1}\\ x_t\\ \xtpguss
   \end{bmatrix}\\
-x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)\\
-\xtpguss=\XZFunc^{k-1}(\xguss) = \sumZPartZero +  \sumZPartPos(\xguss)\label{seriesForm}
+x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)  \label{seriesForm}\\ 
+\xtpguss=\XZFunc^{k-1}(\xguss) = \sumZPartZero +  \sumZPartPos(\xguss)
   \end{gather}
+}
 \end{frame}
 
 \begin{frame}
@@ -392,6 +353,62 @@ x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)\\
  \end{gather}
 
 \end{frame}
+
+
+\begin{frame}[fragile]
+
+{\small
+%Choose a linear reference  model, $\linMod$, of dimension $\numX$,
+%the number of terms for the series $\numTerms$  and interpolation/collocation points,  $\thePts \equiv \thePoints$.
+%Choose an initial \ADRUE,  $\XZFunc^0$
+}
+
+{\small
+  \begin{algorithm}[H]{Compute the \ADR\ $\xzFunc^k(\xtmEpsArg)$ to improve the \ADRUE, $\XZFunc^{k}$}\\
+\SetKwInOut{Input}{input}
+\SetKwInOut{Output}{output}
+\Input{$\linMod, \XZFunc^k, \numTerms, \thePts$}
+%\For{(\xtmEpsArg) \in \thePts }{ xx}
+\For{$(\xtmEpsArg) \in \thePts$}{
+initialize $\xgusst{t}= \XZFunc^k(x_{t-1})$\;
+\Repeat{$\xlst{t} = \xnxt{t}$}
+{$\xlst{t}=\xgusst{t}$\\
+use $\XZFunc^{k}$ to recursively compute 
+$\left \{
+\begin{bmatrix}
+\xgusst{t+1}\\\zgusst{t+1}
+\end{bmatrix}
+\cdots
+\begin{bmatrix}
+\xgusst{t+\numTerms-1}\\  \zgusst{t+\numTerms-1}
+\end{bmatrix}
+\right \}$\;
+use \refeq{seriesForm} to compute $\xzFuncGuess(\xtArg;\xgusst{t})$\;
+solve $\eqnFunc(\xzFuncGuess(\xtArg;\xgusst{t}))$ to determine $\xnxt{t}, \znxt{t}$\;
+$\xgusst{t}=\xnxt{t}$\;
+}
+}
+$\xzFunc^{k+1}(\xtmEpsArg)\,\,  \forall \, (\xtmEpsArg)\in \thePts \Rightarrow \XZFunc^{k+1} $\;
+\Output{$\XZFunc^{k+1}$}
+%$\XZFunc^{k+1}(\xtArg)=\int \xzFunc^{k+1}(\xtArg,\epsilon) d\epsilon$
+
+\end{algorithm}
+}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Algorithm Operation Counts}
+  \begin{description}
+  \item[Solve Deterministic Problem]
+    \begin{description}
+    \item[Expectation Computations] 
+    \item[Function Generation] 
+    \end{description}
+  \end{description}
+\end{frame}
+
+
 
 \begin{frame}
   \frametitle{RBC Known Solution Truncation Error }
@@ -821,7 +838,7 @@ D
 \begin{frame}
   \frametitle{Future Directions}
   \begin{itemize}
-  \item frbus implications
+  \item frbus implications/.,mbnvnvbm,.n/.''.jj'.'j;'jjjjj'j;.'''
   \item bound other people's solutions, compare to bound Euler errors
   \item show can determin number series terms then accracy depends on number of nodes
   \item should normalize h since just scaling up moves bounds around

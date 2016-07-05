@@ -12,6 +12,9 @@
 \usepackage{algorithm2e}
 \usepackage{algorithmicx}
 \usepackage{algpseudocode}
+\algrenewcommand\algorithmicwhile{\textbf{until}}
+
+
 
 \usepackage[round,authoryear]{natbib}
 %\usepackage[margin=1.0in]{geometry}
@@ -27,6 +30,9 @@
 
 \newcommand{\xgusst}[1]{x^{guess}_{#1}}
 \newcommand{\xnxt}[1]{x^{next}_{#1}}
+\newcommand{\znxt}[1]{z^{next}_{#1}}
+\newcommand{\xlst}[1]{x^{last}_{#1}}
+\newcommand{\zlst}[1]{z^{last}_{#1}}
 \newcommand{\zgusst}[1]{z^{guess}_{#1}}
 \newcommand{\xguss}{x^{tguess}}
 \newcommand{\xtpguss}{x^{tp1guess}}
@@ -41,7 +47,7 @@
 \newcommand{\numIters}{{K}}
 \newcommand{\numTerms}{{N_{terms}}}
 \newcommand{\numPts}{{N_{points}}}
-\newcommand{\thePoints}{{\{^{1}(x_{t-1},\epsilon_t) \ldots ^{\numPts}(x_{t-1},\epsilon_t)\}}}
+\newcommand{\thePoints}{{\{(x_{t-1},\epsilon_t)^{1} \ldots (x_{t-1},\epsilon_t)^{\numPts}\}}}
 \newcommand{\thePts}{{\mathcal{P}}}
 \newcommand{\ADRUE}{{\bf ADRUEF}}
 \newcommand{\ADR}{{\bf ADRF}}
