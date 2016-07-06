@@ -184,6 +184,7 @@ c_t + k_t=\theta_{t-1}k_{t-1}^\alpha \\
  \end{gather*}
 
   \end{frame}
+
 \begin{frame}
 \frametitle{for $\eta=\delta=1$}
 
@@ -216,6 +217,26 @@ c_{t+s}(k_{t-1},\theta_t,\epsilon_t)\\k_{t+s}(k_{t-1},\theta_t,\epsilon_t)    \\
 \end{gather}
 
 \end{frame}
+
+
+
+  \begin{frame}
+    \frametitle{Truncations Errors: Arbitrary System and Linearized System}
+
+
+\begin{figure}[H]
+  \centering
+\includegraphics[width=2in]{arbTruncErrSimp.pdf}  
+\includegraphics[width=2in]{TruncErrSimp.pdf}  
+\caption{RBC Model Series Truncation Error Bounds Versus Actual}
+  \caption{ $x_{-1}=( {{0.2}, {0.18}, {1.1}}), \epsilon=0.01$} \label{arbFig}
+\end{figure}
+
+
+  \end{frame}
+
+
+
 
 
 \begin{frame}
@@ -253,56 +274,45 @@ h_{31}^{det}(\cdot)=0
 
 \begin{frame}
   \frametitle{Some definitions}
-  \begin{description}
-  \item[$\numX$ Dimensional Linear Reference Model] \ 
 
-$\linMod \equiv \linModMats$ Some linear model with state space of dimension
+{\small
+
+  \begin{description}
+  \item[$\numX$-Dimensional Linear Reference Model] \ 
+
+$\linMod \equiv \linModMats$ A linear model with state space of dimension
 $\numX$ and unique solutions converging 
 to some steady state
   \item[Augmented Decision Rule Function(\ADR)]  \ 
-$\xzFunc: \xzFuncSig$  A function of $\xtmEpsArg$ providing an approximation 
+$\xzFunc: \xzFuncSig$ \\
+ A function of $
+\begin{bmatrix}
+  x_{t-1}\\\epsilon_t
+\end{bmatrix}
+$ providing an approximation 
 for $\begin{bmatrix}
   x_t\\z_t
 \end{bmatrix}$
-  \item[Augmented Decision Rule Unconditional Expectation Function(\ADRUE)]  \ 
+  \item[Augmented Decision Rule Unconditional Expectation Function(\ADRUE)] 
 
-$\XZFunc: \xzFuncGuessSig$  A function of $x_t$ providing an approximation 
+$\XZFunc: \xzFuncGuessSig$ \\ A function of $x_t$ providing an approximation 
 for the unconditional expectation  
-$\uncnxpt{x_{t+1}}{x_t}\equiv  \uncnxpt{\xzFunc(x_t,\epsilon_{t+1}}{x_t}$
+$\uncnxpt{\begin{bmatrix}
+  x_{t+1}\\z_{t+1}
+\end{bmatrix}}{x_t}\equiv  \uncnxpt{\xzFunc(x_t,\epsilon_{t+1})}{x_t}$
 
   \end{description}
-\end{frame}
 
-
-
-
-\begin{frame}[fragile]
-  \begin{itemize}
-  \item Choose a linear reference  model, $\linMod$, of dimension $\numX$
-\item Choose an initial \ADRUE,  $\XZFunc^0$
-\item Determine the number of terms for the series $\numTerms$
-  \end{itemize}
-  \begin{algorithm}[H]{Improve \ADRUE\ $\xzFunc^k$ and $(\xtArg)$}
-\SetKwInOut{Input}{input}\\
-\SetKwInOut{Output}{ouput}
-\Input{$\linMod, \XZFunc^k, \numTerms$}
-\Output{$\xzFunc^{k+1}, \XZFunc^{k+1}$}
-initialize $\xnxt{t}=\emptyset, \xgusst{t}\leftarrow \XZFunc^k(x_{t-1})$\;
-\While{$\xgusst{t} \ne \xnxt{t}$}
-{recursively compute $\{\xgusst{t+1}\ldots\xgusst{t+\numTerms-1}\}$\;
-compute corresponding $\{\zgusst{t+1}\ldots\zgusst{t+\numTerms-1}\}$\;
-use \refeq{seriesForm} to compute $\xzFuncGuess(xtArg;\xgusst{t})$\;
-solve $\eqnFunc(\xzFuncGuess(\xtArg;\xgusst{t})$ to determine $z_t$\;
-use \refeq{seriesForm} to determine $\xnxt{t}$\;
 }
-\end{algorithm}
-\end{frame}
 
+\end{frame}
 
 
 
 
 \begin{frame}
+
+{\small
   \begin{gather}
   \xzFuncGuess^k \left (
   \begin{bmatrix}
@@ -312,12 +322,16 @@ use \refeq{seriesForm} to determine $\xnxt{t}$\;
   \begin{bmatrix}
     x_{t-1}\\ x_t\\ \xtpguss
   \end{bmatrix}\\
-x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)\\
-\xtpguss=\XZFunc^{k-1}(\xguss) = \sumZPartZero +  \sumZPartPos(\xguss)\label{seriesForm}
+x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)  \label{seriesForm}\\ 
+\xtpguss=\XZFunc^{k-1}(\xguss) = \sumZPartZero +  \sumZPartPos(\xguss)
   \end{gather}
+}
 \end{frame}
+
 \begin{frame}
 \frametitle{Perfect Foresight}
+
+
 
 
 \begin{gather}
@@ -338,13 +352,132 @@ x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)\\
  \XZFunc^{k}(x)=\EsumLinPart + \EsumCapZPart{RE}
  \end{gather}
 
+\end{frame}
 
 
+\begin{frame}[fragile]
+
+{\small
+%Choose a linear reference  model, $\linMod$, of dimension $\numX$,
+%the number of terms for the series $\numTerms$  and interpolation/collocation points,  $\thePts \equiv \thePoints$.
+%Choose an initial \ADRUE,  $\XZFunc^0$
+}
+
+{\small
+  \begin{algorithm}[H]{Compute the \ADR\ $\xzFunc^k(\xtmEpsArg)$ to improve the \ADRUE, $\XZFunc^{k}$}\\
+\SetKwInOut{Input}{input}
+\SetKwInOut{Output}{output}
+\Input{$\linMod, \XZFunc^k, \numTerms, \thePts$}
+%\For{(\xtmEpsArg) \in \thePts }{ xx}
+\For{$(\xtmEpsArg) \in \thePts$}{
+initialize $\xgusst{t}= \XZFunc^k(x_{t-1})$\;
+\Repeat{$\xlst{t} = \xnxt{t}$}
+{$\xlst{t}=\xgusst{t}$\\
+use $\XZFunc^{k}$ to recursively compute 
+$\left \{
+\begin{bmatrix}
+\xgusst{t+1}\\\zgusst{t+1}
+\end{bmatrix}
+\cdots
+\begin{bmatrix}
+\xgusst{t+\numTerms-1}\\  \zgusst{t+\numTerms-1}
+\end{bmatrix}
+\right \}$\;
+use \refeq{seriesForm} to compute $\xzFuncGuess(\xtArg;\xgusst{t})$\;
+solve $\eqnFunc(\xzFuncGuess(\xtArg;\xgusst{t}))$ to determine $\xnxt{t}, \znxt{t}$\;
+$\xgusst{t}=\xnxt{t}$\;
+}
+}
+$\xzFunc^{k+1}(\xtmEpsArg)\,\,  \forall \, (\xtmEpsArg)\in \thePts \Rightarrow \XZFunc^{k+1} $\;
+\Output{$\XZFunc^{k+1}$}
+%$\XZFunc^{k+1}(\xtArg)=\int \xzFunc^{k+1}(\xtArg,\epsilon) d\epsilon$
+
+\end{algorithm}
+}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Algorithm Operation Counts}
+  \begin{description}
+  \item[Solve Deterministic Problem]
+    \begin{description}
+    \item[Expectation Computations] 
+    \item[Function Generation] 
+    \end{description}
+  \end{description}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{RBC Known Solution Truncation Error }
+  \begin{description}
+  \item[Deterministic Solution] 
+  \item[Expectation Computation] 
+\item[Function Generation]
+  \end{description}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{RBC Unknown Solution Truncation Error }
+  \begin{description}
+  \item[Deterministic Solution] 
+  \item[Expectation Computation] 
+\item[Function Generation]
+  \end{description}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{RBC Occasionally Binding Constraints Truncation Error }
+  \begin{description}
+  \item[Deterministic Solution] 
+  \item[Expectation Computation] 
+\item[Function Generation]
+  \end{description}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{RBC Regime Switching Truncation Error }
+  \begin{description}
+  \item[Deterministic Solution] 
+  \item[Expectation Computation] 
+\item[Function Generation]
+  \end{description}
 
 \end{frame}
 
 
 
+\begin{frame}
+  \frametitle{RBC Occasionally Binding Constraints and Regime Switching  Truncation Error }
+  \begin{description}
+  \item[Deterministic Solution] 
+  \item[Expectation Computation] 
+\item[Function Generation]
+  \end{description}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{some cat for functions}
+  \begin{tikzcd}
+    A \arrow [ r,"f"]
+\arrow[dr,swap,"g\circ f"]&
+B \arrow[dr,"g\circ h"]
+\\{}&
+C \arrow[r,swap,"h"]
+&
+D
+  \end{tikzcd}
+\end{frame}
 
 
 
@@ -705,6 +838,19 @@ x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)\\
 \begin{frame}
   \frametitle{Future Directions}
   \begin{itemize}
+  \item Using Parallelization to Solve a Macroeconomic Model: A Parallel Parameterized Expectations Algorithm
+Michael Creel
+  \item frbus implications/.,mbnvnvbm,.n/.''.jj'.'j;'jjjjj'j;.'''
+  \item bound other people's solutions, compare to bound Euler errors
+  \item show can determin number series terms then accracy depends on number of nodes
+  \item should normalize h since just scaling up moves bounds around
+  \item can precompute z's for exogenous backward looking quantities
+  \item evaluation points for XZ and xz need not be the same
+  \item model solutions with closed form values produce right series stable difference equations?
+  \item add points for interpolation outside range
+  \item filter fixedpoint and findroot failures
+  \item add list of solvers to ``try'' if there are falures
+  \item record performance of solvers using sow reap (functional?)
   \item Heterogeneous Agents Problems
   \item Convergence Properties
     \begin{itemize}
@@ -714,6 +860,8 @@ x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)\\
 \item algorithmic details
   \begin{itemize}
  \item Smolyak nodes
+ \item Judd Ergodic region
+ \item F small eigenvalues
  \item Projection Methods
  \item Perturbation Methods for initial guess
   \end{itemize}
@@ -728,6 +876,7 @@ x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)\\
 
 \end{frame}
 
+\appendix
 
 
 \end{document}
