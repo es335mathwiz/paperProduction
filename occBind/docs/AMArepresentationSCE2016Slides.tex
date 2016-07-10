@@ -23,11 +23,11 @@
 
  \begin{itemize}
  \item Proposing a series representation for a broad class of functions
- \item Easy to compute representation for representing
+ \item Easy to compute representation for 
 families of trajectories
-\item only requires that the trajectories are bounded
-\item originally motivated by solving models occassionally binding constraints
-\item series representation seems much more general flexible than I originally imagined
+\item Only requires that the trajectories are bounded
+\item Originally motivated by solving models occassionally binding constraints
+\item Series representation seems much more general flexible than I originally imagined
 \end{itemize}
 \end{frame}
 
@@ -293,10 +293,10 @@ $ providing an approximation
 for $\begin{bmatrix}
   x_t\\z_t
 \end{bmatrix}$
-  \item[Augmented Decision Rule Unconditional Expectation Function(\ADRUE)] 
+  \item[Augmented Decision Rule Conditional Expectation Function(\ADRCE)] 
 
 $\XZFunc: \xzFuncGuessSig$ \\ A function of $x_t$ providing an approximation 
-for the unconditional expectation  
+for the conditional expectation  
 $\uncnxpt{\begin{bmatrix}
   x_{t+1}\\z_{t+1}
 \end{bmatrix}}{x_t}\equiv  \uncnxpt{\xzFunc(x_t,\epsilon_{t+1})}{x_t}$
@@ -360,13 +360,11 @@ x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)  \label{seriesForm}\\
 {\small
 %Choose a linear reference  model, $\linMod$, of dimension $\numX$,
 %the number of terms for the series $\numTerms$  and interpolation/collocation points,  $\thePts \equiv \thePoints$.
-%Choose an initial \ADRUE,  $\XZFunc^0$
+%Choose an initial \ADRCE,  $\XZFunc^0$
 }
 
 {\small
-  \begin{algorithm}[H]{Compute the \ADR\ $\xzFunc^k(\xtmEpsArg)$ to improve the \ADRUE, $\XZFunc^{k}$}\\
-\SetKwInOut{Input}{input}
-\SetKwInOut{Output}{output}
+  \begin{algorithm}[H]{Compute the \ADR\ $\xzFunc^k(\xtmEpsArg)$ to improve the \ADRCE, $\XZFunc^{k}$}\\
 \Input{$\linMod, \XZFunc^k, \numTerms, \thePts$}
 %\For{(\xtmEpsArg) \in \thePts }{ xx}
 \For{$(\xtmEpsArg) \in \thePts$}{
@@ -396,6 +394,137 @@ $\xzFunc^{k+1}(\xtmEpsArg)\,\,  \forall \, (\xtmEpsArg)\in \thePts \Rightarrow \
 }
 
 \end{frame}
+
+\begin{frame}
+  \frametitle{Parameterized Expectations Algorithm (PEA)}
+{\small 
+\cite{marcet.lorenzoni99,maliarmovingbounds,juddGSSA2011}
+
+  \begin{gather}
+    F (\expct{(\mathcal{E}(y_{t+1}, x_{t+1}, y_t, x_t)), y_t, x_t, \epsilon_t) = 0}\intertext{represent}
+\expct{(\mathcal{E} (y_{t+1}, x_{t+1}, y_t, x_t))} \intertext{ by a parametric approximation function, }\Phi(x_t, \theta),\\
+F (\Phi(x_t, \theta), y_t, x_t, \epsilon_t) = 0\\
+\theta \in  \argmin_{\theta \in \Theta}\mathcal{R}(x_t, \theta)^\prime\Omega\mathcal{R}(x_t,\theta)\\
+{R}(x_t, \theta) \equiv \Phi(x_t,\theta)- \expct{(\mathcal{E}(y_{t+1},x_{t+1},y_t,x_t))} 
+\intertext{ or}
+\theta \in  \argmin_{\theta \in \Theta} 
+\twoNorm{ \mathcal{R}(x_t, \theta) }
+  \end{gather}
+}
+\end{frame}
+
+ \begin{frame}
+  \frametitle{Stochastic PEA}
+
+
+    \begin{enumerate}
+    \item \ 
+      \begin{itemize}
+      \item guess initial $\Phi(x_t,\theta)$ by choosing $\theta$. 
+      \item choose stopping criterion $\eta>0$
+      \item choose sample size T and draw sequence $\{\epsilon_t\}^T_0$
+      \end{itemize}
+    \item in iteration i for give $\theta^i$ recursively simulate 
+$\{y_t(\theta^i)\}^T_0$ and $\{x_t(\theta^i)^T_0\}$
+\item perform nonlinear least squares regression to find $G(\theta^i)$ satisfying 
+  \begin{gather}
+    \hat{\theta} \in \argmin_{\theta \in \Theta} \twoNorm{\Phi(x_t(\theta),\theta)- \expct{(\mathcal{E}(y_{t+1}t(\theta),x_{t+1}(\theta),y_t(\theta),x_t(\theta)))} }
+  \end{gather}
+\item set $\theta^{i+1} = \gamma \hat{\theta} + (1-\gamma)\theta^i$
+\item If $|\theta^{i+1} - \theta^i| < \eta$ then stop otherwise repeat from 2
+    \end{enumerate}
+
+
+ \end{frame}
+
+ \begin{frame}
+  \frametitle{Non-Stochastic PEA}
+
+
+    \begin{enumerate}
+    \item \ 
+      \begin{itemize}
+      \item guess initial $\Phi(x_t,\theta)$ by choosing $\theta$. 
+      \item choose stopping criterion $\eta>0$
+      \end{itemize}
+    \item in iteration i for give $\theta^i$ at each node, compute the conditional expectation
+$\expct{\{y_t(\theta^i)\}^T_0}$ and $\expct{\{x_t(\theta^i)^T_0\}}$
+\item perform nonlinear least squares regression to find $G(\theta^i)$ satisfying 
+  \begin{gather}
+    \hat{\theta} \in \argmin_{\theta \in \Theta} \twoNorm{\Phi(x_t(\theta),\theta)- \expct{(\mathcal{E}(y_{t+1}t(\theta),x_{t+1}(\theta),y_t(\theta),x_t(\theta)))} }
+  \end{gather}
+\item set $\theta^{i+1} = \gamma \hat{\theta} + (1-\gamma)\theta^i$
+\item If $|\theta^{i+1} - \theta^i| < \eta$ then stop otherwise repeat from 2
+    \end{enumerate}
+
+
+ \end{frame}
+
+ \begin{frame}
+   \frametitle{GSSA}
+
+\cite{juddGSSA2011}
+ \begin{description}
+\item[Stage 1: Initialization]
+  \begin{itemize}
+  \item  Choose an initial guess $b^{(1)}$.
+ \item Choose the initial state $(k_00,a_0)$ for simulations. 
+ \item  Choose a simulation length $T$, draw a sequence of 
+  productivity shocks $\{\epsilon_t \}_{t=1\ldots T}$
+  \item and compute $\{a_t \}_{t =1\ldots T}$
+   \end{itemize}
+   \begin{enumerate}
+   \item 
+ Step 1. At iteration $p$,use $b^(p)$ to simulate the model $T$ periods forward:
+ \begin{gather}
+ k_{t+1} = \Psi(k_t,a_t;b^{(p)}\\
+ c_t = (1 − δ)k_t + a_tf(k_t) − k_{t+1}. 
+ \end{gather}
+
+   \end{enumerate}
+ \end{description}
+
+ \end{frame}
+
+
+ \begin{frame}
+   \frametitle{GSSA continued}
+
+{\small
+   \begin{enumerate}
+\setcounter{enumi}{1}
+ \item  Step 2. For $t = 0\ldots T − 1$, define $y_t$ to be an approximation of the conditional ex- pectation in (7) using J integration nodes and weights, $\{\epsilon_{t+1,j}j=1\ldots J$ and $\{omega_{t,j}\{j=1\ldots J\}$, respectively:
+   \begin{gather}
+     y_t=\sum_j^J \left \{ \omega_{t,j}  \gssaKtp \right \}
+   \end{gather}
+ \item find $\hat{b}$ minimizing the errors $\epsilon_t$ in the regression equaion $ y_{t}=\Psi(k_t,a_t;b) + \epsilon$ according to some norm $\someNorm{\cdot}$
+\item check for convergence and end Stage 1 if
+  \begin{gather}
+    \frac{1}{T}\sum_{t=1}^T \left | \frac{k_{t+1}^{(p)}-k_{t+1}^{(p-1)}}{k_{t+1}^{(p)}} \right | < \bar{\omega}
+  \end{gather}
+ \item compte $b^{(p+1)}= (1-\xi)b^{p)} + \xi \hat{b}$
+   \end{enumerate}
+}
+ \end{frame}
+
+
+ \begin{frame}
+   \frametitle{GSSA continued}
+
+{\small
+   \begin{description}
+\item[Stage 2]  Test solution
+   \end{description}
+   \begin{itemize}
+\item construct a new set of points $T^{test}$ points $\{k_\tau,a_\tau\}_{\tau=0, \ldots, T^{test}}$
+    \item rewrite the Euler equation in the error free form:
+      \begin{gather}
+        \mathcal{E}(k_\tau,a_\tau)\equiv \expct{
+\gssaKtp}_\tau 
+      \end{gather}
+   \end{itemize}
+}
+ \end{frame}
 
 \begin{frame}
   \frametitle{Algorithm Operation Counts}
@@ -838,6 +967,11 @@ D
 \begin{frame}
   \frametitle{Future Directions}
   \begin{itemize}
+  \item Judd, Maliar, Maliar GSSA
+  \item representation points should vary by variable and whether expectations or not and then backward looking and other precomputed also more easily precomputed
+  \item orthogonal basis
+  \item Parameterized expectations algorithm
+  \item almost arbitrary must have non zero leads in equations corresponding to model equation with leads -- nonzero columns for F.
   \item Using Parallelization to Solve a Macroeconomic Model: A Parallel Parameterized Expectations Algorithm
 Michael Creel
   \item frbus implications/.,mbnvnvbm,.n/.''.jj'.'j;'jjjjj'j;.'''
