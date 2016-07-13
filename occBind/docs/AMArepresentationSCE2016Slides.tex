@@ -112,17 +112,31 @@ Then,
 \begin{frame}
 \frametitle{Approximating $\mathcal{X}_t(x_{t-1},\epsilon)$} 
 
+{\small
+
+Error two components
+
+\begin{description}
+\item [Truncation Error]
+
+
+
  	 \begin{gather}
  	 \xWargK \equiv B x_{t-1}+ \phi \psi_\epsilon\epsilon + \sum_{s=0}^k F^s \phi z_{t}(x_{t-1},\epsilon) + (I - F)^{-1} \phi \psi_c \label{theTruncSeries}
  \end{gather}
 
 Since
-{\small
+
     \begin{gather}
       \label{eq:1}
 \sum_{s=k+1}^{\infty} F^s \phi \psi_z = (I -F)^{-1} F^{k+1}\phi \psi_z       \\
 \infNorm{\xWarg-\xWargK} \le\\ \infNorm{(I -F)^{-1} F^{k+1}\phi \psi_z} \left ( \infNorm{H_{-1} }+ \infNorm{H_{0} }+ \infNorm{H_{1} } \right )\bar{\mathcal{X}}
     \end{gather}
+
+\item[Discretization Error] \ 
+
+
+\end{description}
 
 }
 \end{frame}
@@ -381,7 +395,8 @@ $\left \{
 \xgusst{t+\numTerms-1}\\  \zgusst{t+\numTerms-1}
 \end{bmatrix}
 \right \}$\;
-use \refeq{seriesForm} to compute $\xzFuncGuess(\xtArg;\xgusst{t})$\;
+use \refeq{seriesForm} to symbolically 
+compute $\xzFuncGuess(\xtArg;\xgusst{t})$\;
 solve $\eqnFunc(\xzFuncGuess(\xtArg;\xgusst{t}))$ to determine $\xnxt{t}, \znxt{t}$\;
 $\xgusst{t}=\xnxt{t}$\;
 }
@@ -394,6 +409,93 @@ $\xzFunc^{k+1}(\xtmEpsArg)\,\,  \forall \, (\xtmEpsArg)\in \thePts \Rightarrow \
 }
 
 \end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{\ADR\ and \ADRCE}
+
+{\small
+  \begin{itemize}
+  \item  $A\equiv \begin{bmatrix}  x_{t-1}\\\epsilon_t\end{bmatrix} \in 
+\Rn{\numX+\numEps}$,
+$B\equiv \begin{bmatrix}  x_{t}\\z_t\end{bmatrix} \in 
+\Rn{\numX+\numZ}$
+   \item  $C\equiv \begin{bmatrix}  x_{t} \end{bmatrix}\in 
+ \Rn{\numX}$,
+ $D\equiv \begin{bmatrix}  x_{t+1}\\z_{t+1}\end{bmatrix} \in 
+ \Rn{\numX+\numZ}$
+\item $E\equiv \begin{bmatrix}  x_{t-1}\\ x_{t}\\ x_{t+1}\\ \epsilon_t \end{bmatrix}\in 
+ \Rn{3\numX+\numEps}$,
+$F\equiv \begin{bmatrix}  \eqnErrs \end{bmatrix}\in 
+ \Rn{\numX}$
+  \end{itemize}
+
+
+  \begin{tikzcd}
+    A \arrow [ r,"\xzFunc"]&B 
+  \end{tikzcd}
+\begin{tikzcd}
+    C \arrow [ r,"\XZFunc"]&D 
+  \end{tikzcd}
+\begin{tikzcd}
+    C \arrow [ r,"\xzFuncGuess"]&B 
+  \end{tikzcd}
+\begin{tikzcd}
+    A \arrow [ r,"\slvr"]&B 
+  \end{tikzcd}
+\begin{tikzcd}
+    E \arrow [ r,"\eqnFunc"]&F 
+  \end{tikzcd}
+
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+
+{\small 
+
+
+
+   \begin{tikzcd}
+     A \arrow [ r,"\xzFunc" near start,"\slvr" near end]&B 
+   \end{tikzcd}
+ \begin{tikzcd}
+     C \arrow [ r,"\XZFunc"] \arrow [ rd,"\xzFuncGuess"] & D \\
+     & B 
+   \end{tikzcd}
+\begin{tikzcd}
+    E \arrow [ r,"\eqnFunc"]&F 
+  \end{tikzcd}
+
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+
+{\small 
+
+
+
+   \begin{tikzcd}
+     A \arrow [ r,"\xzFunc" near start,"\slvr" near end]&B 
+   \end{tikzcd}
+ \begin{tikzcd}
+     C \arrow [ r,"\XZFunc"] \arrow [ rd,"\xzFuncGuess"] & D \\
+     & B 
+   \end{tikzcd}
+\begin{tikzcd}
+    E \arrow [ r,"\eqnFunc"]&F 
+  \end{tikzcd}
+
+}
+
+\end{frame}
+
+
 
 \begin{frame}
   \frametitle{Parameterized Expectations Algorithm (PEA)}
@@ -595,6 +697,8 @@ $\expct{\{y_t(\theta^i)\}^T_0}$ and $\expct{\{x_t(\theta^i)^T_0\}}$
 \end{frame}
 
 
+
+
 \begin{frame}[fragile]
   \frametitle{some cat for functions}
   \begin{tikzcd}
@@ -607,6 +711,7 @@ C \arrow[r,swap,"h"]
 D
   \end{tikzcd}
 \end{frame}
+
 
 
 
