@@ -19,25 +19,32 @@
 
 \section{Introduction and Summary}
 
+\begin{frame}
+
  \begin{itemize}
- \item Initial Diversion but Useful Payoffs
- \item Likely Useful for Wide class Dynamic Economic Models
-   \begin{itemize}
-   \item structure the solution allows attack many difficult problems
-   \item bounded solution paths
-   \item today focus on time invariant decision rules 
-   \item splits problem into two phases
+ \item Proposing a series representation for a broad class of functions
+ \item Easy to compute representation for 
+families of trajectories
+\item Only requires that the trajectories are bounded
+\item Originally motivated by solving models occassionally binding constraints
+\item Series representation seems much more general flexible than I originally imagined
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+     \begin{itemize}
+   \item Today focus on time invariant decision rules 
+   \item Representation allows us to split problem of discovering decision rules into two phases
      \begin{itemize}
      \item solving a potentially difficult deterministic problem given a guess for conditional expectations
      \item updating the conditional expectations
    \end{itemize}
-   \begin{itemize}
      \item occassionally binding constraints
      \item regime switching
-   \end{itemize}
-\end{itemize}
 \end{itemize}
 
+\end{frame}
 \section{The Series Representation}
 
 
@@ -72,8 +79,8 @@ Consider a family of functions:
  \begin{itemize}
  \item The $x_{-1}$ is an  $L$ dimensional state vector
  \item $\epsilon$ is a $K$ dimensional ``shock'' vector
- \item  together index individual trajectories for future state vectors.  
- \item No continuity or smoothness required  -- just boundedness
+ \item  $(x_{-1},\epsilon)$ index individual trajectories for  state vectors.  
+ \item No continuity, monotonicity or smoothness required  -- just boundedness
  \end{itemize}
 
 \end{frame}
@@ -105,17 +112,31 @@ Then,
 \begin{frame}
 \frametitle{Approximating $\mathcal{X}_t(x_{t-1},\epsilon)$} 
 
+{\small
+
+Error two components
+
+\begin{description}
+\item [Truncation Error]
+
+
+
  	 \begin{gather}
  	 \xWargK \equiv B x_{t-1}+ \phi \psi_\epsilon\epsilon + \sum_{s=0}^k F^s \phi z_{t}(x_{t-1},\epsilon) + (I - F)^{-1} \phi \psi_c \label{theTruncSeries}
  \end{gather}
 
 Since
-{\small
+
     \begin{gather}
       \label{eq:1}
 \sum_{s=k+1}^{\infty} F^s \phi \psi_z = (I -F)^{-1} F^{k+1}\phi \psi_z       \\
 \infNorm{\xWarg-\xWargK} \le\\ \infNorm{(I -F)^{-1} F^{k+1}\phi \psi_z} \left ( \infNorm{H_{-1} }+ \infNorm{H_{0} }+ \infNorm{H_{1} } \right )\bar{\mathcal{X}}
     \end{gather}
+
+\item[Discretization Error] \ 
+
+
+\end{description}
 
 }
 \end{frame}
@@ -160,16 +181,6 @@ F=
 
 \end{frame}
 
-\begin{frame}
-  
-\begin{figure}
-  \centering
-  \caption{Error Bound Versus Actual Error} \label{figArbTrunc}
-\end{figure}
-
-
-
-\end{frame}
 
 
   \begin{frame}
@@ -187,6 +198,7 @@ c_t + k_t=\theta_{t-1}k_{t-1}^\alpha \\
  \end{gather*}
 
   \end{frame}
+
 \begin{frame}
 \frametitle{for $\eta=\delta=1$}
 
@@ -221,6 +233,26 @@ c_{t+s}(k_{t-1},\theta_t,\epsilon_t)\\k_{t+s}(k_{t-1},\theta_t,\epsilon_t)    \\
 \end{frame}
 
 
+
+  \begin{frame}
+    \frametitle{Truncations Errors: Arbitrary System and Linearized System}
+
+
+\begin{figure}[H]
+  \centering
+\includegraphics[width=2in]{arbTruncErrSimp.pdf}  
+\includegraphics[width=2in]{truncErrSimp.pdf}  
+\caption{RBC Model Series Truncation Error Bounds Versus Actual}
+  \caption{ $x_{-1}=( {{0.2}, {0.18}, {1.1}}), \epsilon=0.01$} \label{arbFig}
+\end{figure}
+
+
+  \end{frame}
+
+
+
+
+
 \begin{frame}
 \frametitle{Consider  models that can be written in  the following form}
 
@@ -253,27 +285,447 @@ h_{31}^{det}(\cdot)=0
 \end{gather}
 
 \end{frame}
+
 \begin{frame}
-  
+  \frametitle{Some definitions}
 
-\begin{description}
-\item[Perfect Foresight]
-\begin{gather}
-     \mathcal{H}^{PF}[g^{k}(x,\epsilon_{t+T-k+1})]=
-g^{k}(x,0)\\
-\end{gather}
+{\small
 
+  \begin{description}
+  \item[$\numX$-Dimensional Linear Reference Model] \ 
 
-\item[Rational Expectations] 
-\begin{gather}
-     \mathcal{H}^{RE}[g^{k}(x,\epsilon_{t+T-k+1})]=
-\mathcal{E}_t[g^{k}(x,\epsilon_{t+T-k+1})|x]\\
-\end{gather}
+$\linMod \equiv \linModMats$ A linear model with state space of dimension
+$\numX$ and unique solutions converging 
+to some steady state
+  \item[Augmented Decision Rule Function(\ADR)]  \ 
+$\xzFunc: \xzFuncSig$ \\
+ A function of $
+\begin{bmatrix}
+  x_{t-1}\\\epsilon_t
+\end{bmatrix}
+$ providing an approximation 
+for $\begin{bmatrix}
+  x_t\\z_t
+\end{bmatrix}$
+  \item[Augmented Decision Rule Conditional Expectation Function(\ADRCE)] 
 
- \end{description}
+$\XZFunc: \xzFuncGuessSig$ \\ A function of $x_t$ providing an approximation 
+for the conditional expectation  
+$\uncnxpt{\begin{bmatrix}
+  x_{t+1}\\z_{t+1}
+\end{bmatrix}}{x_t}\equiv  \uncnxpt{\xzFunc(x_t,\epsilon_{t+1})}{x_t}$
 
+  \end{description}
+
+}
 
 \end{frame}
+
+
+
+
+\begin{frame}
+
+{\small
+  \begin{gather}
+  \xzFuncGuess^k \left (
+  \begin{bmatrix}
+    x_{t-1} \\\epsilon_t
+  \end{bmatrix}; \linMod,\xguss
+\right )=
+  \begin{bmatrix}
+    x_{t-1}\\ x_t\\ \xtpguss
+  \end{bmatrix}\\
+x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)  \label{seriesForm}\\ 
+\xtpguss=\XZFunc^{k-1}(\xguss) = \sumZPartZero +  \sumZPartPos(\xguss)
+  \end{gather}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Perfect Foresight}
+
+
+
+
+\begin{gather}
+\XZFunc^{k}(x)=     \mathcal{H}^{PF}[\xzFunc^{k}(x,\epsilon_{t+T-k+1})]=\\
+\XZFunc^{k}(x)=\EsumLinPart +   \EsumZPartZero\\
+ \XZFunc^{k}(x)=\EsumLinPart + \EsumCapZPart{PF}
+\end{gather}
+
+\end{frame}
+\begin{frame}
+  
+ \frametitle{Rational Expectations}
+
+ \begin{gather}
+ \XZFunc^{k}(x)=     \mathcal{H}^{RE}[\xzFunc^{k}(x,\epsilon_{t+T-k+1})]=
+ \expct{\xzFunc^{k}(x,\epsilon_{t+T-k+1})}\\
+  \XZFunc^{k}(x)=\EsumLinPart + \EsumZPartEpsilon\\
+ \XZFunc^{k}(x)=\EsumLinPart + \EsumCapZPart{RE}
+ \end{gather}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+
+{\small
+%Choose a linear reference  model, $\linMod$, of dimension $\numX$,
+%the number of terms for the series $\numTerms$  and interpolation/collocation points,  $\thePts \equiv \thePoints$.
+%Choose an initial \ADRCE,  $\XZFunc^0$
+}
+
+{\small
+  \begin{algorithm}[H]{Compute the \ADR\ $\xzFunc^k(\xtmEpsArg)$ to improve the \ADRCE, $\XZFunc^{k}$}\\
+\Input{$\linMod, \XZFunc^k, \numTerms, \thePts,\eqnFunc$}
+%\For{(\xtmEpsArg) \in \thePts }{ xx}
+\For{$(\xtmEpsArg) \in \thePts$}{
+initialize $\xgusst{t}= \XZFunc^k(x_{t-1})$\;
+\Repeat{$\xlst{t} = \xnxt{t}$}
+{$\xlst{t}=\xgusst{t}$\\
+use $\XZFunc^{k}$ to recursively compute 
+$\left \{
+\begin{bmatrix}
+\xgusst{t+1}\\\zgusst{t+1}
+\end{bmatrix}
+\cdots
+\begin{bmatrix}
+\xgusst{t+\numTerms-1}\\  \zgusst{t+\numTerms-1}
+\end{bmatrix}
+\right \}$\;
+use \refeq{seriesForm} to symbolically 
+compute $\xzFuncGuess(\xtArg;\xgusst{t})$\;
+solve $\eqnFunc(\xzFuncGuess(\xtArg;\xgusst{t}))$ to determine $\xnxt{t}, \znxt{t}$\;
+$\xgusst{t}=\xnxt{t}$\;
+}
+}
+$\xzFunc^{k+1}(\xtmEpsArg)\,\,  \forall \, (\xtmEpsArg)\in \thePts \Rightarrow \XZFunc^{k+1} $\;
+\Output{$\XZFunc^{k+1}$}
+%$\XZFunc^{k+1}(\xtArg)=\int \xzFunc^{k+1}(\xtArg,\epsilon) d\epsilon$
+
+\end{algorithm}
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{\ADR\ and \ADRCE}
+
+{\small
+  \begin{itemize}
+  \item  $A\equiv \begin{bmatrix}  x_{t-1}\\\epsilon_t\end{bmatrix} \in 
+\Rn{\numX+\numEps}$,
+$B\equiv \begin{bmatrix}  x_{t}\\z_t\end{bmatrix} \in 
+\Rn{\numX+\numZ}$
+   \item  $C\equiv \begin{bmatrix}  x_{t} \end{bmatrix}\in 
+ \Rn{\numX}$,
+ $D\equiv \begin{bmatrix}  x_{t+1}\\z_{t+1}\end{bmatrix} \in 
+ \Rn{\numX+\numZ}$
+\item $E\equiv \begin{bmatrix}  x_{t-1}\\ x_{t}\\ x_{t+1}\\ \epsilon_t \end{bmatrix}\in 
+ \Rn{3\numX+\numEps}$,
+$F\equiv \begin{bmatrix}  \eqnErrs \end{bmatrix}\in 
+ \Rn{\numX}$
+  \end{itemize}
+
+
+  \begin{tikzcd}
+    A \arrow [ r,"\xzFunc"]&B 
+  \end{tikzcd}
+\begin{tikzcd}
+    C \arrow [ r,"\XZFunc"]&D 
+  \end{tikzcd}
+\begin{tikzcd}
+    C \arrow [ r,"\xzFuncGuess"]&B 
+  \end{tikzcd}
+\begin{tikzcd}
+    A \arrow [ r,"\slvr"]&B 
+  \end{tikzcd}
+\begin{tikzcd}
+    E \arrow [ r,"\eqnFunc"]&F 
+  \end{tikzcd}
+
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+
+{\small 
+
+
+
+   \begin{tikzcd}
+     A \arrow [ r,"\xzFunc" near start,"\slvr" near end]&B 
+   \end{tikzcd}
+ \begin{tikzcd}
+     C \arrow [ r,"\XZFunc"] \arrow [ rd,"\xzFuncGuess"] & D \\
+     & B 
+   \end{tikzcd}
+\begin{tikzcd}
+    E \arrow [ r,"\eqnFunc"]&F 
+  \end{tikzcd}
+
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+
+{\small 
+
+
+
+   \begin{tikzcd}
+     A \arrow [ r,"\xzFunc" near start,"\slvr" near end]&B 
+   \end{tikzcd}
+ \begin{tikzcd}
+     C \arrow [ r,"\XZFunc"] \arrow [ rd,"\xzFuncGuess"] & D \\
+     & B 
+   \end{tikzcd}
+\begin{tikzcd}
+    E \arrow [ r,"\eqnFunc"]&F 
+  \end{tikzcd}
+
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{do generic algorithm}
+{\small 
+
+
+
+   \begin{tikzcd}
+     \linMod \\
+     \XZFunc & \arrow [ lu,"\pi_{\linMod}" above ] 
+alg1Args \arrow [ l, "\pi_{\XZFunc}" above ]   
+\arrow [ ld,"\pi_{\posInt}" ]\\
+     \posInt  
+   \end{tikzcd}
+ \begin{tikzcd}
+     C \arrow [ r,"\XZFunc"] \arrow [ rd,"\xzFuncGuess"] & D \\
+     & B 
+   \end{tikzcd}
+\begin{tikzcd}
+    E \arrow [ r,"\eqnFunc"]&F 
+  \end{tikzcd}
+
+}
+
+\end{frame}
+
+
+
+
+
+
+\begin{frame}
+  \frametitle{Parameterized Expectations Algorithm (PEA)}
+{\small 
+\cite{marcet.lorenzoni99,maliarmovingbounds,juddGSSA2011}
+
+  \begin{gather}
+    F (\expct{(\mathcal{E}(y_{t+1}, x_{t+1}, y_t, x_t)), y_t, x_t, \epsilon_t) = 0}\intertext{represent}
+\expct{(\mathcal{E} (y_{t+1}, x_{t+1}, y_t, x_t))} \intertext{ by a parametric approximation function, }\Phi(x_t, \theta),\\
+F (\Phi(x_t, \theta), y_t, x_t, \epsilon_t) = 0\\
+\theta \in  \argmin_{\theta \in \Theta}\mathcal{R}(x_t, \theta)^\prime\Omega\mathcal{R}(x_t,\theta)\\
+{R}(x_t, \theta) \equiv \Phi(x_t,\theta)- \expct{(\mathcal{E}(y_{t+1},x_{t+1},y_t,x_t))} 
+\intertext{ or}
+\theta \in  \argmin_{\theta \in \Theta} 
+\twoNorm{ \mathcal{R}(x_t, \theta) }
+  \end{gather}
+}
+\end{frame}
+
+ \begin{frame}
+  \frametitle{Stochastic PEA}
+
+
+    \begin{enumerate}
+    \item \ 
+      \begin{itemize}
+      \item guess initial $\Phi(x_t,\theta)$ by choosing $\theta$. 
+      \item choose stopping criterion $\eta>0$
+      \item choose sample size T and draw sequence $\{\epsilon_t\}^T_0$
+      \end{itemize}
+    \item in iteration i for give $\theta^i$ recursively simulate 
+$\{y_t(\theta^i)\}^T_0$ and $\{x_t(\theta^i)^T_0\}$
+\item perform nonlinear least squares regression to find $G(\theta^i)$ satisfying 
+  \begin{gather}
+    \hat{\theta} \in \argmin_{\theta \in \Theta} \twoNorm{\Phi(x_t(\theta),\theta)- \expct{(\mathcal{E}(y_{t+1}t(\theta),x_{t+1}(\theta),y_t(\theta),x_t(\theta)))} }
+  \end{gather}
+\item set $\theta^{i+1} = \gamma \hat{\theta} + (1-\gamma)\theta^i$
+\item If $|\theta^{i+1} - \theta^i| < \eta$ then stop otherwise repeat from 2
+    \end{enumerate}
+
+
+ \end{frame}
+
+ \begin{frame}
+  \frametitle{Non-Stochastic PEA}
+
+
+    \begin{enumerate}
+    \item \ 
+      \begin{itemize}
+      \item guess initial $\Phi(x_t,\theta)$ by choosing $\theta$. 
+      \item choose stopping criterion $\eta>0$
+      \end{itemize}
+    \item in iteration i for give $\theta^i$ at each node, compute the conditional expectation
+$\expct{\{y_t(\theta^i)\}^T_0}$ and $\expct{\{x_t(\theta^i)^T_0\}}$
+\item perform nonlinear least squares regression to find $G(\theta^i)$ satisfying 
+  \begin{gather}
+    \hat{\theta} \in \argmin_{\theta \in \Theta} \twoNorm{\Phi(x_t(\theta),\theta)- \expct{(\mathcal{E}(y_{t+1}t(\theta),x_{t+1}(\theta),y_t(\theta),x_t(\theta)))} }
+  \end{gather}
+\item set $\theta^{i+1} = \gamma \hat{\theta} + (1-\gamma)\theta^i$
+\item If $|\theta^{i+1} - \theta^i| < \eta$ then stop otherwise repeat from 2
+    \end{enumerate}
+
+
+ \end{frame}
+
+ \begin{frame}
+   \frametitle{GSSA}
+
+\cite{juddGSSA2011}
+ \begin{description}
+\item[Stage 1: Initialization]
+  \begin{itemize}
+  \item  Choose an initial guess $b^{(1)}$.
+ \item Choose the initial state $(k_00,a_0)$ for simulations. 
+ \item  Choose a simulation length $T$, draw a sequence of 
+  productivity shocks $\{\epsilon_t \}_{t=1\ldots T}$
+  \item and compute $\{a_t \}_{t =1\ldots T}$
+   \end{itemize}
+   \begin{enumerate}
+   \item 
+ Step 1. At iteration $p$,use $b^(p)$ to simulate the model $T$ periods forward:
+ \begin{gather}
+ k_{t+1} = \Psi(k_t,a_t;b^{(p)}\\
+ c_t = (1 − δ)k_t + a_tf(k_t) − k_{t+1}. 
+ \end{gather}
+
+   \end{enumerate}
+ \end{description}
+
+ \end{frame}
+
+
+ \begin{frame}
+   \frametitle{GSSA continued}
+
+{\small
+   \begin{enumerate}
+\setcounter{enumi}{1}
+ \item  Step 2. For $t = 0\ldots T − 1$, define $y_t$ to be an approximation of the conditional ex- pectation in (7) using J integration nodes and weights, $\{\epsilon_{t+1,j}j=1\ldots J$ and $\{omega_{t,j}\{j=1\ldots J\}$, respectively:
+   \begin{gather}
+     y_t=\sum_j^J \left \{ \omega_{t,j}  \gssaKtp \right \}
+   \end{gather}
+ \item find $\hat{b}$ minimizing the errors $\epsilon_t$ in the regression equaion $ y_{t}=\Psi(k_t,a_t;b) + \epsilon$ according to some norm $\someNorm{\cdot}$
+\item check for convergence and end Stage 1 if
+  \begin{gather}
+    \frac{1}{T}\sum_{t=1}^T \left | \frac{k_{t+1}^{(p)}-k_{t+1}^{(p-1)}}{k_{t+1}^{(p)}} \right | < \bar{\omega}
+  \end{gather}
+ \item compte $b^{(p+1)}= (1-\xi)b^{p)} + \xi \hat{b}$
+   \end{enumerate}
+}
+ \end{frame}
+
+
+ \begin{frame}
+   \frametitle{GSSA continued}
+
+{\small
+   \begin{description}
+\item[Stage 2]  Test solution
+   \end{description}
+   \begin{itemize}
+\item construct a new set of points $T^{test}$ points $\{k_\tau,a_\tau\}_{\tau=0, \ldots, T^{test}}$
+    \item rewrite the Euler equation in the error free form:
+      \begin{gather}
+        \mathcal{E}(k_\tau,a_\tau)\equiv \expct{
+\gssaKtp}_\tau 
+      \end{gather}
+   \end{itemize}
+}
+ \end{frame}
+
+\begin{frame}
+  \frametitle{Algorithm Operation Counts}
+  \begin{description}
+  \item[Solve Deterministic Problem]
+    \begin{description}
+    \item[Expectation Computations] 
+    \item[Function Generation] 
+    \end{description}
+  \end{description}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{RBC Known Solution Truncation Error }
+  \begin{description}
+  \item[Deterministic Solution] 
+  \item[Expectation Computation] 
+\item[Function Generation]
+  \end{description}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{RBC Unknown Solution Truncation Error }
+  \begin{description}
+  \item[Deterministic Solution] 
+  \item[Expectation Computation] 
+\item[Function Generation]
+  \end{description}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{RBC Occasionally Binding Constraints Truncation Error }
+  \begin{description}
+  \item[Deterministic Solution] 
+  \item[Expectation Computation] 
+\item[Function Generation]
+  \end{description}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{RBC Regime Switching Truncation Error }
+  \begin{description}
+  \item[Deterministic Solution] 
+  \item[Expectation Computation] 
+\item[Function Generation]
+  \end{description}
+
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{RBC Occasionally Binding Constraints and Regime Switching  Truncation Error }
+  \begin{description}
+  \item[Deterministic Solution] 
+  \item[Expectation Computation] 
+\item[Function Generation]
+  \end{description}
+
+\end{frame}
+
+
 
 
 
@@ -304,42 +756,87 @@ Model Equation Function&$\eqnFuncSig$\\
 
 \end{frame}
 
-\begin{frame}
-  \begin{gather}
-  g^k(x_{t-1},\epsilon_t)=
-  \begin{bmatrix}
-    x_{t-1}\\ x_t\\ \xtpguss
-  \end{bmatrix}\\
-x_t= \sum stuff,\,\,\,
-\xtpguss=G^{k-1}(\xguss) = \sum stuff(\xguss)
-  \end{gather}
-\end{frame}
 
 \begin{frame}
 \frametitle{Solvers}
+{\small
+\begin{itemize}
+\item genFRFunc  -- Mathematica FindRoot for equations alone
+\item genNSFunc  -- Mathematica NSolve for equations and inequalities
+\end{itemize}
+}
   \begin{gather}
-    \slvr : \solverSig
+\genSlvr:\{\numX,\numEps,\numZ\}\times \xzFunc\times \eqnFunc    \rightarrow\slvr \intertext{ where }
+\xzFunc(\xguss):\xzFuncGuessSig\\
+\eqnFunc:\eqnFuncSig\\
+    \slvr : \solverSig\\
+\slvr \left (
+\begin{bmatrix}
+  x_{t-1}\\\epsilon
+\end{bmatrix}
+;\xguss \right ) \rightarrow
+\begin{bmatrix}
+  x_t(\xguss)\\z_t(\xguss)
+\end{bmatrix}
   \end{gather}
 \end{frame}
 
+\begin{frame}
+  \frametitle{FixedPoint for $\xguss$}
+{\small
+\begin{gather*}
+\genXGFP:\genSlvr\times \linMod \times \{  \XZFunc, \numTerms\} \times \eqnFunc    \rightarrow\\ 
+\xgFP : \frfpnsFuncSig\\ \intertext{where}
+\XZFunc : \bigXFuncSig\\
+\eqnFunc: \eqnFuncSig \intertext{so that}
+\xgFP \left (
+  \begin{bmatrix}
+    x_{t-1}\\ \epsilon_t
+  \end{bmatrix}
+\right )\rightarrow
+\begin{bmatrix}
+  x_{t}\\z_{t}
+\end{bmatrix}
+\end{gather*}
+}
+\begin{itemize}
+\item $\xgFP$ is a function that for a given $\XZFunc^k$ provides $
+l  \begin{bmatrix}
+    x_{t}\\ z_t
+  \end{bmatrix}$ consistent with a $x_{t-1}, \epsilon_t$
+
+\end{itemize}
+
+\end{frame}
 
 \begin{frame}
 \frametitle{genLilXkZkFunc}
 \label{sec:genlilxkzkfunc}
 \begin{gather}
-g^k(x_{t-1},\epsilon_t):\lilXFuncSig\\
-G^k(x_{t-1})=\int g^k(x_{t-1},\epsilon_t):\lilXFuncSig\\
-G^k(x_{t-1}):\bigXFuncSig\\
-g^{k+1}(x_{t-1},\epsilon_t):\lilXFuncSig\\
-  \Gamma_1(\linMod,\{G^k,\numTerms\},\xguss)
+\xzFunc^k(x_{t-1},\epsilon_t):\xzFuncGuessSig\\
+\XZFunc^k(x_{t-1})=\expct{ \xzFunc^k(x_{t-1},\epsilon_t):\xzFuncGuessSig}\\
+\XZFunc^k(x_{t-1}):\bigXFuncSig\\
+\xzFunc^{k+1}(x_{t-1},\epsilon_t):\xzFuncGuessSig\\
+  \Gamma_1(\linMod,\{\XZFunc^k,\numTerms\},\xguss)
 \end{gather}
 {\small
 \begin{gather*}
 \linMod \times \{  \bigXFuncSig, k \} \times \Rn{(\numX+\numEps)} \rightarrow
-\lilXFuncSig
+\xzFuncGuessSig
 \end{gather*}
 }
 \end{frame}
+
+
+% \begin{frame}
+%   \begin{algorithm}{Improve Augmented Approximate Decision Rule н$\xzFunc(\xNow{})$}
+%     \begin{algorithmic}
+% x      
+%     \end{algorithmic}
+%   \end{algorithm}
+% \end{frame}
+
+
 
 \begin{frame}
 \frametitle{genFRFunc,genNSFunc}
@@ -357,14 +854,11 @@ a tentative $x_t$ use this as a new guess.
   \end{itemize}
 \end{frame}
 
-\begin{frame}
-  
-\end{frame}
 
 \begin{frame}
 \frametitle{genFRFunc,genNSFunc}
 \begin{gather*}
-\{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times (\eqnFuncSig)    \rightarrow\\
+\{\numX,\numEps,\numZ\}\times(\xzFuncGuessSig)\times (\eqnFuncSig)    \rightarrow\\
 \frfpnsFuncSig
 \end{gather*}
 \end{frame}
@@ -379,31 +873,36 @@ a tentative $x_t$ use this as a new guess.
 
 \end{frame}
 
+
 \begin{frame}
 \frametitle{genXZREInterpFunc}
 \label{sec:genfpfunc}
 \begin{gather*}
-\{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times \grdSpec \times  \dstSpec   \rightarrow\\
+\{\numX,\numEps,\numZ\}\times(\xzFuncGuessSig)\times \grdSpec \times  \dstSpec   \rightarrow\\
 \bigXFuncSig
 \end{gather*}
 
 
 
 \end{frame}
+
 \begin{frame}
 \frametitle{doIterREInterp}
 \label{sec:doiterreinterp}
 
 \begin{gather*}
   \linMod \times 
-w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+w\{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
  \times (\eqnFuncSig ) \times \grdSpec \times \dstSpec \rightarrow\\
-\{\frfpnsFuncSig, \{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+\{\frfpnsFuncSig, \{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
 \end{gather*}
 
 
 
 \end{frame}
+
+
+
 \begin{frame}
 \frametitle{nestIterREInterp}
 \label{sec:nestiterreinterp}
@@ -412,21 +911,23 @@ w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 
 \begin{gather*}
   \linMod \times 
-\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+\{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
  \times (\eqnFuncSig ) \times \grdSpec \times \dstSpec \times \numIters \rightarrow\\
-\{\frfpnsFuncSig, \{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+\{\frfpnsFuncSig, \{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
 \end{gather*}
 
 
 
 \end{frame}
+
+
 \begin{frame}
 \frametitle{genLilXkZkRegimeFuncs}
 \label{sec:genlilxkzkregimefunc}
 {\small
 \begin{gather*}
 \linMod \times \{(\{  \bigXFuncSig, k_i \})_{k_i=1},\ldots,(\{  \bigXFuncSig, k_i \})_{k_i=\numR}\} \times\\ \Rn{(\numX+\numEps)} \rightarrow\\
-\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}
+\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}
 \end{gather*}
 }
 
@@ -435,6 +936,8 @@ w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 
 
 \end{frame}
+
+
 \begin{frame}
 \frametitle{genFRRegimeFuncs, genNSRegimeFuncs}
 \label{sec:genfrregimefunc}
@@ -444,7 +947,7 @@ w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 {\small
 \begin{gather*}
 \{\numX,\numEps,\numZ\}\times\\
-\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
  \times (\eqnRegimeFuncSig )\rightarrow\\
 \frfpnsRegimeFuncSig
 \end{gather*}
@@ -458,6 +961,10 @@ w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 
 
 \end{frame}
+
+
+
+
 \begin{frame}
 \frametitle{genFPRegimeFuncs}
 \label{sec:genfpregimefunc}
@@ -468,7 +975,7 @@ w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 {\small
 \begin{gather*}
 \{\numX,\numEps,\numZ\}\times\\
-\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
  \times (\eqnRegimeFuncSig )\rightarrow\\
 \frfpnsRegimeFuncSig
 \end{gather*}
@@ -478,31 +985,35 @@ w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 
 
 \end{frame}
+
 \begin{frame}
 \frametitle{genXZREInterpRegimeFuncs}
 \label{sec:genfpfunc}
 \begin{gather*}
-\{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times \dstSpec \times  \expctSpec   \rightarrow\\
+\{\numX,\numEps,\numZ\}\times(\xzFuncGuessSig)\times \dstSpec \times  \expctSpec   \rightarrow\\
 \frfpnsFuncSig
 \end{gather*}
 
 
 
 \end{frame}
+
+
 \begin{frame}
 \frametitle{doIterREInterpRegime}
 \label{sec:doiterreinterp}
 
 \begin{gather*}
   \linMod \times 
-w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
  \times (\eqnRegimeFuncSig ) \times \grdSpec \times \dstSpec \rightarrow\\
-\{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+\{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
 \end{gather*}
 
 
 
 \end{frame}
+
 \begin{frame}
 \frametitle{nestIterREInterpRegime}
 \label{sec:nestiterreinterp}
@@ -511,13 +1022,14 @@ w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 
 \begin{gather*}
   \linMod \times 
-w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+\{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
  \times (\eqnRegimeFuncSig ) \times \grdSpec \times \dstSpec  \times \numIters \rightarrow\\
-\{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+\{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}\}
 \end{gather*}
 
 
 \end{frame}
+
 \begin{frame}
 \frametitle{Representing a Path}
 
@@ -526,6 +1038,7 @@ w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 \frametitle{Representing a Family of Paths}
 
 \end{frame}
+
 \begin{frame}
 \frametitle{Useful Properties of Series Solution}
 
@@ -538,6 +1051,9 @@ w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 
 
 \end{frame}
+
+
+
 \begin{frame}
 \frametitle{An RBC Model Example}
 \end{frame}
@@ -550,6 +1066,10 @@ w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 
 
 \end{frame}
+
+
+
+
 \begin{frame}
 \frametitle{UnKnown Solution: Conditional Expectations Path}
 \begin{itemize}
@@ -559,6 +1079,9 @@ w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 
 
 \end{frame}
+
+
+
 \begin{frame}
 \frametitle{Occassionally Binding Constraints}
 \begin{itemize}
@@ -568,6 +1091,8 @@ w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 
 
 \end{frame}
+
+
 \begin{frame}
 \frametitle{Regime Switching}
 \begin{itemize}
@@ -576,6 +1101,7 @@ w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 
 
 \end{frame}
+
 \begin{frame}
 \frametitle{Regime Switching with Occassionally Binding Constraints}
 \begin{itemize}
@@ -586,9 +1112,30 @@ w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 \begin{frame}
 \frametitle{Future Directions}
 \end{frame}
+
+
+
 \begin{frame}
   \frametitle{Future Directions}
   \begin{itemize}
+  \item Judd, Maliar, Maliar GSSA
+  \item representation points should vary by variable and whether expectations or not and then backward looking and other precomputed also more easily precomputed
+  \item orthogonal basis
+  \item Parameterized expectations algorithm
+  \item almost arbitrary must have non zero leads in equations corresponding to model equation with leads -- nonzero columns for F.
+  \item Using Parallelization to Solve a Macroeconomic Model: A Parallel Parameterized Expectations Algorithm
+Michael Creel
+  \item frbus implications/.,mbnvnvbm,.n/.''.jj'.'j;'jjjjj'j;.'''
+  \item bound other people's solutions, compare to bound Euler errors
+  \item show can determin number series terms then accracy depends on number of nodes
+  \item should normalize h since just scaling up moves bounds around
+  \item can precompute z's for exogenous backward looking quantities
+  \item evaluation points for XZ and xz need not be the same
+  \item model solutions with closed form values produce right series stable difference equations?
+  \item add points for interpolation outside range
+  \item filter fixedpoint and findroot failures
+  \item add list of solvers to ``try'' if there are falures
+  \item record performance of solvers using sow reap (functional?)
   \item Heterogeneous Agents Problems
   \item Convergence Properties
     \begin{itemize}
@@ -598,6 +1145,8 @@ w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 \item algorithmic details
   \begin{itemize}
  \item Smolyak nodes
+ \item Judd Ergodic region
+ \item F small eigenvalues
  \item Projection Methods
  \item Perturbation Methods for initial guess
   \end{itemize}
@@ -612,6 +1161,7 @@ w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 
 \end{frame}
 
+\appendix
 
 
 \end{document}

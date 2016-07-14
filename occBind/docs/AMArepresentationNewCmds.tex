@@ -1,5 +1,5 @@
-\usepackage{pseudocode}
-\usepackage{dirtree}
+%\usepackage{pseudocode}
+%\usepackage{dirtree}
 % \usepackage[utf8]{inputenc}
 % \usepackage{listings,xcolor}
 
@@ -7,6 +7,17 @@
 % \usepackage{ulem}
 
 
+\usepackage{tikz-cd}
+\usepackage{amsmath}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+
+\usepackage{algorithm2e}
+%\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\algrenewcommand\algorithmicwhile{\textbf{until}}
+\SetKwInOut{Input}{input}
+\SetKwInOut{Output}{output}
 
 
 
@@ -16,43 +27,103 @@
 \usepackage{moreverb}
 \usepackage{hyperref}
 \newcommand\infNorm[1]{\left\lVert#1\right\rVert_\infty}
+\newcommand\twoNorm[1]{\left\lVert#1\right\rVert_2}
+\newcommand\someNorm[1]{\left\lVert#1\right\rVert_\cdot}
 
 \usepackage{mathtools}
 \mathtoolsset{showonlyrefs}
 \usepackage{datetime}
 \usepackage{amsfonts}
 
+\newcommand{\xgusst}[1]{x^{guess}_{#1}}
+\newcommand{\xnxt}[1]{x^{next}_{#1}}
+\newcommand{\znxt}[1]{z^{next}_{#1}}
+\newcommand{\xlst}[1]{x^{last}_{#1}}
+\newcommand{\zlst}[1]{z^{last}_{#1}}
+\newcommand{\zgusst}[1]{z^{guess}_{#1}}
 \newcommand{\xguss}{x^{tguess}}
 \newcommand{\xtpguss}{x^{tp1guess}}
 
 
-
+\newcommand{\posInt}{{\mathcal{N}^+}}
 \newcommand{\Rn}[1]{{\mathcal{R}^{#1}}}
 \newcommand{\numX}{{N_x}}
 \newcommand{\numZ}{{N_z}}
 \newcommand{\numEps}{{N_\epsilon}}
 \newcommand{\numR}{{N_r}}
 \newcommand{\numIters}{{K}}
-\newcommand{\numTerms}{{M}}
+\newcommand{\numTerms}{{N_{terms}}}
+\newcommand{\numPts}{{N_{points}}}
+\newcommand{\thePoints}{{\{(x_{t-1},\epsilon_t)^{1} \ldots (x_{t-1},\epsilon_t)^{\numPts}\}}}
+\newcommand{\thePts}{{\mathcal{P}}}
+\newcommand{\ADRCE}{{\bf ADRCEF}}
+\newcommand{\ADR}{{\bf ADRF}}
+
+\newcommand{\xtmEpsArg}{{x_{t-1},\epsilon_t}} 
+\newcommand{\xtArg}{{x_{t} }}
 
 
+\newcommand{\sumLinPart}{{
+B x_{t-1}+ \phi \psi_\epsilon\epsilon + (I - F)^{-1} \phi \psi_c 
+}}
+\newcommand{\sumZPart}{{
+ \sum_{\sForSum=0}^\infty F^s \phi z_{t+\sForSum}(x_{t-1},\epsilon) 
+}}
+\newcommand{\sumZPartZero}{{
+ \phi z_{t}(x_{t-1},\epsilon) 
+}}
+\newcommand{\sumZPartPos}{{
+ \sum_{\sForSum=1}^\infty F^s \phi Z_{t+\sForSum}(x_{t-1},\epsilon) 
+}}
+
+\newcommand{\EsumLinPart}{{
+	 B x_{t-1}+ (I - F)^{-1} \phi \psi_c 
+}}
+\newcommand{\EsumZPartZero}{{
+	  \sum_{\sForSum=0}^\infty F^s \phi Z^{PF}_{t+\sForSum}(x_{t-1},0) 
+}}
+\newcommand{\EsumZPartEpsilon}{{
+	  \sum_{\sForSum=0}^\infty F^s \phi \expct{z_{t+\sForSum}(x_{t-1},\epsilon)}
+}}
+\newcommand{\EsumCapZPart}[1]{{
+	  \sum_{\sForSum=0}^\infty F^s \phi {Z^{#1}_{t+\sForSum}(x_{t-1})}
+}}
+\newcommand{\uncnxpt}[2]{{\mathcal{E}\left [ \left . #1 \right | #2  \right ]}}
+\newcommand{\expct}[1]{{\mathcal{E}\left [ #1 \right ]}}
+
+\newcommand{\xzFuncGuess}{{\mathbb{g}}}
+\newcommand{\xzFuncGuessSig}{{(\Rn{\numX})\rightarrow
+(\Rn{({\numX+\numZ})})}}
+
+
+\newcommand{\xzFunc}{{{\gamma}}}
+\newcommand{\xzFuncSig}{{(\Rn{\numX+\numEps})\rightarrow
+(\Rn{({\numX+\numZ})})}}
+
+\newcommand{\XZFunc}{{\mathbb{G}}}
+\newcommand{\bigXFuncSig}{{(\Rn{\numX})\rightarrow
+(\Rn{({\numX+\numZ})})}}
+
+
+\newcommand{\genXGFP}{{\mathcal{U}}}
+\newcommand{\xgFP}{{\mathcal{V}}}
+\newcommand{\genSlvr}{{\mathcal{T}}}
 \newcommand{\slvr}{{\mathcal{S}}}
 \newcommand{\solverSig}{{
-\frfpnsRegimeFuncHelp{1})
+\frfpnsRegimeFuncHelp
 }}
-\newcommand{\bigXFuncSig}{{(\Rn{\numX}\times 1)\rightarrow
-(\Rn{({\numX+\numZ})}\times 1)}}
-\newcommand{\lilXFuncSig}{{(\Rn{\numX+\numEps+\numZ}\times 1)\rightarrow
-(\Rn{({3\numX+\numEps+\numZ})}\times 1)}}
+
+\newcommand{\eqnFunc}{\mathbb{M}}
+\newcommand{\eqnErrs}{{{m}_e}}
 \newcommand{\eqnFuncSig}{{\Rn{3\numX+\numEps+\numZ}\rightarrow\Rn{\numX}}}
+
+
 \newcommand{\frfpnsFuncSig}{{\Rn{\numX+\numEps}\rightarrow\Rn{\numX+\numZ}}}
 
-
-
-\newcommand{\bigXRegimeFuncSig}{{(\Rn{\numX+1}\times 1)\rightarrow
-(\Rn{({\numX+\numZ})}\times 1)}}
-\newcommand{\lilXRegimeFuncSig}{{(\Rn{\numX+1+\numEps+\numZ}\times 1)\rightarrow
-(\Rn{({3(\numX+1)+\numEps+\numZ})}\times 1)}}
+\newcommand{\bigXRegimeFuncSig}{{(\Rn{\numX+1})\rightarrow
+(\Rn{({\numX+\numZ})})}}
+\newcommand{\lilXRegimeFuncSig}{{(\Rn{\numX+1+\numEps+\numZ})\rightarrow
+(\Rn{({3(\numX+1)+\numEps+\numZ})})}}
 \newcommand{\eqnRegimeFuncSig}{{
 \{\Rn{3(\numX+1)+\numEps+\numZ}\rightarrow\Rn{\numX},
 \ldots,
@@ -86,3 +157,9 @@
 
 
 \newcommand{\rcpC}{{\mathbf{N}}}
+
+
+\newcommand{\gssaKtp}{{\left \{  
+\beta \frac{u^\prime(c_{\tau+1})}{u^\prime(c_{\tau})} 
+[1- \delta + a_{t+1}f^\prime(k_{\tau+1})]
+\right \} -1}}
