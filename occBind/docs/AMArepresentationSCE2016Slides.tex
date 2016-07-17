@@ -116,10 +116,8 @@ Then,
 
 Error two components
 
-\begin{description}
-\item [Truncation Error]
-
-
+\begin{itemize}
+\item Truncation Error
 
  	 \begin{gather}
  	 \xWargK \equiv B x_{t-1}+ \phi \psi_\epsilon\epsilon + \sum_{s=0}^k F^s \phi z_{t}(x_{t-1},\epsilon) + (I - F)^{-1} \phi \psi_c \label{theTruncSeries}
@@ -133,10 +131,10 @@ Since
 \infNorm{\xWarg-\xWargK} \le\\ \infNorm{(I -F)^{-1} F^{k+1}\phi \psi_z} \left ( \infNorm{H_{-1} }+ \infNorm{H_{0} }+ \infNorm{H_{1} } \right )\bar{\mathcal{X}}
     \end{gather}
 
-\item[Discretization Error] \ 
+\item Discretization Error
 
 
-\end{description}
+\end{itemize}
 
 }
 \end{frame}
@@ -501,12 +499,107 @@ $F\equiv \begin{bmatrix}  \eqnErrs \end{bmatrix}\in
 {\small 
 
 
+   \begin{tikzcd}
+\begin{bmatrix}\epsilon_t\end{bmatrix}&    
+\begin{bmatrix}x_{t-1}\end{bmatrix}&
+\begin{bmatrix}x_{t}\end{bmatrix}&
+\begin{bmatrix}\expct{x_{t+1}}\end{bmatrix}\\
+\begin{bmatrix}  z_t\end{bmatrix}
+& 
+\mathcal{I}_t 
+\arrow [ u, "\proj{x_{t-1}}"right ,near start ]   
+\arrow [ lu,"\proj{\epsilon_t}" above] 
+\arrow[r,"\xzFuncGuess(\xgusst{t})"{name=U,below}]
+\arrow [ l,"\proj{z_t}" ] 
+%\arrow [rr "huh" ]
+& 
+\eqnArg 
+\arrow[ lu,"\proj{x_{t-1}}" above ]
+\arrow[ u,"\proj{x_{t}}"]
+\arrow[ ru,"\proj{\expct{x_{t+1}}}", near end ]
+\arrow[ llu,"\proj{\epsilon_t}" above, near end]
+\arrow[ r,"\eqnFunc"]&\eqnOut(\xgusst{t})
+\\
+&\mathbf{xz_{in}} 
+\arrow[ "gen_{\xzFuncGuess}", to=U] 
+\arrow[ld,"\proj{\linMod}"]
+\arrow[d,"\proj{\XZFunc}"]
+\arrow[rd,"\proj{\xgusst{t}}"]
+\\
+\linMod&\XZFunc&\begin{bmatrix}\xgusst{t}\end{bmatrix}\\
+   \end{tikzcd}
+
+}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{do generic Solver algorithm}
+{\small 
+
+   \begin{tikzcd}
+\begin{bmatrix}\epsilon_t\end{bmatrix}&\slvrIn
+\arrow[l,"\proj{\epsilon_t}"]
+\arrow[ld,"\proj{x_{t-1}}"]
+\arrow[r,"\slvr"]
+&\slvrOut
+\arrow[r,"\proj{x_{t}}"]
+\arrow[rd,"\proj{z_{t}}"]
+&\begin{bmatrix}x_t\end{bmatrix}
+\\
+\begin{bmatrix}x_{t-1}\end{bmatrix}
+&&&\begin{bmatrix}z_t\end{bmatrix}
+\\
+&\slvr \\
+&\genSlvrIn 
+\arrow[u,"\genSlvr"]
+\arrow[ld,"\proj{\mathbf{dims}}"]
+\arrow[d,"\proj{\xzFuncGuess}"]
+\arrow[rd,"\proj{\eqnFunc}"]
+\\
+\mathbf{dims}=\begin{bmatrix}  \numX\\ \numEps\\ \numZ\end{bmatrix} &\xzFuncGuess&\eqnFunc
+   \end{tikzcd}
+
+}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{do generic Fixed Point algorithm}
+{\small 
+
+   \begin{tikzcd}
+&\fpf \\
+&\genFpfIn 
+\arrow[u,"\genFpf"]
+\arrow[ld,"\proj{\slvr}"]
+\arrow[d,"\proj{\linMod}"]
+\arrow[rd,"\proj{\XZFunc}"]
+\arrow[rrd,"\proj{\eqnFunc}"]
+\\
+\slvr &\linMod&\XZFunc&\eqnFunc
+   \end{tikzcd}
+
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{do generic algorithm not}
+{\small 
+
+
 
    \begin{tikzcd}
      \linMod \\
-     \XZFunc & \arrow [ lu,"\pi_{\linMod}" above ] 
-alg1Args \arrow [ l, "\pi_{\XZFunc}" above ]   
-\arrow [ ld,"\pi_{\posInt}" ]\\
+     \XZFunc & \arrow [ lu,"\proj{\linMod}" above ] 
+alg1Args \arrow [ l, "\proj{\XZFunc}" above ]   
+\arrow [ ld,"\proj{\posInt}" ]\\
      \posInt  
    \end{tikzcd}
  \begin{tikzcd}
@@ -1118,6 +1211,8 @@ w\{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
 \begin{frame}
   \frametitle{Future Directions}
   \begin{itemize}
+  \item combine mod dimensions and model equation into same object
+  \item provides a distance function or norm can use in contraction proof
   \item Judd, Maliar, Maliar GSSA
   \item representation points should vary by variable and whether expectations or not and then backward looking and other precomputed also more easily precomputed
   \item orthogonal basis
