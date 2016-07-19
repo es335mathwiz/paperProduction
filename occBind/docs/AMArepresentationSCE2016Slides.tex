@@ -510,7 +510,7 @@ $F\equiv \begin{bmatrix}  \eqnErrs \end{bmatrix}\in
 \begin{bmatrix}\expct{x_{t+1}}(\xgusst{})\end{bmatrix}\\
 \begin{bmatrix}  z_t\end{bmatrix}
 & 
-\mathcal{I}_t 
+\iSet 
 \arrow [ u, "\proj{x_{t-1}}"right ,near end ]   
 \arrow [ lu,"\proj{\epsilon_t}" above] 
 \arrow[r,"\xzFuncGuess(\xgusst{})"{name=U,below}]
@@ -544,41 +544,37 @@ $F\equiv \begin{bmatrix}  \eqnErrs \end{bmatrix}\in
 {\small 
 
    \begin{tikzcd}
-&&
-&
-\begin{bmatrix}\expct{x_{t+1}}\end{bmatrix}\\
-& 
-\mathcal{I}_t 
-\arrow [ ldd, "\proj{x_{t-1}}"right ,near end ]   
+\begin{bmatrix}x_{t-1}\end{bmatrix}& 
+\iSet
+\arrow [ l, "\proj{x_{t-1}}"right ,near end ]   
 \arrow [ ld,"\proj{\epsilon_t}" above] 
+\arrow[rdd,"\slvr"{name=bip,below}]
+& \xzFuncGuessIn
+\arrow[l,"\proj{\iSet}"{name=U,below}]
+\arrow [ d,"\proj{z_t(\xguss)}" ,near end ] 
 \arrow[r,"\xzFuncGuess(\xgusst{})"{name=U,below}]
-\arrow [ rrdd,"\proj{z_t}", bend left=30 ] 
-& 
+&
 \eqnArg 
-\arrow[ lldd,"\proj{x_{t-1}}" above ]
-\arrow[ rd,"\proj{x_{t}}"]
-\arrow[ ru,"\proj{\expct{x_{t+1}}}", near end,crossing over ]
-\arrow[ lld,"\proj{\epsilon_t}" above, near end]
-\arrow[ r,"\eqnFunc"]&\mathbf{0}
+%\arrow[ rd,"\proj{x_{t}}"]
+%\arrow[ lu,"\proj{\expct{x_{t+1}}}", near end,crossing over ]
+\arrow[ d,"\eqnFunc"]
 \\
-\begin{bmatrix}\epsilon_t\end{bmatrix}&\slvrIn
-\arrow[l,"\proj{\epsilon_t}"]
-\arrow[ld,"\proj{x_{t-1}}"]
-\arrow[r,"\slvr"{name=bip,below}]
-&\slvrOut
-\arrow[r,"\proj{x_{t}(\xguss{})}"]
-\arrow[rd,"\proj{z_{t}(\xguss{})}",below]
-&\begin{bmatrix}x_t(\xguss{})\end{bmatrix}
+\begin{bmatrix}\epsilon_t\end{bmatrix}&
+&\begin{bmatrix}z_t(\xguss{})\end{bmatrix}
+&\mathbf{0}
 \\
-\begin{bmatrix}x_{t-1}\end{bmatrix}
 &
 \genSlvrIn 
 \arrow[u,"\genSlvr",to=bip]
 \arrow[ld,"\proj{\mathbf{dims}}"]
-\arrow[d,"\proj{\xzFuncGuess(\xguss{})}"]
-\arrow[rd,"\proj{\eqnFunc}"]&&\begin{bmatrix}z_t(\xguss{})\end{bmatrix}
+\arrow[rd,"\proj{\xzFuncGuess(\xguss{})}"]
+\arrow[d,"\proj{\eqnFunc}"]&
+\slvrOut
+\arrow[r,"\proj{x_{t}(\xguss{})}"]
+\arrow[u,"\proj{z_{t}(\xguss{})}" right]
+&\begin{bmatrix}x_t(\xguss{})\end{bmatrix}
 \\
-\mathbf{dims}=\begin{bmatrix}  \numX\\ \numEps\\ \numZ\end{bmatrix} &\xzFuncGuess(\xguss{})&\eqnFunc
+\mathbf{dims}=\begin{bmatrix}  \numX\\ \numEps\\ \numZ\end{bmatrix} &\eqnFunc&\xzFuncGuess(\xguss{})&\xguss{}
    \end{tikzcd}
 
 }
@@ -1215,6 +1211,8 @@ w\{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
 \begin{frame}
   \frametitle{Future Directions}
   \begin{itemize}
+  \item $(\XZFunc,\numTerms)$
+  \item $(\eqnFunc,\{\numX,\numEps,\numZ)$
   \item combine mod dimensions and model equation into same object
   \item provides a distance function or norm can use in contraction proof
   \item Judd, Maliar, Maliar GSSA
