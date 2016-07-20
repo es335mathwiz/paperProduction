@@ -285,6 +285,16 @@ h_{31}^{det}(\cdot)=0
 \end{frame}
 
 \begin{frame}
+  \frametitle{Norms}
+
+for all $a in F$  and all $u, v \in V$
+  \begin{itemize}
+  \item $\someNorm{a v} = |a| \someNorm{v}$
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
   \frametitle{Some definitions}
 
 {\small
@@ -506,14 +516,14 @@ $F\equiv \begin{bmatrix}  \eqnErrs \end{bmatrix}\in
    \begin{tikzcd}
 \begin{bmatrix}\epsilon_t\end{bmatrix}&    
 \begin{bmatrix}x_{t-1}\end{bmatrix}&
-\begin{bmatrix}x_{t}(\xgusst{})\end{bmatrix}&
-\begin{bmatrix}\expct{x_{t+1}}(\xgusst{})\end{bmatrix}\\
+\begin{bmatrix}x_{t}\end{bmatrix}&
+\begin{bmatrix}\expct{x_{t+1}}\end{bmatrix}\\
 \begin{bmatrix}  z_t\end{bmatrix}
 & 
 \iSet 
 \arrow [ u, "\proj{x_{t-1}}"right ,near end ]   
 \arrow [ lu,"\proj{\epsilon_t}" above] 
-\arrow[r,"\xzFuncGuess(\xgusst{})"{name=U,below}]
+\arrow[r,"\xzFuncGuess"{name=U,below}]
 \arrow [ l,"\proj{z_t}" ] 
 & 
 \eqnArg 
@@ -521,7 +531,7 @@ $F\equiv \begin{bmatrix}  \eqnErrs \end{bmatrix}\in
 \arrow[ u,"\proj{x_{t}}"]
 \arrow[ ru,"\proj{\expct{x_{t+1}}}", near end,crossing over ]
 \arrow[ llu,"\proj{\epsilon_t}" above, near end]
-\arrow[ r,"\eqnFunc"]&\eqnOut(\xgusst{})
+\arrow[ r,"\eqnFunc"]&\eqnOut
 \\
 \\
 &&\mathbf{xz_{in}} 
@@ -551,30 +561,37 @@ $F\equiv \begin{bmatrix}  \eqnErrs \end{bmatrix}\in
 \arrow[rdd,"\slvr"{name=bip,below}]
 & \xzFuncGuessIn
 \arrow[l,"\proj{\iSet}"{name=U,below}]
-\arrow [ d,"\proj{z_t(\xguss)}" ,near end ] 
-\arrow[r,"\xzFuncGuess(\xgusst{})"{name=U,below}]
+\arrow [ d,"\proj{z_t}" ,near end ] 
+\arrow[r,"\xzFuncGuess"{name=rip,below}]
 &
 \eqnArg 
 %\arrow[ rd,"\proj{x_{t}}"]
 %\arrow[ lu,"\proj{\expct{x_{t+1}}}", near end,crossing over ]
-\arrow[ d,"\eqnFunc"]
-\\
-\begin{bmatrix}\epsilon_t\end{bmatrix}&
-&\begin{bmatrix}z_t(\xguss{})\end{bmatrix}
+\arrow[ r,"\eqnFunc"]
 &\mathbf{0}
 \\
+\begin{bmatrix}\epsilon_t\end{bmatrix}
 &
 \genSlvrIn 
-\arrow[u,"\genSlvr",to=bip]
-\arrow[ld,"\proj{\mathbf{dims}}"]
-\arrow[rd,"\proj{\xzFuncGuess(\xguss{})}"]
-\arrow[d,"\proj{\eqnFunc}"]&
-\slvrOut
-\arrow[r,"\proj{x_{t}(\xguss{})}"]
-\arrow[u,"\proj{z_{t}(\xguss{})}" right]
-&\begin{bmatrix}x_t(\xguss{})\end{bmatrix}
+\arrow["\genSlvr",to=bip, near start]
+\arrow[d,"\proj{\xzFuncGuess}"]
+\arrow[ld,"\proj{\eqnFunc}"]
+&\begin{bmatrix}z_t\end{bmatrix}
 \\
-\mathbf{dims}=\begin{bmatrix}  \numX\\ \numEps\\ \numZ\end{bmatrix} &\eqnFunc&\xzFuncGuess(\xguss{})&\xguss{}
+\eqnFunc&\xzFuncGuess&
+\slvrOut
+\arrow[d,"\proj{x_{t}}"]
+\arrow[u,"\proj{z_{t}}" right]
+\\
+&\genxzFuncGuessIn 
+\arrow[ "gen_{\xzFuncGuess}", to=rip] 
+\arrow[u,"gen_{\xzFuncGuess}"] 
+\arrow[ld,"\proj{\linMod}"]
+\arrow[d,"\proj{\XZFunc}"]
+\arrow[r,"\proj{x_t}"]
+&\begin{bmatrix}x_t\end{bmatrix}
+\\
+\linMod&\XZFunc\\
    \end{tikzcd}
 
 }
@@ -860,7 +877,7 @@ Model Equation Function&$\eqnFuncSig$\\
 }
   \begin{gather}
 \genSlvr:\{\numX,\numEps,\numZ\}\times \xzFunc\times \eqnFunc    \rightarrow\slvr \intertext{ where }
-\xzFunc(\xguss):\xzFuncGuessSig\\
+\xzFunc:\xzFuncGuessSig\\
 \eqnFunc:\eqnFuncSig\\
     \slvr : \solverSig\\
 \slvr \left (
@@ -869,7 +886,7 @@ Model Equation Function&$\eqnFuncSig$\\
 \end{bmatrix}
 ;\xguss \right ) \rightarrow
 \begin{bmatrix}
-  x_t(\xguss)\\z_t(\xguss)
+  x_t\\z_t
 \end{bmatrix}
   \end{gather}
 \end{frame}
