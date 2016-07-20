@@ -116,10 +116,8 @@ Then,
 
 Error two components
 
-\begin{description}
-\item [Truncation Error]
-
-
+\begin{itemize}
+\item Truncation Error
 
  	 \begin{gather}
  	 \xWargK \equiv B x_{t-1}+ \phi \psi_\epsilon\epsilon + \sum_{s=0}^k F^s \phi z_{t}(x_{t-1},\epsilon) + (I - F)^{-1} \phi \psi_c \label{theTruncSeries}
@@ -133,10 +131,10 @@ Since
 \infNorm{\xWarg-\xWargK} \le\\ \infNorm{(I -F)^{-1} F^{k+1}\phi \psi_z} \left ( \infNorm{H_{-1} }+ \infNorm{H_{0} }+ \infNorm{H_{1} } \right )\bar{\mathcal{X}}
     \end{gather}
 
-\item[Discretization Error] \ 
+\item Discretization Error
 
 
-\end{description}
+\end{itemize}
 
 }
 \end{frame}
@@ -287,6 +285,16 @@ h_{31}^{det}(\cdot)=0
 \end{frame}
 
 \begin{frame}
+  \frametitle{Norms}
+
+for all $a in F$  and all $u, v \in V$
+  \begin{itemize}
+  \item $\someNorm{a v} = |a| \someNorm{v}$
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
   \frametitle{Some definitions}
 
 {\small
@@ -368,6 +376,10 @@ x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)  \label{seriesForm}\\
 
 \end{frame}
 
+\begin{frame}
+  \frametitle{Assess \ADR\  accuracy}
+\end{frame}
+
 
 \begin{frame}[fragile]
 
@@ -382,9 +394,9 @@ x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)  \label{seriesForm}\\
 \Input{$\linMod, \XZFunc^k, \numTerms, \thePts,\eqnFunc$}
 %\For{(\xtmEpsArg) \in \thePts }{ xx}
 \For{$(\xtmEpsArg) \in \thePts$}{
-initialize $\xgusst{t}= \XZFunc^k(x_{t-1})$\;
+initialize $\xgusst{}= \XZFunc^k(x_{t-1})$\;
 \Repeat{$\xlst{t} = \xnxt{t}$}
-{$\xlst{t}=\xgusst{t}$\\
+{$\xlst{t}=\xgusst{}$\\
 use $\XZFunc^{k}$ to recursively compute 
 $\left \{
 \begin{bmatrix}
@@ -396,9 +408,9 @@ $\left \{
 \end{bmatrix}
 \right \}$\;
 use \refeq{seriesForm} to symbolically 
-compute $\xzFuncGuess(\xtArg;\xgusst{t})$\;
-solve $\eqnFunc(\xzFuncGuess(\xtArg;\xgusst{t}))$ to determine $\xnxt{t}, \znxt{t}$\;
-$\xgusst{t}=\xnxt{t}$\;
+compute $\xzFuncGuess(\xtArg;\xgusst{})$\;
+solve $\eqnFunc(\xzFuncGuess(\xtArg;\xgusst{}))$ to determine $\xnxt{t}, \znxt{t}$\;
+$\xgusst{}=\xnxt{t}$\;
 }
 }
 $\xzFunc^{k+1}(\xtmEpsArg)\,\,  \forall \, (\xtmEpsArg)\in \thePts \Rightarrow \XZFunc^{k+1} $\;
@@ -501,21 +513,119 @@ $F\equiv \begin{bmatrix}  \eqnErrs \end{bmatrix}\in
 {\small 
 
 
+   \begin{tikzcd}
+\begin{bmatrix}\epsilon_t\end{bmatrix}&    
+\begin{bmatrix}x_{t-1}\end{bmatrix}&
+\begin{bmatrix}x_{t}\end{bmatrix}&
+\begin{bmatrix}\expct{x_{t+1}}\end{bmatrix}\\
+\begin{bmatrix}  z_t\end{bmatrix}
+& 
+\iSet 
+\arrow [ u, "\proj{x_{t-1}}"right ,near end ]   
+\arrow [ lu,"\proj{\epsilon_t}" above] 
+\arrow[r,"\xzFuncGuess"{name=U,below}]
+\arrow [ l,"\proj{z_t}" ] 
+& 
+\eqnArg 
+\arrow[ lu,"\proj{x_{t-1}}" above ]
+\arrow[ u,"\proj{x_{t}}"]
+\arrow[ ru,"\proj{\expct{x_{t+1}}}", near end,crossing over ]
+\arrow[ llu,"\proj{\epsilon_t}" above, near end]
+\arrow[ r,"\eqnFunc"]&\eqnOut
+\\
+\\
+&&\mathbf{xz_{in}} 
+\arrow[ "gen_{\xzFuncGuess}", to=U] 
+\arrow[ld,"\proj{\linMod}"]
+\arrow[d,"\proj{\XZFunc}"]
+\arrow[rd,"\proj{\xgusst{}}"]
+\\
+&\linMod&\XZFunc&\begin{bmatrix}\xgusst{}\end{bmatrix}\\
+   \end{tikzcd}
+
+}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{do generic Solver algorithm}
+{\small 
 
    \begin{tikzcd}
-     \linMod \\
-     \XZFunc & \arrow [ lu,"\pi_{\linMod}" above ] 
-alg1Args \arrow [ l, "\pi_{\XZFunc}" above ]   
-\arrow [ ld,"\pi_{\posInt}" ]\\
-     \posInt  
+\begin{bmatrix}x_{t-1}\end{bmatrix}& 
+\iSet
+\arrow [ l, "\proj{x_{t-1}}"right ,near end ]   
+\arrow [ ld,"\proj{\epsilon_t}" above] 
+\arrow[rdd,"\slvr"{name=bip,below}]
+& \xzFuncGuessIn
+\arrow[l,"\proj{\iSet}"{name=U,below}]
+\arrow [ d,"\proj{z_t}" ,near end ] 
+\arrow[r,"\xzFuncGuess"{name=rip,below}]
+&
+\eqnArg 
+%\arrow[ rd,"\proj{x_{t}}"]
+%\arrow[ lu,"\proj{\expct{x_{t+1}}}", near end,crossing over ]
+\arrow[ r,"\eqnFunc"]
+&\mathbf{0}
+\\
+\begin{bmatrix}\epsilon_t\end{bmatrix}
+&
+\genSlvrIn 
+\arrow["\genSlvr",to=bip, near start]
+\arrow[d,"\proj{\xzFuncGuess}"]
+\arrow[ld,"\proj{\eqnFunc}"]
+&\begin{bmatrix}z_t\end{bmatrix}
+\\
+\eqnFunc&\xzFuncGuess&
+\slvrOut
+\arrow[d,"\proj{x_{t}}"]
+\arrow[u,"\proj{z_{t}}" right]
+\\
+&\genxzFuncGuessIn 
+\arrow[ "gen_{\xzFuncGuess}", to=rip] 
+\arrow[u,"gen_{\xzFuncGuess}"] 
+\arrow[ld,"\proj{\linMod}"]
+\arrow[d,"\proj{\XZFunc}"]
+\arrow[r,"\proj{x_t}"]
+&\begin{bmatrix}x_t\end{bmatrix}
+\\
+\linMod&\XZFunc\\
    \end{tikzcd}
- \begin{tikzcd}
-     C \arrow [ r,"\XZFunc"] \arrow [ rd,"\xzFuncGuess"] & D \\
-     & B 
+
+}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{do generic Fixed Point algorithm}
+{\small 
+
+   \begin{tikzcd}
+\begin{bmatrix}\epsilon_t\end{bmatrix}&\fpfIn
+\arrow[l,"\proj{\epsilon_t}"]
+\arrow[ld,"\proj{x_{t-1}}"]
+\arrow[r,"\fpf"{name=hip,below}]
+&\fpfOut
+\arrow[r,"\proj{x_{t}}"]
+\arrow[rd,"\proj{z_{t}}"]
+&\begin{bmatrix}x_t\end{bmatrix}
+\\
+\begin{bmatrix}x_{t-1}\end{bmatrix}
+&&&\begin{bmatrix}z_t\end{bmatrix}
+\\
+&\genFpfIn 
+\arrow["\genFpf",to=hip]
+\arrow[ld,"\proj{\genSlvr}"]
+\arrow[d,"\proj{\linMod}"]
+\arrow[rd,"\proj{\XZFunc}"]
+\arrow[rrd,"\proj{\eqnFunc}"]
+\\
+\genSlvr &\linMod&\XZFunc&\eqnFunc
    \end{tikzcd}
-\begin{tikzcd}
-    E \arrow [ r,"\eqnFunc"]&F 
-  \end{tikzcd}
 
 }
 
@@ -767,7 +877,7 @@ Model Equation Function&$\eqnFuncSig$\\
 }
   \begin{gather}
 \genSlvr:\{\numX,\numEps,\numZ\}\times \xzFunc\times \eqnFunc    \rightarrow\slvr \intertext{ where }
-\xzFunc(\xguss):\xzFuncGuessSig\\
+\xzFunc:\xzFuncGuessSig\\
 \eqnFunc:\eqnFuncSig\\
     \slvr : \solverSig\\
 \slvr \left (
@@ -776,7 +886,7 @@ Model Equation Function&$\eqnFuncSig$\\
 \end{bmatrix}
 ;\xguss \right ) \rightarrow
 \begin{bmatrix}
-  x_t(\xguss)\\z_t(\xguss)
+  x_t\\z_t
 \end{bmatrix}
   \end{gather}
 \end{frame}
@@ -1118,6 +1228,10 @@ w\{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
 \begin{frame}
   \frametitle{Future Directions}
   \begin{itemize}
+  \item $(\XZFunc,\numTerms)$
+  \item $(\eqnFunc,\{\numX,\numEps,\numZ)$
+  \item combine mod dimensions and model equation into same object
+  \item provides a distance function or norm can use in contraction proof
   \item Judd, Maliar, Maliar GSSA
   \item representation points should vary by variable and whether expectations or not and then backward looking and other precomputed also more easily precomputed
   \item orthogonal basis
