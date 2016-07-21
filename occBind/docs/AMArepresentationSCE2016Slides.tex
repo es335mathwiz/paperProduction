@@ -26,7 +26,7 @@
  \item Easy to compute representation for 
 families of trajectories
 \item Only requires that the trajectories are bounded
-\item Originally motivated by solving models occassionally binding constraints
+\item Originally motivated by solving models occasionally binding constraints
 \item Series representation seems much more general flexible than I originally imagined
 \end{itemize}
 \end{frame}
@@ -40,7 +40,7 @@ families of trajectories
      \item solving a potentially difficult deterministic problem given a guess for conditional expectations
      \item updating the conditional expectations
    \end{itemize}
-     \item occassionally binding constraints
+     \item occasionally binding constraints
      \item regime switching
 \end{itemize}
 
@@ -126,7 +126,7 @@ Error two components
 \item[Discretization Error] 
   \begin{itemize}
 \item From approximating $z_t$
-\item High cost to control depending on dimension of state spacep
+\item High cost to control depending on dimension of state space
   \end{itemize}
 
 \end{description}
@@ -271,7 +271,7 @@ c_{t+s}(k_{t-1},\theta_t,\epsilon_t)\\k_{t+s}(k_{t-1},\theta_t,\epsilon_t)    \\
     
 \begin{itemize}
 \item Choose an Almost  Arbitrary Linear Reference Model
-\item Compute Trucnation Error
+\item Compute Truncation Error
 \item Construct Augmented Decision Rule Function
 \item Compute Discretization Error
 \end{itemize}
@@ -296,7 +296,7 @@ c_{t+s}(k_{t-1},\theta_t,\epsilon_t)\\k_{t+s}(k_{t-1},\theta_t,\epsilon_t)    \\
 \begin{itemize}
 \item models where expectations are computed at time t, $\epsilon_t$  known
 \item this specification allows use of auxiliary variables for 
-accurately computing expected values of nonlinear quatities.
+accurately computing expected values of nonlinear quantities.
 \item if expected lagged values shocks known then deterministic system in L variables
 \end{itemize}
 
@@ -630,7 +630,7 @@ $F\equiv \begin{bmatrix}  \eqnErrs \end{bmatrix}\in
 
 
 \begin{frame}
-  \frametitle{Parameterized Expectations Algorithm (PEA)}
+  \frametitle{Parametrized Expectations Algorithm (PEA)}
 {\small 
 \cite{marcet.lorenzoni99,maliarmovingbounds,juddGSSA2011}
 
@@ -727,16 +727,16 @@ $\expct{\{y_t(\theta^i)\}^T_0}$ and $\expct{\{x_t(\theta^i)^T_0\}}$
 {\small
    \begin{enumerate}
 \setcounter{enumi}{1}
- \item  Step 2. For $t = 0\ldots T − 1$, define $y_t$ to be an approximation of the conditional ex- pectation in (7) using J integration nodes and weights, $\{\epsilon_{t+1,j}j=1\ldots J$ and $\{omega_{t,j}\{j=1\ldots J\}$, respectively:
+ \item  Step 2. For $t = 0\ldots T − 1$, define $y_t$ to be an approximation of the conditional expectation in (7) using J integration nodes and weights, $\{\epsilon_{t+1,j}j=1\ldots J$ and $\{omega_{t,j}\{j=1\ldots J\}$, respectively:
    \begin{gather}
      y_t=\sum_j^J \left \{ \omega_{t,j}  \gssaKtp \right \}
    \end{gather}
- \item find $\hat{b}$ minimizing the errors $\epsilon_t$ in the regression equaion $ y_{t}=\Psi(k_t,a_t;b) + \epsilon$ according to some norm $\someNorm{\cdot}$
+ \item find $\hat{b}$ minimizing the errors $\epsilon_t$ in the regression equation $ y_{t}=\Psi(k_t,a_t;b) + \epsilon$ according to some norm $\someNorm{\cdot}$
 \item check for convergence and end Stage 1 if
   \begin{gather}
     \frac{1}{T}\sum_{t=1}^T \left | \frac{k_{t+1}^{(p)}-k_{t+1}^{(p-1)}}{k_{t+1}^{(p)}} \right | < \bar{\omega}
   \end{gather}
- \item compte $b^{(p+1)}= (1-\xi)b^{p)} + \xi \hat{b}$
+ \item compute $b^{(p+1)}= (1-\xi)b^{p)} + \xi \hat{b}$
    \end{enumerate}
 }
  \end{frame}
@@ -1186,7 +1186,7 @@ w\{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
 
 
 \begin{frame}
-\frametitle{Occassionally Binding Constraints}
+\frametitle{Occasionally Binding Constraints}
 \begin{itemize}
 \item can discover unknown solutions
 \end{itemize}
@@ -1206,7 +1206,7 @@ w\{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
 \end{frame}
 
 \begin{frame}
-\frametitle{Regime Switching with Occassionally Binding Constraints}
+\frametitle{Regime Switching with Occasionally Binding Constraints}
 \begin{itemize}
 \item can discover unknown solutions
 \end{itemize}
@@ -1228,11 +1228,11 @@ w\{(\xzFuncGuessSig)_1,\ldots,(\xzFuncGuessSig)_{\numR}\}  \\
   \item \href{http://math.stackexchange.com/questions/573158/approximate-a-complex-measurable-function-pointwisely-almost-everywhere-by-polyn}{polynomials and measurable}
   \item with commit to basis functions, can precompute integrals and 
 integration amounts to recomputing linear sum
-\item  \href{http://www.mathematica-journal.com/2008/11/dynamic-integration-of-interpolating-functions-and-some-concrete-optimal-stopping-problems/}{another mathematica streamline for integration}
+\item  \href{http://www.mathematica-journal.com/2008/11/dynamic-integration-of-interpolating-functions-and-some-concrete-optimal-stopping-problems/}{another Mathematica streamline for integration}
 \item bound on function error leads to bound on error of integral (probably smaller than on function)
   \item rank conditions says that equations that the linear equation
-system, through $H_1$,  must depend on expectational terms that can accomodate
-errorS reflected in $z_T$ 
+system, through $H_1$,  must depend on expectational terms that can accommodate
+errors reflected in $z_T$ 
   \item $(\XZFunc,\numTerms)$
   \item $(\eqnFunc,\{\numX,\numEps,\numZ)$
   \item combine mod dimensions and model equation into same object
@@ -1240,20 +1240,20 @@ errorS reflected in $z_T$
   \item Judd, Maliar, Maliar GSSA
   \item representation points should vary by variable and whether expectations or not and then backward looking and other precomputed also more easily precomputed
   \item orthogonal basis
-  \item Parameterized expectations algorithm
+  \item Parametrized expectations algorithm
   \item almost arbitrary must have non zero leads in equations corresponding to model equation with leads -- nonzero columns for F.
-  \item Using Parallelization to Solve a Macroeconomic Model: A Parallel Parameterized Expectations Algorithm
+  \item Using Parallelization to Solve a Macroeconomic Model: A Parallel Parametrized Expectations Algorithm
 Michael Creel
   \item frbus implications/.,mbnvnvbm,.n/.''.jj'.'j;'jjjjj'j;.'''
   \item bound other people's solutions, compare to bound Euler errors
-  \item show can determin number series terms then accracy depends on number of nodes
+  \item show can determine number series terms then accuracy depends on number of nodes
   \item should normalize h since just scaling up moves bounds around
   \item can precompute z's for exogenous backward looking quantities
   \item evaluation points for XZ and xz need not be the same
   \item model solutions with closed form values produce right series stable difference equations?
   \item add points for interpolation outside range
-  \item filter fixedpoint and findroot failures
-  \item add list of solvers to ``try'' if there are falures
+  \item filter fixed point and findroot failures
+  \item add list of solvers to ``try'' if there are fa lures
   \item record performance of solvers using sow reap (functional?)
   \item Heterogeneous Agents Problems
   \item Convergence Properties
