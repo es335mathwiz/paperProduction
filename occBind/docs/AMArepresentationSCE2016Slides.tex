@@ -7,12 +7,12 @@
 
 \input{AMArepresentationNewCmds}
 \begin{document}
-\title[A Series Representation  for Solving  Models]{A Series Representation for Dynamic Economic Model Solutions: Regime Switching DSGE Models with Occasionally Binding Constraints }
+\title[A Series Representation  for Solving  Models]{A Series Representation for Dynamic Economic Model Solutions }
 %\subtitle{this is a subtitle}
 
 
 \author{Gary S. Anderson}
-\date{June 26, 2016} 
+\date{\today\ } 
 
 
 \frame{\titlepage}
@@ -123,7 +123,7 @@ Error two components
   \item From dropping terms
   \item Low cost to control/eliminate
   \end{itemize}
-\item[Discretization Error] 
+\item[Discretization Error] \ 
   \begin{itemize}
 \item From approximating $z_t$
 \item High cost to control depending on dimension of state space
@@ -293,6 +293,106 @@ errors attainable in first iteration step by searching across initial conditions
 
 \end{frame}
 
+\begin{frame}
+  \frametitle{Accuracy Computations Exact Solution}
+{\small
+  \begin{itemize}
+  \item Given an exact solution $x^\star_t=g^\star(x_{t-1},\epsilon_t)$ define
+  \begin{gather}
+G^\star(x)\equiv\expct{g^\star(x,\epsilon)} \intertext{then with}
+E_tx^\star_{t+1}=G^\star(g^\star(x_{t-1},\epsilon_t))\\
+    \label{eq:2}
+\eqnFunc(x^\star_{t-1},x^\star_t,E_tx^\star_{t+1},\epsilon_t)=0  \,\, \forall  (x_{t-1},\epsilon_t)\\ \intertext{Using $G^\star$ and $\linMod$ construct the family of trajectories and corresponding $z^\star_t(x_{t-1},\epsilon)$ }
+   x^\star_t(x_{t-1},\epsilon_t) \in{R^L}\,\,\infNorm{x^\star_t(x_{t-1},\epsilon_t)}  \le \bar{\mathcal{X}}\,\,\forall t\ > 0
+  \end{gather}
+   \begin{align}
+   z^\star_{t}(x_{t-1},\epsilon_t) \equiv& H_{-1}  x^\star_{t-1}(x_{t-1},\epsilon_t) + \nonumber\\
+ & H_0  x^\star_{t}(x_{t-1},\epsilon_t) +  \label{defZ} \\
+ & H_1  x^\star_{t+1}(x_{t-1},\epsilon_t). \nonumber
+   \end{align}
+
+  \end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Accuracy Computations Exact Solution}
+{\small
+
+  \begin{itemize}
+  \item The exact solution has a representation given by
+	 \begin{gather}
+	 x^\star_{t}(x_{t-1},\epsilon) =B x_{t-1}+ \phi \psi_\epsilon\epsilon + (I - F)^{-1} \phi \psi_c +\\ \sum_{\sForSum=0}^\infty F^s \phi z^\star_{t+\sForSum}(x_{t-1},\epsilon) \intertext{and}
+	 \expct{x^\star_{t+1}(x_{t-1},\epsilon)} =B x^\star_{t+k} + \sum_{\sForSum =0}^\infty F^\sForSum \phi \expct{z^\star_{t+1+\sForSum}(x_{t-1},\epsilon)} + (I - F)^{-1} \phi \psi_c 
+% \intertext{with}
+% \eqnFunc(x_{t-1},x^\star_t,E_tx^\star_{t+1},\epsilon_t)=0  \,\, \forall  (x_{t-1},\epsilon_t)\\ 
+	 \end{gather}
+
+  \end{itemize}
+}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Proposed solution}
+  \begin{itemize}
+  \item Given a proposed solution $x^p_t=g^p(x_{t-1},\epsilon_t)$ define
+$G^p(x)\equiv\expct{g^p(x,\epsilon)}$  so that 
+  \begin{gather}
+E_tx_{t+1}=G^p(g^p(x_{t-1},\epsilon_t))\\
+\mathbf{e}_t(x_{t-1},\epsilon)\equiv
+\eqnFunc(x_{t-1},x^p_t,E_tx^p_{t+1},\epsilon_t)\\\intertext{Using $G^p$ and $\linMod$ construct the family of trajectories and corresponding $z^p_t(x_{t-1},\epsilon)$ }
+   x^p_t(x_{t-1},\epsilon_t) \in{R^L}\,\,\infNorm{x^p_t(x_{t-1},\epsilon_t)}  \le \bar{\mathcal{X}}\,\,\forall t\ > 0
+  \end{gather}
+   \begin{align}
+   z^p_{t}(x_{t-1},\epsilon_t) \equiv& H_{-1}  x^p_{t-1}(x_{t-1},\epsilon_t) + \nonumber\\
+ & H_0  x^p_{t}(x_{t-1},\epsilon_t) +  \label{defZ} \\
+ & H_1  x^p_{t+1}(x_{t-1},\epsilon_t). \nonumber
+   \end{align}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Proposed solution representation}
+  {\small
+
+  \begin{itemize}
+  \item The proposed solution has a representation given by 
+  \begin{gather}
+    \label{eq:4}
+	 x^p_{t}(x_{t-1},\epsilon) =B x_{t-1}+ \phi \psi_\epsilon\epsilon + (I - F)^{-1} \phi \psi_c +\\ \sum_{\sForSum=0}^\infty F^s \phi z^p_{t+\sForSum}(x_{t-1},\epsilon) 
+ \intertext{and}
+ 	 \expct{x^p_{t+1}(x_{t-1},\epsilon)} =B x^p_{t+k} + \sum_{\sForSum =0}^\infty F^\sForSum \phi z^p_{t+1+\sForSum}(x_{t-1},\epsilon) + (I - F)^{-1} \phi \psi_c \intertext{with}
+\mathbf{e}_t(x_{t-1},\epsilon)\equiv
+\eqnFunc(x_{t-1},x^p_t,E_tx^p_{t+1},\epsilon_t)
+  \end{gather}
+
+  \end{itemize}
+}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{The Difference}
+{\small
+  \begin{gather}
+    \label{eq:3}
+\max_{\{x_{-},\epsilon\}} \infNorm{ \phi \eqnFunc(x_{-},g^p(x_{-},\epsilon),G^p(g^p(x_{-},\epsilon)),\epsilon) }\\
+\max_{\{x_{-},\epsilon\}} \infNorm{ \phi \expct{ \eqnFunc(x_{-},g^p(x_{-},\epsilon),G^p(g^p(x_{-},\epsilon)),\epsilon)} }\\
+\hat{G}^p(x,\epsilon)=G^p(x,\epsilon)+ \mathcal{I}_e(x,\epsilon)\\
+\max_{\{x_{-},\epsilon\}} \infNorm{ \phi \expct{ \eqnFunc(x_{-},g^p(x_{-},\epsilon),\hat{G}^p(g^p(x_{-},\epsilon)),\epsilon)} }\\
+\max_{\{x_{-},\epsilon\}} \infNorm{ \phi \expct{ \eqnFunc(x_{-},g^p(x_{-},\epsilon),B g^p(x_{-},\epsilon)+(I-F)^{-1}\psi_c,\epsilon)} }\\
+	 x^\star_{t}(x_{t-1},\epsilon) -	 x^p_{t}(x_{t-1},\epsilon) =
+\sum_{\sForSum=0}^\infty F^s \phi (z^\star_{t+\sForSum}(x_{t-1},\epsilon)-z^p_{t+\sForSum}(x_{t-1},\epsilon))     \\
+	 x^\star_{t}(x_{t-1},\epsilon) -	 x^p_{t}(x_{t-1},\epsilon) =
+\sum_{\sForSum=0}^\infty F^s \phi \mathbf{z_e}_{t+\sForSum}(x_{t-1},\epsilon_t)   \\ 
+	\infNorm{ x^\star_{t}(x_{t-1},\epsilon) -	 x^p_{t}(x_{t-1},\epsilon)} \le
+\sum_{\sForSum=0}^\infty F^s \phi \infNorm{\mathbf{z_e}_{t+\sForSum}(x_{t-1},\epsilon_t)}    
+  \end{gather}
+}
+\end{frame}
 
 
 \begin{frame}
