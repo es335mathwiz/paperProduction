@@ -1,0 +1,243 @@
+\documentclass{beamer}
+
+\usepackage{hyperref}
+\usepackage{natbib}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\begin{document}
+\begin{frame}
+  \frametitle{Overview}
+  \begin{itemize}
+  \item PCA
+  \item LDA
+  \item SOM
+  \item MDS
+  \item ISOMAP
+  \item LLE
+  \end{itemize}
+
+\end{frame}
+
+
+  \begin{frame}
+    \frametitle{Dimensionality Reduction}
+    \begin{itemize}
+    \item preprocessing step
+      \begin{itemize}
+      \item learning algorithms complexity depends on number of input as well as size of data sample
+      \item smaller d makes inference easier during testing
+      \item eliminate input could reduce collection costs
+      \item simpler models more robust with small samples
+      \item better understanding and explanations
+      \item easier to visualize
+      \end{itemize}
+
+    \item Feature selection -- choose a subset prune the rest
+      \begin{itemize}
+      \item $2^d$ possible subsets -- can't test all
+      \item sequential forward selection
+      \item sequential backward selection
+      \item but often combinations of features more informative than individual features
+      \end{itemize}
+
+    \item Featre extaction -- form fewer new features from original set
+    \end{itemize}
+  \end{frame}
+
+
+
+  \begin{frame}
+\frametitle{Some useful methods }
+    \begin{itemize}
+    \item     {Principal Components Analysis (PCA) -- linear projection, unsupervised extraction}
+      \begin{itemize}
+    \item Multidimensional Scaling (MDS)
+    \item Factor Analysis (FA)
+      \end{itemize}
+    \item {Linear Discriminant Analysis (LDA) -- linear projection, supervised extraction} for categorical data
+    \item Isometric Feature Mapping (ISOMAP) -- nonlinear extraction
+    \item Locally Linear Embedding (LLE) -- nonlinear extraction
+    \item Self Organizing Maps (SOM) fundamentally unlike others
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{PCA}
+    \begin{itemize}
+    \item unsupervised method that does not use output information
+    \item projections $z=w_1^Tx$ normalize $ \parallel w_1 \parallel = 1$
+    \item $ var(z)= w_1^T \Sigma_x  w_1, \text{ where } \Sigma_x=var(x)$
+    \item Langrangian leads to $\max_{w_1} w_1^T\Sigma_x w_1 - \alpha (w_1^Tw_1-1)$ so that
+      $\Sigma w_1 = \alpha w_1$ 
+    \item first principal component eigenvector of $\Sigma_x$ corresponding to largest eigenvalue.
+    \item Want second principal component orthogonal to first
+      \begin{itemize}
+      \item $\max_{w_2} w_2^T\Sigma_x w_2 - \alpha (w_2^Tw_2-1) + \beta w_2Tw_1-0$
+      \item use fact that scalar $w_1T\sigma_x w_2= w_2^Y\Sigma_x w_1=w_2^T (\lambda w_1) = 0$ to show corresponds to eigenvector associated with second eigenvalue
+      \end{itemize}
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Some PCA algorithm definitions}
+    \begin{itemize}
+    \item $z=W^T(x-m)$
+      \begin{itemize}
+      \item Columns of $W$ are k leading eigenvectors of $S$ the estimator of $\Sigma_x$
+      \item $m$ is sample mean of the $x$
+      \end{itemize}
+    \item alternative derivation
+      \begin{itemize}
+      \item suppose WOLG x's already centered
+      \item want $z=W^T x \text{ so that }cov( z) = D$  a diagonal matrix so that z are uncorrelated
+      \item for C  from the normalized eigenvectors of S ($C^TC=I=CC^T$) by taking transpose, so $S=(\lambda^1c_1,\ldots,\lambda^dc_d)C^T$
+      \item $S=\sum_i^d \lambda_i c_i c_i^T=C D C^T$ spectal decomposition so that $C^T SC =D$
+      \item Set $W=C$
+      \end{itemize}
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Usage notes}
+    \begin{itemize}
+    \item typically normalize original x so that each component balanced equally ( or use correlation matrix )
+    \item inital normalized x has zero mean and unit variance
+      \item use proportion of variance $\frac{\sum_i^k\lambda_i}{\sum_i^d\lambda_i}$ to set k
+      \item if k = 2 can graph
+      \item project back to original space $x=W z+\mu$
+      \item reconstruction error $\sum_t\parallel \hat{x_t} - x_t\parallel^2$
+      \item PCA representation minimizes quadratic reconstruction error
+        \item $E=\sum_{i=k+1}^d \lambda_i$
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Dual PCA}
+    \begin{itemize}
+    \item if $d>>N$ can solve dual problem instead  $S=\frac{1}{N}X X^T$ large but has same eigenvalues as $S^\prime=\frac{1}{N}X^T X$ given $S^\prime$ eigenvectors, can retrieve eigenvectors for $S$ $u_i=\frac{1}{\sqrt{N \lambda_i}}Xv_i$
+    \item Singular vaue decomposition thus useful for $d>>N$
+    \item $X=U\Sigma V^T$
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{two algorithm}
+    \begin{columns}
+\begin{column}{0.5\textwidth}
+  \begin{itemize}
+  \item Data Centalization: subtract mean $\bar{x}$ from all instances to get
+    $\hat{X}$
+  \item Eigenanalysis: Calculate $S=\frac{\hat{X}\hat{X}^T}{N}$ find a rank all eigenvalues and eigenvectors
+  \item Top k largest eigenvectors form a projection matrix
+  \end{itemize} 
+\end{column}
+\begin{column}{0.5\textwidth}  %%<--- here
+  \begin{itemize}
+ \item Data Centalization: subtract mean $\bar{x}$ from all instances to get $\hat{X}$
+ \item compute SVD:  calculate $Y=\frac{\hat{X}}{\sqrt{N}}$ determine $Y=U\Sigma V^T$
+ \item Select largest singular vectors $U_M$
+  \end{itemize}
+\end{column}
+\end{columns}
+\begin{itemize}
+   \item encoding data points  $z=U_M^T (x-\bar{x})$
+  \item decoding $x^\prime=\bar{x}+Y_M x^\prime$
+\end{itemize}
+    
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{PCA limitations}
+    \begin{itemize}
+    \item Dimensions of maximum data variance not always most relevant: perhaps  Relevance component Analysis or  Linear discrininant analysis more appropriate
+    \item perhaps pairwise independent would be better than uncorrelated/orthogonal: perhapce independence component analysis useful
+    \item perhaps linearity too strong: local topology may be important or point proximity
+    \item Alternatives include: Probabilistic PCA, 2-D PCA Sparse, Scaled PCA, nonnegagtive Matrix Factorization,  PCA mixture and surface analysis, kernel PCA
+    \end{itemize}
+  \end{frame}
+
+
+  \begin{frame}
+    \frametitle{Linear Discriminant Analysis (LDA)}
+
+    \begin{itemize}
+    \item supervised method for dimension reduction in classification problems
+    \item find direction that ``separates classes'' as well as possible
+    \item for 2-D want a line
+    \item objective is dimensionality reduction while preserving class discriminatory information
+    \item 2D case project onto a line to get a scalar $y=w^T x$ and try to preserve ``separability'' of the observations
+    \item use differences in means normalized by within class variation
+    \item within class means $\mu_i=\frac{1}{N_i}\sum_{x\in \omega-i} x$, $\tilde{\mu_i}=w^T\mu_i$ ${\tilde{s_1}^2= \sum_{x\in \omega-i}(y-\tilde{\mu}_i)^2}$   called scatter
+    \item $J(w)=\frac{\tilde{\mu_1}-\tilde{\mu_2}}{\tilde{s_1}^2+\tilde{s_2}^2}$  denominator called the {\bf within class scatter}
+    \end{itemize}
+  \end{frame}
+
+
+  \begin{frame}
+    \frametitle{LDA Some Definitions}
+    \begin{itemize}
+    \item $S_i= \sum_{x\in \omega-i} (x-\mu_i)(x-\mu_i)^T$ scatter matrix
+    \item $S_w=S_1+S_2$ the within-class scatter matix
+    \item $S_B=(\mu_1-\mu_2)(\mu_1-\mu_2)^T$ between class scatter
+    \item $w^\ast=\argmax_w \frac{w^TS_B w}{w^TS_w w}= S^{-1}_W(\mu_1-\mu_2)$
+    \end{itemize}
+  \end{frame}
+
+
+
+  \begin{frame}
+    \frametitle{Multidimensional Scaling (MDS)}
+    \begin{itemize}
+    \item Collection of dimension reduction techniques that map the distances between observations in high dimensional space into a lower dimensional space
+    \item find configuration of points in low dim space whose inter-point distances correspond to dissimilarities in higher dimensions
+    \item facilitates visualization of ``intrinsic complex manifold structures''
+    \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+      \frametitle{MDS problem formulation\footnote{linear MDS can be replicated with PCA more efficiently.}}
+      \begin{itemize}
+      \item Given $x_1, \ldots , x_n$ in k dimensions
+      \item given distance between points $x_i$ $x_j$ as $\delta_{ij}$
+        
+      \item find points $y_1, \ldots , y_n$ typically in 2 or 3 dimensions so that $d_{ij}$ close to $\delta_{ij}$ minimize objective function
+      \item Sammon Nonlinear Mapping suggest several measures of {\bf stress}\footnote{weighted sum of disparities}:
+        
+        \begin{itemize}
+        \item $J_{ee}= \frac{\sum_{i<j}(d_{ij}-\delta_{ij})^2}{\sum_{i<j}\delta_{ij}^2}$ penalize large absolute errors
+        \item $J_{ff}= \sum_{i<j}\left ( \frac{(d_{ij}-\delta_{ij})}{\delta_{ij}} \right )^2$ penalize large relative errors
+        \item $J_{ff}= \frac{1}{\sum_{i<j}\delta_{ij}}\sum_{i<j}\frac{(d_{ij}-\delta_{ij})^2}{\delta_{ij}} $ a compromise between the two
+        \end{itemize}
+      \item well known update rules
+      \end{itemize}
+    \end{frame}
+    \begin{frame}
+      \frametitle{Generic MDS Algorithm}
+      \begin{itemize}
+      \item Compute/Obtain the distances $\delta_{ij}$
+      \item Initialize points $y_1, \ldots, y_n$ perhaps randomly
+      \item use update formula to get new y's  
+      \end{itemize}
+    \end{frame}
+    \begin{frame}
+      \frametitle{Relevant Issues}
+      \begin{itemize}
+      \item Metric based differ
+        \begin{itemize}
+        \item dissimilarity(distance metrics  (only use of "intrinsic metric" leads to a "real image"
+        \end{itemize}
+
+      \end{itemize}
+    \end{frame}
+  \begin{frame}
+    \frametitle{Isometric Feature Map ISOMAP}
+    \begin{itemize}
+    \item state of the art non-linear MDS method
+    \item models manifold structure appearing in high dimensional space
+    \item uses a ``geodesic distance metric''
+    \item useful for recovering low dimensional ``isometric embedding''
+    \end{itemize}
+  \end{frame}
+
+
+
+\end{document}
