@@ -1,0 +1,158 @@
+(*
+SetDirectory["/Users/garyanderson/git/paperProduction/ML/DSGE_mod/Smets_Wouters_
+2007"];
+data 1966:1-2004:4
+
+*)
+$Path=AppendTo[$Path,"/Users/garyanderson/git/paperProduction/ML/DSGE_mod/Smets_Wouters_2007"];
+swNames=Import["usmodel_data.mat","Labels"];
+swLD=Import["usmodel_data.mat","LabeledData"];
+InputForm[ToExpression/@swNames];
+{dc, dinve, dy, labobs, dw, pinfobs, robs}= (Last /@swLD);
+
+(*
+http://www.nber.org/cycles/cyclesmain.html recessions
+./nberRecess.xlsx
+*)
+
+
+deMean[xx_?VectorQ]:=xx-Mean[xx]
+deMeanDivStdDev[xx_?VectorQ]:=
+With[{demeaned=deMean[xx],stdDev=StandardDeviation[xx]},demeaned/stdDev]
+
+
+(*dxN  features by number of observations*)
+swDataForML=Flatten[Last[#]]&/@swLD;
+nberRaw=Import["./nberRecess.xlsx"];
+
+
+basicPCA[xx_?MatrixQ,povThresh_?NumberQ]:=
+With[{nX=deMeanDivStdDev/@xx,NN=Length[xx[[1]]]},
+With[{SS=(nX . Transpose[nX])/NN},
+With[{theES=Eigensystem[SS]},
+With[{povs=FoldList[Plus,theES[[1]]]/Plus@@theES[[1]]},
+With[{fpovs=Min[Flatten[Position[#<=povThresh&/@povs,False]]]},
+With[{UU=Transpose[theES[[2,Range[fpovs]]]]},
+{povs,UU,Transpose[UU].nX}]]]]/;And[0<=povThresh<=1]]]
+
+
+
+dualPCA[xx_?MatrixQ,povThresh_?NumberQ]:=
+With[{nX=deMeanDivStdDev/@xx,NN=Length[xx[[1]]]},
+With[{YY=Transpose[nX]/Sqrt[NN]},
+With[{theSVD=SingularValueDecomposition[YY]},
+With[{sqrtLam=Diagonal[theSVD[[2]]]^2},
+With[{povs=FoldList[Plus,sqrtLam]/Plus@@sqrtLam},
+With[{fpovs=Min[Flatten[Position[#<=povThresh&/@povs,False]]]},
+With[{UU=theSVD[[3,All,Range[fpovs]]]},
+{povs,UU,Transpose[UU].nX}]]]]/;And[0<=povThresh<=1]]]]
+
+(*
+Linear Discriminant Analysis
+– Bit by Bit
+sebastianraschka
+http://sebastianraschka.com/Articles/2014_python_lda.html#preparing-the-sample-data-set
+https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data
+(sepal length in cm	sepal width in cm	petal length in cm	petal width in cm	class label)
+*)
+
+
+{sepelL,sepelW,petalL,petalW,irisClass}=Transpose[Import["irisData.csv"]];
+
+(*dxN  features by number of observations*)
+XX=ArrayFlatten[{
+sepelL,
+sepelW,
+petalL,
+petalW
+}];
+
+(*
+
+theClasses=Union[irisClass];
+classIndices=Flatten[Position[irisClass,#]]&/@theClasses;
+classMeans={Mean[Transpose[XX[[All,#]]]],Length[#]}&/@classIndices;
+
+betweenClassScatter=Plus @@With[{totMean=Mean[Transpose[XX]]},
+#[[2]]*Transpose[{(#[[1]]-totMean)}].{(#[[1]]-totMean)}&/@classMeans];
+
+
+
+
+
+classDeMeans=(Function[aFtr,deMean[aFtr]]/@XX[[All,#]])&/@classIndices;
+withinClassScatter=Plus@@(# . Transpose[#]&/@classDeMeans);
+
+
+
+
+scatterES=Eigensystem[Inverse[withinClassScatter] . betweenClassScatter];
+WW=Transpose[scatterES[[2,Range[Length[theClasses]-1]]]];
+
+
+YY=Transpose[WW]. XX;
+*)
+
+LDA[XX_?MatrixQ,theLabels_?VectorQ]:=
+With[{theClasses=Union[theLabels]},
+With[{classIndices=Flatten[Position[theLabels,#]]&/@theClasses},
+With[{classMeans={Mean[Transpose[XX[[All,#]]]],Length[#]}&/@classIndices},
+With[{betweenClassScatter=Plus @@With[{totMean=Mean[Transpose[XX]],
+classDeMeans=(Function[aFtr,deMean[aFtr]]/@XX[[All,#]])&/@classIndices},
+#[[2]]*Transpose[{(#[[1]]-totMean)}].{(#[[1]]-totMean)}&/@classMeans]},
+With[{withinClassScatter=Plus@@(# . Transpose[#]&/@classDeMeans)},
+With[{scatterES=Eigensystem[Inverse[withinClassScatter] . betweenClassScatter]},
+With[{WW=Transpose[scatterES[[2,Range[Length[theClasses]-1]]]]},
+With[{YY=Transpose[WW]. XX},
+{WW,YY}]]]]]]]]
+
+
+Jee[yy_?MatrixQ,deltaIJ_?MatrixQ,ddFunc_Function]:=
+With[{NN=Length[yy[[1]]],kk=Length[yy]},
+With[{ddIJ=Outer[ddFunc,Transpose[yy],Transpose[yy],1]},
+With[{upDDIJ=Flatten[justUpper[ddIJ]],
+upDeltaIJ=Flatten[justUpper[deltaIJ]]},
+Plus @@ ((upDDIJ-upDeltaIJ)^2)/Plus @@ (upDeltaIJ^2)]]]
+
+
+updateJee[yy_?MatrixQ,deltaIJ_?MatrixQ,ddFunc_Function,eta_?NumberQ]:=
+With[{NN=Length[yy[[1]]],kk=Length[yy]},
+With[{ddIJ=Outer[ddFunc,Transpose[yy],Transpose[yy],1]},
+With[{upDDIJ=justUpper[ddIJ],
+upDeltaIJ=justUpper[deltaIJ]},
+With[{ydiff=
+Table[haha[yy[[All,{ii}]]-yy[[All,{jj}]]],{ii,1,NN},{jj,1,NN}]},Print["ydiff=",ydiff];
+With[{uydiff=justUpper[ydiff],
+drat=(upDDIJ-upDeltaIJ)/upDDIJ,scale=(2/Plus @@ Flatten[(upDeltaIJ^2)])},
+With[{theUpdateMat=sumRows[uydiff*drat*scale]},Print["uydiff=",uydiff];
+{ydiff,uydiff,drat,scale,theUpdateMat,yy-eta*theUpdateMat}]]]]]]
+
+
+justUpper[xx_]:=With[{
+dim=Length[xx[[1]]]},Drop[MapIndexed[Drop[#,#2[[1]]]&,xx],-1]]
+
+Get["cities.mth"];
+stupid=Table[RandomReal[],{ii,10},{jj,10}];
+mlil1=2;
+mlil2=5;
+lilstupid=stupid[[Range[mlil1],Range[mlil2]]];
+lilcitiesD=citiesD[[Range[mlil1],Range[mlil2]]];
+ff=Function[{xx,yy},Norm[xx-yy]]
+
+rowColLocs[ii_Integer,nn_Integer]:=
+{{ii,Range[ii+1,nn]},{Range[1,ii],ii}}
+
+sumRows[anUpper_List]:=
+With[{NN=Length[anUpper[[1]]]},Print["anUpper=",anUpper];
+Function[ii,
+With[{lr=anUpper[[ii,Range[1,NN-ii+1]]],
+tb=MapIndexed[#[[ii-#2[[1]]]]&,anUpper[[Range[ii-1]]]]},
+Print["{lr,tb}=",{lr,tb}];
+Plus @@
+{Plus@@lr,
+Plus@@tb}]]/@Range[NN]
+]
+
+lilychk={{y11,y12,y13},{y21,y22,y23}};lildchk={{dl11,dl12,dl13},{dl21,dl22,dl23},dl{31,dl32,dl33}};
+
+MDS[XX_?MatrixQ,deltaIJ_?MatrixQ]:=42
