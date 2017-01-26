@@ -121,11 +121,12 @@ With[{ddIJ=Outer[ddFunc,Transpose[yy],Transpose[yy],1]},
 With[{upDDIJ=justUpper[ddIJ],
 upDeltaIJ=justUpper[deltaIJ]},
 With[{ydiff=
-Table[haha[yy[[All,{ii}]]-yy[[All,{jj}]]],{ii,1,NN},{jj,1,NN}]},Print["ydiff=",ydiff];
+Table[yy[[All,{ii}]]-yy[[All,{jj}]],{ii,1,NN},{jj,1,NN}]},
 With[{uydiff=justUpper[ydiff],
 drat=(upDDIJ-upDeltaIJ)/upDDIJ,scale=(2/Plus @@ Flatten[(upDeltaIJ^2)])},
-With[{theUpdateMat=sumRows[uydiff*drat*scale]},Print["uydiff=",uydiff];
-{ydiff,uydiff,drat,scale,theUpdateMat,yy-eta*theUpdateMat}]]]]]]
+With[{theUpdateMat=sumRows[uydiff*drat*scale]},
+With[{yyNow=yy-eta*ArrayFlatten[{theUpdateMat}]},
+{Jee[yyNow,deltaIJ,ddFunc],yyNow}]]]]]]]
 
 
 justUpper[xx_]:=With[{
@@ -134,25 +135,62 @@ dim=Length[xx[[1]]]},Drop[MapIndexed[Drop[#,#2[[1]]]&,xx],-1]]
 Get["cities.mth"];
 stupid=Table[RandomReal[],{ii,10},{jj,10}];
 mlil1=2;
-mlil2=5;
+mlil2=6;
 lilstupid=stupid[[Range[mlil1],Range[mlil2]]];
-lilcitiesD=citiesD[[Range[mlil1],Range[mlil2]]];
+betterTry={{-144.826, 153.898, -70.631, 34.9463, 23.0639}, 
+     {-229.584, 147.689, -111.884, 53.3909, 24.698}}
+
+(*
+Nest[With[{res=updateJee[#[[-1]],lilcitiesD,ff,1]},Print[res];res]&,%20,50000]
+
+{0.708208, {{-146.134, 155.462, -71.3406, 35.3762, 23.3511}, 
+    {-231.591, 149.136, -113.089, 54.0316, 25.0034}}}
+
+{0.708208, {{-146.134, 155.462, -71.3407, 35.3763, 23.3511},
+boo=Nest[With[{res=updateJee[#[[-1]],lilcitiesD//N,ff,1]},Print[res];res]&,{lilstupid}//N,200]
+labels=MapThread[Text[#1,1.1*#2]&,{cities[[Range[6]]],Transpose[boo[[-1]]]}]
+plt=ListPlot[Transpose[boo[[-1]]],PlotRange->All]
+Show[plt,Graphics[{Red,labels}],DisplayFunction->$DisplayFunction]
+*)
+
+lilcitiesD=citiesD[[Range[mlil2],Range[mlil2]]];
 ff=Function[{xx,yy},Norm[xx-yy]]
 
 rowColLocs[ii_Integer,nn_Integer]:=
 {{ii,Range[ii+1,nn]},{Range[1,ii],ii}}
 
 sumRows[anUpper_List]:=
-With[{NN=Length[anUpper[[1]]]},Print["anUpper=",anUpper];
-Function[ii,
+With[{NN=Length[anUpper[[1]]],
+lastRow=Last/@anUpper},
+Append[Function[ii,
 With[{lr=anUpper[[ii,Range[1,NN-ii+1]]],
 tb=MapIndexed[#[[ii-#2[[1]]]]&,anUpper[[Range[ii-1]]]]},
-Print["{lr,tb}=",{lr,tb}];
 Plus @@
 {Plus@@lr,
-Plus@@tb}]]/@Range[NN]
+Plus@@tb}]]/@Range[NN],Plus @@ lastRow]
 ]
 
 lilychk={{y11,y12,y13},{y21,y22,y23}};lildchk={{dl11,dl12,dl13},{dl21,dl22,dl23},dl{31,dl32,dl33}};
 
-MDS[XX_?MatrixQ,deltaIJ_?MatrixQ]:=42
+
+
+classicalMDS[deltaIJ_?MatrixQ]:=
+With[{NN=Length[deltaIJ]},
+With[{AA=(-1/2)*deltaIJ*deltaIJ,
+HH=IdentityMatrix[NN]-(1/NN)*ConstantArray[1,{NN,NN}]},
+With[{BB=HH . AA. HH},
+With[{theES=Eigensystem[BB]},
+With[{posPos=posLocs[theES[[1]]]},
+{theES[[1]],posPos,Transpose[theES[[2,posPos]]] .
+DiagonalMatrix[theES[[1,posPos]]]}]]]]]
+
+
+posLocs[theVec_?VectorQ]:=With[{isPos=#>0&/@theVec},Flatten[Position[isPos,True]]]
+
+
+(*
+{ev,pev,xx}=classicalMDS[citiesD//N];
+pltn=ListPlot[xx[[All,{1,2}]]]
+labels=MapThread[Text[#1,1.1*#2]&,{cities[[Range[10]]],xx[[All,{1,2}]]}]
+Show[pltn,Graphics[{Red,labels}],DisplayFunction->$DisplayFunction]
+*)
