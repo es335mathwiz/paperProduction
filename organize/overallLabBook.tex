@@ -8,73 +8,149 @@
 \author{Gary Anderson}
 \maketitle
 
-\printindex
 \tableofcontents
 
 \mainmatter
-
 \labday{Monday, November 14 2016}
 
 \experiment{Start of a lab book for paper production}
 
 
-\subexperiment{Paper submission deadlines for conferences}
+
+\labday{Tuesday, November 15 2016}
+
+\experiment{ Sort out how to organize day using \href{https://www.ctan.org/tex-archive/macros/latex/contrib/labbook}{labbooks} --texpad}
+
+\subexperiment{switch to using texpad}
+
+
+\begin{itemize}
+\item done commit in laptop git and push and pull for texpad up to date
+\item think of texpad as authoritative
+\item move appropriate for all paper production? (git pull moves all paperProduction work)
+\end{itemize}
+
+
+\subexperiment{develop to do today list and longer range planning lists}
 
 \begin{description}
-\item[SCE NY] 
-\end{description}
+\item[today] \ 
 
-\subexperiment{identify  paper topics and degree of completeion}
-
-
-\begin{description}
-\item[Machine Learning Applications Economics] \
-  \begin{description}
-  \item[chap 1-2 3 linear models- logistic regression gradient descent]
-  \item[chap 4-5 linear and non linear SVMs] 
-  \item[chap 6-7 decision trees] 
-  \item[chap 8-bayes theorem and bayesian nets] 
-  \item[chap 9 10 ensemble methods and feature selection] 
-  \end{description}
-\item[AMA Series Representation] 
-\item[Unconditional Covariances]
-\item[Support Vector Machine Regression -- Financial Markets] 
-\item[Slow Feature Analysis Economics -- Financial Markets] 
-\item[practical parallel computing techniques] \ 
+\begin{itemize}
+\item see ipad CL
+\item AMASeries paper
   \begin{itemize}
-  \item OpenMP
+  \item SVMR/function approximation
+  \end{itemize}
+\item computing envirnoments
+  \begin{itemize}
+  \item mac
+    \begin{itemize}
+    \item     Mathematica working fortran call
+  \item Mathematica 11 transition
+  \item emacs from kilburn/mcore48
+    \end{itemize}
+  \item FRB -- manchester access
+  \end{itemize}
+
+\item 60621 parallel class
+  \begin{itemize}
+  \item outline paper get definitions of terms
+  \end{itemize}
+
+\item 61021 visualization class
+  \begin{itemize}
+  \item complete lab0
+  \item review PCA start lab1
+  \item SFA connection
+  \end{itemize}
+\item paper submissions deadlines for conferences
+\end{itemize}
+
+\item[longer range] \ 
+
+  \begin{itemize}
+\item identify pape topics and degree of completion
+\item U Manchester
+  Preparation for exams.  Exam period begins January 16, 2017
+  \begin{itemize}
+\item Study 60611 exam -- FRB exercises
+\item Study 61011 exam -- FRB slide presentations/working papers
+\item Study prep 60621 lab0, super scalar 
+\item Study prep 61021 PCA prep SFA prep
+\item Board stochastic sims
+\end{itemize}
+\item practical parallel computing techniques
+    \begin{itemize}
+   \item OpenMP
   \item MPI
   \item GPUs
   \item Other languages
   \item Julia/Mathematica/Matlab
 \item class exercises at FRB
   \end{itemize}
-\item[occasionally binding constraints] 
-\item[heterogeneous agents] 
-\item[regime switching] 
-\item[dynare parsers]
-\item[SPSolve] 
-\item[smolyak Applications] 
-\item[continuous time aim] 
-\item[symbolic programming applications] 
-\item[machine learning application] 
-\end{description}
-
-\subexperiment{identify what's needed to complete}
-
-
-\subexperiment{identify presentation schedule}
-
-\experiment{Machine Learning in Economics}
-
-Preparation for exams.  Exam period begins January 16, 2017
-
+\item{Paper submission deadlines for conferences}
 
 \begin{description}
-\item[Support Vector Machines] 
+\item[SCE NY] 
 \end{description}
 
+\item{identify  paper topics and degree of completeion}
+
+
+\begin{itemize}
+\item Machine Learning Applications Economics  \
+  \begin{itemize}
+  \item chap 1-2 3 linear models- logistic regression gradient descent 
+  \item chap 4-5 linear and non linear SVMs  
+  \item chap 6-7 decision trees  
+  \item chap 8-bayes theorem and bayesian nets  
+  \item chap 9 10 ensemble methods and feature selection  
+  \end{itemize}
+\item Unconditional Covariances 
+\item Support Vector Machine Regression -- Financial Markets  
+\item Slow Feature Analysis Economics -- Financial Markets  
+\item occasionally binding constraints  
+\item heterogeneous agents  
+\item regime switching  
+\item dynare parsers 
+\item SPSolve  
+\item smolyak Applications  
+\item continuous time aim  
+\item symbolic programming applications  
+\item machine learning application  
+\end{itemize}
+    \end{itemize}
+\end{description}
+
+\subexperiment{prioritize and plan}
+\begin{itemize}
+\item {identify what's needed to complete}
+
+
+\item {identify presentation schedule}
+\end{itemize}
+
+
 \experiment{AMASeries Representation}
+
+\subexperiment{SVMR function approximation}
+\begin{itemize}
+\item {updated to mathematica 11.0.1 elim old mathematicas}
+  \begin{itemize}
+  \item had to take special care with path on macos used an
+    \href{http://superuser.com/questions/896340/symlinking-executable-surrounded-with-dylib-not-working}{alias with full path name to installation directory}.  also macos calls math MathKernel
+  \end{itemize}
+  \item text
+  \item presentation --FRB travel authorization
+\item call fortran from mathematica
+\item libsvm
+  \begin{itemize}
+  \item from mathematica
+  \item get weight vectors
+  \end{itemize}
+\end{itemize}
+
 
 \subexperiment{identify paper topics for AMASeries}
 
@@ -84,33 +160,134 @@ Preparation for exams.  Exam period begins January 16, 2017
 \item Tickets
 \end{itemize}
 
-\labday{Tuesday, November 15 2016}
+
+\subexperiment{U Manchester Computing Access from laptop}
+\begin{itemize}
+\item sent email to Etienne
+\item completed IT form with information Buck Huppman suggeste
+\end{itemize}
+
+\experiment{University of Manchester Classes}
+\subexperiment{Parallel Programming Presentation}
+\begin{itemize}
+\item told colleagues I would prepare a few slides for 5 min contribution re context of work
+\item read numerouse sites and slides and parts of papers about their work
+\item visited their homepages
+\item collected way to many pages for the slides I can contribute
+\item started assembling the data into slides
+\item started focusing on the contribution I will make
+\end{itemize}
+
+\labday{Friday, November 18 2016}
 
 \begin{itemize}
-\item Sort out how to organize day using labbooks --texpad
-\item laptop 
+\item very busy taking classes Wednesday and Thursday
+\item presentation went well
+\item some progress on labs for machine learning
   \begin{itemize}
-  \item Mathematica 11 transition
-  \item emacs from kilburn/mcore48
-  \end{itemize}
-\item call fortran from mathematica
-\item libsvm
-  \begin{itemize}
-  \item from mathematica
-  \item get weight vectors
-  \end{itemize}
-\item 61621 visualization
-  \begin{itemize}
-  \item complete lab0
-  \item review PCA start lab1
-  \item SFA connection
+  \item would like to get some SFA working on financial/economic data
   \end{itemize}
 
+\item some progress on labs for parallel programming
+  \begin{itemize}
+  \item we have a whatapp group and used google slides for presentation for machine learning
+  \item Teo says he will set up a git repository we can share and clone
+  \end{itemize}
+  -- shared some java code with team
+\end{itemize}
+\experiment{get svm into amaseries paper}
+\subexperiment{libsvm via java}
+
+\begin{itemize}
+\item looks straightforward, but worried about performance
+\end{itemize}
+
+\subexperiment{libsvm via fortran}
+
+\begin{itemize}
+\item looks less straightforward than java, but expect beter performance
+\end{itemize}
 
 
-  
+\experiment{computer science classes}
+
+
+\labday{Saturday, November 19 2016}
+
+\experiment{AMASeries sort out svm}
+\begin{itemize}
+\item running libsvm in eclipse nano using workbench
+\item appears that regression is in svm.java calling
+  solve\_epsilon\_svr(prob,param,alpha,si); with what look like just arrays with basic doubles 
+\item need to try call from workbench directly
+\end{itemize}
+
+\labday{Sunday, November 20 2016}
+
+\experiment{AMASeries sort out svm}
+\begin{itemize}
+\item running libsvm in eclipse nano using workbench
+\item trouble with name spaces from mathematica to java private inner classes fields and methods seem inaccessible
+\item not able to get debug to work from notebook initialization
+\item using eclipse nano and download of wolfram from Help->install  
+\end{itemize}
+
+\labday{Monday November 21, 2016}
+
+\experiment{planning}
+\begin{itemize}
+\item assess grading requirements and schedule
+  \begin{description}
+  \item[comp61021 visualization]\
+    \begin{itemize}
+    \item 50\% exam
+    \item 50\% 3 exercises 2 labs 1 presentation week 11 30 minutes
+    \end{itemize}
+  \item[comp60621 design parallel ] 
+    \begin{itemize}
+    \item 50\% exam
+    \item 15\% presentation and discussions
+    \item 35\% labs \
+      \begin{itemize}
+      \item miniproject idividual  100 points
+      \item lab 1,2 no marks no participation caps miniproject
+      \end{itemize}
+
+    \end{itemize}
+  \end{description}
+
+\end{itemize}
+
+\experiment{classes}
+\subexperiment{high dimensional data}
+\begin{itemize}
+\item work on lab project
+\item SFA experimen for problem set ``columns'' like SFA
+\end{itemize}
+\subexperiment{parallel design}
+\begin{itemize}
+\item 
+\end{itemize}
+
+\subexperiment{exam study machine learning}
+\subexperiment{exam study parallel programming}
+
+\experiment{FRB}
+\subexperiment{FRBUS parallel code}
+
+\experiment{AMASeries}
+\subexperiment{SVR}
+\experiment{Other papers}
+
+\subexperiment{SFA}
+\begin{itemize}
+\item get matlab to do an example
+\item find mathematica version
 \end{itemize}
 
 \bibliographystyle{plainnat}
 \bibliography{files.bib}
+
+\printindex
+`
 \end{document}
