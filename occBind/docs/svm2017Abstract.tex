@@ -1,31 +1,46 @@
 \documentclass[12pt]{article}
 \title{Using Support Vector Machine Function Approximation to
-Mitigate the Curse of Dimensionality in Model with Occasionally Binding Constraints}
+Mitigate the Curse of Dimensionality in Models with Occasionally Binding Constraints}
 \author{Gary S. Anderson}
 \begin{document}
 \begin{abstract}
-Support vector machines occupy a prominent place applied machine learning
-Additionally they can reduce the burden of computation as they determine
-a subset of points that are important in characterizing a given function.
-Kernel trick,  powerful representation quadratic programming solution to compute there are on-line techniques for adding and deleting individual points from the representation.  A weighted sum of kernel functions RBF, wavelet, special forms for time series.    ideally suited for this application.  multivariate or univariate options.  many kernel options.  parsionius representation with literally strategically placed support vectors.  can adjust the accuracy of the solution in the course of estimation.  my algorithm provides error bounds.  can compute integrals of kernels and use the weights to update the integrals.  linear sum of nonlinear kernel functions. known as the kernel trick.  an important component of any solution methodology entails representing unknown potentially highly nonlinear stochstic functions.
-  This paper proposes a new series representation for bounded so-
-lutions to dynamic models. This series representation can be used
-to determine a series representation for time invariant discrete time
-maps that characterize the solutions to many models. Consequently,
-the technique constitutes an important component in a technique for
-accurately characterizing the solutions for a wide array of nonlinear
-rational expectations models. It can also provide a formula for com-
-puting accuracy bounds for any proposed time invariant model so-
-lution. The series representation serves as an important component
-in an algorithm for constructing approximate solutions for nonlinear
-rational expectations models.
-The technique recursively computes solutions that honor the con-
-straints for successively longer horizons. The technique also provides
-a metric for determining apriori how long the horizon must be for a
-given level of accuracy of the state vector. The solutions computed by
-the technique accommodate the possibility that model trajectories can
-depart from and re-engage inequality constraints as well as transition
-between various regimes.
+
+
+This paper applies support vector machine function approximation to
+reduce the computational burden associated with representing the
+unknown, potentially highly nonlinear stochstic functions that arise in
+solving dynamic models with occasionally binding constraints.
+
+
+Support vector machines 
+have become an essential tool in contemporary machine learning research
+where computer scientists exploit their flexibility and
+computational tractability in modelling complex high dimensional data.
+Like many other function approximation approaches,
+support vector machines represent functions as a linearly weighted sum
+of a family of basis functions.  They differ from other approaches in  the
+use of ``hinge loss functions'' that generate
+an easy to solve
+quadratic programming problem(QPP) for determining the weights.
+The solution of this QPP identifies a subset of points, the support vectors,
+that are influential in the representation.  With strategically chosen
+basis functions, this can dramatically reduce the number of terms needed
+to approximate a function to a given level of accuracy.
+
+
+This paper uses a series representation for bounded solutions
+to dynamic models to compute
+  time invariant discrete time
+maps that accurately characterize
+the solutions for a wide array of nonlinear
+rational expectations models. This solution also provides a formula for computing accuracy bounds for any proposed time invariant model solution.
+Support vector machine function approximation provides
+error bounds that 
+are especially useful used in conjuction with the series representation
+error formulae.
+One can  dynamically adjust the representation accuracy
+as needed to guarantee convergence to a true solution.
+
 \end{abstract}
 \end{document}
  

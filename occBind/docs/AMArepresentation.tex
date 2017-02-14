@@ -7,7 +7,21 @@
 \date{\currenttime -- \today }
 
 
+\newtheorem{theorem}{Theorem}[section]
 
+\newenvironment{proof}[1][Proof]{\begin{trivlist}
+  \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newcommand{\qed}{\nobreak \ifvmode \relax \else
+      \ifdim\lastskip<1.5em \hskip-\lastskip
+      \hskip1.5em plus0em minus0.5em \fi \nobreak
+      \vrule height0.75em width0.5em depth0.25em\fi}
 
 \author{Gary S. Anderson\thanks{The analysis and conclusions set forth are those of the author and do not indicate concurrence by other members of the research staff or the Board of Governors. I would like to thank Luca Guerrieri, Christopher Gust, Hess Chung, Benjamin Johannsen  and Robert Tetlow for their comments and suggestions. }}
 
@@ -22,25 +36,20 @@
 
  
 This paper proposes a new series representation for bounded
-solutions to dynamic models. 
-This series representation can be used to
-determine a series representation for 
-time invariant discrete time maps that characterize the solutions
-to many models.  Consequently, the technique constitutes an important component
-in a technique for accurately characterizing the solutions for a 
-wide array of nonlinear rational expectations models.
-It can also  provide a formula
+time invariant discrete time maps that can serve as a useful
+component in solving dynamic economic models
+It also  provides a formula
 for computing accuracy bounds for any proposed time invariant model solution.
-The series representation serves as an important component in an algorithm 
-for constructing approximate solutions for nonlinear rational expectations
-models.
 
+With the series representation for time invariant maps in hand,
+the paper shows how to use the solution to a deterministic problem at
+time t, to improve upon a proposed solutions for
+any given dynamic economic models with occasionally
+binding constraints or regime switching.   The error bounds from the
+series representation help with determining algorithm convergence by
+measures for determining the potential benefits
+of further solution refinement
 
-
-
-  The technique recursively computes  solutions that honor the constraints for successively longer horizons. The technique also provides a metric for determining apriori how long the horizon must be for a given level of accuracy of the
-state vector. The solutions computed by the technique accommodate the possibility that model trajectories can depart from and re-engage inequality constraints as well as transition between various regimes.
-  
 
 % In this context, it  facilitates exploiting the 
 % ``law of iterated expectations'' in computing rational expectations solutions for models with occasionally binding constraints.
@@ -104,28 +113,30 @@ $  z_{t}(x_{t-1},\epsilon)$ as  %\footnote{These $z$ functions will soon prove u
   \end{align}
 }
 
-
-\citep{anderson10}  shows that, 
+\begin{theorem}
 	 \begin{gather}
-	 \mathcal{X}_{t}(x_{t-1},\epsilon) =B x_{t-1}+ \phi \psi_\epsilon\epsilon + (I - F)^{-1} \phi \psi_c +\\ \sum_{\sForSum=0}^\infty F^s \phi z_{t+\sForSum}(x_{t-1},\epsilon) \label{theSeries}
+	 \mathcal{X}_{t}(x_{t-1},\epsilon) =B x_{t-1}+ \phi \psi_\epsilon\epsilon + (I - F)^{-1} \phi \psi_c + \sum_{\sForSum=0}^\infty F^s \phi z_{t+\sForSum}(x_{t-1},\epsilon) \label{theSeries}
 \intertext{and}
 	 \mathcal{X}_{t+1}(x_{t-1},\epsilon) =B \mathcal{X}_{t} + \sum_{\sForSum =0}^\infty F^\sForSum \phi z_{t+\sForSum}(x_{t-1},\epsilon) + (I - F)^{-1} \phi \psi_c \,\,\,\forall t \ge  0.
 	 \end{gather}
+\end{theorem}
 }
+\begin{proof}
+  For every bounded family of functions,
+  $\mathcal{X}_t(x_{t-1},\epsilon_t)$, \citep{anderson10}  shows that for any given $x_{t-1},\epsilon_t$ this expression must be true.
 Since the eigenvalues of F are all less than one and the $z$'s are bounded,
  the series always converges.
-
-
+\end{proof}
 
 
 	 Consequently, given a family of trajectories like those in \refeq{fFamily},
 and a stable linear homogeneous system like \refeq{hSystem},
 one can easily compute a series 
-representation \refeq{theSeries} for any  function generating a family of
+representation \refeq{theSeries} for any  bounded function generating a family of
 trajectories.
 Interestingly, the linear model, $H$, the  constant term $\psi_c$ and the
 impact of the stochastic shocks $\psi_\epsilon $ can  be 
-chosen rather arbitrarily.  
+chosen rather arbitrarily -- the only costraint being the existence of a saddle-point solution or the linear system.  
 The formula will provide a series  for any 
 $L$ dimensional $\linMod$.
 This observation will give us some confidence in the 
@@ -137,11 +148,10 @@ satisfying complicated systems of dynamic non-linear equations.
 
 
 One could consider approximating $\mathcal{X}_t(x_{t-1},\epsilon)$ by 
-truncating the series at a finite number of terms.
+truncating the series \ref{theSeries} at a finite number of terms.
  	 \begin{gather}
  	 \xWargK \equiv B x_{t-1}+ \phi \psi_\epsilon\epsilon + \sum_{s=0}^k F^s \phi z_{t}(x_{t-1},\epsilon) + (I - F)^{-1} \phi \psi_c \label{theTruncSeries}
  \end{gather}
-
 We can bound the  series approximation truncation errors.
 Since
     \begin{gather}
@@ -149,8 +159,7 @@ Since
 \sum_{s=k+1}^{\infty} F^s \phi \psi_z = (I -F)^{-1} F^{k+1}\phi \psi_z       \\
 \infNorm{\xWarg-\xWargK} \le \infNorm{(I -F)^{-1} F^{k+1}\phi \psi_z} \left ( \infNorm{H_{-1} }+ \infNorm{H_{0} }+ \infNorm{H_{1} } \right )\bar{\mathcal{X}}
     \end{gather}
-Note that for approximating $\xWarg$ the impact of 
-path values declines for those which are  more temporally distant.
+Note that for approximating $\xWarg$ the impact of  a given realization along the path declines for those realizations which are  more temporally distant.
 
 
 
@@ -429,8 +438,9 @@ The algorithm terminates with an approximation for
 the time invariant function $g^\ast$.}  It is unlikely that $g^0(x_{t-1},\epsilon_{t})$
 satisfies equation \refeq{theProblem} for arbitrary $x_{t-1}$ even for $s=0$.
 We can get a pessimistic upper bound for how far we are away from the solution 
-by computing the infinity norm of substituting the variables from into Equation \refeq{theProblem}.\footnote{The values in Table \ref{truncTab} illustrate how
-pessimistic this approximation can be, but it turns out we can expect the accuracy of  approximate truncation errors improve as we expand the approximation series.}
+by computing the infinity norm of substituting the variables from into Equation \refeq{theProblem}.
+% \footnote{The values in Table \ref{truncTab} illustrate how
+%pessimistic this approximation can be, but it turns out we can expect the accur%acy of  approximate truncation errors improve as we expand the approximation series.}
 
 Next, we compute a solution in which the nonlinear equations are satisfied at time t alone while the stand-in linear system holds sway subsequently.
 Our algorithm will  compute
@@ -720,7 +730,7 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 \label{sec:recov-known-solut}
 
 \subsubsection{Approximating an Unknown Solution: $U(c) \ne Log(c)$ }
-\label{sec:unknown-solut}
+\label{sec:unknown-solutions}
 
 \subsubsection{Occasionally Binding Constraints}
 \label{sec:obc-solut}
