@@ -1,0 +1,16 @@
+(*MDS*)
+
+(*cost functions*)
+
+http://mathematica.stackexchange.com/questions/7887/best-way-to-create-symmetric-matrices
+
+MrWizard3[n_, f_] := Block[{f1, f2},
+  f1 = LowerTriangularize[#, -1] + Transpose@LowerTriangularize[#] &@
+     ConstantArray[Range@#, #] &;
+  f2 = {#, Reverse[(Length@# + 1) - #, {1, 2}]} &;
+  f @@ f2@f1@n
+  ]
+
+5
+
+Jee[dd_
