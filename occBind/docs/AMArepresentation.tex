@@ -2,7 +2,8 @@
 %http://mathematica.stackexchange.com/questions/11350/xkcd-style-graphs
 \documentclass[12pt]{article}
 \input{AMArepresentationNewCmds}
-\title{A Series Representation for Dynamic Economic Model Solutions}
+\title{A New Series Representation for Time Invariant Maps that
+ Arise in  Dynamic Economic Models}
 
 \date{\currenttime -- \today }
 
@@ -36,19 +37,20 @@
 
  
 This paper proposes a new series representation for bounded
-time invariant discrete time maps that can serve as a useful
-component in solving dynamic economic models
-It also  provides a formula
+time invariant discrete time maps.
+The paper uses the representation to develop  formulae
 for computing accuracy bounds for any proposed time invariant model solution.
+The paper also provides an algorithm for computing
+solutions for dynamic economic models.
 
 With the series representation for time invariant maps in hand,
 the paper shows how to use the solution to a deterministic problem at
 time t, to improve upon a proposed solutions for
 any given dynamic economic models with occasionally
-binding constraints or regime switching.   The error bounds from the
-series representation help with determining algorithm convergence by
-measures for determining the potential benefits
-of further solution refinement
+binding constraints or regime switching or both.   The error bounds from the
+series representation help with determining algorithmic convergence by
+characterizing the potential benefits
+of further solution refinement.
 
 
 % In this context, it  facilitates exploiting the 
@@ -161,10 +163,10 @@ Since
     \end{gather}
 Note that for approximating $\xWarg$ the impact of  a given realization along the path declines for those realizations which are  more temporally distant.
 
+p
 
 
-
-\subsection{A Simple Example: An ``Almost'' Arbitrary Linear Model and an ``Almost'' Arbitrary Family of Solution Paths}
+\subsection{A Simple Example: An ``Almost'' Arbitrary Linear Model and an Arbitrary Family of Bounded Solution Paths}
 \label{sec:almostarbitrary}
 
 
@@ -189,14 +191,26 @@ F=
 
 The series representation requires that the state values along the 
 paths remain bounded.  For example, consider the following three
-bounded families of state vector paths.\footnote{See Section \ref{sec:arbitr-path-gener}
-for a listing of the programs.}
-The first set of trajectories is a multiple of
+bounded families of state vector paths generted by Mathematica code.
+\begin{verbatim}
+genPiPath[init_?MatrixQ,eps_?MatrixQ,kk_Integer]:=
+		With[{theDigits=RealDigits[Pi,10,kk][[1]]},
+			 N[(Norm @ init)]/(1+N[Norm @ eps]) *theDigits]
+genOscilPath[init_?MatrixQ,eps_?MatrixQ,kk_Integer]:=
+		With[{theOscil=NestList[-1*#&,1,kk-1]},
+			 N[(Norm @ init)]/(1+N[Norm @ eps])^2 *theOscil]
+genRandomPath[init_?MatrixQ,eps_?MatrixQ,kk_Integer]:=
+		Module[{},SeedRandom[Round[200*N[(Norm @ init)]+Norm[eps]]]; 
+				  RandomReal[{-4,4},kk]]
+\end{verbatim}
+
+
+The first set of trajectories(See Figure \ref{pipath}) is a function of
 the digits in the decimal representation of $\pi$.  
-determined by a nonlinear function of the initial conditions and the shock.
-The second set of trajectories oscillates between two values
+determined by a nonlinear function of the initial conditions and a random shock.
+The second set of trajectories (See Figure \ref{oscillpath}) oscillates between two values
 determined by  a nonlinear function of the initial conditions and the shock.
-The third set of trajectories is a sequence of uniformly distributed random
+The third set of trajectories (See Figure \ref{pseudopath}) is a sequence of uniformly distributed random
 numbers based on a seed determined by  a nonlinear function of  the initial conditions and the shock.
 These examples paths were chosen to emphasize that the trajectories
  need not converge to a fixed point, and 
@@ -207,17 +221,38 @@ this paper will not investigate sufficient conditions for families of
 unbounded trajectories.}
 
 
-
 \begin{figure}
   \centering
 \includegraphics[width=2in]{piPath.pdf}
+  
+  \caption{$\pi$ Digits Path}\label{pipath}
+\end{figure}
+\begin{figure}
+  \centering
 \includegraphics[width=2in]{oscillPath.pdf}
-\includegraphics[width=2in]{pseudoPath.pdf}
+  
+  \caption{Oscillatory Path}\label{oscillpath}
+\end{figure}
 
-\includegraphics[width=3in]{theZs.pdf}
+\begin{figure}
+  \centering
+\includegraphics[width=2in]{pseudoPath.pdf}
+  \caption{Uniformly Distributed Path}\label{pseudopath}
+\end{figure}
+
+\begin{figure}
+  \centering
+\includegraphics[width=3in]{theZs.pdf}  
+  \caption{The  z's Corresponding to  $x_{-1}=(1,2,3),\epsilon=(2,1,2)$} \label{arbFig}
+\end{figure}
+
+\begin{figure}
+  \centering
+
+
 \includegraphics[width=3in]{arbTruncErr.pdf}  
-\caption{RBC Truncation Error Bound Versus Actual}
-  \caption{State Variables and the  z's Corresponding to  $x_{-1}=(1,2,3),\epsilon=(2,1,2)$} \label{arbFig}
+  \caption{Error Bound Versus Actual Error} \label{figArbTrunc}
+
 \end{figure}
 
 
@@ -234,10 +269,6 @@ if all the terms are included, but the terms for state vectors closer
 to the initial time have the most important impact.
 
 
-\begin{figure}
-  \centering
-  \caption{Error Bound Versus Actual Error} \label{figArbTrunc}
-\end{figure}
 
 
 
@@ -247,7 +278,7 @@ to the initial time have the most important impact.
 
 
  {\bf RBC Model Example}
-  See for example\cite{Maliar2005}
+  See \cite{Maliar2005}
  \begin{gather*}
    \max\left \{  u(c_t^t) + E_t \sum_{\tau=t}^\infty \beta \delta^{\tau+1-t}u(c_{\tau+1}^t)\right \}\\
 c_\tau^t + k_\tau^{t+1}=(1-d)k_\tau^{t-1} + \theta_\tau f(k_\tau^{t-1})\\
@@ -297,12 +328,12 @@ an approximation for the known solution.
 Using the following parameter values
 
 \begin{gather}
-\vcenter{\hbox{\includegraphics{RBCParamSubs.pdf}}} \,\, \text{ with } \,\,
+\vcenter{\hbox{\includegraphics{RBCParamSubs.pdf}}} \,\, \text{ we have } \,\,
   \begin{bmatrix}
     c_{ss}\\k_{ss} \\ \theta_{ss} \label{rbcparams}
   \end{bmatrix}=
 \vcenter{\hbox{\includegraphics{RBCSSVal.pdf}}}
-\end{gather}(\footnote{{RBCParamSubs.pdf}})(\footnote{{RBCSSVal.pdf}})
+\end{gather}%(\footnote{{RBCParamSubs.pdf}})(\footnote{{RBCSSVal.pdf}})
 
 
 \begin{figure}
@@ -316,14 +347,14 @@ Using the following parameter values
 
 
 
-We will be interested in finding solutions for models that can be written in  the form
+We will develop an algorithm for finding solutions for models that can be written in  the form
 
 
 \begin{gather}
   h_i(x_{t-1},x_{t},x_{t+1},\epsilon_t)=h^{det}_{io}(x_{t-1},x_{t},\epsilon_t)+\sum_{j=1}^{p_i} [h^{det}_{ij}(x_{t-1},x_{t},\epsilon_t)h^{nondet}_{ij}(x_{t+1})]=0
 \end{gather}
-This is a very broad class of models and most economic models can 
-be cast in this form.  
+This is a very broad class of models including most widely used
+macroeconomic models.
 
 For example, the Euler equations for the  neoclassical growth  model 
 \label{sec:simple-rbc-model-ext} can be written as
@@ -336,18 +367,17 @@ h_{21}^{det}(\cdot)=0\\
 h_{30}^{det}(\cdot)=\ln \theta_t -(\rho \ln \theta_{t-1} + \epsilon_t),\,\,
 h_{31}^{det}(\cdot)=0
 \end{gather}
-Since we will be working with models where expectations are computed at time t, $\epsilon_t$ is known and the only stochastic components are those with time subscripts greater than $t$. We will need to compute 
+Since we will be working with models where expectations are computed at time t, $\epsilon_t$ is known.  The only stochastic components are those with time subscripts greater than $t$. Since we will need to compute 
 the conditional expectation of nonlinear expressions,  
-this specification will allow us to include auxiliary
-variables that we will include in the augmented model for 
-accurately recursively computing  the appropriate expected values.
+this setup will make it possible for us to use auxiliary
+variables to correctly compute the required expected values.
 Below, we will consider 
 systems that augment these dynamic equations with additional constraints 
 on the evolution of the variables.
 
 
-We will be interested in
-finding a time invariant function $g^\ast$ that satisfies
+The algorithm will construct
+ a time invariant function $g^\ast$ that satisfies
 \begin{gather}
   \begin{split}
 h(x_{t+s-1},g^\ast(x_{t+s-1},\epsilon_{t+s}),\mathcal{H}[g^\ast(g^\ast(x_{t+s-1},\epsilon_{t+s}),\epsilon_{t+s+1})],\epsilon_{t+s}) \label{theProblem} \\
@@ -362,45 +392,7 @@ functions of $x$ alone.  In this paper we will consider two such operators:
 
 
 
-Could be any function that ``integrates out'' the $\epsilon$.
-\footnote{What property, not the ``law of iterated expectations'' do I require.}
-%so long as iterated ``expectations'' enforced.
-
-
-\begin{description}
-\item[Perfect Foresight]
-\begin{gather}
-     \mathcal{H}^{PF}[g^{k}(x,\epsilon_{t+T-k+1})]=
-g^{k}(x,0)\\
-\end{gather}
-
-
-\item[Rational Expectations] 
-\begin{gather}
-     \mathcal{H}^{RE}[g^{k}(x,\epsilon_{t+T-k+1})]=
-\mathcal{E}_t[g^{k}(x,\epsilon_{t+T-k+1})|x]\\
-\end{gather}
-
- \end{description}
-
-
-
-
-
-
-
-
-
-
-
-
-In what follows, we will use a representation like equation \refeq{theTruncSeries} 
-to construct a sequence of functions, $g^k$, 
-that will approximate the typically unknown solution $g^\ast$.
-If we knew $g^\ast$, and  these function generate a bounded family of 
-trajectories, we could define $z(x_{t+s-1},\epsilon_t)$ using \refeq{defZ}.
-Constructing a companion linear model would subsequently allow 
- us to write down a series representation for the $g^\ast$ functions.  Below, we will show how to ``reverse engineer'' the series representation for $g^\ast$.
+ation for $g^\ast$.
 
 
 
@@ -513,8 +505,8 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 \end{gather}
 
 The next iteration highlights an aspect of the algorithmic step which allows us
-to continue to exploit something not the ``law of iterated expectations''
-%the law of iterated expectations in discovering the solution for the model.
+to continue to exploit the series representation.
+
 {\small
 \begin{gather}
 \underbrace{x_{t-1},0}
@@ -558,18 +550,19 @@ We construct our stand-in model by augmenting the model with the equation
 substituting $\rcpC_{t+1}$ for $\frac{1}{c_{t+1}}$ in the first equation and 
  linearizing the RBC model about the ergodic mean
 given in \refeq{rbcparams}
+{\small
 \begin{gather}
   \begin{bmatrix}
 H_{-1}&H_{0}&H_{1} 
-  \end{bmatrix}=
+  \end{bmatrix}=\\
 \vcenter{\hbox{\includegraphics{RBCHmatSymb.pdf}}} \label{rbcLinSys}
 \intertext{with}
 \psi_\epsilon=
 \begin{bmatrix}
   0\\0\\1\\0
 \end{bmatrix}, \psi_z=I
-\end{gather}(\footnote{generated by AMAPaperCalcs.mth {RBCHmatSymb.pdf}})
-
+\end{gather}%(\footnote{generated by AMAPaperCalcs.mth {RBCHmatSymb.pdf}})
+}
 These coefficients  produce a unique stable linear solution.
 
 \begin{gather}
@@ -582,7 +575,7 @@ F=
 \psi_c=
 \vcenter{\hbox{\includegraphics{RBCHSum.pdf}}}
 \vcenter{\hbox{\includegraphics{RBCSS.pdf}}}=\vcenter{\hbox{\includegraphics{RBCPsissSymb.pdf}}}
-\end{gather}(\footnote{generated by AMAPaperCalcs.mth {RBCBmatSymb.pdf}})(\footnote{generated by AMAPaperCalcs.mth {RBCPhimatSymb.pdf}})(\footnote{generated by AMAPaperCalcs.mth {RBCFmatSymb.pdf}})(\footnote{generated by AMAPaperCalcs.mth {RBCHSum.pdf}})(\footnote{generated by AMAPaperCalcs.mth {RBCSS.pdf}})
+\end{gather}%(\footnote{generated by AMAPaperCalcs.mth {RBCBmatSymb.pdf}})(\footnote{generated by AMAPaperCalcs.mth {RBCPhimatSymb.pdf}})(\footnote{generated by AMAPaperCalcs.mth {RBCFmatSymb.pdf}})(\footnote{generated by AMAPaperCalcs.mth {RBCHSum.pdf}})(\footnote{generated by AMAPaperCalcs.mth {RBCSS.pdf}})
 
 Applying the formula \refeq{firstIter} produces:
 
@@ -632,32 +625,33 @@ a deterministic system such that, given specific values for
 $(x_{t-1},\epsilon_{t})=(c_{t-1}, k_{t-1},\rcpC_{t-1}, \theta_{t-1}, \epsilon_t)$, we can solve for $z_{1t}(x_{t-1},\epsilon_{t})$, $z_{2t}(x_{t-1},\epsilon_{t})$, $z_{2t}(x_{t-1},\epsilon_{t})$, and $z_{4t}(x_{t-1},\epsilon_{t})$  completely determining
 $c_{t}(x_{t-1},\epsilon_{t})$, $k_{t}(x_{t-1},\epsilon_{t})$, $\rcpC_{t}(x_{t-1},\epsilon_{t})$  and $\theta_{t}(x_{t-1},\epsilon_{t})$.\footnote{In this example, the lagged value,  $c_{t-1}$ does not appear in the equation system and consequently plays no role in determining the solution.}  In effect we have 
 computed a solution for a model whose trajectories satisfy equation system \refeq{rbcSys}
-for one time period and satisfy equation \refeq{rbcLinSys} subsequently. As can
-be seen in the top panel of Figure \ref{fig:cfuncfirst}, 
-imposing the constraint for even a single period captures much of the non linearity, but the bottom panel shows that the solution is 
-still significantly far away from the exact solution.
+for one time period and satisfy equation \refeq{rbcLinSys} subsequently.
+% As can
+% be seen in the top panel of Figure \ref{fig:cfuncfirst}, 
+% imposing the constraint for even a single period captures much of the non linearity, but the bottom panel shows that the solution is 
+% still significantly far away from the exact solution.
 
 
-Number of function evaluations and time.
+% Number of function evaluations and time.
 
-fixed point not necessary.
+% fixed point not necessary.
 
-find root must use genxz func
-takes time to construct function for findroot  called twice by fixed point, but solution guaranteed on second call.
+% find root must use genxz func
+% takes time to construct function for findroot  called twice by fixed point, but solution guaranteed on second call.
 
-%\includegraphics[height=8.0in]{conExpPathsNote.pdf}(\footnote{{conExpPathsNote.pdf}})
+% %\includegraphics[height=8.0in]{conExpPathsNote.pdf}(\footnote{{conExpPathsNote.pdf}})
 
 
 
-Took 0.01 seconds while profiling.  Findroot called the xz func about 30 times.
-\begin{figure}
-  \centering
-%\includegraphics{cFuncExt00Lin.pdf}(\footnote{{cFunc00Lin.pdf}})
-  \caption{Solution for c imposing non linear model constraints for a single period}
-%\includegraphics{cFuncExt00Exact.pdf}(\footnote{{cFunc00Exact.pdf}})
-  \caption{Solution for c imposing non linear model constraints for a single period}
-  \label{fig:cfuncfirst}
-\end{figure}
+% Took 0.01 seconds while profiling.  Findroot called the xz func about 30 times.
+% \begin{figure}
+%   \centering
+% %\includegraphics{cFuncExt00Lin.pdf}(\footnote{{cFunc00Lin.pdf}})
+%   \caption{Solution for c imposing non linear model constraints for a single period}
+% %\includegraphics{cFuncExt00Exact.pdf}(\footnote{{cFunc00Exact.pdf}})
+%   \caption{Solution for c imposing non linear model constraints for a single period}
+%   \label{fig:cfuncfirst}
+% \end{figure}
 
 We are now in a position to compute
 $\mathcal{H}^{PF}[g^{0}(x,\epsilon_{t-k+1})]$ or
@@ -669,49 +663,49 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
   x_t=B x_{t-1} + \phi z_0(x_{t-1},\epsilon) + F \phi \mathcal{Z}^1(x_t)\\
   x_{t+1}=B x_{t} + \phi \mathcal{Z}^1(x_t)
 \end{gather}
-{\tiny
+% {\tiny
 
-\begin{gather}%paperCalcsRBCExample.mth xt01
-  \label{eq:2}
-   \left(
-   \begin{array}{c}
- 0.359845 \epsilon _t+0.692632 k_{t-1}+0.341853 \theta _{t-1}-0.0442851
-   \text{z1}_{t-1}-0.0442851 \text{Z1}_{t-1}+0.658 \text{z2}_{t-1}+0.359845
-   \text{z3}_{t-1}+0.225036 \text{Z3}_{t-1}-0.0151455 \text{Z4}_{t-1}-0.111552 \\
- 0.187032 \epsilon _t+0.36 k_{t-1}+0.17768 \theta _{t-1}+0.0442851
-   \text{z1}_{t-1}+0.0442851 \text{Z1}_{t-1}+0.342 \text{z2}_{t-1}+0.187032
-   \text{z3}_{t-1}-0.225036 \text{Z3}_{t-1}+0.0151455 \text{Z4}_{t-1}-0.0579799 \\
- -5.34898 k_{t-1}+0.342 \text{z1}_{t-1}+0.342 \text{Z1}_{t-1}-5.08153
-   \text{z2}_{t-1}-1.73788 \text{Z3}_{t-1}+\text{z4}_{t-1}+0.116964
-   \text{Z4}_{t-1}+3.7794 \\
- \epsilon _t+0.95 \theta _{t-1}+\text{z3}_{t-1}+0.05 \\
-   \end{array}
-   \right)
-\end{gather}
-}
+% \begin{gather}%paperCalcsRBCExample.mth xt01
+%   \label{eq:2}
+%    \left(
+%    \begin{array}{c}
+%  0.359845 \epsilon _t+0.692632 k_{t-1}+0.341853 \theta _{t-1}-0.0442851
+%    \text{z1}_{t-1}-0.0442851 \text{Z1}_{t-1}+0.658 \text{z2}_{t-1}+0.359845
+%    \text{z3}_{t-1}+0.225036 \text{Z3}_{t-1}-0.0151455 \text{Z4}_{t-1}-0.111552 \\
+%  0.187032 \epsilon _t+0.36 k_{t-1}+0.17768 \theta _{t-1}+0.0442851
+%    \text{z1}_{t-1}+0.0442851 \text{Z1}_{t-1}+0.342 \text{z2}_{t-1}+0.187032
+%    \text{z3}_{t-1}-0.225036 \text{Z3}_{t-1}+0.0151455 \text{Z4}_{t-1}-0.0579799 \\
+%  -5.34898 k_{t-1}+0.342 \text{z1}_{t-1}+0.342 \text{Z1}_{t-1}-5.08153
+%    \text{z2}_{t-1}-1.73788 \text{Z3}_{t-1}+\text{z4}_{t-1}+0.116964
+%    \text{Z4}_{t-1}+3.7794 \\
+%  \epsilon _t+0.95 \theta _{t-1}+\text{z3}_{t-1}+0.05 \\
+%    \end{array}
+%    \right)
+% \end{gather}
+% }
 
-{\tiny
-  \begin{gather}
-    \label{eq:3}
-       \left(
-   \begin{array}{c}
- 0.471397 \epsilon _t+0.249347 k_{t-1}+0.447827 \theta _{t-1}+0.0306732
-   \text{z1}_{t-1}-0.0578969 \text{Z1}_{t-1}+0.23688 \text{z2}_{t-1}+0.658
-   \text{Z2}_{t-1}+0.471397 \text{z3}_{t-1}+0.429014 \text{Z3}_{t-1}-0.00465525
-   \text{Z4}_{t-1}-0.134618 \\
- 0.245012 \epsilon _t+0.1296 k_{t-1}+0.232761 \theta _{t-1}+0.0159426
-   \text{z1}_{t-1}+0.104513 \text{Z1}_{t-1}+0.12312 \text{z2}_{t-1}+0.342
-   \text{Z2}_{t-1}+0.245012 \text{z3}_{t-1}-0.119017 \text{Z3}_{t-1}+0.0205979
-   \text{Z4}_{t-1}-0.0699687 \\
- -1.00043 \epsilon _t-1.92563 k_{t-1}-0.950409 \theta _{t-1}-0.23688
-   \text{z1}_{t-1}+0.44712 \text{Z1}_{t-1}-1.82935 \text{z2}_{t-1}-5.08153
-   \text{Z2}_{t-1}-1.00043 \text{z3}_{t-1}-0.534171 \text{Z3}_{t-1}+1.03595
-   \text{Z4}_{t-1}+4.08954 \\
- 0.95 \epsilon _t+0.9025 \theta _{t-1}+0.95 \text{z3}_{t-1}+\text{Z3}_{t-1}+0.0975 \\
-   \end{array}
-   \right)
-  \end{gather}
-}
+% {\tiny
+%   \begin{gather}
+%     \label{eq:3}
+%        \left(
+%    \begin{array}{c}
+%  0.471397 \epsilon _t+0.249347 k_{t-1}+0.447827 \theta _{t-1}+0.0306732
+%    \text{z1}_{t-1}-0.0578969 \text{Z1}_{t-1}+0.23688 \text{z2}_{t-1}+0.658
+%    \text{Z2}_{t-1}+0.471397 \text{z3}_{t-1}+0.429014 \text{Z3}_{t-1}-0.00465525
+%    \text{Z4}_{t-1}-0.134618 \\
+%  0.245012 \epsilon _t+0.1296 k_{t-1}+0.232761 \theta _{t-1}+0.0159426
+%    \text{z1}_{t-1}+0.104513 \text{Z1}_{t-1}+0.12312 \text{z2}_{t-1}+0.342
+%    \text{Z2}_{t-1}+0.245012 \text{z3}_{t-1}-0.119017 \text{Z3}_{t-1}+0.0205979
+%    \text{Z4}_{t-1}-0.0699687 \\
+%  -1.00043 \epsilon _t-1.92563 k_{t-1}-0.950409 \theta _{t-1}-0.23688
+%    \text{z1}_{t-1}+0.44712 \text{Z1}_{t-1}-1.82935 \text{z2}_{t-1}-5.08153
+%    \text{Z2}_{t-1}-1.00043 \text{z3}_{t-1}-0.534171 \text{Z3}_{t-1}+1.03595
+%    \text{Z4}_{t-1}+4.08954 \\
+%  0.95 \epsilon _t+0.9025 \theta _{t-1}+0.95 \text{z3}_{t-1}+\text{Z3}_{t-1}+0.0975 \\
+%    \end{array}
+%    \right)
+%   \end{gather}
+% }
 
 
 
@@ -741,228 +735,228 @@ for two time periods and satisfy equation \refeq{rbcLinSys} subsequently.
 
 
 
-\cite{foerster13}
-
-\begin{gather}
-c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
- \log z_t = (1-\rho(s_t))\mu(s_t) + \rho(s_t)\log z_{t-1}+ \sigma(s_t) \epsilon_t\\
- c_t^{\gamma-1} = \beta  
- E_t ( c_{t+1}^{\gamma-1} (\alpha z_{t+1}^{1-\alpha} k_t^{\alpha -1} + (1-\delta) ))
-\end{gather}
-
-Compressing objects: 100% (7/7), done.
-Writing objects: 100% (7/7), 11.85 KiB, done.
-
-
-\begin{itemize}
-\item do compositions in place instead of stacking
-\item Use derivatives in approximation to solve illustrates how expectations ``smooth'' out the function ``kinks''
-\item time invariance and constraints on paths
-\item perturbation techniques on $x+{t-1}, \epsilon$
-\item $\epsilon$ could be any exogenous even time varying factor
-\item compute derivative of composition of function and use in update of decision rule from path errors
-\item add diagnostic tests to checkLinMod checkMod
-\item specify model definition requirements 
-\item exploit linearity get derivative for update
-\item generate a ``differential equation''
-\item makeDRFunc and reconcile assessment and update code
-\item use composition instead of stacking make interpolation decision rule pair
-\item way to use centered and backward sums of z's
-\item use derivative of sum and integral in update of function
-\item time invariance iteration constraints on z's and paths
-\item time invariance and function updates
-\item $z(x,\epsilon,y)$? just need y ``exogenous''  y discrete, continuous, stochastic
-\item progress monitor
-\item big shocks abort linear liftoff good cautionary example
-\item parallel
-\item smolyak
-\item constraint
-\item regime
-\item error messages
-\item lucamod big shock
-\item how to ``snug up'' solution using global feature of AMA series
-\item linearity of representation and updating
-\item deprecate path extension
-\item fact that are decision rule constrains z's How? z's are all part of a decision rule uniqueness topology
-\item one step defines all values  --  this should be exploitable
-\item decision rule differs slightly from conditional expetation that gets iterated shock puts you on a path
-\item mention possible to use Sims inputs
-\item continuous time
-\item $\Delta(x_{t-1},\epsilon_t) \implies \Delta Z(x_{t-1}) \implies PATH \implies NewZs$
-\item suspect there is a corresponding PDE that may be easy to solve numerically
-\item problem probably already solved in topology ( category theory )
-\item perhaps can approx the exact PDE by using just a few terms
-\item for time invariant map just need to get one step right so shouldn't need to worry about iterated compositions in formula for differential equaiton
-\item Euler residuals like Luca and other measures like Villaverde use maliar measures 
-\item findroot, nsolve other for deterministic problem
-\item use all equations ==
-\item nsolve choose multiple --  more constraints
-\item \href{mathematica nsolve info}{http://mathematica.stackexchange.com/questions/47112/what-algorithms-does-nsolve-use}
-\item \href{some choices}{http://mathematica.stackexchange.com/questions/40543/methods-for-nsolve}
-  \begin{itemize}
-  \item "EndomorphismMatrix"
-"CompanionMatrix"
-\item 
-"Legacy"
-\item 
-"Aberth"
-\item 
-"JenkinsTraub"
-  \end{itemize}
-\item do maliar exercises
-\item do rubio exercises
-\item do luca exercises
-\item equations CompiledFunction if findroot
-\item equations Function if NSolve
-\item java minimizer with constraints 
-\item $dr1 = \sum ... z_1, dr2 = \sum ... z_2,,, dr2 - dr1= \sum ... (z_2-z_1)$
-\item $dr_\ast - dr1= \sum ... (z_\ast-z_1)$
-\item warnings about extrapolation
-\item generate PDE
-\item time invariance constraints on zs 
-\item $ \Delta z \implies \Delta z \implies \Delta path$
-\item implement derivative
-\item functions with through can likely be parallelized also maps
-\item kernel fireup time?
-\item behavior when multiple solutions and when no solutions
-\item how best to associate eqnFuncs with lilxkzkfunc 
-\item multistep iterateions should match steady state solution exactly (see 
-AMASeriesRepresentationExamples notebook for developing derivatives
-\item should develop a test suite demonstrating identities satisfied
-\item update path using newton step,  Stack` $\frac{\partial Z()}{\partial x_{t-1}}$
-\item verify chunks can have t-1 and t  values
-\item solve closed form example in one verifying iteration
-\item ``pruned'' perturbation solution for initial guess at cond exp
-\item can use to assess ``pruned'' perturbation solution
-\item just collocation could be projection
-\item make sure multiple shocks okay; implementation versus theoretical constraint
-\item  could use different linmods for each regime
-\item inits for nsolve, handholding for nsolve
-\item improve monitors for misapplied functions
-\item nsolve about 500 times a long as findroot
-\item any time invariant dr with bounded solutions can be written as a series proof by construction
-\end{itemize}
-`	
-\newpage
-\appendix
+% \cite{foerster13}
+
+% \begin{gather}
+% c_t + z_t k_t = z_t^{1-\alpha} k_{t-1}^\alpha + (1-\delta)k_{t-1}\\
+%  \log z_t = (1-\rho(s_t))\mu(s_t) + \rho(s_t)\log z_{t-1}+ \sigma(s_t) \epsilon_t\\
+%  c_t^{\gamma-1} = \beta  
+%  E_t ( c_{t+1}^{\gamma-1} (\alpha z_{t+1}^{1-\alpha} k_t^{\alpha -1} + (1-\delta) ))
+% \end{gather}
+
+% Compressing objects: 100% (7/7), done.
+% Writing objects: 100% (7/7), 11.85 KiB, done.
+
+
+% \begin{itemize}
+% \item do compositions in place instead of stacking
+% \item Use derivatives in approximation to solve illustrates how expectations ``smooth'' out the function ``kinks''
+% \item time invariance and constraints on paths
+% \item perturbation techniques on $x+{t-1}, \epsilon$
+% \item $\epsilon$ could be any exogenous even time varying factor
+% \item compute derivative of composition of function and use in update of decision rule from path errors
+% \item add diagnostic tests to checkLinMod checkMod
+% \item specify model definition requirements 
+% \item exploit linearity get derivative for update
+% \item generate a ``differential equation''
+% \item makeDRFunc and reconcile assessment and update code
+% \item use composition instead of stacking make interpolation decision rule pair
+% \item way to use centered and backward sums of z's
+% \item use derivative of sum and integral in update of function
+% \item time invariance iteration constraints on z's and paths
+% \item time invariance and function updates
+% \item $z(x,\epsilon,y)$? just need y ``exogenous''  y discrete, continuous, stochastic
+% \item progress monitor
+% \item big shocks abort linear liftoff good cautionary example
+% \item parallel
+% \item smolyak
+% \item constraint
+% \item regime
+% \item error messages
+% \item lucamod big shock
+% \item how to ``snug up'' solution using global feature of AMA series
+% \item linearity of representation and updating
+% \item deprecate path extension
+% \item fact that are decision rule constrains z's How? z's are all part of a decision rule uniqueness topology
+% \item one step defines all values  --  this should be exploitable
+% \item decision rule differs slightly from conditional expetation that gets iterated shock puts you on a path
+% \item mention possible to use Sims inputs
+% \item continuous time
+% \item $\Delta(x_{t-1},\epsilon_t) \implies \Delta Z(x_{t-1}) \implies PATH \implies NewZs$
+% \item suspect there is a corresponding PDE that may be easy to solve numerically
+% \item problem probably already solved in topology ( category theory )
+% \item perhaps can approx the exact PDE by using just a few terms
+% \item for time invariant map just need to get one step right so shouldn't need to worry about iterated compositions in formula for differential equaiton
+% \item Euler residuals like Luca and other measures like Villaverde use maliar measures 
+% \item findroot, nsolve other for deterministic problem
+% \item use all equations ==
+% \item nsolve choose multiple --  more constraints
+% \item \href{mathematica nsolve info}{http://mathematica.stackexchange.com/questions/47112/what-algorithms-does-nsolve-use}
+% \item \href{some choices}{http://mathematica.stackexchange.com/questions/40543/methods-for-nsolve}
+%   \begin{itemize}
+%   \item "EndomorphismMatrix"
+% "CompanionMatrix"
+% \item 
+% "Legacy"
+% \item 
+% "Aberth"
+% \item 
+% "JenkinsTraub"
+%   \end{itemize}
+% \item do maliar exercises
+% \item do rubio exercises
+% \item do luca exercises
+% \item equations CompiledFunction if findroot
+% \item equations Function if NSolve
+% \item java minimizer with constraints 
+% \item $dr1 = \sum ... z_1, dr2 = \sum ... z_2,,, dr2 - dr1= \sum ... (z_2-z_1)$
+% \item $dr_\ast - dr1= \sum ... (z_\ast-z_1)$
+% \item warnings about extrapolation
+% \item generate PDE
+% \item time invariance constraints on zs 
+% \item $ \Delta z \implies \Delta z \implies \Delta path$
+% \item implement derivative
+% \item functions with through can likely be parallelized also maps
+% \item kernel fireup time?
+% \item behavior when multiple solutions and when no solutions
+% \item how best to associate eqnFuncs with lilxkzkfunc 
+% \item multistep iterateions should match steady state solution exactly (see 
+% AMASeriesRepresentationExamples notebook for developing derivatives
+% \item should develop a test suite demonstrating identities satisfied
+% \item update path using newton step,  Stack` $\frac{\partial Z()}{\partial x_{t-1}}$
+% \item verify chunks can have t-1 and t  values
+% \item solve closed form example in one verifying iteration
+% \item ``pruned'' perturbation solution for initial guess at cond exp
+% \item can use to assess ``pruned'' perturbation solution
+% \item just collocation could be projection
+% \item make sure multiple shocks okay; implementation versus theoretical constraint
+% \item  could use different linmods for each regime
+% \item inits for nsolve, handholding for nsolve
+% \item improve monitors for misapplied functions
+% \item nsolve about 500 times a long as findroot
+% \item any time invariant dr with bounded solutions can be written as a series proof by construction
+% \end{itemize}
+% `	
+% \newpage
+% \appendix
 
-\section{Arbitrary Path Generator Programs}
-\label{sec:arbitr-path-gener}
+% \section{Arbitrary Path Generator Programs}
+% \label{sec:arbitr-path-gener}
 
-\listinginput{1}{arbGenPath.mth}
+% \listinginput{1}{arbGenPath.mth}
 
-\section{Program Signatures}
-\label{sec:program-listings}
-\begin{tabular}{|l|c|}
-\hline
-Number of $x_t$ variables&$\numX$\\
-\hline
-Number of $z_t$ variables&$\numZ$\\
-\hline
-Number of $\epsilon_t$ variables&$\numEps$\\
-\hline
-Number of regimes variables&$\numR$\\
-\hline
-Number of recursive iterations&$\numIters$\\
-\hline
-Interpolation Grid Specification&$\dstSpec$\\
-\hline
-Shock Distributions  Specification&$\dstSpec$\\
-\hline
-The Linear Reference Model&$\linMod\equiv\linModMats$\\  
-\hline
-Model Equation Function&$\eqnFuncSig$\\
-\hline
-\end{tabular}
-\subsection{genLilXkZkFunc}
-\label{sec:genlilxkzkfunc}
-\begin{gather*}
-\linMod \times \{  \bigXFuncSig, k \} \times \Rn{(\numX+\numEps)} \rightarrow
-huh%\lilXFuncSig
-\end{gather*}
+% \section{Program Signatures}
+% \label{sec:program-listings}
+% \begin{tabular}{|l|c|}
+% \hline
+% Number of $x_t$ variables&$\numX$\\
+% \hline
+% Number of $z_t$ variables&$\numZ$\\
+% \hline
+% Number of $\epsilon_t$ variables&$\numEps$\\
+% \hline
+% Number of regimes variables&$\numR$\\
+% \hline
+% Number of recursive iterations&$\numIters$\\
+% \hline
+% Interpolation Grid Specification&$\dstSpec$\\
+% \hline
+% Shock Distributions  Specification&$\dstSpec$\\
+% \hline
+% The Linear Reference Model&$\linMod\equiv\linModMats$\\  
+% \hline
+% Model Equation Function&$\eqnFuncSig$\\
+% \hline
+% \end{tabular}
+% \subsection{genLilXkZkFunc}
+% \label{sec:genlilxkzkfunc}
+% \begin{gather*}
+% \linMod \times \{  \bigXFuncSig, k \} \times \Rn{(\numX+\numEps)} \rightarrow
+% huh%\lilXFuncSig
+% \end{gather*}
 
-\subsection{genFRFunc,genNSFunc}
-\label{sec:genfrfunc}
+% \subsection{genFRFunc,genNSFunc}
+% \label{sec:genfrfunc}
 
 
-\begin{gather*}
-\{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times (\eqnFuncSig)    \rightarrow\\
-\frfpnsFuncSig
-\end{gather*}
+% \begin{gather*}
+% \{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times (\eqnFuncSig)    \rightarrow\\
+% \frfpnsFuncSig
+% \end{gather*}
 
 
 
-\subsection{genFPFunc}
-\label{sec:genfpfunc}
-\begin{gather*}
-\linMod \times \{  \bigXFuncSig, k \} \times (\eqnFuncSig)    \rightarrow\\ 
-\frfpnsFuncSig
-\end{gather*}
+% \subsection{genFPFunc}
+% \label{sec:genfpfunc}
+% \begin{gather*}
+% \linMod \times \{  \bigXFuncSig, k \} \times (\eqnFuncSig)    \rightarrow\\ 
+% \frfpnsFuncSig
+% \end{gather*}
 
 
 
 
-\subsection{genXZREInterpFunc}
-\label{sec:genfpfunc}
-\begin{gather*}
-\{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times \grdSpec \times  \dstSpec   \rightarrow\\
-\bigXFuncSig
-\end{gather*}
+% \subsection{genXZREInterpFunc}
+% \label{sec:genfpfunc}
+% \begin{gather*}
+% \{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times \grdSpec \times  \dstSpec   \rightarrow\\
+% \bigXFuncSig
+% \end{gather*}
 
 
 
-\subsection{doIterREInterp}
-\label{sec:doiterreinterp}
+% \subsection{doIterREInterp}
+% \label{sec:doiterreinterp}
 
-\begin{gather*}
-  \linMod \times 
-w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
- \times (\eqnFuncSig ) \times \grdSpec \times \dstSpec \rightarrow\\
-\{\frfpnsFuncSig, \{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
-\end{gather*}
+% \begin{gather*}
+%   \linMod \times 
+% w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+%  \times (\eqnFuncSig ) \times \grdSpec \times \dstSpec \rightarrow\\
+% \{\frfpnsFuncSig, \{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+% \end{gather*}
 
 
 
-\subsection{nestIterREInterp}
-\label{sec:nestiterreinterp}
+% \subsection{nestIterREInterp}
+% \label{sec:nestiterreinterp}
 
 
 
-\begin{gather*}
-  \linMod \times 
-\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
- \times (\eqnFuncSig ) \times \grdSpec \times \dstSpec \times \numIters \rightarrow\\
-\{\frfpnsFuncSig, \{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
-\end{gather*}
+% \begin{gather*}
+%   \linMod \times 
+% \{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+%  \times (\eqnFuncSig ) \times \grdSpec \times \dstSpec \times \numIters \rightarrow\\
+% \{\frfpnsFuncSig, \{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+% \end{gather*}
 
 
 
-\subsection{genLilXkZkRegimeFuncs}
-\label{sec:genlilxkzkregimefunc}
-{\small
-\begin{gather*}
-\linMod \times \{(\{  \bigXFuncSig, k_i \})_{k_i=1},\ldots,(\{  \bigXFuncSig, k_i \})_{k_i=\numR}\} \times\\ \Rn{(\numX+\numEps)} \rightarrow\\
-\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}
-\end{gather*}
-}
+% \subsection{genLilXkZkRegimeFuncs}
+% \label{sec:genlilxkzkregimefunc}
+% {\small
+% \begin{gather*}
+% \linMod \times \{(\{  \bigXFuncSig, k_i \})_{k_i=1},\ldots,(\{  \bigXFuncSig, k_i \})_{k_i=\numR}\} \times\\ \Rn{(\numX+\numEps)} \rightarrow\\
+% \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}
+% \end{gather*}
+% }
 
 
 
 
 
-\subsection{genFRRegimeFuncs, genNSRegimeFuncs}
-\label{sec:genfrregimefunc}
+% \subsection{genFRRegimeFuncs, genNSRegimeFuncs}
+% \label{sec:genfrregimefunc}
 
 
 
-{\small
-\begin{gather*}
-\{\numX,\numEps,\numZ\}\times\\
-\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
- \times (\eqnRegimeFuncSig )\rightarrow\\
-\frfpnsRegimeFuncSig
-\end{gather*}
-}
+% {\small
+% \begin{gather*}
+% \{\numX,\numEps,\numZ\}\times\\
+% \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+%  \times (\eqnRegimeFuncSig )\rightarrow\\
+% \frfpnsRegimeFuncSig
+% \end{gather*}
+% }
 
 
 
@@ -971,56 +965,56 @@ w\{(\lilXFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
 
 
 
-\subsection{genFPRegimeFuncs}
-\label{sec:genfpregimefunc}
+% \subsection{genFPRegimeFuncs}
+% \label{sec:genfpregimefunc}
 
 
 
 
-{\small
-\begin{gather*}
-\{\numX,\numEps,\numZ\}\times\\
-\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
- \times (\eqnRegimeFuncSig )\rightarrow\\
-\frfpnsRegimeFuncSig
-\end{gather*}
-}
+% {\small
+% \begin{gather*}
+% \{\numX,\numEps,\numZ\}\times\\
+% \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+%  \times (\eqnRegimeFuncSig )\rightarrow\\
+% \frfpnsRegimeFuncSig
+% \end{gather*}
+% }
 
 
 
 
-\subsection{genXZREInterpRegimeFuncs}
-\label{sec:genfpfunc}
-\begin{gather*}
-\{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times \dstSpec \times  \expctSpec   \rightarrow\\
-\frfpnsFuncSig
-\end{gather*}
+% \subsection{genXZREInterpRegimeFuncs}
+% \label{sec:genfpfunc}
+% \begin{gather*}
+% \{\numX,\numEps,\numZ\}\times(\lilXFuncSig)\times \dstSpec \times  \expctSpec   \rightarrow\\
+% \frfpnsFuncSig
+% \end{gather*}
 
 
 
-\subsection{doIterREInterpRegime}
-\label{sec:doiterreinterp}
+% \subsection{doIterREInterpRegime}
+% \label{sec:doiterreinterp}
 
-\begin{gather*}
-  \linMod \times 
-w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
- \times (\eqnRegimeFuncSig ) \times \grdSpec \times \dstSpec \rightarrow\\
-\{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
-\end{gather*}
+% \begin{gather*}
+%   \linMod \times 
+% w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+%  \times (\eqnRegimeFuncSig ) \times \grdSpec \times \dstSpec \rightarrow\\
+% \{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+% \end{gather*}
 
 
 
-\subsection{nestIterREInterpRegime}
-\label{sec:nestiterreinterp}
+% \subsection{nestIterREInterpRegime}
+% \label{sec:nestiterreinterp}
 
 
 
-\begin{gather*}
-  \linMod \times 
-w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
- \times (\eqnRegimeFuncSig ) \times \grdSpec \times \dstSpec  \times \numIters \rightarrow\\
-\{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
-\end{gather*}
+% \begin{gather*}
+%   \linMod \times 
+% w\{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}  \\
+%  \times (\eqnRegimeFuncSig ) \times \grdSpec \times \dstSpec  \times \numIters \rightarrow\\
+% \{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
+% \end{gather*}
 
 
  \bibliographystyle{plainnat}
