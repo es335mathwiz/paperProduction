@@ -51,6 +51,67 @@ of further solution refinement.
 
 
 
+\section{Introduction and Summary}
+
+
+
+
+
+Stochastic dynamic non linear economic
+models increasingly embody  occasionally binding constraints (OBC) essential
+Since \cite{Christiano2000} a host of
+authors have described a variety of approaches. 
+\cite{holden15:_exist_dsge,guerrieri15:_occbin,benigno09,hintermaier10,brumm10,nakov08,haefke98,nakata12,gordon11,billi11,Hintermaier2010,Guerrieri2015}
+This paper provides yet another.  This new series representation provides  a coherent framework for attacking a wide variety of complicated nonlinear models.
+The framework provides a new way to bound the error one can expect from
+employing a given proposed model solution and leads to a
+algorithm with  components similar to parameterized expectations that
+one can use to improve proposed solutions. The series representation makes
+it possible to organize the calculation around computing a deterministic
+problem at time t given a proposed solution.  The deterministic solution
+can accomodate inequality constaints or altenative regimes to produce a
+solution for each set of initial conditions.  One can typically arrange,
+perphaps by adding auxiliary variables, to produce a ``decision rule''
+that one can correctly integrate to get a deterministic conditional
+expectation function that can be iterated forward and serves to
+improve upon the original proposed solution.
+Time invariant stochastic functions 
+lead naturally to an associated family of deterministic maps
+which can conveniently represented by the series representation.
+
+
+
+
+\begin{figure}
+  \centering
+  
+
+
+  \begin{gather}
+    \fbox{Nonlinear Rational Expectations Model}\\ \Downarrow\\
+\fbox{Bounded Time Invariant Function Solution}\\\Downarrow\\
+\fbox{Series Representation}\\\Downarrow\\
+\fbox{Series Approximation}
+  \end{gather}
+  \caption{From Models to Approximate Solutions}
+  \label{fig:modelsto}
+\end{figure}
+
+
+This series representation for deterministic maps,
+broadly applicable for nonlinear rational expectations models 
+leads to a formulae for accuracy bounds for any proposed solution.
+As an important component in an algorithm for
+constructing approximate solutions it
+facilitates exploiting recursive computation of the solutions for complicated models.
+The algorithm has been implemented in
+Mathematica code that can compute solutions for
+nonlinear models with occasionally binding constraints and/or regime switching models.
+
+
+
+
+
 
 
 
@@ -775,57 +836,6 @@ Bounded solutions if and only if all eigenvalues of
 
 
 
-
-
-
-
-
-  {Context and Motivation}
-  \begin{itemize}
-  \item Non linear models more pervasive
-  \item Modeling occasionally binding constraints (OBC) essential
-  \item Since \cite{Christiano2000} authors have described a variety of approaches. 
-
-\cite{holden15:_exist_dsge,guerrieri15:_occbin,benigno09,hintermaier10,brumm10,nakov08,haefke98,nakata12,gordon11,billi11,Hintermaier2010,Guerrieri2015}
-\item Series representation provides  a coherent framework for attacking a wide variety of complicated nonlinear models
-      \end{itemize}
-
-
-
-{From Models to Approximate Solutions }
-  \begin{gather}
-    \fbox{Nonlinear Rational Expectations Model}\\ \Downarrow\\
-\fbox{Bounded Time Invariant Function Solution}\\\Downarrow\\
-\fbox{Series Representation}\\\Downarrow\\
-\fbox{Series Approximation}
-  \end{gather}
-  \begin{itemize}
-  \item  How can we take the  steps?
-  \item Time invariant stochastic functions 
-lead naturally to an associated family of deterministic maps
-\item Deterministic maps have a convenient series representation
-  \end{itemize}
-
-
-
-
-
-
-
-  {Overview}
-  \begin{itemize}
-\item New series representation for deterministic maps
-  \begin{itemize}
-\item Series representation broadly applicable for nonlinear rational expectations models 
-\item Leads to a formula for accuracy bounds for any proposed solution
-\item An important component in an algorithm for constructing approximate solutions 
-\item Facilitates exploiting recursive computation of the solutions for complicated models.
-  \end{itemize}
-%\item facilitates exploiting the ``law of iterated expectations'' in computing solutions for complicated models.
-%\item convergence to time invariant model solution.
-\item Mathematica code implementing the algorithms
-\item Applicable for nonlinear models with OBC: a reference linear model plays the role of a ``recording device''
-  \end{itemize}
 
 
 
