@@ -1,6 +1,7 @@
 \documentclass[hyperref]{labbook}
 \usepackage{natbib}
 \usepackage{hyperref}
+\usepackage{graphicx}
 \begin{document}
 
 \frontmatter
@@ -131,11 +132,20 @@ I started this lab book today.
 \item[AMASeries paper] \ 
   \begin{itemize}
   \item got multivariate function aproximation papers into notability
+  \item searching for citations of the multivariate funcion evaluation paper
+  \item AMASeries workbench tests no errors on mac but 4 errors on desktop. on desktop args don't match function signature fo checkmod
+  \item AMASeriesRepresentation.m comes from .w sometime ago I removed the .m from version control
+  \item reinstalled nuweb generated AMASeriesRepresentation.m 
+  \item added back into workbench on desktop 
+  \item now passes all the tests
   \end{itemize}
 \item[Alena collaboration] \ 
   \begin{itemize}
   \item Some examples to send
   \item moved document to paperProduction/alenaCollab/docs
+  \item finding time series papers with cross validation
+  \item found a paper on boosting with svm
+  \item rolling window looks like a useful way to go for cross validation
   \end{itemize}
 \item[Alena Laptop] \ 
   \begin{itemize}
@@ -147,9 +157,761 @@ I started this lab book today.
   \item Text
   \item business cycles
   \end{itemize}
+\item[Administration] \ 
+
+  \begin{itemize}
+  \item re-install nuweb
+  \end{itemize}
 \end{description}
 
+\labday{Tuesday, February 28, 2017}
+
+\experiment{Administration}
+
+
+  \begin{itemize}
+  \item retirement details
+  \item class reimbursement pass accepted
+  \item machine learning opportunities
+  \item computer science classes in the area
+  \end{itemize}
+\experiment{Alena Collaboration}
+
+  \begin{itemize}
+  \item uses 
+    \begin{itemize}
+    \item libsvm under netbean8.2 
+    \item /msu/home/m1gsa00/git/svmrStuff/SVMRDesktop.nb 
+    \item mathematica 11 on the cluster (default mathematica there)
+    \item SVMR package
+    \end{itemize}
+  \item rolling window
+  \item think about hv-block cross validation
+  \item Bergmeir for white noise residuals.  ``Bad'' models correlated need a different  validation technique
+  \item bootstrapping may provide a fix 
+  \item hv crossvalidation designed for dependent case
+  \end{itemize}
+
+\experiment{AMA Series}
+
+\begin{itemize}
+\item recall how code works
+\item first cut svm
+\end{itemize}
+
+\experiment{Parallel Programming}
+
+\begin{itemize}
+\item stride/vec
+\item stochastic sims  works for julliard example
+\item mmatoC ins git/safePaperProduction/parallelFRBUS  (needs to move to some place to push to github
+\item need to get maven exemption
+\item works on laptop?
+\end{itemize}
+
+\experiment{Finances}
+
+\begin{itemize}
+\item reconcile homebudget
+\item credit cards payoff
+\item reinstate automatics deposits in homebudget
+\item apartment refund
+\end{itemize}
+
+
+\experiment{Household}
+
+\begin{itemize}
+\item plane tickets
+\item England visit schedule  261.25 hours
+\end{itemize}
+
+\labday{Wednesday, March 1, 2017}
+
+\experiment{Parallel Programming}
+
+\begin{itemize}
+\item found git/doToggle/toggle.mth  reads maqs xml to generate .mod .mth .xml files
+\item found git/doToggle/rbcGenC   creates C using MmaModelToC generateCCode 
+\item set up in netbeans to find reason for segmentation fault with call to periodicpointguesser
+\item find old FRBUS work
+\item get FRBUS into mmaToC machinery
+\item asked for maven exemption
+\end{itemize}
+
+\experiment{Alena Collaboration}
+
+\begin{itemize}
+\item rolling window or hv-block
+\item example to Alena
+\end{itemize}
+
+\experiment{Machine Learning}
+
+\begin{itemize}
+\item options
+\item stride/vec examples
+\item 
+\end{itemize}
+\experiment{Finances}
+\begin{itemize}
+\item retirement options
+\end{itemize}
+
+\experiment{AMA Series}
+\begin{itemize}
+\item recall how program works
+\item first cut svm univariate
+\end{itemize}
+
+\experiment{Administration}
+
+\begin{itemize}
+\item asked for firewall exemption for maven
+\end{itemize}
+
+\labday{Wednesday, March 2, 2017}
+
+\experiment{Parallel Programming}
+
+\begin{itemize}
+\item found code related to homotopy and to lin/non linear part in for example   /msu/res2/m1gsa00/proj3/garyFiles/big/cFiles/nuwebTree/toRay042502/jwLinear using swish-e  -f indexForDotFC -w homotopyAlpha -b 1 -x "'%p--%D'\n"
+\item get code working without these first add back later
+\item debugging netbeans make sure no code optimization or you get variables out of scope
+\item had role of ia ja interchanged in csf matrice in derivative
+\end{itemize}
+
+\experiment{Alena Collaboration}
+
+\begin{itemize}
+\item rolling window or hv-block
+\item example to Alena
+\end{itemize}
+
+\experiment{Machine Learning}
+
+\begin{itemize}
+\item options
+\item stride/vec examples
+\item 
+\end{itemize}
+
+\experiment{Finances}
+\begin{itemize}
+\item retirement options
+\end{itemize}
+
+\experiment{AMA Series}
+\begin{itemize}
+\item recall how program works
+\item first cut svm univariate
+\end{itemize}
+
+\experiment{Administration}
+
+\begin{itemize}
+\item sort out leave requests
+\end{itemize}
+
+
+\labday{Friday, March 3, 2017}
+\begin{itemize}
+\item homotopy goes form linearized to fully non linear
+\end{itemize}
+
+
+\labday{Saturday, March 4, 2017}
+
+\begin{itemize}
+\item homotopy goes form linearized to fully non linear
+\item have to change call to func and dfunc to zap homotopy
+\item stackC.c in /msu/res2/m1gsa00/proj3/garyFiles/big/cFiles/nuwebTree/stackC/ has homotopy code
+\end{itemize}
+
+\labday{Sunday, March 5, 2017}
+
+\begin{itemize}
+\item fixed problem with failedQ on fpnewt return
+\item work on getting seriel to run without homotopy
+\item fix problems writing out results
+\item add homotopy
+\item stackC.c in /msu/res2/m1gsa00/proj3/garyFiles/big/cFiles/nuwebTree/stackC/ has homotopy code
+\item need to do git push
+\end{itemize}
+
+
+\labday{Monday, March 6, 2017}
+
+\experiment{Parallel Programming}
+
+\subexperiment{FRBUS stochastic simulations}
+
+\begin{itemize}
+\item install lapack on laptop
+\item incorporate homotopy code into cstochsims
+\item on the cluster I cannot recompile sparseAMA because maven can't get throught the firewall to update and the CStochSims link step fails because sparseAMA needs some blas files that are not on the loader paths  this is why I tried recompiling sparseAMA
+\item should clean up code get rid of vestiges
+\item use if statements for operating system via uname
+\item \href{https://sourceforge.net/p/predef/wiki/OperatingSystems/}{op systems for compiler macros}
+
+\end{itemize}
+
+
+\experiment{Administration}
+\begin{itemize}
+\item mvn firewall
+\item change of address post office
+\item change of address credit cards 
+\item install netbeans 8.2 on mac
+\end{itemize}
+
+
+\labday{Tueday, March 7, 2017}
+
+\experiment{Parallel Programming}
+
+\begin{itemize}
+\item add cfree now laptop runs without error
+\item should cleanup code make multiversions compatible
+  \begin{itemize}
+  \item  msu cluster laptop
+  \item ifort mkl and  gfortran
+  \item consider putting everything in netbeans
+  \item code for morphing /msu/res2/m1gsa00/proj3/garyFiles/big/cFiles/nuwebTree/stackC.w
+  \end{itemize}
+\end{itemize}
+
+\experiment{Administration}
+
+\begin{itemize}
+\item can hire Summer Intern
+\item March 15 application deadline
+\item 
+\item list of students from office of diversity and inclusion
+\end{itemize}
+
+
+
+
+
+\labday{Wednesday, March 8, 2017}
+
+\experiment{Parallel Programming}
+
+\begin{itemize}
+\item add tests
+\item fix laptop error
+\item should cleanup code make multiversions compatible
+\item install netbeans 8.2
+  \begin{itemize}
+  \item  msu cluster laptop
+  \item ifort mkl and  gfortran
+  \item consider putting everything in netbeans
+  \item code for morphing /msu/res2/m1gsa00/proj3/garyFiles/big/cFiles/nuwebTree/stackC.w
+  \end{itemize}
+\end{itemize}
+
+\experiment{Administration}
+
+\begin{itemize}
+\item installed CUnit in non-standard place netbeans doesn't find it \href{https://ubuntuforums.org/archive/index.php/t-1727067.html}{how to use without netbeans}
+\item \href{http://cunit.sourceforge.net/doc/running_tests.html}{programmers guide running tests}
+\item{http://cunit.sourceforge.net/doc/introduction.html}{programmers guide intro}
+\item get rid of annoying mac startup errors
+\item can hire Summer Interns
+\item March 15 application deadline
+\item moving claim  sent email to allstate cc myself
+\item comcast website malfunctioning try later
+\item list of students from office of diversity and inclusion
+\item simplifying and reorganizing code 
+\item \href{http://www.caam.rice.edu/software/ARPACK/}{arpack}  parallel version also available there  (MPI)
+\item \href{https://github.com/reference-lapack/lapack}{lapack at github}
+\item replaced deprecated dgeqpf got sparseAMAExample working need to veryify result and turn into a cunit test
+\end{itemize}
+
+
+\labday{Thursday March 9, 2017}
+
+\experiment{Parallel programming}
+\begin{itemize}
+\item test files /msu/res2/m1gsa00/proj3/garyFiles/big/cFiles/nuwebTree/sparseAim/regressionTests/  (firmValue.c  jeffmankiw20.c  noRows.c	    rhochelle.c
+FIRMVALUE.c  jeffmankiw2.c   oneEqn.c	    wrongCols.c
+habitmod.c   maxElemsZero.c  repeatedRow.c
+)
+\item more tests tryon /msu/res2/m1gsa00/proj3/garyFiles/tryonSparseAim/sparseAim/ (notTest0.c   test0.c  test4.c  vacuousMain.c
+sparseAim.c  test3.c  test5.c  yprime.c
+)
+\item mathematicaSplicer.m 2002 /msu/res2/m1gsa00/proj3/garyFiles/big/cFiles/nuwebTree/html/
+\item write ``C'' code for checking solution
+\item sparseAMADrv?
+\end{itemize}
+
+
+
+
+
+
+\labday{Monday March 13, 2017}
+
+\experiment{Parallel programming}
+\begin{itemize}
+\item find ``C'' code for checking solution
+\item \href{https://www.cs.rutgers.edu/~pxk/416/notes/c-tutorials/times.html}{timers}
+\end{itemize}
+
+\experiment{Administration}
+\begin{itemize}
+\item emailed allstate urban essentials  receipt 
+\item hopper watch tickets -- multidestination?
+\item emacs problem with commit  fix with setting core.page null and setting editor emacsclient
+\item exercise
+\item keyboard stopped producing backspaces  fix is hold down right shift key  for 8 seconds
+\end{itemize}
+
+\experiment{AMASeries}
+
+\begin{itemize}
+\item multi-dim support vector machine
+\end{itemize}
+
+\experiment{Alena Paper}
+
+\begin{itemize}
+\item implement one SVM Cross-validation Time Series
+\end{itemize}
+
+\experiment{Conferences}
+\begin{itemize}
+\item SCE
+\item SED
+\item CFE-CMStatistics  April open dedline abstract June  London Dece,ber 13-14
+\end{itemize}
+
+\experiment{MPS}
+\begin{itemize}
+\item June round
+\end{itemize}
+\labday{Tuesday March 14, 2015}
+
+\experiment{Parallel Programming}
+
+\experiment{Administration General Programming}
+\begin{itemize}
+\item \href{http://stackoverflow.com/questions/1146973/how-do-i-revert-all-local-changes-in-git-managed-project-to-previous-state}{How to discard changes in git repository}
+\item in order to have maven build sparseAMA and find gfortran had to start netbeans as root on the mac.  sudo "/Applications/NetBeans/NetBeans 8.2.app/Contents/MacOS/netbeans"
+\item on mac without sudo at command line mvn clean install fails with message ``Could not find or load main class org.codehaus.pexus.classwords.launcher.Launcher''
+\item using -g allows construction of a call graph
+\end{itemize}
+\experiment{sparseAMA}
+\begin{itemize}
+\item \includegraphics{sparseAMA.png}
+\item problems with java versions mixing java 8 and java 7 in mvn call
+\item had accidently made some directories in sparseAMA owned by root to build failed as non root
+\item \href{https://www.codeproject.com/Articles/13853/Secure-Coding-Best-Practices-for-Memory-Allocation}{best practices for memory allocation and deallocation} Also some security implications
+\item \href{http://stackoverflow.com/questions/5169692/assigning-negative-numbers-to-an-unsigned-int}{int to unsignedint}
+\end{itemize}
+
+\labday{Wednesday March 15, 2015}
+
+\experiment{Parallel Programming}
+\begin{itemize}
+\item pose question to netbeans developers about transition to root ownership of target dir
+  \begin{itemize}
+  \item devise a simple example and run on mac and linux with java 7 and 8
+  \end{itemize}
+\item work on apple version rid of -Wall warnings and move to linux
+\item get call graph for stackC and stochProto
+\item fix useSparseAMA.h compileSparseAMA.h once and only once.
+\item \href{http://www.network-theory.co.uk/docs/gccintro/gccintro_31.html}{more warnings possible}
+\end{itemize}
+
+\experiment{Administration}
+\begin{itemize}
+\item run netbeans with 8 or 7?
+\item comcast
+\end{itemize}
+
+\labday{Thursday March 16, 2015}
+
+\experiment{Parallel Programming}
+\begin{itemize}
+\item had maxNumberOfHelements instead of maxNumberOfHElements on argument list leading to segmentation violation.  Not sure why compiler -Wall did not catch this error. Worried that the text appears as a definition somewhere, but could not find it
+\item want to get code in mathematica working to generate tests 
+\item this would be best if it generates the admittedly more complicated code for
+stackC and stochSims with the homotopy and other features
+\end{itemize}
+\subexperiment{get sparseAMA code in shape on laptop}
+\begin{itemize}
+\item runs the one test and simpleSparseAMAExample
+\end{itemize}
+\subexperiment{get sparseAMA code in shape on Linux}
+\begin{itemize}
+\item runs the one test and simpleSparseAMAExample
+\end{itemize}
+
+\begin{itemize}
+\item choose java, 8 if possible  seems fine on laptop  Now using Java 8 laptop and linux
+\item probably time to dump maven if it is not supported
+\href{https://groups.google.com/forum/?fromgroups#!forum/maven-nar}{nar forum} seems it may be active  perhaps can develop in netbeans and archive and distribute in maven
+\item \href{https://groups.google.com/d/msg/maven-nar/5feXpvN-Qh0/Sg3hAWgpwAcJ}{infor on netbeans directories and maven interaction}
+\item make example to find out why netbeans has problems with gfortran on mac
+\end{itemize}
+
+\experiment{Administration}
+
+\begin{itemize}
+\item retirement details
+\item calendar for events like retire/time to avoid reimburse for class
+\item reviewintern applications
+\item buy table after money arrives
+\item give table away 
+\item determine what to do with old table
+\item balance accounts
+\item FRB and other old data for balance accounts
+\item need to update dependency checking in netbeans
+\end{itemize}
+\experiment{Machine Learning Application}
+
+\begin{itemize}
+\item develop seminar series economic applications
+\item text categorization \href{https://www.federalreserve.gov/econresdata/notes/feds-notes/2015/semantic-analysis-of-the-FOMCs-postmeeting-statement-20150930.html}{Acosta and Meade}
+\href{https://spweb.frb.gov/sites/ma/msu/FedCommunications/Wiki/Textual%20Analysis/Textual%20Analysis.aspx}{MSU}
+\item \href{https://spweb.frb.gov/sites/ma/msu/FedCommunications/Wiki/Textual%20Analysis/Textual%20Analysis%20Data.aspx}{Textual Analysis Data Page}
+  \item cleanNamedStatements.py contains code for preprocessing the docs including the ``stoplist'' of stop words  also removed numbers also n-grams to concatenate  (/msu/res1/www/Communications/Code\_Jupyter/data/)
+This page is meant to be a place to store and share data used in textual analysis.  Much of the code from this website is available on the RSMA network at /msu/res1/www/Communications/Code\_Jupyter.  The data are available at /msu/res1/www/Communications/statements/Statement\_Alternatives and /msu/res1/www/Communications/statements/Statements\_Raw.
+\item mathematica has a built-in wordstemmer using he porter clustering and \href{http://mathematica.stackexchange.com/questions/7441/k-means-clustering}{kmens}
+\item should try stemming and using their stop words
+\item \href{http://stackoverflow.com/questions/10554052/what-are-the-major-differences-and-benefits-of-porter-and-lancaster-stemming-alg}{porte vesus lancaster stemming}
+\item stylistically FED employs synonyms instead of repeating
+\item \href{https://spweb.frb.gov/sites/ma/msu/_layouts/15/xlviewer.aspx?id=/sites/ma/msu/MSU_Resources/list%20of%20words%20(increase%20and%20decrease).xlsx}{fed has list of synonyms}
+ \item perhaps possible to use machine leaning to improve a formal grammar for the given domain
+ \item\href{https://nlp.stanford.edu/software/lex-parser.shtml}{Stanford's statistical parser} \href{https://nlp.stanford.edu/software/lex-parser.shtml#Download}{parser download}
+ \item \href{http://community.wolfram.com/groups/-/m/t/79795?p_p_auth=nEpA5pB6}{mma and word oriented tools}  Mentions nltk.or Language toolkit which appears to be what Ellen and Miguel used and something called WordData and ExampleData
+ \item \href{http://community.wolfram.com/groups/-/m/t/227651?sortMsg=Flat}{synonym network in Mma}
+ \item \href{https://www.wolfram.com/natural-language-understanding/}{Wolfram NL understanding system}
+  \begin{itemize}
+\item SOM visualization
+  \end{itemize}
+
+\end{itemize}
+
+\experiment{Alena Collaboration}
+  \begin{itemize}
+  \item choose simplest cross validation and implement
+  \end{itemize}
+\experiment{AMA Series}
+\begin{itemize}
+\item univariate SVM function approx using libsvm
+\end{itemize}
+
+
+
+\labday{Friday March 17, 2015}
+\experiment{Parallel Programming}
+\begin{itemize}
+\item want to get code in mathematica working to generate tests 
+\item got sparseAMA and CStochSims code working switched to unsigned ints cstoch sims has seg fault
+\item runing java 8 and netbeans 8.2 laptop and linux
+\item using makefiles for now perhaps return to maven especially if firewall fix approved and I start using the stanford NLP see above for Nar fixes
+\end{itemize}
+
+
+\experiment{Administration}
+
+\begin{itemize}
+\item retirement details
+\item calendar for events like retire/time to avoid reimburse for class
+\item reviewintern applications
+\item buy table after money arrives
+\item giving table to courtney
+\item balance accounts
+\item FRB and other old data for balance accounts
+\item need to update dependency checking in netbeans
+\item use FRBFCU automate rent
+\end{itemize}
+\experiment{Machine Learning Application}
+\begin{itemize}
+\item develop seminar series economic applications
+\item text categorization using Stanford NLP
+\item SOM visualization
+  \end{itemize}
+
+
+\experiment{Alena Collaboration}
+  \begin{itemize}
+  \item choose simplest cross validation and implement
+  \item sort out what intern will do
+  \item example regression exercise to Alena
+  \end{itemize}
+
+\experiment{AMA Series}
+\begin{itemize}
+\item univariate SVM function approx using libsvm
+\end{itemize}
+
+\labday{Monday March 20, 2015}
+
+\experiment{AMA Series}
+\begin{itemize}
+\item univariate SVM function approx using libsvm
+\item CEF register TA
+\end{itemize}
+
+\experiment{Parallel Programming}
+\begin{itemize}
+\item mathematica code to generate tests
+\item tests sparseAMA
+\item sparseAMA cluster server solver tuned mpi
+\item location of old sparseAim.w /msu/res2/m1gsa00/proj3/garyFiles/big/cFiles/nuwebTree/sparseAim.w
+\item  found flow chart program flow and the inputs fpor AMA
+
+/msu/res2/m1gsa00/aim/reliable/unconstrainedAR.flo
+/msu/res2/m1gsa00/aim/reliable/test.flo
+/msu/res2/m1gsa00/aim/reliable/convergenceConstraint.flo
+/msu/res2/m1gsa00/aim/reliable/aimComponentsOverall.flo
+/msu/res2/m1gsa00/aim/papers/description/unconstrainedAR.flo
+/msu/res2/m1gsa00/aim/papers/description/test.flo
+/msu/res2/m1gsa00/aim/papers/description/convergenceConstraint.flo
+/msu/res2/m1gsa00/aim/papers/description/aimComponentsOverall.flo
+/msu/res2/m1gsa00/algDesc/unconstrainedAR.flo
+/msu/res2/m1gsa00/algDesc/test.flo
+/msu/res2/m1gsa00/algDesc/convergenceConstraint.flo
+/msu/res2/m1gsa00/algDesc/aimComponentsOverall.flo
+\item compiled a ``safe'' version of flow using mkstemp instead of tmpnam
+\item put notebook.sty in  git/paperProduction/texFiles
+\end{itemize}
+
+\experiment{Alena Collaboration}
+\begin{itemize}
+  \item choose simplest cross validation and implement
+  \item sort out what intern will do
+  \item example regression exercise to Alena
+\item Summer Intern
+\end{itemize}
+
+\experiment{Research Computing}
+
+\begin{itemize}
+\item plan seminar series
+\end{itemize}
+
+
+\experiment{Text Analysis}
+\begin{itemize}
+\item install Stanford Parser -done
+\item example
+
+export CLASSPATH=/msu/res5/software/stanford-parser-full-2016-10-31/stanford-parser.jar
+
+java edu.stanford.nlp.process.PTBTokenizer /msu/res1/www/Communications/statements/Statements\_Raw/statement.fomc.20070321.txt
+
+\item from README
+
+/msu/res5/software/stanford-parser-full-2016-10-31/lexparser.sh /msu/res1/www/Communications/statements/Statements\_Raw/statement.fomc.20070321.txt
+ runs out of memory on some o the parsers
+
+\item  putting some statements in knowledgeXfer dir
+
+cp /msu/res1/www/Communications/statements/Statements\_Raw/statement.fomc.20070321.txt  
+
+/msu/res5/software/stanford-parser-full-2016-10-31/lexparser.sh statement.fomc.20070321.txt
+\end{itemize}
+
+\experiment{Administration}
+
+\begin{itemize}
+\item retirement options - emailed Flint meeting tomorrow
+\item Avalon overpayment
+\item booking room for NY SCE - done, but they will have to get back to me once they see the special rate  in their system
+\item SCE plane tickets -- best wait till SED decision
+\item robo form on iron key?  won't work due to firewall.  should recall scott fabri suggestion
+\item progress on firewall mvn?
+\end{itemize}
+
+\labday{Tuesday March 21, 2017}
+\experiment{stochastic simulations}
+
+\begin{itemize}
+\item tests tests tests
+\item portable random numbers sprng U001 /msu/scratch2  dieharder pdh international?
+\end{itemize}
+
+\experiment{Administration}
+\begin{itemize}
+\item intern applications found one that looks good
+\item roboform on iron key provides login help for board laptop and desktop without synch facility
+\item investigate phased retirement
+\end{itemize}
+
+\labday{Wednesday, March 22, 2017}
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item write tests  from sparseAMA through stochProto
+\item dir to generate test example in symbolic math
+/msu/home/m1gsa00/git/mathAMA/SymbolicAMA/SymbolicAMA/examples
+\item cmath on cluster
+\item taylor79  paper reference not very helpful in describing the model in taylor79.mth
+\item best practice entail including unit tests with source
+  \begin{itemize}
+  \item can test private static methods
+  \item can modify tests in same place/time  as code modified
+  \end{itemize}
+
+\end{itemize}
+
+\experiment{Alena Collaboration}
+\begin{itemize}
+\item summer intern progress
+\end{itemize}
+
+\experiment{Administration}
+\begin{itemize}
+\item Alena laptop
+\item power
+\item sent plane info
+\end{itemize}
+
+
+
+\labday{Thursday, March 23, 2017}
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item write tests  from sparseAMA through stochProto
+\item using example dir to generate test example in symbolic math
+/msu/home/m1gsa00/git/mathAMA/SymbolicAMA/SymbolicAMA/examples
+\item cunit for sparseama tests in netbeans not done yet
+\item use multiple suites one for each example model  -- two suites share variables need better exclusive names or maybe just make static
+\item the file redo.sh runs on laptop and on linux
+\end{itemize}
+
+\experiment{Alena Collaboration}
+\begin{itemize}
+\item summer intern progress -- one contacted Bob lining up the other 4
+\item use /msu/home/m1gsa00/git/svmrStuff/SVMRDesktop.nb 
+\item hv-block cross validation
+\end{itemize}
+
+\experiment{AMA Series}
+\begin{itemize}
+\item do some work to refresh memory 
+\item trying paperVerifyRBC.nb in git/AMASeriesRepresentation directories
+\item no support for language English  needed to use babel to make fmtcount happy
+\item found VerificationTest while looking for call graph for mathematica
+\item linux notebook very very slow
+\item try windows workbench  AMASeriesRep.nb in fixAMASeries workspace
+\end{itemize}
+
+\experiment{Research Computing Seminar Series}
+
+\begin{itemize}
+\item flesh out machine learning parallel programming talks
+\item parallel computing on our cluster
+  \begin{itemize}
+  \item openmp and mpi
+  \item overheads
+  \item NUMA
+  \item trends/future
+  \end{itemize}
+\end{itemize}
+
+\experiment{Text Analysis}
+\begin{itemize}
+\item sort out training parser versus trained parser  what is output  what are features
+\item SOM?
+\item contact Ellen
+\end{itemize}
+
+\experiment{Administration}
+\begin{itemize}
+\item Alena laptop
+\item power 
+\item send last plane info
+\item checking the recently installed swish-e on ubtest1   (ssh ubtest1)  
+\end{itemize}
+
+\labday{Friday, March 24, 2017}
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item write tests  from sparseAMA through stochProto
+\item cunit for sparseama tests in netbeans 
+\item change names of test arrays
+\item use multiple suites one for each example model  -- two suites share variables need better exclusive names or maybe just make static
+\end{itemize}
+
+\experiment{Alena Collaboration}
+\begin{itemize}
+\item summer intern progress -- one contacted Bob lining up the other 4
+\item develop project outline for intern contribution
+\item find hv-block cross validation code get it running
+\end{itemize}
+
+\experiment{AMA Series}
+\begin{itemize}
+\item construct call graph and tests
+\item trying paperVerifyRBC.nb in git/AMASeriesRepresentation directories
+
+\item found VerificationTest while looking for call graph for mathematica
+\item linux notebook very very slow
+\item try windows workbench  AMASeriesRep.nb in fixAMASeries workspace
+\item \href{https://reference.wolfram.com/language/ref/GraphPlot.html}{graphPlot} SpringEmbedding betterHighDimensionalEmbedding better RadialDrawing better than Circular or Random better than Linear
+\item need t get rid of multiple arcs between same node
+\end{itemize}
+
+\experiment{Research Computing Seminar Series}
+
+\begin{itemize}
+\item flesh out machine learning parallel programming talks
+\item parallel computing on our cluster
+  \begin{itemize}
+  \item openmp and mpi
+  \item overheads
+  \item NUMA
+  \item trends/future
+  \end{itemize}
+\end{itemize}
+
+\experiment{Text Analysis}
+\begin{itemize}
+\item sort out training parser versus trained parser  what is output  what are features
+\item SOM?
+\item contact Ellen
+\end{itemize}
+
+\experiment{Administration}
+\begin{itemize}
+\item Alena laptop
+\item power 
+\item checking the recently installed swish-e on ubtest1   (ssh ubtest1)  
+\end{itemize}
+
+\experiment{Retirement}
+\begin{itemize}
+\item Get numbers for 
+  \begin{itemize}
+  \item Bank Plan
+  \item TIAA CREF
+  \item Thrift Plan
+  \end{itemize}
+\item organize paperwork
+\end{itemize}
+
+\experiment{Quantum Computing}
+\begin{itemize}
+\item class
+\item jobs
+\item \href{https://www.reddit.com/r/askscience/comments/2egd6r/what_are_the_implications_for_quantum_computing/}{QC and linear algebra}
+\item \href{https://www.dwavesys.com/careers/site-quantum-computing-expert}{QC Expert Dwave  DC}
+\item \href{https://en.wikipedia.org/wiki/Quantum_finance}{Quantum finance}
+\item \href{https://www.wired.com/2017/01/d-wave-turns-open-source-democratize-quantum-computing/}{dwave open sorce}
+\item \href{http://community.wolfram.com/groups/-/m/t/897811}{wolfram language}
+\item \href{http://homepage.cem.itesm.mx/jose.luis.gomez/quantum/}{Monterrey}
+\item installed quantum package on  linux
+\end{itemize}
 
 \bibliographystyle{plainnat}
 \bibliography{files.bib}
 \end{document}
+

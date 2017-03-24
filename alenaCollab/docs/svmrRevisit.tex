@@ -64,11 +64,49 @@ I have implemented several widely used kernels including dot product,
 polynomial, radial basis function.
 described widely in the literature.\cite{palancz05:suppor,smola2004tutorial,Alpaydin2004}. In addition there are important implementation insights in\cite{platt98sequential}
 
+\section{Performance Metrics}
 
+\cite{e.h01:_applic}
+
+{\large
+\begin{tabular}{|l|l|}
+  \hline
+\multicolumn{1}{|c|}{Metric}&\multicolumn{1}{|c|}{Formula}\\
+  \hline
+MAE&$\frac{1}{n}\sum_{i=1}^n | a_i-p_i|$\\
+  \hline
+NMAE&$\frac{1}{\delta^2n}\sum_{i=1}^n (a_i-p_i)^2, \delta^2=\frac{1}{n-1}\sum_{i=1}^n(a_i-\bar{a})^2$\\
+  \hline
+DS&{\Large $\frac{100}{n \sum_{i=1}^n d_i}$}\\
+& $d_i=
+    \begin{cases}
+      1&(a_i-a_{i-1})(p_i-p_{i-1}) \ge 0\\
+      0&\text{otherwise}
+    \end{cases}$\\
+  \hline
+WDS&{\Large $\frac{\sum_{i=1}^n d^\prime_i|a_i-p_i|}{\sum_{i=1}^n d_i|a_i-p_i|}$}\\
+&$ d_i=
+    \begin{cases}
+      1&(a_i-a_{i-1})(p_i-p_{i-1}) \ge 0\\
+      0&\text{otherwise}
+    \end{cases}$\\
+&$ d_i^\prime=
+    \begin{cases}
+      0&(a_i-a_{i-1})(p_i-p_{i-1}) \ge 0\\
+      1&\text{otherwise}
+    \end{cases}$\\
+  \hline
+\end{tabular}
+}
 
 \section{Cross Validation (CV)}
 
-\cite{e.h01:_applic}
+\cite{bergmeir15:_note} provide a justification for using a simplified version of cross-validation.
+
+
+\cite{conf/icann/LendasseWV03}  \cite{kreiss12}
+
+dependent case \cite{racine00:_consis}
 
 
 Time series estimation can present special problems 
@@ -147,7 +185,10 @@ explore the use of 632+ bootstrap cross validation in conjuction with
 SVMR.
 
 
+\section{Future Directions}
+\label{sec:future-directions}
 
+\cite{journals/ijon/Cao03,conf/icml/TaiebH14}
 
 
 \bibliographystyle{plainnat}

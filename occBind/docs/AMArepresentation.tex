@@ -5,7 +5,7 @@
 \title{A New Series Representation for Time Invariant Maps that
  Arise in  Dynamic Economic Models}
 
-\date{\currenttime -- \today }
+%\date{\currenttime -- \today }
 
 
 \newtheorem{theorem}{Theorem}[section]
@@ -1554,6 +1554,46 @@ Bounded solutions if and only if all eigenvalues of
 %  \times (\eqnRegimeFuncSig ) \times \grdSpec \times \dstSpec  \times \numIters \rightarrow\\
 % \{\frfpnsRegimeFuncSig, \{(\lilXRegimeFuncSig)_1,\ldots,(\lilXFuncSig)_{\numR}\}\}
 % \end{gather*}
+
+
+\appendix
+
+\section{Support Vector Machines}
+\label{sec:supp-vect-mach}
+
+
+\subsection{Univariate Function Approximation}
+
+
+Consider models of the form 
+\begin{gather}
+y=f(x)+ \epsilon_t\\
+f(x)= \sum_{i=1}^L\theta_ik(x_i,x)+b
+\end{gather}
+where $k(x_i,x)$ is some kernel that can be written as a dot product.\cite{hofmann06kernelreview}.  This ``kernel trick'' provides a very flexible array of
+functional forms for fitting the data.
+We minimize a loss function of the form
+\begin{gather}
+L=\frac{1}{2}||w||^2 + C \sum_{i=1}^L (\xi_i+\xi_i^\ast) - \sum_{i=1}^L (\eta_i\xi_i+\eta_i^\ast \xi_i^\ast) -\\
+\sum_{i=1}^L \alpha_i(\epsilon_i +\xi_i - y_i + k(x_i,x) +b)- \nonumber\\
+\sum_{i=1}^L \alpha_i^\ast(\epsilon_i +\xi_i^\ast + y_i - k(x_i,x) -b)\nonumber
+\end{gather}
+
+As a result, analagous to a  hinge loss function, 
+errors near the predicted value are ``costless'' while those further away
+impact cost in proportion to their linear distance from the prediction.
+
+I have written a set of Mathematica functions that 
+construct and solve the related quadratic programming problem.
+The code is written to be easily extendable.
+I have implemented several widely used kernels including dot product, 
+polynomial, radial basis function.
+described widely in the literature.\cite{palancz05:suppor,smola2004tutorial,Alpaydin2004}. In addition there are important implementation insights in\cite{platt98sequential}
+
+
+\subsection{Multivariate Function Approximation}
+
+\href{https://scholar.google.com/scholar?oe=utf-8&um=1&ie=UTF-8&lr&cites=11562147006083824949}{citations of \cite{conf/icann/Perez-CruzCSPFA02}}
 
 
  \bibliographystyle{plainnat}
