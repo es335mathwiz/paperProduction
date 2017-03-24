@@ -1,0 +1,197 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1.2in]{geometry}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{mathtools}
+\usepackage{listings}
+\usepackage{hyperref}
+\author{Alena Audzeyeva and Gary S Anderson}
+\title{Support Vector Machine Regression:   Revisiting Some of the Econometrics in ``Predictability of Emering Market Soverign Credit Spreads''}
+
+\newcommand{\iv}{{(i:v)}}
+\newcommand{\pihv}{{(-i:h,v)}}
+\newcommand{\mihv}{{(-i:h,v)}}
+
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+In \cite{audzeyeva15:predic}, the
+  authors have applied standard time series regression analysis
+ to construct a  collection of models for forecasting
+  credit spreads of soverign debt
+  issued by Brazil, Mexico, Phillippines and Turkey for the period
+  just before and just after the Lehman crisis.
+I have begun an investigation
+using Support Vector Machine Regression (SVMR) in place of the
+traditional regression techniques they used. 
+I have implemented SVMR in a mathematica
+program to estimate the family of time series models and I
+implemented a cross-validation technique appropriate for treating
+time series.\cite{racine00:_consis}
+\end{abstract}
+\newpage
+
+
+\section{Support Vector Machine Regression}
+
+
+Consider models of the form 
+\begin{gather}
+y_t=E[y|x_t]+ \epsilon_t\\
+E[y|x_t]= \sum_{i=1}^L\theta_ik(x_i,x)+b
+\end{gather}
+where $k(x_i,x)$ is some kernel that can be written as a dot product.\cite{hofmann06kernelreview}.  This ``kernel trick'' provides a very flexible array of
+functional forms for fitting the data.
+We minimize a loss function of the form
+\begin{gather}
+L=\frac{1}{2}||w||^2 + C \sum_{i=1}^L (\xi_i+\xi_i^\ast) - \sum_{i=1}^L (\eta_i\xi_i+\eta_i^\ast \xi_i^\ast) -\\
+\sum_{i=1}^L \alpha_i(\epsilon_i +\xi_i - y_i + k(x_i,x) +b)- \nonumber\\
+\sum_{i=1}^L \alpha_i^\ast(\epsilon_i +\xi_i^\ast + y_i - k(x_i,x) -b)\nonumber
+\end{gather}
+
+As a result, analagous to a  hinge loss function, 
+errors near the predicted value are ``costless'' while those further away
+impact cost in proportion to their linear distance from the prediction.
+
+I have written a set of Mathematica functions that 
+construct and solve the related quadratic programming problem.
+The code is written to be easily extendable.
+I have implemented several widely used kernels including dot product, 
+polynomial, radial basis function.
+described widely in the literature.\cite{palancz05:suppor,smola2004tutorial,Alpaydin2004}. In addition there are important implementation insights in\cite{platt98sequential}
+
+\section{Performance Metrics}
+
+\cite{e.h01:_applic}
+
+{\large
+\begin{tabular}{|l|l|}
+  \hline
+\multicolumn{1}{|c|}{Metric}&\multicolumn{1}{|c|}{Formula}\\
+  \hline
+MAE&$\frac{1}{n}\sum_{i=1}^n | a_i-p_i|$\\
+  \hline
+NMAE&$\frac{1}{\delta^2n}\sum_{i=1}^n (a_i-p_i)^2, \delta^2=\frac{1}{n-1}\sum_{i=1}^n(a_i-\bar{a})^2$\\
+  \hline
+DS&{\Large $\frac{100}{n \sum_{i=1}^n d_i}$}\\
+& $d_i=
+    \begin{cases}
+      1&(a_i-a_{i-1})(p_i-p_{i-1}) \ge 0\\
+      0&\text{otherwise}
+    \end{cases}$\\
+  \hline
+WDS&{\Large $\frac{\sum_{i=1}^n d^\prime_i|a_i-p_i|}{\sum_{i=1}^n d_i|a_i-p_i|}$}\\
+&$ d_i=
+    \begin{cases}
+      1&(a_i-a_{i-1})(p_i-p_{i-1}) \ge 0\\
+      0&\text{otherwise}
+    \end{cases}$\\
+&$ d_i^\prime=
+    \begin{cases}
+      0&(a_i-a_{i-1})(p_i-p_{i-1}) \ge 0\\
+      1&\text{otherwise}
+    \end{cases}$\\
+  \hline
+\end{tabular}
+}
+
+\section{Cross Validation (CV)}
+
+\cite{bergmeir15:_note} provide a justification for using a simplified version of cross-validation.
+
+
+\cite{conf/icann/LendasseWV03}  \cite{kreiss12}
+
+dependent case \cite{racine00:_consis}
+
+
+Time series estimation can present special problems 
+when applying cross-validation techniques for  constructing and
+assessing models. 
+Econometricians typically construct 
+models that arguably should include
+lags of both the dependent and independent variables.
+In order to conduct  useful and statistically valid assessment
+with cross validation, 
+care must be taken due to the correlation present between a 
+single variable and lags of the variables in the training and the test
+data sets.
+Fortunately,  there are many straigtforward techniques for conducting CV 
+with time series.
+
+I have applied hv-block cross-validation\cite{racine00:_consis}.
+This technique is a generalization of the well known 
+h-block approach. Authors have shown that
+the technique can produce statistically consistent results for model and 
+variable selection.
+As in the usual h-block approach, the 
+technique trains a proposed model on a set of 
+size $n_c$ test on set of size $n_v$ while 
+ maintining ``near'' independence of the 
+validation and training sets by h-blocking.
+
+
+
+To use the technique:
+
+ \begin{enumerate}
+ \item remove $v$ observations on either side of an observation $z_t=\begin{matrix}x_t\\y_t\end{matrix}$ leading to a validation set of size $n_v=2v+1$  then
+ \item remove another $h$ observations from either side of the validation set. 
+ \item The remaining $n-2v-2h-1$ observations will form the training set.  
+ \end{enumerate}
+
+The technique encompasses some widely used CV techniques: 
+\begin{enumerate}
+\item $h=v=0$ ''leave-one-out''
+\item $h=0, v>0$ ''leave-$n_v$ out'' see notes page 4
+\item $h=>, v=0$ h block CV
+\end{enumerate}
+
+
+We don't require complete independence to work see \cite{burman94}.
+For the technique to work, we need 
+$E(\epsilon_t\epsilon_j|X_1, \ldots X_j)\approx0 \, for \, i<j$ otherwise biased
+The author's paper argues for 
+a rule of thumb for h $\gamma= \frac{h}{n} =0.25$.
+
+
+Denote training matrix by $Z_\mihv=(Y_\mihv,X_\mihv)$ matrix of removed  is $Z_\pihv=(Y_\pihv,X_\pihv)$ matrix of validation  $Z_\iv=(Y_\iv,X_\iv)$
+
+
+  \begin{gather}
+    CV_{hv}=\frac{1}{n-2v)n_v}\sum_{i-v+1}^{n-v} || Y_\iv-\hat{Y}_{\iv\mihv}||^2\\
+    CV_{hv}=\frac{1}{n-2v)n_v}\sum_{i-v+1}^{n-v} || Y_\iv-X_\iv\hat{\beta}_\mihv||^2
+  \end{gather}
+
+
+
+Let $n_c= floor*(N^\delta)$ for oisutuve degrees if freedom $\frac{\log(p)}{\log(n)}<\delta<1, v=\frac{(n-n^\delta-2h-1)}{2}$
+
+
+So far  I have
+ obtained the data and programs from the authors and can reproduce 
+their results, but I have not had 
+time to conduct the comparable cross-validation exercise.
+
+In the future I plan to complete the cross-validation,
+improve the speed of the code,
+implement the code in another language -- probably Julia,
+implement asymmetric loss functions,
+explore the use of 632+ bootstrap cross validation in conjuction with 
+SVMR.
+
+
+\section{Future Directions}
+\label{sec:future-directions}
+
+\cite{journals/ijon/Cao03,conf/icml/TaiebH14}
+
+
+\bibliographystyle{plainnat}
+\bibliography{../../bibFiles/files}
+
+\end{document}
