@@ -75,7 +75,7 @@ described widely in the literature.\cite{palancz05:suppor,smola2004tutorial,Alpa
   \hline
 MAE&$\frac{1}{n}\sum_{i=1}^n | a_i-p_i|$\\
   \hline
-NMAE&$\frac{1}{\delta^2n}\sum_{i=1}^n (a_i-p_i)^2, \delta^2=\frac{1}{n-1}\sum_{i=1}^n(a_i-\bar{a})^2$\\
+NMSE&$\frac{1}{\delta^2n}\sum_{i=1}^n (a_i-p_i)^2, \delta^2=\frac{1}{n-1}\sum_{i=1}^n(a_i-\bar{a})^2$\\
   \hline
 DS&{\Large $\frac{100}{n \sum_{i=1}^n d_i}$}\\
 & $d_i=
@@ -98,6 +98,7 @@ WDS&{\Large $\frac{\sum_{i=1}^n d^\prime_i|a_i-p_i|}{\sum_{i=1}^n d_i|a_i-p_i|}$
   \hline
 \end{tabular}
 }
+\href{http://numericalmethod.com/blog/2011/07/28/on-whites-2000-reality-check/}{reality check}
 
 \section{Cross Validation (CV)}
 
@@ -184,12 +185,18 @@ implement asymmetric loss functions,
 explore the use of 632+ bootstrap cross validation in conjuction with 
 SVMR.
 
+\href{http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns/}{recurrent neural networks}
 
 \section{Future Directions}
 \label{sec:future-directions}
 
 \cite{journals/ijon/Cao03,conf/icml/TaiebH14}
 
+\href{https://www.researchgate.net/figure/51762586_fig2_Fig-2-Cross-validation-error-estimate-obtained-by-25-fold-cross-validation-with-Ridge}{25 fold CV with hv}
+\href{http://www.svms.org/regression/}{references}
+\begin{itemize}
+\item data visualization
+\end{itemize}
 
 \bibliographystyle{plainnat}
 \bibliography{../../bibFiles/files}

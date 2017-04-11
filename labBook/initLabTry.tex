@@ -1,4 +1,5 @@
 \documentclass[hyperref]{labbook}
+\usepackage{moreverb}
 \usepackage{natbib}
 \usepackage{hyperref}
 \usepackage{graphicx}
@@ -687,6 +688,7 @@ This page is meant to be a place to store and share data used in textual analysi
   \item sort out what intern will do
   \item example regression exercise to Alena
 \item Summer Intern
+\item clean up/simplify code for the intern to use
 \end{itemize}
 
 \experiment{Research Computing}
@@ -846,6 +848,7 @@ cp /msu/res1/www/Communications/statements/Statements\_Raw/statement.fomc.200703
 \item summer intern progress -- one contacted Bob lining up the other 4
 \item develop project outline for intern contribution
 \item svmrCode.mth has  hv-cv {node001a,~/git/manchesterCS/61011/project,54}
+\item my regression code is ~/git/svmrStuff/SVMR/SVMR.m
 \end{itemize}
 
 \experiment{AMA Series}
@@ -911,7 +914,1040 @@ cp /msu/res1/www/Communications/statements/Statements\_Raw/statement.fomc.200703
 \item installed quantum package on  linux
 \end{itemize}
 
+
+\labday{Monday, March 27, 2017}
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item cunit for sparseama tests in netbeans
+  \begin{itemize}
+  \item specifically connecting to c application not c++
+  \item trying to set ldlibrarypath since netbeans complains not detected
+  \end{itemize}
+
+\item change names of test arrays
+\item use multiple suites for each example model 
+\item \href{http://stackoverflow.com/questions/19354321/integration-of-c-c-unit-test-with-maven}{maven and cunit}  no word from IT about maven since request of March 6
+\item 
+\end{itemize}
+
+\experiment{Alena Collaboration}
+\begin{itemize}
+\item summer intern progress -- one contacted Bob lining up the other 4
+\item develop project outline for intern contribution
+\item svmrCode.mth has  hv-cv {node001a,~/git/manchesterCS/61011/project,54}
+\item my regression code is ~/git/svmrStuff/SVMR/SVMR.m
+\item at board use SVMRDesktop.nb in git/svmrStuff
+\end{itemize}
+
+\experiment{AMA Series}
+\begin{itemize}
+\item use  call start  tests 
+\item trying paperVerifyRBC.nb in git/AMASeriesRepresentation directories
+\item use VerificationTest 
+\item linux notebook very very slow
+\item get rid of multiple arcs between same node
+\end{itemize}
+
+\experiment{Research Computing Seminar Series}
+
+\begin{itemize}
+\item flesh out machine learning parallel programming talks
+\item parallel computing on our cluster
+  \begin{itemize}
+  \item openmp and mpi
+  \item overheads
+  \item NUMA
+  \item trends/future
+  \end{itemize}
+\end{itemize}
+
+\experiment{Text Analysis}
+\begin{itemize}
+\item sort out training parser versus trained parser  what is output  what are features
+\item SOM?
+\item contact Ellen
+\end{itemize}
+
+\experiment{Administration}
+\begin{itemize}
+\item Alena laptop
+\item downloaded symbolic C++
+\item power 
+\item checking the recently installed swish-e on ubtest1   (ssh ubtest1)  
+\end{itemize}
+
+\experiment{Retirement}
+\begin{itemize}
+\item Get numbers for 
+  \begin{itemize}
+  \item Bank Plan
+  \item TIAA CREF
+  \item Thrift Plan
+  \end{itemize}
+\item organize paperwork
+\end{itemize}
+
+\experiment{Quantum Computing}
+\begin{itemize}
+\item class
+\item jobs
+\end{itemize}
+
+
+\labday{Tuesday, March 28, 2017}
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item abandoning getting cunit to work pefectly in netbeans
+  \item  set ldlibrarypath since netbeans complains cunit not detected. didn't help
+\item changed names of test arrays
+\item using multiple suites for each example model 
+\end{itemize}
+
+\experiment{Alena Collaboration}
+\begin{itemize}
+\item should sort out calling summer intern
+Danno Thursday at 2
+\item develop project outline for intern contribution
+\item progress with hv validation  so far increasing h and v monotonically reduces the NMSE.  need to sort oout how to choose
+\item my regression code is ~/git/svmrStuff/SVMR/SVMR.m
+\item paper is ~/git/paperProduction/alenaCollab/docs/svmrRevisit
+\item at board use SVMRDesktop.nb in git/svmrStuff
+\item no definitive model selection/feature selection technique
+\item hv Block no rigorous proof
+\end{itemize}
+
+\experiment{AMA Series}
+\begin{itemize}
+\item use  call graph start  tests 
+\item trying paperVerifyRBC.nb in git/AMASeriesRepresentation directories  Couldn't get the suggestion to work for me 
+\item fall back to use \href{http://reference.wolfram.com/language/guide/SystematicTestingAndVerification.html}{VerificationTest } in .w file
+\item get rid of multiple arcs between same node
+\end{itemize}
+
+\experiment{Research Computing Seminar Series}
+
+\begin{itemize}
+\item flesh out machine learning parallel programming talks
+\item parallel computing on our cluster
+  \begin{itemize}
+  \item openmp and mpi
+  \item overheads
+  \item NUMA
+  \item trends/future
+  \end{itemize}
+\end{itemize}
+
+\experiment{Text Analysis}
+\begin{itemize}
+\item sort out training parser versus trained parser  what is output  what are features
+\item SOM?
+\item contact Ellen
+\end{itemize}
+
+\experiment{Administration}
+\begin{itemize}
+\item Alena laptop
+\item downloaded symbolic C++
+\item power 
+\item checking the recently installed swish-e on ubtest1   (ssh ubtest1)  
+\end{itemize}
+
+\experiment{Retirement}
+\begin{itemize}
+\item Get numbers for 
+  \begin{itemize}
+  \item Bank Plan
+  \item TIAA CREF
+  \item Thrift Plan
+  \end{itemize}
+\item organize paperwork
+\end{itemize}
+
+\experiment{Quantum Computing}
+\begin{itemize}
+\item class
+\item jobs
+\end{itemize}
+
+
+\labday{Wednesday, March 29, 2017}
+
+Too many projects on the agenda
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item installed swish++ instead -- but did actually remove comments from code into verbatim and set up a couple of new tests for augmentq for one equation model
+\end{itemize}
+
+\experiment{Alena Collaboration}
+\begin{itemize}
+\item prepare summer intern talking points
+\item develop project outline for intern contribution
+\item how choose hv?
+\end{itemize}
+
+\experiment{AMA Series}
+\begin{itemize}
+\item use  call graph start  tests 
+\item \item \href{http://mathematica.stackexchange.com/questions/54594/how-to-use-the-testing-notebook-to-test-a-package}{try test notebooks}
+\item get rid of multiple arcs between same node
+\end{itemize}
+
+\experiment{Research Computing Seminar Series}
+
+\begin{itemize}
+\item flesh out machine learning parallel programming talks
+\item parallel computing on our cluster
+  \begin{itemize}
+  \item openmp and mpi
+  \item overheads
+  \item NUMA
+  \item trends/future
+  \end{itemize}
+\end{itemize}
+
+\experiment{Text Analysis}
+\begin{itemize}
+\item sort out training parser versus trained parser  what is output  what are features
+\item SOM?
+\item contact Ellen
+\end{itemize}
+
+\experiment{Administration}
+\begin{itemize}
+\item try index   -v3 -i testIndexForDotM++ -c doDotM++  /msu/home/m1gsa00/git/paperProduction/SPSolveNot/ using /msu/res5/software/swish++-6.1.5/swish++.conf from installation as template 
+\item apparently could have one index for all types of files
+\item doing huge index started 12:13pm done by 1:30
+index: done:
+  70:07 (min:sec) elapsed time
+  646633 files, 267372 indexed
+  1852797849 words, 557879702 indexed, 5263645 unique
+
+\item search   -i indexForDotM++ Package
+\item need to figure out how to put in configuration file and specify multiple cirectors to make or huge search with complete coverage  (incremental index?)
+\item Alena laptop
+\end{itemize}
+
+\experiment{Retirement}
+\begin{itemize}
+\item Looked at google england couple jobs look interesting
+\item organize paperwork
+\item apply job  -- contact  the name is Hal Varian not Villani
+\end{itemize}
+
+\experiment{Quantum Computing}
+\begin{itemize}
+\item class
+\item jobs
+\end{itemize}
+
+
+\labday{Thursday, March 30, 2017}
+
+Too many projects on the agenda
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item do more sparseAMA tests using one equation
+\item need to fix sparseAMAAssert linenumbers so lineNumberToString line 1221 reports correctly  )(it says line number but it appears to use error code which is accurate but not informative enough code does print file and line
+\item do one equation where no shifts
+\end{itemize}
+
+
+\experiment{Alena Collaboration}
+\begin{itemize}
+\item prepare summer intern talking points
+\item interview potential intern
+\item develop project outline for intern contribution
+\item how choose hv?  write up
+\end{itemize}
+
+\experiment{AMA Series}
+\begin{itemize}
+\item continue adding tests
+\item get rid of multiple arcs between same node
+\item get started on multivariate svmr
+\end{itemize}
+
+\experiment{Research Computing Seminar Series}
+
+\begin{itemize}
+\item flesh out machine learning parallel programming talks
+\item parallel computing on our cluster
+  \begin{itemize}
+  \item openmp and mpi
+  \item overheads
+  \item NUMA
+  \item trends/future
+  \end{itemize}
+\item organize as mathematica notebooks?
+\item use the papers Alena, AMASeries and Text Analysis to generate applications
+\end{itemize}
+
+\experiment{Text Analysis}
+\begin{itemize}
+\item sort out training parser versus trained parser  what is output  what are features
+\item SOM?
+\item contact Ellen
+\end{itemize}
+
+\experiment{Administration}
+\begin{itemize}
+\item need to figure out how to put in configuration file and specify multiple cirectors to make or huge search with complete coverage  (incremental index?)
+\item Alena laptop
+\end{itemize}
+
+\experiment{Retirement}
+\begin{itemize}
+\item Looked at google england couple jobs look interesting
+\item organize paperwork
+\item apply job  -- 
+\item emailed and linked in  Hal Varian 
+\end{itemize}
+
+\experiment{Quantum Computing}
+\begin{itemize}
+\item class
+\item jobs
+\end{itemize}
+
+\experiment{Referee}
+\begin{itemize}
+\item paper "Can we Identify the Fed's Preferences?," by Jean-Bernard Chatelain and Kirsten Ralf, which I am handling as an Associate Editor for Macroeconomic Dynamics 
+\end{itemize}
+
+\labday{Friday, March 31, 2017}
+
+Too many projects on the agenda
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item do more sparseAMA tests using one equation
+\item generate test matrice as .mat files from steps in spsolve
+\item read .mat into c \href{http://www.mathworks.com/help/matlab/matlab_external/_f30937.html}{.mat}
+\item need to fix sparseAMAAssert linenumbers so lineNumberToString line 1221 reports correctly  )(it says line number but it appears to use error code which is accurate but not informative enough code does print file and line
+\item do one equation where no shifts
+\item interactive version of SPAMA operation  (jupyter)
+\end{itemize}
+
+
+\experiment{Alena Collaboration}
+\begin{itemize}
+\item prepare summer intern talking points
+\item interview potential interns  Danno Lemu and Neal Dora
+\item develop project outline for intern contribution
+\item how choose hv?  write up
+\end{itemize}
+
+\experiment{AMA Series}
+\begin{itemize}
+\item continue adding tests
+\item get rid of multiple arcs between same node
+\item get started on multivariate svmr
+\end{itemize}
+
+\experiment{Research Computing Seminar Series}
+
+\begin{itemize}
+\item flesh out machine learning parallel programming talks
+\item parallel computing on our cluster
+  \begin{itemize}
+  \item openmp and mpi
+  \item overheads
+  \item NUMA
+  \item trends/future
+  \end{itemize}
+\item organize as mathematica notebooks?
+\item use the papers Alena, AMASeries and Text Analysis to generate applications
+\end{itemize}
+
+\experiment{Text Analysis}
+\begin{itemize}
+\item sort out training parser versus trained parser  what is output  what are features
+\item SOM?  probably best to use matlab som from manchester
+\item contact Ellen
+\end{itemize}
+
+\experiment{Administration}
+\begin{itemize}
+\item figured out how to put in configuration file and specify multiple cirectors  look at search nuiance
+\item Alena laptop
+\item investigate vivify scrum \href{https://www.vivifyscrum.com/feature/how-it-works}{using basic but will probably upgrade find out owned versus access}
+\end{itemize}
+
+\experiment{Retirement}
+\begin{itemize}
+\item Looked at google england couple jobs look interesting
+\item organize paperwork
+\item apply job  -- 
+\end{itemize}
+
+\experiment{Quantum Computing}
+\begin{itemize}
+\item class
+\item jobs vita  cover
+\item visa
+\item dwave uses linear algebra?  ``adibatic?''
+\end{itemize}
+
+\experiment{Referee}
+\begin{itemize}
+\item decide paper "Can we Identify the Fed's Preferences?," by Jean-Bernard Chatelain and Kirsten Ralf, which I am handling as an Associate Editor for Macroeconomic Dynamics 
+\end{itemize}
+
+
+\labday{Saturday, April 1, 2017}
+
+Too many projects on the agenda. Start using vivifyscrum KanBan style
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item do more sparseAMA tests using one equation
+\item generate test matrice as .mat files from steps in spsolve
+\item read .mat into c \href{http://www.mathworks.com/help/matlab/matlab_external/_f30937.html}{.mat}
+\item need to fix sparseAMAAssert linenumbers so lineNumberToString line 1221 reports correctly  )(it says line number but it appears to use error code which is accurate but not informative enough code does print file and line
+\item do one equation where no shifts
+\item interactive version of SPAMA operation  (jupyter)
+\item use matio already installed on /msu/res1/  example use ~/git/sparseAMADesktop/
+\item newer version of matio 1.5.10 can handle newer .mat files but requires getting other downloads
+\item install matio on mac
+\end{itemize}
+
+
+\experiment{Alena Collaboration}
+\begin{itemize}
+\item prepare summer intern talking points
+\item interview potential interns  Danno Lemu and Neal Dora
+\item develop project outline for intern contribution
+\item how choose hv?  write up
+\end{itemize}
+
+\experiment{AMA Series}
+\begin{itemize}
+\item continue adding tests
+\item get rid of multiple arcs between same node
+\item get started on multivariate svmr
+\end{itemize}
+
+\experiment{Research Computing Seminar Series}
+
+\begin{itemize}
+\item flesh out machine learning parallel programming talks
+\item parallel computing on our cluster
+  \begin{itemize}
+  \item openmp and mpi
+  \item overheads
+  \item NUMA
+  \item trends/future
+  \end{itemize}
+\item organize as mathematica notebooks?
+\item use the papers Alena, AMASeries and Text Analysis to generate applications
+\end{itemize}
+
+\experiment{Text Analysis}
+\begin{itemize}
+\item sort out training parser versus trained parser  what is output  what are features
+\item SOM?  probably best to use matlab som from manchester
+\item contact Ellen
+\end{itemize}
+
+\experiment{Administration}
+\begin{itemize}
+\item figured out how to put in configuration file and specify multiple cirectors  look at search nuiance
+\item Alena laptop
+\item investigate vivify scrum \href{https://www.vivifyscrum.com/feature/how-it-works}{using basic but will probably upgrade find out owned versus access}
+\end{itemize}
+
+\experiment{Retirement}
+\begin{itemize}
+\item Looked at google england couple jobs look interesting
+\item organize paperwork
+\item apply job  -- 
+\end{itemize}
+
+\experiment{Quantum Computing}
+\begin{itemize}
+\item class
+\item jobs vita  cover
+\item visa
+\item dwave uses linear algebra?  ``adibatic?''
+\item \href{https://www.dwavesys.com/sites/default/files/Map%20Coloring%20WP2.pdf}{dwave map coloring}
+\end{itemize}
+
+\experiment{Referee}
+\begin{itemize}
+\item decide paper "Can we Identify the Fed's Preferences?," by Jean-Bernard Chatelain and Kirsten Ralf, which I am handling as an Associate Editor for Macroeconomic Dynamics 
+\end{itemize}
+
+\labday{Sunday, April 2, 2017}
+
+Too many projects on the agenda. Start using vivifyscrum KanBan style
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item do more sparseAMA tests using one equation
+\item need to fix sparseAMAAssert linenumbers so lineNumberToString line 1221 reports correctly  )(it says line number but it appears to use error code which is accurate but not informative enough code does print file and line
+\item interactive version of SPAMA operation  (jupyter)
+\item newer version of matio 1.5.10 can handle newer .mat files but requires getting other downloads
+\end{itemize}
+
+
+\experiment{Alena Collaboration}
+\begin{itemize}
+\item develop project outline for intern contribution
+\item how choose hv?  write up
+\end{itemize}
+
+\experiment{AMA Series}
+\begin{itemize}
+\item continue adding tests
+\item get rid of multiple arcs between same node
+\item get started on multivariate svmr
+\end{itemize}
+
+\experiment{Research Computing Seminar Series}
+
+\begin{itemize}
+\item flesh out machine learning parallel programming talks
+\item parallel computing on our cluster
+  \begin{itemize}
+  \item openmp and mpi
+  \item overheads
+  \item NUMA
+  \item trends/future
+  \end{itemize}
+\item organize as mathematica notebooks?
+\item use the papers Alena, AMASeries and Text Analysis to generate applications
+\end{itemize}
+
+\experiment{Text Analysis}
+\begin{itemize}
+\item sort out training parser versus trained parser  what is output  what are features
+\item learn matlab SOM
+  \begin{itemize}
+  \item demos in  ~/git/manchesterCS/61021/week9/lab2\_Part2
+  \item alenas data in ~/git/manchesterCS/61011/alenaMatlabCode,
+  \end{itemize}
+
+\item contact Ellen
+\end{itemize}
+
+\experiment{Administration}
+\begin{itemize}
+\item learn new swish search
+\item Alena laptop
+\end{itemize}
+
+\experiment{Retirement}
+\begin{itemize}
+\item Looked at google england couple jobs look interesting
+\item organize paperwork
+\item apply job  -- 
+\end{itemize}
+
+\experiment{Quantum Computing}
+\begin{itemize}
+\item class
+\item jobs vita  cover  in planning
+\item visa
+\item dwave uses linear algebra?  ``adibatic?''
+\item \href{https://www.dwavesys.com/sites/default/files/Map%20Coloring%20WP2.pdf}{dwave map coloring}
+\end{itemize}
+
+\labday{Monday, April 3, 2017}
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item stack.m work
+\end{itemize}
+
+
+\experiment{Alena Collaboration}
+\begin{itemize}
+\item develop project outline for intern contribution
+\item how choose hv?  write up
+\end{itemize}
+
+\experiment{AMA Series}
+\begin{itemize}
+\item continue adding tests
+\item get rid of multiple arcs between same node
+\item get started on multivariate svmr
+\end{itemize}
+
+\experiment{Research Computing Seminar Series}
+
+\begin{itemize}
+\item flesh out machine learning parallel programming talks
+\item parallel computing on our cluster
+  \begin{itemize}
+  \item openmp and mpi
+  \item overheads
+  \item NUMA
+  \item trends/future
+  \end{itemize}
+\item organize as mathematica notebooks?
+\item use the papers Alena, AMASeries and Text Analysis to generate applications
+\end{itemize}
+
+\experiment{Text Analysis}
+\begin{itemize}
+\item sort out training parser versus trained parser  what is output  what are features
+\item learn matlab SOM
+  \begin{itemize}
+  \item demos in  ~/git/manchesterCS/61021/week9/lab2\_Part2
+  \item alenas data in ~/git/manchesterCS/61011/alenaMatlabCode,
+  \end{itemize}
+
+\item contact Ellen
+\end{itemize}
+
+\experiment{Administration}
+\begin{itemize}
+\item learn new swish search
+\item Alena laptop
+\end{itemize}
+
+\experiment{Retirement}
+\begin{itemize}
+\item Looked at google england couple jobs look interesting
+\item organize paperwork
+\item apply job  -- 
+\end{itemize}
+
+\experiment{Quantum Computing}
+\begin{itemize}
+\item class
+\item jobs vita  cover  in planning
+\item visa
+\item dwave uses linear algebra?  ``adibatic?''
+\item \href{https://www.dwavesys.com/sites/default/files/Map%20Coloring%20WP2.pdf}{dwave map coloring}
+\end{itemize}
+
+\labday{Monday, April 3, 2017}
+
+Start including only new info and accomplishments.
+
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item to implement stack need submatrix zeromatrix  blockmatrix asymptoticlinearization
+\item mathAMA/SymbolicAMA/SymbolicAMA/SymbolicAMA.m has submatrix zeromatrix  blockmatrix 
+\item amsMatrices used by stochProtoTest.m  ./experFRBUSMPS/amsMatrices.m
+./stackStochSimsNot/amsMatrices.m
+\item /msu/res2/m1gsa00/dirDevConvergence/convergence/src/mathematica/asymptotic/asymptoticLinearization.w 
+\item put AsymptoticLinearization in ~/git/CStochSims/reMakeStackMma/
+\item much of stack.w works -- see testStack.m (i think the errors are from my executing commands in random order and mixing models
+\item can even generate spliced c file
+\item homotopy in /msu/res2/m1gsa00/proj3/garyFiles/big/cFiles/nuwebTree/compXEtm1.c
+
+\end{itemize}
+
+
+\experiment{Alena Collaboration}
+\begin{itemize}
+\item 
+\end{itemize}
+
+\experiment{AMA Series}
+\begin{itemize}
+\item 
+\end{itemize}
+
+\experiment{Research Computing Seminar Series}
+
+\begin{itemize}
+\item 
+\end{itemize}
+
+\experiment{Text Analysis}
+\begin{itemize}
+\item
+\end{itemize}
+
+\experiment{Administration}
+\begin{itemize}
+\item 
+\end{itemize}
+
+\experiment{Retirement}
+\begin{itemize}
+\item \href{http://rpi.edu/dept/arc/training/latex/resumes/}{resume and letter templates}
+\item europass looks nice and sanctioned by the EU
+\end{itemize}
+
+\experiment{Quantum Computing}
+\begin{itemize}
+\item 
+\end{itemize}
+
+
+
+\labday{Wednesday, April 5, 2017}
+
+Start including only new info and accomplishments.
+
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item to generate code work with toggle.mth in git/doToggle directory
+\item toggle.mth calls for Stoch` and Stack` present in /msu/home/m1gsa00/git/stackStochSimsNot/
+\item doToggle geneates rbc.mod .xml and .mth
+\item doToggle seems to work with Stack and Stoch from /msu/home/m1gsa00/git/stackStochSimsNot/
+\item even stochSim[2, 2, 9, rbcTestModel, 1, t] // Chop // TableForm seems to work
+\item then run rbcGenCc.mth but fails with problems from dense to sparse mat
+\item doSplice not defined perhaps not needed
+\item generateCCode has problems with dens conversion in
+/msu/home/m1gsa00/git/stackStochSimsNot/MmaModelToC.m
+\item SymbolicAMA has denseToSparseMat as well as Stack
+even though it needs symbolicAMA  mmamodeltoc didn't have need symbolicAMA
+\item following seems to work on cluster
+
+  \begin{enumerate}
+  \item cd /msu/home/m1gsa00/git/doToggle
+  \item cmath
+  \item Get["toggle.mth"] 
+  \item Get["rbcGenC.mth"]
+  \end{enumerate}
+\item had to comment out defs in Stack and add SymbolicAMA to needs of MmaModelToC
+\item move all code to CStochSims and simplify use Stack and Stoch
+\item GetStochSimsExample.m   starts with rbcChk.in.xml(mq style model file)  generates c for stoch sims
+\item model to c now generates code for the homotopy version
+
+\end{itemize}
+
+
+% \experiment{Alena Collaboration}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{AMA Series}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{Research Computing Seminar Series}
+
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{Text Analysis}
+% \begin{itemize}
+% \item
+% \end{itemize}
+
+% \experiment{Administration}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{Retirement}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{Quantum Computing}
+% \begin{itemize}
+% \item 
+
+% \end{itemize}
+
+
+\labday{Thursday, April 6, 2017}
+
+
+
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+
+
+\item compile warnings for generated c files. Placed originals in originalGenC 
+so can update to get rid of warnings and retrieve differences without putting i repository in file warnings.tex. 
+\item added to git anyway so can send to mac
+  % \listinginput{1}{warnings.tex}  cause latex error if included
+
+\item lots of diffs so will try call graph in netbeans to see chain from main down to model evaluation
+%
+\item \includegraphics[width=6in]{/msu/home/m1gsa00/git/CStochSims/fpnewt.png}
+\item \includegraphics[width=6in]{/msu/home/m1gsa00/git/CStochSims/stochsim.png}
+\item to see call graph click on function name in a .c file not a .w file
+\item allocFPNewt not used?  probably should be
+\item had implemented a method for exogenizing rows and columns
+  \begin{itemize}
+  \item look in  directory /msu/res2/m1gsa00/proj3/garyFiles/big/cFiles/nuwebTree/toRay041702/aimver/
+  \item I think exogenizing zeroes out impact of equations and lets just the shocks show through
+  \end{itemize}
+\end{itemize}
+
+
+% \experiment{Alena Collaboration}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{AMA Series}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{Research Computing Seminar Series}
+
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{Text Analysis}
+% \begin{itemize}
+% \item
+% \end{itemize}
+
+% \experiment{Administration}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{Retirement}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{Quantum Computing}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+
+
+\labday{Friday, April 7, 2017}
+
+
+
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item some ideas from dinner
+\item Could communicate seed and step instead is sending shocks
+\item Granularity of task for work stealing.  1 step or multi step
+\item Also Think about appropriate draws from history.  Look at parallel bootstrap applications
+\item  Cilk gpu?
+\item \href{http://paralleltasks.codeplex.com/}{work steal scheduling}
+\end{itemize}
+
+
+% \experiment{Alena Collaboration}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{AMA Series}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{Research Computing Seminar Series}
+
+ \begin{itemize}
+ \item compile info about cluster ~/git/manchesterCS/knowledgeXfer/clusterParallel.tex
+ \item node001d snapshot into practicalSteps paper
+ \end{itemize}
+
+ \experiment{Text Analysis}
+ \begin{itemize}
+ \item ~/git/manchesterCS/knowledgeXfer/textAnalysis
+ \end{itemize}
+
+ \experiment{Administration}
+ \begin{itemize}
+ \item swish file became zero length some how. must have accidentally started reindex and aborted
+ \item getting bus error when I reindex
+ \end{itemize}
+
+% \experiment{Retirement}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{Quantum Computing}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+
+
+
+
+
+\labday{Saturday, April 8, 2017}
+
+
+
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item incorporate exogenizeQ at some point soon from /msu/res2/m1gsa00/proj3/garyFiles/big/cFiles/nuwebTree/stackC.w
+\item should find memory leaks
+\item pick optimization level
+\item xml file all the info for selecting equations?
+\end{itemize}
+
+
+% \experiment{Alena Collaboration}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{AMA Series}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{Research Computing Seminar Series}
+
+ \begin{itemize}
+ \item compile info about cluster ~/git/manchesterCS/knowledgeXfer/clusterParallel.tex
+ \item node001d snapshot into practicalSteps paper
+ \end{itemize}
+
+ \experiment{Text Analysis}
+ \begin{itemize}
+ \item ~/git/manchesterCS/knowledgeXfer/textAnalysis
+ \end{itemize}
+
+ \experiment{Administration}
+ \begin{itemize}
+ \item swish file became zero length some how. must have accidentally started reindex and aborted
+ \item getting bus error when I reindex
+ \end{itemize}
+
+% \experiment{Retirement}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{Quantum Computing}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+
+
+\labday{Saturday, April 8, 2017}
+
+
+
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item worked on incorporating full functionality on a git flow branch
+\item feels like I am piece by piece incorporating all of the nuweb code
+\item generated csr format with j and i interchanged 
+\end{itemize}
+
+
+ \experiment{Alena Collaboration}
+ \begin{itemize}
+ \item paper here ~/git/paperProduction/alenaCollab/docs/svmrRevisit.tex
+ \end{itemize}
+
+% \experiment{AMA Series}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+ \experiment{Research Computing Seminar Series}
+
+ \begin{itemize}
+ \item \href{http://www.mellanox.com/pdf/whitepapers/Intro_to_IB_for_End_Users.pdf}{infiniband white paper}
+ \end{itemize}
+
+ \experiment{Text Analysis}
+ \begin{itemize}
+ \item 
+ \end{itemize}
+
+ \experiment{Administration}
+ \begin{itemize}
+ \item read cvs for summer interns  ~/planning/summerIntern2017/readCVs.tex
+ \end{itemize}
+
+% \experiment{Retirement}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{Quantum Computing}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+
+
+
+
+\labday{Monday, April 10, 2017}
+
+
+
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item seems like a stupid error in stackC.w where I initialize a negative I matrix and then pass the wrong pointer to matrix to nxtcdmats.  hard to see how it might ever have worked with this error
+\item useGenStochSimsExample.mth seems to work, but overwrites updated .c files
+\item probably need to update the code generators so that these cooperate
+\end{itemize}
+
+
+ \experiment{Alena Collaboration}
+ % \begin{itemize}
+ % \item 
+ % \end{itemize}
+
+% \experiment{AMA Series}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+ \experiment{Research Computing Seminar Series}
+
+ % \begin{itemize}
+ % \item 
+ % \end{itemize}
+
+
+
+ \experiment{Text Analysis}
+ % \begin{itemize}
+ % \item 
+ % \end{itemize}
+
+ \experiment{Administration}
+ % \begin{itemize}
+ % \item 
+ % \end{itemize}
+
+% \experiment{Retirement}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+% \experiment{Quantum Computing}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+
+
+
+
+
+
 \bibliographystyle{plainnat}
 \bibliography{files.bib}
 \end{document}
+
 
