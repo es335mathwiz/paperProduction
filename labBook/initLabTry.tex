@@ -1613,7 +1613,7 @@ even though it needs symbolicAMA  mmamodeltoc didn't have need symbolicAMA
   \end{enumerate}
 \item had to comment out defs in Stack and add SymbolicAMA to needs of MmaModelToC
 \item move all code to CStochSims and simplify use Stack and Stoch
-\item GetStochSimsExample.m   starts with rbcChk.in.xml(mq style model file)  generates c for stoch sims
+\item GenStochSimsExample.m   starts with rbcChk.in.xml(mq style model file)  generates c for stoch sims  Get["useGenStochSimsExample.mth"]
 \item model to c now generates code for the homotopy version
 
 \end{itemize}
@@ -1936,6 +1936,194 @@ so can update to get rid of warnings and retrieve differences without putting i 
 % \end{itemize}
 
 % \experiment{Quantum Computing}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+
+
+
+
+
+\labday{Tuesday, April 11, 2017}
+
+
+
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes ./runrbcTryC works on linux
+\item Get["useStack.mth"] loadss Stack` and Stoch` 
+Out[3]= {Stoch`, AMAModelDefinition`, Stack`, SymbolicAMA`, 
+>    AsymptoticLinearization`, ProtectedSymbols`, 
+>    SymbolicMachineLearningLoader`, StreamingLoader`, NeuralNetworks`,  
+>    IconizeLoader`, HTTPHandlingLoader`, CloudObjectLoader`, PacletManager`, 
+ >    System`, Global`}
+\item stochProtoTest appears to work to do stoch sims
+
+\end{itemize}
+
+
+ \experiment{Alena Collaboration}
+ % \begin{itemize}
+ % \item 
+ % \end{itemize}
+
+% \experiment{AMA Series}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+ \experiment{Research Computing Seminar Series}
+
+ % \begin{itemize}
+ % \item 
+ % \end{itemize}
+
+
+
+ \experiment{Text Analysis}
+  \begin{itemize}
+  \item Sharpe Seminar used tf-idf weight tonality measure from word count
+  \end{itemize}
+
+ \experiment{Administration}
+  \begin{itemize}
+  \item Sent Bob Burian my top 5 list.  Had Jason Osajima first who I already  have interviewed  but no way to leave 1st position blank on the  \href{https://fweb.rsma.frb.gov/add/intern_recruiting_2017/cgi-bin/recruiter_view.pl}{recruiter web page }
+  \end{itemize}
+
+ \experiment{Retirement}
+ \begin{itemize}
+ \item \href{https://careers.google.com/jobs#!t=jo&jid=/google/quantitative-analyst-1-13-st-giles-high-st-london-uk-2518841243&}{london}
+ \end{itemize}
+
+ \experiment{Quantum Computing}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+
+
+
+
+
+\labday{Thursday, April 13, 2017}
+
+
+
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item Get["MmaModelToC`"];Get["useGenStochSimsExample.mth"] reloads model c code generator and generates new rbcTryC
+\item adapting stochProtoTest to  to do stoch sims for rbc in rbcStochSims.mth
+\item useGen...  sets up rbc model equation
+\item stochSim[2, 2, 1, rbcTestModel, 1, t] works already
+\item Stack`Private`nxtFpGuess[Private`nlag, Private`theFunc, Private`theDrvFunc, guess]
+\end{itemize}
+
+
+ \experiment{Alena Collaboration}
+ % \begin{itemize}
+ % \item 
+ % \end{itemize}
+
+% \experiment{AMA Series}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+ \experiment{Research Computing Seminar Series}
+
+ % \begin{itemize}
+ % \item 
+ % \end{itemize}
+
+
+
+ \experiment{Text Analysis}
+  \begin{itemize}
+  \item Sharpe Seminar used tf-idf weight tonality measure from word count
+  \end{itemize}
+
+ \experiment{Administration}
+  \begin{itemize}
+  \item Sent Bob Burian my top 5 list.  Had Jason Osajima first who I already  have interviewed  but no way to leave 1st position blank on the  \href{https://fweb.rsma.frb.gov/add/intern_recruiting_2017/cgi-bin/recruiter_view.pl}{recruiter web page }
+  \end{itemize}
+
+ \experiment{Retirement}
+ \begin{itemize}
+ \item \href{https://careers.google.com/jobs#!t=jo&jid=/google/quantitative-analyst-1-13-st-giles-high-st-london-uk-2518841243&}{london}
+ \end{itemize}
+
+ \experiment{Quantum Computing}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+
+
+
+
+
+
+
+\labday{Friday, April 14, 2017}
+
+
+
+
+\experiment{Stochastic Simulations}
+\begin{itemize}
+\item need to change the makefile since new stochProto doesn't make a stpochProto.c but instead 
+
+-rw-r--r-- 1 m1gsa00 msu  9967 Apr 14 16:52 stochRun.c
+-rw-r--r-- 1 m1gsa00 msu   916 Apr 14 16:54 compXEtm1.c
+-rw-r--r-- 1 m1gsa00 msu  1172 Apr 14 16:54 generateNextXTMinusOne.c
+-rw-r--r-- 1 m1gsa00 msu   545 Apr 14 16:54 generateDraws.c
+-rw-r--r-- 1 m1gsa00 msu   792 Apr 14 16:54 generatePathX.c
+-rw-r--r-- 1 m1gsa00 msu  1507 Apr 14 16:54 stochSims.c
+-rw-r--r-- 1 m1gsa00 msu   570 Apr 14 16:55 stochSims.h
+-rw-r--r-- 1 m1gsa00 msu 51300 Apr 14 17:58 myNewt.c
+-rw-r--r-- 1 m1gsa00 msu  3081 Apr 14 17:58 stackC.h
+-rw-r--r-- 1 m1gsa00 msu 51179 Apr 14 17:58 stackC.c
+
+\end{itemize}
+
+
+ \experiment{Alena Collaboration}
+ % \begin{itemize}
+ % \item 
+ % \end{itemize}
+
+% \experiment{AMA Series}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+ \experiment{Research Computing Seminar Series}
+
+ % \begin{itemize}
+ % \item 
+ % \end{itemize}
+
+
+
+ \experiment{Text Analysis}
+  \begin{itemize}
+  \item 
+  \end{itemize}
+
+ \experiment{Administration}
+  \begin{itemize}
+  \item 
+  \end{itemize}
+
+ \experiment{Retirement}
+ \begin{itemize}
+ \item 
+ \end{itemize}
+
+ \experiment{Quantum Computing}
 % \begin{itemize}
 % \item 
 % \end{itemize}
