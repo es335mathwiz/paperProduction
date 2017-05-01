@@ -2086,6 +2086,25 @@ Out[3]= {Stoch`, AMAModelDefinition`, Stack`, SymbolicAMA`,
 -rw-r--r-- 1 m1gsa00 msu 51300 Apr 14 17:58 myNewt.c
 -rw-r--r-- 1 m1gsa00 msu  3081 Apr 14 17:58 stackC.h
 -rw-r--r-- 1 m1gsa00 msu 51179 Apr 14 17:58 stackC.c
+\begin{verbatim}
+
+{msulx1,~/git/CStochSims,62}$grep ims.h *.c
+
+
+
+
+compXEtm1.c:#include "stochSims.h"  from stochProto.w
+generateDraws.c:#include "stochSims.h"from stochProto.w
+generateNextXTMinusOne.c:#include "stochSims.h" from stochProto.w
+generatePathX.c:#include "stochSims.h"from stochProto.w
+myNewt.c:#include "stochSims.h"from stackC.w
+runmpirbcTryC.c:#include "distStochSims.h"
+stackC.c:#include "stochSims.h"from stackC.w
+stackC.c:#include "stochSims.h"from stackC.w
+stochSims.c:#include "stochSims.h"from stochProto.w
+{msulx1,~/git/CStochSims,63}$
+
+\end{verbatim}\item for some reason have to quit mma and run Get["use..."] in order to get all the c files.
 
 \end{itemize}
 
