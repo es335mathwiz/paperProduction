@@ -1673,8 +1673,8 @@ so can update to get rid of warnings and retrieve differences without putting i 
 
 \item lots of diffs so will try call graph in netbeans to see chain from main down to model evaluation
 %
-\item \includegraphics[width=6in]{/msu/home/m1gsa00/git/CStochSims/fpnewt.png}
-\item \includegraphics[width=6in]{/msu/home/m1gsa00/git/CStochSims/stochsim.png}
+%\item \includegraphics[width=6in]{/msu/home/m1gsa00/git/CStochSims/fpnewt.png}
+%\item \includegraphics[width=6in]{/msu/home/m1gsa00/git/CStochSims/stochsim.png}
 \item to see call graph click on function name in a .c file not a .w file
 \item allocFPNewt not used?  probably should be
 \item had implemented a method for exogenizing rows and columns
@@ -2104,9 +2104,16 @@ stackC.c:#include "stochSims.h"from stackC.w
 stochSims.c:#include "stochSims.h"from stochProto.w
 {msulx1,~/git/CStochSims,63}$
 
-\end{verbatim}\item for some reason have to quit mma and run Get["use..."] in order to get all the c files.
+\end{verbatim}
 
+
+\item for some reason have to quit mma and run Get["use..."] in order to get all the c files.
+
+\item need to get nuweb dependencies righ
+\item eliminate stochProto.w  just need stackC.w stochSims.w to make the libstochsims.a in makefile
+\item nuweb stackC;nuweb stochSims;make clean; make libstochSims.a   
 \end{itemize}
+
 
 
  \experiment{Alena Collaboration}
@@ -2149,10 +2156,132 @@ stochSims.c:#include "stochSims.h"from stochProto.w
 
 
 
+\labday{Friday, April 14, 2017}
 
 
 
 
+ \experiment{Stochastic Simulations}
+ \begin{itemize}
+ \item re-running  
+   does not produce c code
+
+ \item    below no computing stedy state subs and loading all  but okay since if statement checks to see if exists already
+
+ \item    probably Needs["GenStochSimsExample`"] is the issue
+   
+ \item adding Get["GenStochSimsExample`"] apparently does nothing
+ \item need to close the OutputStreams associated with the target .[ch] files
+ \item closing works for most but several have error on not open
+   
+General::openx: rbcTryCDrv.c is not open.
+
+General::openx: rbcTryCMakefile is not open.
+
+General::openx: rbcTryCDataForInclude.h is not open.
+
+\begin{verbatim}
+bash-3.2$ math
+Mathematica 11.1.0 Kernel for Mac OS X x86 (64-bit)
+Copyright 1988-2017 Wolfram Research, Inc.
+reading from ~/Library/Mathematica/Kernel/init.m
+fix for emacs
+setting c compiler info
+
+In[1]:= Get["useGenStochSimsExample.mth"]
+done reading SymbolicAMA
+done reading NumericAMA
+done reading AMAModel
+done reading AccelerateAMA
+done reading AsymptoticLinearization
+preprivate
+before reading Format and Optimize
+done reading Format and Optimize
+doing assigns in mmaToC.m
+{in private:, Private`, private}
+sparseFunctionAssignments
+done reading MmaModelToC.m
+executing code for rbcChk.in.xml example
+take care with names since
+ cnstrctDModel appends to xxx.mod and
+ parsemod overwrites xxx.xml
+Current dir after this:/Users/garyanderson
+Current dir using System  after this:/Users/garyanderson
+computing steady state subs
+done computing steady state subs
+got hmatRBC
+avoidSeries:about to compute product
+csrToSpmat:starting
+csrToSpmat:starting
+
+In[2]:= Get["useGenStochSimsExample.mth"]
+executing code for rbcChk.in.xml example
+take care with names since
+ cnstrctDModel appends to xxx.mod and
+ parsemod overwrites xxx.xml
+Current dir after this:/Users/garyanderson
+Current dir using System  after this:/Users/garyanderson
+got hmatRBC
+avoidSeries:about to compute product
+csrToSpmat:starting
+csrToSpmat:starting
+
+In[3]:= 
+\end{verbatim}
+ \end{itemize}
+
+
+
+ \experiment{Alena Collaboration}
+ % \begin{itemize}
+ % \item 
+ % \end{itemize}
+
+ \experiment{AMA Series}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+ \experiment{Research Computing Seminar Series}
+
+ % \begin{itemize}
+ % \item 
+ % \end{itemize}
+
+
+
+ \experiment{Text Analysis}
+  % \begin{itemize}
+  % \item 
+  % \end{itemize}
+
+ \experiment{Administration}
+  % \begin{itemize}
+  % \item 
+  % \end{itemize}
+
+ \experiment{Retirement}
+ % \begin{itemize}
+ % \item 
+ % \end{itemize}
+
+ \experiment{Quantum Computing}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+
+
+
+\labday{Friday, April 28, 2017}
+
+\begin{itemize}
+\item  --ansi --strict 
+\end{itemize}
+
+\labday{Saturday, April 29, 2017}
+\begin{itemize}
+\item \href{http://www.learncpp.com}{learn C++}
+\end{itemize}
 \bibliographystyle{plainnat}
 \bibliography{files.bib}
 \end{document}
