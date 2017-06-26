@@ -1,0 +1,904 @@
+\documentclass[tikz]{beamer}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\mode<presentation>{}
+\usepackage{beamerthemeshadow}
+
+\input{AMArepresentationNewCmds}
+\begin{document}
+\title[SVM Regression for DR Series Approximation]{Using Support Vector Machine Function Approximation to
+Mitigate the Curse of Dimensionality in Solving Models with Occasionally Binding Constraints}
+%\subtitle{this is a subtitle}
+
+\author{Gary S. Anderson}
+\date{\today\ } 
+
+
+\frame{\titlepage}
+
+
+\section{Introduction and Summary}
+
+\begin{frame}
+
+ \begin{itemize}
+ \item Proposing a novel series representation a broad class of functions
+ \item Easy to compute representation for families of trajectories
+\item Only requires that the trajectories are bounded
+\item Originally motivated by solving models occasionally binding constraints
+\item Series representation seems much more general flexible than I originally imagined
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+     \begin{itemize}
+   \item Representation allows us to split problem of discovering decision rules into two phases
+     \begin{itemize}
+     \item solving a potentially difficult deterministic problem given a guess for conditional expectations
+       \begin{itemize}
+     \item occasionally binding constraints
+     \item regime switching
+       \end{itemize}
+     \item updating the conditional expectations
+   \end{itemize}
+   \item Today focus on efficiently representing and computing the time invariant decision rules and their conditional expectations
+\end{itemize}
+
+
+\end{frame}
+
+\section{The Series Representation}
+
+
+\subsection{Linear Rational Expectation Solution Preliminaries}
+
+\begin{frame}
+  \frametitle{A {\em Linear Reference Model}}
+For any linear homogeneous 
+$L$ dimensional 
+deterministic 
+system 
+\begin{gather}
+  	 H_{-1} x_{t-1} + H_0 x_t + H_1 x_{t+1}=0\label{hSystem}
+\end{gather}
+with a unique stable solution\citep{anderson10}
+\begin{gather}
+	 H_{-1} x_{t-1} + H_0 x_t + H_1 x_{t+1}=\psi_\epsilon \epsilon +\psi_{c}\\
+x_t=B x_{t-1} + \phi \psi_\epsilon \epsilon + (I - F)^{-1} \phi \psi_c
+\intertext{where}
+\phi= (H_0 +H_1 B)^{-1}  \text{ and } \,\,F=-\phi H_1 
+\end{gather}
+Define $\linMod \equiv \linModMats$.
+\end{frame}
+
+\subsection{Bounded Deterministic Paths}
+
+\begin{frame}
+  \frametitle{Bounded Deterministic Paths}
+
+Consider a family of functions:
+ \begin{gather}
+   \xWarg \in{R^L}\,\,\infNorm{\xWarg}  \le \bar{\mathcal{X}}\,\,\forall t\ > 0 \label{fFamily}.
+ \end{gather}
+ \begin{itemize}
+ \item The $x_{-1}$ is an  $L$ dimensional state vector
+ \item $\epsilon$ is a $K$ dimensional ``shock'' vector
+ \item  $(x_{-1},\epsilon)$ index individual trajectories for  state vectors.  
+ \item No continuity, monotonicity or smoothness required  -- just boundedness
+ \item Later will require measurable so that integrals exist
+%  \item \href{http://math.stackexchange.com/questions/176379/approximation-of-bounded-measurable-functions-with-continuous-functions}{measurable functions seems like a reasonable requirement for the decision rules}
+%  \item \href{http://math.stackexchange.com/questions/76931/finding-simple-step-and-continuous-functions-to-satisfy-lebesgue-integral-cond}{integrable function representation}
+%  \item \href{http://math.stackexchange.com/questions/434239/measurable-function-approximated-by-borel-function}{borel function and measurable function}
+%  \item \href{http://math.stackexchange.com/questions/573158/approximate-a-complex-measurable-function-pointwisely-almost-everywhere-by-polyn}{polynomials and measurable}
+%  \item Lusin's theorem one of \href{https://faculty.etsu.edu/gardnerr/5210/notes/3-3.pdf}{littlewood's 3 principles}   and \href{https://www.youtube.com/watch?v=-jOcbJpWttc}{a you tube video}  \href{http://web.maths.unsw.edu.au/~potapov/5825_2013/}{measure theory course }
+ \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+  
+{\small
+Define 
+$  z_{t}(x_{t-1},\epsilon)$ as  %\footnote{These $z$ functions will soon prove useful in an algorithm for computing unknown trajectories like \refeq{fFamily}.}:
+{
+
+  \begin{align}
+  z_{t}(x_{t-1},\epsilon) \equiv& H_{-1} \mathcal{X}_{t-1}(x_{t-1},\epsilon) + \nonumber\\
+& H_0 \mathcal{X}_{t}(x_{t-1},\epsilon) +  \label{defZ} \\
+& H_1 \mathcal{X}_{t+1}(x_{t-1},\epsilon). \nonumber
+  \end{align}
+}}
+Then, if $rank(H_1 z_t(x_{t-1},\epsilon)) = rank(z_t(x_{t-1},\epsilon)) \forall t \ge 0$
+{\small
+	 \begin{gather}
+	 \mathcal{X}_{t}(x_{t-1},\epsilon) =B x_{t-1}+ \phi \psi_\epsilon\epsilon + (I - F)^{-1} \phi \psi_c +\\ \sum_{\sForSum=0}^\infty F^s \phi z_{t+\sForSum}(x_{t-1},\epsilon) \label{theSeries}
+\intertext{and}
+	 \mathcal{X}_{t+k+1}(x_{t-1},\epsilon) =B \mathcal{X}_{t+k} + \sum_{\sForSum =0}^\infty F^\sForSum \phi z_{t+k+\sForSum}(x_{t-1},\epsilon) + (I - F)^{-1} \phi \psi_c \,\,\,\forall t,k \ge  0.
+	 \end{gather}
+}
+
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item almost arbitrary must have non zero leads in equations corresponding to model equation with leads -- nonzero columns for F.
+  \item rank conditions requires that  the linear equation
+system, through $H_1$,  must depend on expectational terms that can accommodate
+errors reflected in $z_T$ 
+  \end{itemize}
+\end{frame}
+
+
+\subsection{Three Error Components in Approximating the Solution}
+
+\begin{frame}
+\frametitle{Approximating $\mathcal{X}_t(x_{t-1},\epsilon)$} 
+
+{\small
+
+
+
+\begin{description}
+\item[Truncation Error-- From dropping terms] \ 
+  \begin{itemize}
+  \item Low cost to control/eliminate
+  \end{itemize}
+\item[Discretization Error -- From approximating $z_t$] \ 
+  \begin{itemize}
+\item High cost to control depending on dimension of state space
+  \end{itemize}
+\item[Integration Error -- approximating the integral] \ 
+  \begin{itemize}
+  \item manageable by carefully precomputing the integrals of the basis function
+for representing the decision rule
+   \end{itemize}
+
+
+\end{description}
+}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Approximating $\mathcal{X}_t(x_{t-1},\epsilon)$} 
+
+{\small
+
+
+\begin{itemize}
+\item Truncation Error\footnote{Since
+$\sum_{s=k+1}^{\infty} F^s \phi \psi_z = (I -F)^{-1} F^{k+1}\phi \psi_z$}
+
+ 	 \begin{gather}
+ 	 \xWargK \equiv B x_{t-1}+ \phi \psi_\epsilon\epsilon + \sum_{s=0}^k F^s \phi z_{t}(x_{t-1},\epsilon) + (I - F)^{-1} \phi \psi_c \label{theTruncSeries}\\
+      \label{eq:1}
+\infNorm{\xWarg-\xWargK} \le\\ \infNorm{(I -F)^{-1} F^{k+1}\phi \psi_z} \left ( \infNorm{H_{-1} }+ \infNorm{H_{0} }+ \infNorm{H_{1} } \right )\bar{\mathcal{X}}
+    \end{gather}
+
+
+\end{itemize}
+
+}
+\end{frame}
+
+\subsection{Two Simple Examples}
+\subsubsection{An ``Almost'' Arbitrary Linear Model and Family of Solution Paths}
+
+
+\begin{frame}
+  
+\label{sec:almostarbitrary}
+
+
+\frametitle{An ``Almost'' Arbitrary Linear Model}
+{\small
+\begin{gather}
+  \begin{bmatrix}
+H_{-1}&H_{0}&H_{1} 
+  \end{bmatrix}=
+\vcenter{\hbox{\includegraphics{refHmat.pdf}}}\intertext{with $\psi_c=\psi_\epsilon=0, \,\,  \psi_z=I$.
+the series representation requires that the linear model
+have a unique stable solution.}
+  B=
+\vcenter{\hbox{\includegraphics{refBmat.pdf}}}\\
+\phi=
+\vcenter{\hbox{\includegraphics{refPhimat.pdf}}}\\
+F=
+\vcenter{\hbox{\includegraphics{refFmat.pdf}}}
+\end{gather} 
+}
+\end{frame}
+\begin{frame}
+  
+
+\begin{figure}
+  \centering
+\includegraphics[width=1.1in]{piPath.pdf}
+\includegraphics[width=1.1in]{oscillPath.pdf}
+\includegraphics[width=1.1in]{pseudoPath.pdf}
+
+\includegraphics[width=2in]{theZs.pdf}
+\includegraphics[width=2in]{arbTruncErr.pdf}  
+\caption{Truncation Error Bound Versus Actual}
+  \caption{State Variables and the  z's Corresponding to  $x_{-1}=(1,2,3),\epsilon=(2,1,2)$} \label{arbFig}
+\end{figure}
+
+\end{frame}
+
+\subsubsection{An RBC Model Example}
+
+
+  \begin{frame}
+    
+\frametitle{ RBC Model Example}
+  See for example\cite{Maliar2005}
+ \begin{gather*}
+   \max\left \{  u(c_t^t) + E_t \sum_{\tau=t}^\infty \beta \delta^{\tau+1-t}u(c_{\tau+1}^t)\right \}\\
+c_\tau^t + k_\tau^{t+1}=(1-d)k_\tau^{t-1} + \theta_\tau f(k_\tau^{t-1})\\
+f(k_\tau^{t-1})= k_\tau^\alpha
+\intertext{with first order conditions}
+\frac{1}{c_t^{\eta}}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t}}{c_{t+1}^\eta} \right ) \\
+c_t + k_t=\theta_{t-1}k_{t-1}^\alpha \\
+ \theta_t =\theta_{t-1}^\rho e^{\epsilon_t}\label{rbcSys}
+ \end{gather*}
+
+  \end{frame}
+
+\begin{frame}
+\frametitle{for $\eta=\delta=1$}
+
+
+\begin{gather}
+\frac{1}{c_t}=\alpha \delta k_{t}^{\alpha-1} E_t \left (\frac{\theta_{t}}{c_{t+1}} \right ) \\
+c_t + k_t=\theta_{t-1}k_{t-1}^\alpha \\
+\theta_t =\theta_{t-1}^\rho e^{\epsilon_t}\label{rbcSys}
+\intertext{and there is a closed form solution}
+  k_{t}= \alpha \delta \theta_{t} k_{t-1}^\alpha.\label{soln}\\
+c_t=  (1-\alpha \delta) \theta_{t} k_{t-1}^\alpha
+\end{gather}
+  \end{frame}
+\begin{frame}
+
+
+For mean zero iid $\epsilon_t$ we can easily compute a family of trajectories like \refeq{fFamily}
+\begin{gather}
+  \begin{bmatrix}
+c_{t+s}(k_{t-1},\theta_t,\epsilon_t)\\k_{t+s}(k_{t-1},\theta_t,\epsilon_t)    \\ \theta_{t+s}(\theta_{t-1},\theta_t,\epsilon_t)    
+  \end{bmatrix}
+\intertext{with conditional mean converging over time to }
+  \begin{bmatrix}
+    c_{ss}\\k_{ss}
+  \end{bmatrix}=
+  \begin{bmatrix}
+\nu^\alpha-\nu\\ \nu
+  \end{bmatrix}\intertext{where}
+\nu= \alpha ^{\frac{1}{1-\alpha }} \delta ^{\frac{1}{1-\alpha }}
+\end{gather}
+
+\end{frame}
+
+
+  \begin{frame}
+    \frametitle{Truncation Errors: Arbitrary System and Linearized System}
+
+
+\begin{figure}[H]
+  \centering
+\includegraphics[width=2in]{arbTruncErrSimp.pdf}  
+\includegraphics[width=2in]{truncErrSimp.pdf}  
+\caption{RBC Model Series Truncation Error Bounds Versus Actual}
+  \caption{ $x_{-1}=( {{0.2}, {0.18}, {1.1}}), \epsilon=0.01$} \label{arbFig}
+\end{figure}
+
+
+  \end{frame}
+
+
+\begin{frame}
+\frametitle{Useful Properties of Series Solution}
+
+\begin{itemize}
+\item linear sum of functions
+\item far away points matter less
+\item Bounds on errors
+\end{itemize}
+
+
+
+\end{frame}
+
+
+
+\section{Error Bounds for Proposed Solutions}
+
+
+
+
+
+\subsection{A Mild Constraint on Model Structure}
+
+
+
+\begin{frame}
+\frametitle{Consider  models that can be written in  the following form}
+
+
+\begin{gather}
+  h_i(x_{t-1},x_{t},x_{t+1},\epsilon_t)=h^{det}_{io}(x_{t-1},x_{t},\epsilon_t)+\\ \sum_{j=1}^{p_i} [h^{det}_{ij}(x_{t-1},x_{t},\epsilon_t)h^{nondet}_{ij}(x_{t},x_{t+1},\epsilon_t)]=0
+\end{gather}
+
+\begin{itemize}
+\item models where expectations are computed at time t, $\epsilon_t$  known
+\item this specification allows use of auxiliary variables for 
+accurately computing expected values of nonlinear quantities.
+\item if expected lagged values shocks known then deterministic system in L variables
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{the example  model }
+\label{sec:simple-rbc-model-ext} can be written as
+\begin{gather}
+h_{10^{det}}(\cdot)=\frac{1}{c_t},\,\,
+h_{11}^{det}()=\alpha \delta k_{t}^{\alpha-1} ,\,\,
+h_{11}^{nondet}(\cdot)=E_t \left (\frac{\theta_{t+1}}{c_{t+1}} \right )\\
+h_{20}^{det}(\cdot)=c_t + k_t-\theta_tk_{t-1}^\alpha,\,\,
+h_{21}^{det}(\cdot)=0\\
+h_{30}^{det}(\cdot)=\ln \theta_t -(\rho \ln \theta_{t-1} + \epsilon_t),\,\,
+h_{31}^{det}(\cdot)=0
+\end{gather}
+
+\end{frame}
+
+
+\subsection{The Augmented Decision Rule Functions(ADR and ADRCE)}
+
+
+  \begin{frame}
+\frametitle{Error Bounds for Proposed Solutions}
+    
+\begin{itemize}
+\item Choose an Almost  Arbitrary Linear Reference Model
+\item Construct Augmented Decision Rule Function (ADR)
+\item along with Augmented Decision Rule Conditional Expectation Function (ADRCE)
+\item Compute Bound for Discretization Error
+\item Compute Bound for Truncation Error
+\end{itemize}
+
+  \end{frame}
+
+
+
+
+\begin{frame}
+  \frametitle{Assess \ADR\  accuracy}
+  \begin{itemize}
+  \item Exact solution have zero discrepancy
+  \item compute deviations  DR approximation error
+  \item expectation computation approximation error
+  \item series truncation error
+  \item don't need to iterate a long path since all the potentials 
+errors attainable in first iteration step by searching across initial conditions
+  \end{itemize}
+
+
+\end{frame}
+
+% \begin{frame}
+%   \begin{itemize}
+% \item condition number and error bounds
+%   \item why system view better
+%   \item factor out expectation function
+%   \item allow loss function for model error
+%   \item integration error 
+%   \item bound other people's solutions, compare to bound Euler errors
+%   \item show can determine number series terms then accuracy depends on number of nodes
+%   \end{itemize}
+% \end{frame}
+
+
+% \begin{frame}
+%   \begin{itemize}
+%   \item compute errors and max norm for all relevant state $(x_{t-1},\epsilon_t)$ and consequently for all the conditional expectations
+%   \item precompute  conditional expectations for basis since amaseries is
+% just a linearly weighted sum
+% \item what is best way to quantify characterize impact of error along the path
+% inaccurately computed future trajectory
+%   \end{itemize}
+% \end{frame}
+
+% \subsubsection{The (Typically Unknown) Exact Solution}
+
+
+
+% \begin{frame}
+% \frametitle{UnKnown Solution: Conditional Expectations Path}
+% \begin{itemize}
+% \item can discover unknown solutions
+% \end{itemize}
+
+
+
+% \end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Accuracy Computations Exact Solution}
+{\small
+  \begin{itemize}
+  \item Given an exact solution $x^\star_t=g^\star(x_{t-1},\epsilon_t)$ define
+  \begin{gather}
+G^\star(x)\equiv\expct{g^\star(x,\epsilon)} \intertext{then with}
+E_tx^\star_{t+1}=G^\star(g^\star(x_{t-1},\epsilon_t))\\
+    \label{eq:2}
+\eqnFunc(x^\star_{t-1},x^\star_t,E_tx^\star_{t+1},\epsilon_t)=0  \,\, \forall  (x_{t-1},\epsilon_t)\\ \intertext{Using $G^\star$ and $\linMod$ construct the family of trajectories and corresponding $z^\star_t(x_{t-1},\epsilon)$ }
+   x^\star_t(x_{t-1},\epsilon_t) \in{R^L}\,\,\infNorm{x^\star_t(x_{t-1},\epsilon_t)}  \le \bar{\mathcal{X}}\,\,\forall t\ > 0
+  \end{gather}
+   \begin{align}
+   z^\star_{t}(x_{t-1},\epsilon_t) \equiv& H_{-1}  x^\star_{t-1}(x_{t-1},\epsilon_t) + \nonumber\\
+ & H_0  x^\star_{t}(x_{t-1},\epsilon_t) +  \label{defZ} \\
+ & H_1  x^\star_{t+1}(x_{t-1},\epsilon_t). \nonumber
+   \end{align}
+
+  \end{itemize}
+}
+
+\end{frame}
+  \subsection{Characterizing the Accuracy of a Proposed Solution}
+
+
+\begin{frame}
+  \frametitle{Accuracy Computations Exact Solution}
+{\small
+
+  \begin{itemize}
+  \item The exact solution has a representation given by
+	 \begin{gather}
+	 x^\star_{t}(x_{t-1},\epsilon) =B x_{t-1}+ \phi \psi_\epsilon\epsilon + (I - F)^{-1} \phi \psi_c +\\ \sum_{\sForSum=0}^\infty F^s \phi z^\star_{t+\sForSum}(x_{t-1},\epsilon) \intertext{and}
+	 \expct{x^\star_{t+1}(x_{t-1},\epsilon)} =B x^\star_{t+k} + \sum_{\sForSum =0}^\infty F^\sForSum \phi \expct{z^\star_{t+1+\sForSum}(x_{t-1},\epsilon)} + (I - F)^{-1} \phi \psi_c 
+% \intertext{with}
+% \eqnFunc(x_{t-1},x^\star_t,E_tx^\star_{t+1},\epsilon_t)=0  \,\, \forall  (x_{t-1},\epsilon_t)\\ 
+	 \end{gather}
+
+  \end{itemize}
+}
+\end{frame}
+
+\subsubsection{Quantifying the Inaccuracy of the Proposed Solution}
+
+
+\begin{frame}
+  \frametitle{Proposed solution}
+  \begin{itemize}
+  \item Given a proposed solution $x^p_t=g^p(x_{t-1},\epsilon_t)$ define
+$G^p(x)\equiv\expct{g^p(x,\epsilon)}$  so that 
+  \begin{gather}
+E_tx_{t+1}=G^p(g^p(x_{t-1},\epsilon_t))\\
+\mathbf{e}_t(x_{t-1},\epsilon)\equiv
+\eqnFunc(x_{t-1},x^p_t,E_tx^p_{t+1},\epsilon_t)\\\intertext{Using $G^p$ and $\linMod$ construct the family of trajectories and corresponding $z^p_t(x_{t-1},\epsilon)$ }
+   x^p_t(x_{t-1},\epsilon_t) \in{R^L}\,\,\infNorm{x^p_t(x_{t-1},\epsilon_t)}  \le \bar{\mathcal{X}}\,\,\forall t\ > 0
+  \end{gather}
+   \begin{align}
+   z^p_{t}(x_{t-1},\epsilon_t) \equiv& H_{-1}  x^p_{t-1}(x_{t-1},\epsilon_t) + \nonumber\\
+ & H_0  x^p_{t}(x_{t-1},\epsilon_t) +  \label{defZ} \\
+ & H_1  x^p_{t+1}(x_{t-1},\epsilon_t). \nonumber
+   \end{align}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Proposed solution representation}
+  {\small
+
+  \begin{itemize}
+  \item The proposed solution has a representation given by 
+  \begin{gather}
+    \label{eq:4}
+	 x^p_{t}(x_{t-1},\epsilon) =B x_{t-1}+ \phi \psi_\epsilon\epsilon + (I - F)^{-1} \phi \psi_c +\\ \sum_{\sForSum=0}^\infty F^s \phi z^p_{t+\sForSum}(x_{t-1},\epsilon) 
+ \intertext{and}
+ 	 \expct{x^p_{t+1}(x_{t-1},\epsilon)} =B x^p_{t+k} + \sum_{\sForSum =0}^\infty F^\sForSum \phi z^p_{t+1+\sForSum}(x_{t-1},\epsilon) + (I - F)^{-1} \phi \psi_c \intertext{with}
+\mathbf{e}_t(x_{t-1},\epsilon)\equiv
+\eqnFunc(x_{t-1},x^p_t,E_tx^p_{t+1},\epsilon_t)
+  \end{gather}
+
+  \end{itemize}
+}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{The Difference}
+{\small
+  \begin{gather}
+    \label{eq:3}
+\max_{\{x_{-},\epsilon\}} \infNorm{ \phi \eqnFunc(x_{-},g^p(x_{-},\epsilon),G^p(g^p(x_{-},\epsilon)),\epsilon) }\\
+\max_{\{x_{-},\epsilon\}} \infNorm{ \phi \expct{ \eqnFunc(x_{-},g^p(x_{-},\epsilon),G^p(g^p(x_{-},\epsilon)),\epsilon)} }\\
+\hat{G}^p(x,\epsilon)=G^p(x,\epsilon)+ \mathcal{I}_e(x,\epsilon)\\
+\max_{\{x_{-},\epsilon\}} \infNorm{ \phi \expct{ \eqnFunc(x_{-},g^p(x_{-},\epsilon),\hat{G}^p(g^p(x_{-},\epsilon)),\epsilon)} }\\
+\max_{\{x_{-},\epsilon\}} \infNorm{ \phi \expct{ \eqnFunc(x_{-},g^p(x_{-},\epsilon),B g^p(x_{-},\epsilon)+(I-F)^{-1}\psi_c,\epsilon)} }
+  \end{gather}
+}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{The Difference continued}
+{\small
+  \begin{gather}
+    \label{eq:3}
+	 x^\star_{t}(x_{t-1},\epsilon) -	 x^p_{t}(x_{t-1},\epsilon) =
+\sum_{\sForSum=0}^\infty F^s \phi (z^\star_{t+\sForSum}(x_{t-1},\epsilon)-z^p_{t+\sForSum}(x_{t-1},\epsilon))     \\
+	 x^\star_{t}(x_{t-1},\epsilon) -	 x^p_{t}(x_{t-1},\epsilon) =
+\sum_{\sForSum=0}^\infty F^s \phi \mathbf{z_e}_{t+\sForSum}(x_{t-1},\epsilon_t)   \\ 
+	\infNorm{ x^\star_{t}(x_{t-1},\epsilon) -	 x^p_{t}(x_{t-1},\epsilon)} \le
+\sum_{\sForSum=0}^\infty F^s \phi \infNorm{\mathbf{z_e}_{t+\sForSum}(x_{t-1},\epsilon_t)}    
+  \end{gather}
+}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Some definitions}
+
+{\small
+
+  \begin{description}
+  \item[$\numX$-Dimensional Linear Reference Model] \ 
+
+$\linMod \equiv \linModMats$ A linear model with state space of dimension
+$\numX$ and unique solutions converging 
+to some steady state
+  \item[Augmented Decision Rule Function(\ADR)]  \ 
+$\xzFunc: \xzFuncSig$ \\
+ A function of $
+\begin{bmatrix}
+  x_{t-1}\\\epsilon_t
+\end{bmatrix}
+$ providing an approximation 
+for $\begin{bmatrix}
+  x_t\\z_t
+\end{bmatrix}$
+  \item[Augmented Decision Rule Conditional Expectation Function(\ADRCE)] 
+
+$\XZFunc: \xzFuncGuessSig$ \\ A function of $x_t$ providing an approximation 
+for the conditional expectation  
+$\uncnxpt{\begin{bmatrix}
+  x_{t+1}\\z_{t+1}
+\end{bmatrix}}{x_t}\equiv  \uncnxpt{\xzFunc(x_t,\epsilon_{t+1})}{x_t}$
+
+  \end{description}
+
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+{\small
+  \begin{gather}
+  \xzFuncGuess^k \left (
+  \begin{bmatrix}
+    x_{t-1} \\\epsilon_t
+  \end{bmatrix}; \linMod,\xguss
+\right )=
+  \begin{bmatrix}
+    x_{t-1}\\ x_t\\ \xtpguss
+  \end{bmatrix}\\
+x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)  \label{seriesForm}\\ 
+\xtpguss=\XZFunc^{k-1}(\xguss) = \sumZPartZero +  \sumZPartPos(\xguss)
+  \end{gather}
+}
+\end{frame}
+
+\begin{frame}
+  
+ \frametitle{Rational Expectations}
+
+ \begin{gather}
+ \XZFunc^{k}(x)=     \mathcal{H}^{RE}[\xzFunc^{k}(x,\epsilon_{t+T-k+1})]=
+ \expct{\xzFunc^{k}(x,\epsilon_{t+T-k+1})}\\
+  \XZFunc^{k}(x)=\EsumLinPart + \EsumZPartEpsilon\\
+ \XZFunc^{k}(x)=\EsumLinPart + \EsumCapZPart{RE}
+ \end{gather}
+
+\end{frame}
+
+\section{A Generic Algorithm For Improving Proposed Solutions}
+
+
+\begin{frame}[fragile]
+
+{\small
+%Choose a linear reference  model, $\linMod$, of dimension $\numX$,
+%the number of terms for the series $\numTerms$  and interpolation/collocation points,  $\thePts \equiv \thePoints$.
+%Choose an initial \ADRCE,  $\XZFunc^0$
+}
+
+{\small
+  \begin{algorithm}[H]{Compute the \ADR\ $\xzFunc^k(\xtmEpsArg)$ to improve the \ADRCE, $\XZFunc^{k}$}\\
+\Input{$\linMod, \XZFunc^k, \numTerms, \thePts,\eqnFunc$}
+%\For{(\xtmEpsArg) \in \thePts }{ xx}
+\For{$(\xtmEpsArg) \in \thePts$}{
+initialize $\xgusst{}= \XZFunc^k(x_{t-1})$\;
+\Repeat{$\xlst{t} = \xnxt{t}$}
+{$\xlst{t}=\xgusst{}$\\
+use $\XZFunc^{k}$ to recursively compute 
+$\left \{
+\begin{bmatrix}
+\xgusst{t+1}\\\zgusst{t+1}
+\end{bmatrix}
+\cdots
+\begin{bmatrix}
+\xgusst{t+\numTerms-1}\\  \zgusst{t+\numTerms-1}
+\end{bmatrix}
+\right \}$\;
+use \refeq{seriesForm} to symbolically 
+compute $\xzFuncGuess(\xtArg;\xgusst{})$\;
+solve $\eqnFunc(\xzFuncGuess(\xtArg;\xgusst{}))$ to determine $\xnxt{t}, \znxt{t}$\;
+$\xgusst{}=\xnxt{t}$\;
+}
+}
+$\xzFunc^{k+1}(\xtmEpsArg)\,\,  \forall \, (\xtmEpsArg)\in \thePts \Rightarrow \XZFunc^{k+1} $\;
+\Output{$\XZFunc^{k+1}$}
+%$\XZFunc^{k+1}(\xtArg)=\int \xzFunc^{k+1}(\xtArg,\epsilon) d\epsilon$
+
+\end{algorithm}
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{\ADR\ and \ADRCE}
+
+{\small
+  \begin{itemize}
+  \item  $A\equiv \begin{bmatrix}  x_{t-1}\\\epsilon_t\end{bmatrix} \in 
+\Rn{\numX+\numEps}$,
+$B\equiv \begin{bmatrix}  x_{t}\\z_t\end{bmatrix} \in 
+\Rn{\numX+\numZ}$
+   \item  $C\equiv \begin{bmatrix}  x_{t} \end{bmatrix}\in 
+ \Rn{\numX}$,
+ $D\equiv \begin{bmatrix}  x_{t+1}\\z_{t+1}\end{bmatrix} \in 
+ \Rn{\numX+\numZ}$
+\item $E\equiv \begin{bmatrix}  x_{t-1}\\ x_{t}\\ x_{t+1}\\ \epsilon_t \end{bmatrix}\in 
+ \Rn{3\numX+\numEps}$,
+$F\equiv \begin{bmatrix}  \eqnErrs \end{bmatrix}\in 
+ \Rn{\numX}$
+  \end{itemize}
+
+
+  \begin{tikzcd}
+    A \arrow [ r,"\xzFunc"]&B 
+  \end{tikzcd}
+\begin{tikzcd}
+    C \arrow [ r,"\XZFunc"]&D 
+  \end{tikzcd}
+\begin{tikzcd}
+    C \arrow [ r,"\xzFuncGuess"]&B 
+  \end{tikzcd}
+\begin{tikzcd}
+    A \arrow [ r,"\slvr"]&B 
+  \end{tikzcd}
+\begin{tikzcd}
+    E \arrow [ r,"\eqnFunc"]&F 
+  \end{tikzcd}
+
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{do generic algorithm}
+{\small 
+
+
+   \begin{tikzcd}
+\begin{bmatrix}\epsilon_t\end{bmatrix}&    
+\begin{bmatrix}x_{t-1}\end{bmatrix}&
+\begin{bmatrix}x_{t}\end{bmatrix}&
+\begin{bmatrix}\expct{x_{t+1}}\end{bmatrix}\\
+\begin{bmatrix}  z_t\end{bmatrix}
+& 
+\iSet 
+\arrow [ u, "\proj{x_{t-1}}"right ,near end ]   
+\arrow [ lu,"\proj{\epsilon_t}" above] 
+\arrow[r,"\xzFuncGuess"{name=U,below}]
+\arrow [ l,"\proj{z_t}" ] 
+& 
+\eqnArg 
+\arrow[ lu,"\proj{x_{t-1}}" above ]
+\arrow[ u,"\proj{x_{t}}"]
+\arrow[ ru,"\proj{\expct{x_{t+1}}}", near end,crossing over ]
+\arrow[ llu,"\proj{\epsilon_t}" above, near end]
+\arrow[ r,"\eqnFunc"]&\eqnOut
+\\
+\\
+&&\mathbf{xz_{in}} 
+\arrow[ "gen_{\xzFuncGuess}", to=U] 
+\arrow[ld,"\proj{\linMod}"]
+\arrow[d,"\proj{\XZFunc}"]
+\arrow[rd,"\proj{\xgusst{}}"]
+\\
+&\linMod&\XZFunc&\begin{bmatrix}\xgusst{}\end{bmatrix}\\
+   \end{tikzcd}
+
+}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{do generic Solver algorithm}
+{\small 
+
+   \begin{tikzcd}
+\begin{bmatrix}x_{t-1}\end{bmatrix}& 
+\iSet
+\arrow [ l, "\proj{x_{t-1}}"right ,near end ]   
+\arrow [ ld,"\proj{\epsilon_t}" above] 
+\arrow[rdd,"\slvr"{name=bip,below}]
+& \xzFuncGuessIn
+\arrow[l,"\proj{\iSet}"{name=U,below}]
+\arrow [ d,"\proj{z_t}" ,near end ] 
+\arrow[r,"\xzFuncGuess"{name=rip,below}]
+&
+\eqnArg 
+%\arrow[ rd,"\proj{x_{t}}"]
+%\arrow[ lu,"\proj{\expct{x_{t+1}}}", near end,crossing over ]
+\arrow[ r,"\eqnFunc"]
+&\mathbf{0}
+\\
+\begin{bmatrix}\epsilon_t\end{bmatrix}
+&
+% \genSlvrIn 
+% \arrow["\genSlvr",to=bip, near start]
+% \arrow[d,"\proj{\xzFuncGuess}"]
+% \arrow[ld,"\proj{\eqnFunc}"]
+&\begin{bmatrix}z_t\end{bmatrix}
+\\
+&
+% \genSlvrIn 
+% \arrow["\genSlvr",to=bip]
+% \arrow[d,"\proj{\xzFuncGuess}"]
+% \arrow[ld,"\proj{\eqnFunc}"]
+&
+\slvrOut
+\arrow[r,"\proj{x_{t}}"]
+\arrow[u,"\proj{z_{t}}" right]
+&\begin{bmatrix}x_t\end{bmatrix}
+\\
+&
+\genSlvrIn 
+\arrow["\genSlvr",to=bip]
+\arrow[d,"\proj{\xzFuncGuess}"]
+\arrow[ld,"\proj{\eqnFunc}"]
+&
+&\XZFunc
+\arrow["\genXZFunc", from=bip,  bend right=50]
+&\genxzFuncGuessIn 
+\arrow[ "gen_{\xzFuncGuess}", to=rip] 
+\arrow[llld,"gen_{\xzFuncGuess}"] 
+\arrow[ld,"\proj{\linMod}"]
+\arrow[l,"\proj{\XZFunc}"]
+\arrow[lu,"\proj{x_t}"]
+\\
+\eqnFunc&\xzFuncGuess&&\linMod\\
+   \end{tikzcd}
+
+}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{do generic Fixed Point algorithm}
+{\small 
+
+   \begin{tikzcd}
+\begin{bmatrix}\epsilon_t\end{bmatrix}&\fpfIn
+\arrow[l,"\proj{\epsilon_t}"]
+\arrow[ld,"\proj{x_{t-1}}"]
+\arrow[r,"\fpf"{name=hip,below}]
+&\fpfOut
+\arrow[r,"\proj{x_{t}}"]
+\arrow[rd,"\proj{z_{t}}"]
+&\begin{bmatrix}x_t\end{bmatrix}
+\\
+\begin{bmatrix}x_{t-1}\end{bmatrix}
+&&&\begin{bmatrix}z_t\end{bmatrix}
+\\
+&\genFpfIn 
+\arrow["\genFpf",to=hip]
+\arrow[ld,"\proj{\genSlvr}"]
+\arrow[d,"\proj{\linMod}"]
+\arrow[rd,"\proj{\XZFunc}"]
+\arrow[rrd,"\proj{\eqnFunc}"]
+\\
+\genSlvr &\linMod&\XZFunc&\eqnFunc
+   \end{tikzcd}
+
+}
+
+\end{frame}
+
+\section{Support Vector Machine Regression}
+\subsection{The Quadratic Programming Problem}
+
+\begin{frame}
+  \frametitle{Support Vector Machine Regression}
+  
+{\small
+
+Consider models of the form 
+\begin{gather}
+y_t=E[y|x_t]+ \epsilon_t\\
+E[y|x_t]= \sum_{i=1}^L\theta_ik(x_i,x)+b
+\end{gather}
+\begin{itemize}
+\item $k(x_i,x)$ generalizes the idea of a dot product.\cite{hofmann06kernelreview}.
+% This ``kernel trick'' provides  flexible array of functional forms
+\item the weights obtained by solving a (dual) quadratic programming problem
+\end{itemize}
+\begin{gather}
+L=\frac{1}{2}||w||^2 + C \sum_{i=1}^L (\xi_i+\xi_i^\ast) - \sum_{i=1}^L (\eta_i\xi_i+\eta_i^\ast \xi_i^\ast) -\\
+\sum_{i=1}^L \alpha_i(\epsilon_i +\xi_i - y_i + k(x_i,x) +b)- 
+\sum_{i=1}^L \alpha_i^\ast(\epsilon_i +\xi_i^\ast + y_i - k(x_i,x) -b)\nonumber
+\end{gather}
+}
+\end{frame}
+
+\begin{frame}
+  
+
+As a result, analagous to a  hinge loss function, 
+errors near the predicted value are ``costless'' while those further away
+impact cost in proportion to their linear distance from the prediction.
+\end{frame}
+
+\subsection{Kernels}
+\begin{frame}
+  \frametitle{Kernels}
+
+\label{sec:kernels}
+\cite{Ruping01svmkernels} suggests a number of interesting kernels for 
+time series analysis.
+\begin{itemize}
+\item linear
+\item RBF
+\item Fourier
+\item Subsequence
+\item pair hidden markov model
+\end{itemize}
+
+\end{frame}
+
+
+\appendix
+
+\begin{frame}
+  \frametitle{Bibliography}
+  \bibliographystyle{plainnat}
+\bibliography{../../bibFiles/anderson,../../bibFiles/files}
+
+\end{frame}
+
+
+\end{document}
