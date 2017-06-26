@@ -61,8 +61,8 @@
 \newcommand{\numPts}{{N_{points}}}
 \newcommand{\thePoints}{{\{(x_{t-1},\epsilon_t)^{1} \ldots (x_{t-1},\epsilon_t)^{\numPts}\}}}
 \newcommand{\thePts}{{\mathcal{P}}}
-\newcommand{\ADRCE}{{\bf ADRCEF}}
-\newcommand{\ADR}{{\bf ADRF}}
+\newcommand{\ADRCE}{{\bf ADRCE}}
+\newcommand{\ADR}{{\bf ADR}}
 
 \newcommand{\xtmEpsArg}{{x_{t-1},\epsilon_t}} 
 \newcommand{\xtArg}{{x_{t} }}
@@ -191,16 +191,16 @@ B x_{t-1}+ \phi \psi_\epsilon\epsilon + (I - F)^{-1} \phi \psi_c
 \right \} -1}}
 
 
-\newenvironment{proof}[1][Proof]{\begin{trivlist}
+\newenvironment{myProof}[1][Proof]{\begin{trivlist}
   \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
-\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\newenvironment{myDefinition}[1][Definition]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
-\newenvironment{example}[1][Example]{\begin{trivlist}
+\newenvironment{myExample}[1][Example]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
-\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\newenvironment{myRemark}[1][Remark]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
 
-\newcommand{\qed}{\nobreak \ifvmode \relax \else
+\newcommand{\myQed}{\nobreak \ifvmode \relax \else
       \ifdim\lastskip<1.5em \hskip-\lastskip
       \hskip1.5em plus0em minus0.5em \fi \nobreak
       \vrule height0.75em width0.5em depth0.25em\fi}
