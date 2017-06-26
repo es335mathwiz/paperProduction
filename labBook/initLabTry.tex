@@ -14,6 +14,108 @@
 \tableofcontents
 
 \mainmatter
+\labday{Tuesday, June 19, 2017}
+
+\begin{itemize}
+\item ~/git/svmrStuff/SVMR/SVMR.m not used  use ~/git/manchesterCS/61011/project/svmrCode.mth
+\end{itemize}
+
+\labday{Monday, June 19, 2017}
+\experiment{ AMASeriesRepresentation Paper}
+\begin{description}
+\item[Support Vector Machines] \ 
+  \begin{itemize}
+  \item adapt svmr code to pre-integrate  kernel functions
+    \begin{itemize}
+    \item ~/git/manchesterCS/61011/project/svmrCode.mth old code implementing QP problem
+    \item ~/git/manchesterCS/61011/project/applCode.mth exercises svmrCode.mth
+    \item ~/git/AMASeriesRepresentation/AMASeriesRepresentation/trySVMR.mth  newer code showing smolyak pts  and preintegrating
+    \item doFV.mth firmvalue and doBetterRBC.mth exercise AMASeries code
+    \item ~/git/svmStuff/  developed in a netbeans project
+    \item  has compiled .class files
+    \item SVMRDesktop.nb code exercising libsvm from mathematica
+    \item trySVMR.mth has code loading SVMR` and using libsvm
+    \end{itemize}
+  \end{itemize}
+\end{description}
+
+\experiment{fame in matlab}
+\begin{itemize}
+\item James T indicates problem with license
+\item matlab complains can't find jhcli
+\item tries some of the fixes \href{https://www.mathworks.com/matlabcentral/answers/102751-how-do-i-configure-the-java-run-time-library-path-java-library-path-in-matlab-with-and-without-adm
+}{here }
+\item 
+\end{itemize}
+
+\labday{Tuesday, June 12, 2017}
+
+\experiment{ Support Vector Machines}
+\begin{itemize}
+\item \href{http://www.support-vector-machines.org/SVM_soft.html}{svm software multi output can learn context free grammar; trees}
+\item \href{http://www.csie.ntu.edu.tw/~cjlin/bsvm/}{svm multiclass maybe regression}
+\item \href{http://people.kyb.tuebingen.mpg.de/spider/}{more multi reg svm}
+\end{itemize}
+
+\labday{Tuesday, June 6, 2017}
+
+\experiment{Text Analysis}
+
+\begin{itemize}
+\item \href{https://www.cs.cornell.edu/People/tj/svm_light/svm_hmm.html}{svmhmm hiden markov sequence tagging}
+\end{itemize}
+
+\experiment{Computing environment}
+
+\begin{itemize}
+\item jupyter notebooks installed on laptop 
+\href{https://github.com/jupyter/jupyter/wiki/Jupyter-kernels}{jupyter kernels}
+\end{itemize}
+
+\labday{Tuesday, May 23, 2017}
+\experiment{FRBUS}
+
+\begin{itemize}
+\item Etienne pointed out importance of using non-public version of FRBUS for section utility,  may conflict with FEDS submission
+\end{itemize}
+
+\experiment{computing environment}
+
+  \begin{itemize}
+  \item \href{https://sites.google.com/a/case.edu/hpc-upgraded-cluster/home/Software-Guide/mathematica}{mathematica cluster case western}
+  \item \href{https://rcc.uchicago.edu/docs/software/environments/mathematica/index.html}{slurm batch}
+  \item \href{}{Wolfram suggestions for batch}
+  \end{itemize}
+
+\labday{Monday, May 22, 2017}
+
+\experiment{FRBUS}
+\begin{itemize}
+\item optimal control with discression code 
+\item \verb!/mq/home/frbus/matlab/tcoc/tcoc_m.m!
+
+\verb!/mq/home/production/lib/eviews/general/mce_solve_library.prg!
+\item discretion uses a linearized version of the model  uses R or matlab code
+\end{itemize}
+
+\labday{Wednesday, May 17, 2017}
+
+\experiment{Cross validation HAC other robust covariance estimators}
+
+\labday{Monday, May 10, 2017}
+
+\experiment{Improve environment}
+
+\begin{itemize}
+\item eliminated auto matlab mode -- changed to math-mode for .m .mth
+\item getting on the TB calendar
+\end{itemize}
+
+\labday{Monday, May 8, 2017}
+\begin{itemize}
+\item Text Analysis : Brad Strum Michael DePooter Ellen Mead
+\end{itemize}
+
 
 \labday{Thursday, January 20, 2017}
 
@@ -2280,8 +2382,55 @@ In[3]:=
 
 \labday{Saturday, April 29, 2017}
 \begin{itemize}
+\item should include .w dependencies in makefile for runrbcTryC
 \item \href{http://www.learncpp.com}{learn C++}
 \end{itemize}
+
+\labday{Monday, May 1, 2017}
+
+  \begin{itemize}
+  \item \href{http://www.cplusplus.com/reference/random/uniform_int_distribution/}{c++ uniform distribution}
+  \item if no parameters will need to tell compiler unused variables parameters to avoid warning
+  \end{itemize}
+\labday{Tuesday, May 2, 2017}
+
+\experiment{stochastic sims}
+  \begin{itemize}
+  \item eliminated warnings except for fortran 
+  \item should eliminate ranlib.f reference
+  \end{itemize}
+\experiment{Alena collaboration}
+\begin{itemize}
+\item MATLink for linux  no anomalies for MEX 5  13 results except for coefficients which produce 12 since random walk has no coefficients
+\item in emacs .m file get edited in matlab mode.  need a way to turn off for mathematica files
+\end{itemize}
+
+
+\experiment{Summer Intern}
+\href{http://karpathy.github.io/2015/05/21/rnn-effectiveness/}{The Unreasonable Effectiveness of Recurrent Neural Networks}  also look at the Long Short-Term Memory network variant
+\begin{itemize}
+\item \href{http://torch.ch/}{torch}
+\item \href{http://fastml.com/torch-vs-theano/}{Theano vs Torch}
+\item \href{https://chunml.github.io/ChunML.github.io/project/Creating-Text-Generator-Using-Recurrent-Neural-Network/}{text generation RNN and ltsm}
+\item \href{http://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/}{python LTSM}
+\item \href{https://medium.com/@TalPerry/deep-learning-the-stock-market-df853d139e02}{,pre LSTM}
+\item \href{https://ehudreiter.com/2016/12/12/nlg-and-ml/}{long time practitioner blog}
+\end{itemize}
+
+\labday{Friday, May 5, 2017}
+
+\experiment{stochastic Sims}
+\begin{verbatim}
+
+
+std::calloc function is defined in <cstdlib>. You need to include it in order to fix this error.
+
+With this said, you would be better off using operator new - an idiomatic way of allocating dynamic memory in C++.
+
+And you would be even better off (much better off) using std::vector instead of using raw pointers and new.
+
+\end{verbatim}
+\href{http://www.acodersjourney.com/2016/05/top-10-c-header-file-mistakes-and-how-to-fix-them/}{best practice .h files}
 \bibliographystyle{plainnat}
 \bibliography{files.bib}
 \end{document}
