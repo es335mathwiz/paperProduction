@@ -14,6 +14,56 @@
 \tableofcontents
 
 \mainmatter
+
+\labday{Friday, July 5, 2017}
+
+\begin{itemize}
+\item jmatio create matrix column major order
+\end{itemize}
+\labday{Friday, July 4, 2017}
+\experiment{AMASeriesRepresentation}
+
+\begin{itemize}
+\item \href{http://www.programcreek.com/java-api-examples/index.php?api=com.jmatio.io.MatFileReader}{jmatio}  mat files for java  .  by default writes to homedir
+\item \href{http://intra.csb.ethz.ch/javadoc/metabolic/com/jmatio/io/MatFileWriter.html}{easy matrix create example}
+\item \href{https://mathematica.stackexchange.com/questions/64756/creating-a-generic-empty-list-with-jlink}{generic types mathematica java}  no runtime support
+\end{itemize}
+
+\labday{Friday, July 1, 2017}
+
+\experiment{Julia}
+\begin{itemize}
+\item \href{https://github.com/JuliaInterop/Mathematica.jl}{julia}
+\item AMA in julia
+\end{itemize}
+\labday{Friday, June 30, 2017}
+
+
+
+
+\experiment{AMASeriesRepresentation}
+  \begin{itemize}
+  \item implement smolyak use SVs
+  \item iterated expections correct
+  \item sort out error bounds( pessimistic, versus ``generalization error''
+  \item parallelize
+  \item profile
+  \item refactor javac step eliminate need to reinstalljava reload classes
+  \item precompute kernel in export to java
+    \begin{itemize}
+    \item k\_function static in svm.java returns one double Kernel.lxl matrix
+    \item svm.java appears to use PRECOMPUTED line 180 and 278 
+    \end{itemize}
+
+  \item Show how smolyak interp works fine for iterating if start by getting
+    a good first solution by applying the lin mod for entire future path so that it is not explosive and iterating on the fixed point solutions  with nestlist
+    
+  \item it may be that the algorithm works well because it in effect uses inner  iteration imposing linear model before it explodes along with F to bound explosive solution 
+  \item this process should come in handy for any guessed solution perhaps
+    find code that others use that explodes as initial and show how it works
+  \end{itemize}
+  
+
 \labday{Tuesday, June 19, 2017}
 
 \begin{itemize}

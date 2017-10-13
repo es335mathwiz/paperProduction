@@ -17,7 +17,18 @@ Mitigate the Curse of Dimensionality in Solving Models with Occasionally Binding
 
 \frame{\titlepage}
 
+\begin{frame}
+  \frametitle{To Do For Paper}
 
+  \begin{itemize}
+  \item Show how smolyak interp works fine for iterating if start by getting
+    a good first solution by applying the lin mod for entire future path so that it is not explosive and iterating on the fixed point solutions  with nestlist
+    
+  \item it may be that the algorithm works well because it in effect uses inner  iteration imposing linear model before it explodes along with F to bound explosive solution 
+  \item this process should come in handy for any guessed solution perhaps
+    find code that others use that explodes as initial and show how it works
+  \end{itemize}
+\end{frame}
 \section{Introduction and Summary}
 
 \begin{frame}
@@ -28,6 +39,7 @@ Mitigate the Curse of Dimensionality in Solving Models with Occasionally Binding
 \item Only requires that the trajectories are bounded
 \item Originally motivated by solving models occasionally binding constraints
 \item Series representation seems much more general flexible than I originally imagined
+\item parallel version
 \end{itemize}
 \end{frame}
 
@@ -36,18 +48,92 @@ Mitigate the Curse of Dimensionality in Solving Models with Occasionally Binding
      \begin{itemize}
    \item Representation allows us to split problem of discovering decision rules into two phases
      \begin{itemize}
-     \item solving a potentially difficult deterministic problem given a guess for conditional expectations
+     \item Solving a potentially difficult deterministic problem given a guess for conditional expectations
        \begin{itemize}
-     \item occasionally binding constraints
-     \item regime switching
+     \item Occasionally binding constraints
+     \item Regime switching
        \end{itemize}
-     \item updating the conditional expectations
+     \item Updating the conditional expectations
    \end{itemize}
    \item Today focus on efficiently representing and computing the time invariant decision rules and their conditional expectations
 \end{itemize}
 
 
 \end{frame}
+
+
+
+\section{Support Vector Machine Regression}
+\subsection{The Quadratic Programming Problem}
+
+\begin{frame}
+  \frametitle{Support Vector Machine Regression}
+{\small
+
+Consider models of the form 
+\begin{gather}
+y_t=E[y|x_t]+ \epsilon_t\\
+E[y|x_t]= \sum_{i=1}^L\theta_ik(x_i,x)+b
+\end{gather}
+\begin{itemize}
+\item $k(x_i,x)$ generalizes the idea of a dot product.\cite{hofmann06kernelreview}.
+% This ``kernel trick'' provides  flexible array of functional forms
+\item The weights obtained by solving a quadratic programming problem
+\end{itemize}
+\begin{gather}
+L=\frac{1}{2}||w||^2 + C \sum_{i=1}^L (\xi_i+\xi_i^\ast) \\
+  \text{subject to}
+\begin{cases}
+  y-( \sum_{i=1}^L\theta_ik(x_i,x)+b) \le \xi_i\\
+ ( \sum_{i=1}^L\theta_ik(x_i,x)+b )-y \le \xi_i^\ast
+\end{cases}
+\end{gather}
+}
+\end{frame}
+
+\subsection{Support Vector Machine Solution Properties}
+
+\begin{frame}
+  \frametitle{Support Vector Machine Solution Properties}
+
+  \begin{itemize}
+  \item Small errors  are ``costless''
+    \item Deviations outside $\epsilon$ band penalized linearly
+    \item Solving dual identifies special $x_i$ -- {\em support vectors}
+    \item Deleting non support vectors from data  leaves solution unchanged
+    \item Dynamically complements anisotropic smolyak.\cite{Judd2014}
+    \item Expectations ``pre-computable''
+    \item Approximation function update is embarrassingly parallel
+  \end{itemize}
+
+\end{frame}
+
+
+\subsection{Kernels}
+\begin{frame}
+  \frametitle{Kernels}
+
+\label{sec:kernels}
+\cite{Ruping01svmkernels} suggests a number of interesting kernels for 
+time series analysis. 
+\begin{itemize}
+\item map data into new space $\Phi : X \rightarrow \mathcal{X}$
+\item $k(x,y)= \Phi(x) \cdot \Phi(y)$
+\begin{itemize}
+\item linear $k(x,y)= x \cdot y$
+\item RBF $k_\gamma(x,y)=\exp(-\gamma||x-y||^2)$
+\item Fourier $k_F\frac{1-q^2}{2(1-2q \cos(x,y))+q^2}$
+%\item Subsequence
+%\item pair hidden markov model
+\item \ \ \ \ \ \ \ \ \ \ \ \ \ \ $\vdots$
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+
+
 
 \section{The Series Representation}
 
@@ -124,8 +210,8 @@ Then, if $rank(H_1 z_t(x_{t-1},\epsilon)) = rank(z_t(x_{t-1},\epsilon)) \forall 
 
 \begin{frame}
   \begin{itemize}
-  \item almost arbitrary must have non zero leads in equations corresponding to model equation with leads -- nonzero columns for F.
-  \item rank conditions requires that  the linear equation
+  \item Almost arbitrary must have non zero leads in equations corresponding to model equation with leads -- nonzero columns for F.
+  \item Rank conditions requires that  the linear equation
 system, through $H_1$,  must depend on expectational terms that can accommodate
 errors reflected in $z_T$ 
   \end{itemize}
@@ -301,14 +387,15 @@ c_{t+s}(k_{t-1},\theta_t,\epsilon_t)\\k_{t+s}(k_{t-1},\theta_t,\epsilon_t)    \\
 \frametitle{Useful Properties of Series Solution}
 
 \begin{itemize}
-\item linear sum of functions
-\item far away points matter less
-\item Bounds on errors
+\item Shows how distant future  points matter less 
+\item Useful for  approximating bounds on errors
+\item Linear sums of functions consistent with precomputing expectations of basis function
 \end{itemize}
 
 
 
 \end{frame}
+
 
 
 
@@ -331,10 +418,10 @@ c_{t+s}(k_{t-1},\theta_t,\epsilon_t)\\k_{t+s}(k_{t-1},\theta_t,\epsilon_t)    \\
 \end{gather}
 
 \begin{itemize}
-\item models where expectations are computed at time t, $\epsilon_t$  known
-\item this specification allows use of auxiliary variables for 
+\item Models where expectations are computed at time t, $\epsilon_t$  known
+\item This specification allows use of auxiliary variables for 
 accurately computing expected values of nonlinear quantities.
-\item if expected lagged values shocks known then deterministic system in L variables
+\item If expected lagged values shocks known then deterministic system in L variables
 \end{itemize}
 
 \end{frame}
@@ -365,7 +452,7 @@ h_{31}^{det}(\cdot)=0
 \begin{itemize}
 \item Choose an Almost  Arbitrary Linear Reference Model
 \item Construct Augmented Decision Rule Function (ADR)
-\item along with Augmented Decision Rule Conditional Expectation Function (ADRCE)
+\item Along with Augmented Decision Rule Conditional Expectation Function (ADRCE)
 \item Compute Bound for Discretization Error
 \item Compute Bound for Truncation Error
 \end{itemize}
@@ -379,10 +466,10 @@ h_{31}^{det}(\cdot)=0
   \frametitle{Assess \ADR\  accuracy}
   \begin{itemize}
   \item Exact solution have zero discrepancy
-  \item compute deviations  DR approximation error
-  \item expectation computation approximation error
-  \item series truncation error
-  \item don't need to iterate a long path since all the potentials 
+  \item Compute deviations  DR approximation error
+  \item Expectation computation approximation error
+  \item Series truncation error
+  \item Don't need to iterate a long path since all the potentials 
 errors attainable in first iteration step by searching across initial conditions
   \end{itemize}
 
@@ -544,6 +631,7 @@ E_tx_{t+1}=G^p(g^p(x_{t-1},\epsilon_t))\\
 }
 \end{frame}
 
+\section{A Generic Algorithm For Improving Proposed Solutions}
 
 
 \begin{frame}
@@ -602,20 +690,19 @@ x_t= \sumLinPart + \sumZPartZero +\\  \sumZPartPos(\xguss)  \label{seriesForm}\\
 }
 \end{frame}
 
-\begin{frame}
+% \begin{frame}
   
- \frametitle{Rational Expectations}
+%  \frametitle{Rational Expectations}
 
- \begin{gather}
- \XZFunc^{k}(x)=     \mathcal{H}^{RE}[\xzFunc^{k}(x,\epsilon_{t+T-k+1})]=
- \expct{\xzFunc^{k}(x,\epsilon_{t+T-k+1})}\\
-  \XZFunc^{k}(x)=\EsumLinPart + \EsumZPartEpsilon\\
- \XZFunc^{k}(x)=\EsumLinPart + \EsumCapZPart{RE}
- \end{gather}
+%  \begin{gather}
+%  \XZFunc^{k}(x)=     \mathcal{H}^{RE}[\xzFunc^{k}(x,\epsilon_{t+T-k+1})]=
+%  \expct{\xzFunc^{k}(x,\epsilon_{t+T-k+1})}\\
+%   \XZFunc^{k}(x)=\EsumLinPart + \EsumZPartEpsilon\\
+%  \XZFunc^{k}(x)=\EsumLinPart + \EsumCapZPart{RE}
+%  \end{gather}
 
-\end{frame}
+% \end{frame}
 
-\section{A Generic Algorithm For Improving Proposed Solutions}
 
 
 \begin{frame}[fragile]
@@ -660,245 +747,207 @@ $\xzFunc^{k+1}(\xtmEpsArg)\,\,  \forall \, (\xtmEpsArg)\in \thePts \Rightarrow \
 \end{frame}
 
 
-\begin{frame}[fragile]
-  \frametitle{\ADR\ and \ADRCE}
+% \begin{frame}[fragile]
+%   \frametitle{\ADR\ and \ADRCE}
 
-{\small
-  \begin{itemize}
-  \item  $A\equiv \begin{bmatrix}  x_{t-1}\\\epsilon_t\end{bmatrix} \in 
-\Rn{\numX+\numEps}$,
-$B\equiv \begin{bmatrix}  x_{t}\\z_t\end{bmatrix} \in 
-\Rn{\numX+\numZ}$
-   \item  $C\equiv \begin{bmatrix}  x_{t} \end{bmatrix}\in 
- \Rn{\numX}$,
- $D\equiv \begin{bmatrix}  x_{t+1}\\z_{t+1}\end{bmatrix} \in 
- \Rn{\numX+\numZ}$
-\item $E\equiv \begin{bmatrix}  x_{t-1}\\ x_{t}\\ x_{t+1}\\ \epsilon_t \end{bmatrix}\in 
- \Rn{3\numX+\numEps}$,
-$F\equiv \begin{bmatrix}  \eqnErrs \end{bmatrix}\in 
- \Rn{\numX}$
-  \end{itemize}
-
-
-  \begin{tikzcd}
-    A \arrow [ r,"\xzFunc"]&B 
-  \end{tikzcd}
-\begin{tikzcd}
-    C \arrow [ r,"\XZFunc"]&D 
-  \end{tikzcd}
-\begin{tikzcd}
-    C \arrow [ r,"\xzFuncGuess"]&B 
-  \end{tikzcd}
-\begin{tikzcd}
-    A \arrow [ r,"\slvr"]&B 
-  \end{tikzcd}
-\begin{tikzcd}
-    E \arrow [ r,"\eqnFunc"]&F 
-  \end{tikzcd}
-
-}
-
-\end{frame}
+% {\small
+%   \begin{itemize}
+%   \item  $A\equiv \begin{bmatrix}  x_{t-1}\\\epsilon_t\end{bmatrix} \in 
+% \Rn{\numX+\numEps}$,
+% $B\equiv \begin{bmatrix}  x_{t}\\z_t\end{bmatrix} \in 
+% \Rn{\numX+\numZ}$
+%    \item  $C\equiv \begin{bmatrix}  x_{t} \end{bmatrix}\in 
+%  \Rn{\numX}$,
+%  $D\equiv \begin{bmatrix}  x_{t+1}\\z_{t+1}\end{bmatrix} \in 
+%  \Rn{\numX+\numZ}$
+% \item $E\equiv \begin{bmatrix}  x_{t-1}\\ x_{t}\\ x_{t+1}\\ \epsilon_t \end{bmatrix}\in 
+%  \Rn{3\numX+\numEps}$,
+% $F\equiv \begin{bmatrix}  \eqnErrs \end{bmatrix}\in 
+%  \Rn{\numX}$
+%   \end{itemize}
 
 
+%   \begin{tikzcd}
+%     A \arrow [ r,"\xzFunc"]&B 
+%   \end{tikzcd}
+% \begin{tikzcd}
+%     C \arrow [ r,"\XZFunc"]&D 
+%   \end{tikzcd}
+% \begin{tikzcd}
+%     C \arrow [ r,"\xzFuncGuess"]&B 
+%   \end{tikzcd}
+% \begin{tikzcd}
+%     A \arrow [ r,"\slvr"]&B 
+%   \end{tikzcd}
+% \begin{tikzcd}
+%     E \arrow [ r,"\eqnFunc"]&F 
+%   \end{tikzcd}
 
+% }
 
-\begin{frame}[fragile]
-\frametitle{do generic algorithm}
-{\small 
-
-
-   \begin{tikzcd}
-\begin{bmatrix}\epsilon_t\end{bmatrix}&    
-\begin{bmatrix}x_{t-1}\end{bmatrix}&
-\begin{bmatrix}x_{t}\end{bmatrix}&
-\begin{bmatrix}\expct{x_{t+1}}\end{bmatrix}\\
-\begin{bmatrix}  z_t\end{bmatrix}
-& 
-\iSet 
-\arrow [ u, "\proj{x_{t-1}}"right ,near end ]   
-\arrow [ lu,"\proj{\epsilon_t}" above] 
-\arrow[r,"\xzFuncGuess"{name=U,below}]
-\arrow [ l,"\proj{z_t}" ] 
-& 
-\eqnArg 
-\arrow[ lu,"\proj{x_{t-1}}" above ]
-\arrow[ u,"\proj{x_{t}}"]
-\arrow[ ru,"\proj{\expct{x_{t+1}}}", near end,crossing over ]
-\arrow[ llu,"\proj{\epsilon_t}" above, near end]
-\arrow[ r,"\eqnFunc"]&\eqnOut
-\\
-\\
-&&\mathbf{xz_{in}} 
-\arrow[ "gen_{\xzFuncGuess}", to=U] 
-\arrow[ld,"\proj{\linMod}"]
-\arrow[d,"\proj{\XZFunc}"]
-\arrow[rd,"\proj{\xgusst{}}"]
-\\
-&\linMod&\XZFunc&\begin{bmatrix}\xgusst{}\end{bmatrix}\\
-   \end{tikzcd}
-
-}
-
-\end{frame}
+% \end{frame}
 
 
 
-\begin{frame}[fragile]
-\frametitle{do generic Solver algorithm}
-{\small 
 
-   \begin{tikzcd}
-\begin{bmatrix}x_{t-1}\end{bmatrix}& 
-\iSet
-\arrow [ l, "\proj{x_{t-1}}"right ,near end ]   
-\arrow [ ld,"\proj{\epsilon_t}" above] 
-\arrow[rdd,"\slvr"{name=bip,below}]
-& \xzFuncGuessIn
-\arrow[l,"\proj{\iSet}"{name=U,below}]
-\arrow [ d,"\proj{z_t}" ,near end ] 
-\arrow[r,"\xzFuncGuess"{name=rip,below}]
-&
-\eqnArg 
-%\arrow[ rd,"\proj{x_{t}}"]
-%\arrow[ lu,"\proj{\expct{x_{t+1}}}", near end,crossing over ]
-\arrow[ r,"\eqnFunc"]
-&\mathbf{0}
-\\
-\begin{bmatrix}\epsilon_t\end{bmatrix}
-&
-% \genSlvrIn 
-% \arrow["\genSlvr",to=bip, near start]
-% \arrow[d,"\proj{\xzFuncGuess}"]
-% \arrow[ld,"\proj{\eqnFunc}"]
-&\begin{bmatrix}z_t\end{bmatrix}
-\\
-&
+% \begin{frame}[fragile]
+% \frametitle{do generic algorithm}
+% {\small 
+
+
+%    \begin{tikzcd}
+% \begin{bmatrix}\epsilon_t\end{bmatrix}&    
+% \begin{bmatrix}x_{t-1}\end{bmatrix}&
+% \begin{bmatrix}x_{t}\end{bmatrix}&
+% \begin{bmatrix}\expct{x_{t+1}}\end{bmatrix}\\
+% \begin{bmatrix}  z_t\end{bmatrix}
+% & 
+% \iSet 
+% \arrow [ u, "\proj{x_{t-1}}"right ,near end ]   
+% \arrow [ lu,"\proj{\epsilon_t}" above] 
+% \arrow[r,"\xzFuncGuess"{name=U,below}]
+% \arrow [ l,"\proj{z_t}" ] 
+% & 
+% \eqnArg 
+% \arrow[ lu,"\proj{x_{t-1}}" above ]
+% \arrow[ u,"\proj{x_{t}}"]
+% \arrow[ ru,"\proj{\expct{x_{t+1}}}", near end,crossing over ]
+% \arrow[ llu,"\proj{\epsilon_t}" above, near end]
+% \arrow[ r,"\eqnFunc"]&\eqnOut
+% \\
+% \\
+% &&\mathbf{xz_{in}} 
+% \arrow[ "gen_{\xzFuncGuess}", to=U] 
+% \arrow[ld,"\proj{\linMod}"]
+% \arrow[d,"\proj{\XZFunc}"]
+% \arrow[rd,"\proj{\xgusst{}}"]
+% \\
+% &\linMod&\XZFunc&\begin{bmatrix}\xgusst{}\end{bmatrix}\\
+%    \end{tikzcd}
+
+% }
+
+% \end{frame}
+
+
+
+% \begin{frame}[fragile]
+% \frametitle{do generic Solver algorithm}
+% {\small 
+
+%    \begin{tikzcd}
+% \begin{bmatrix}x_{t-1}\end{bmatrix}& 
+% \iSet
+% \arrow [ l, "\proj{x_{t-1}}"right ,near end ]   
+% \arrow [ ld,"\proj{\epsilon_t}" above] 
+% \arrow[rdd,"\slvr"{name=bip,below}]
+% & \xzFuncGuessIn
+% \arrow[l,"\proj{\iSet}"{name=U,below}]
+% \arrow [ d,"\proj{z_t}" ,near end ] 
+% \arrow[r,"\xzFuncGuess"{name=rip,below}]
+% &
+% \eqnArg 
+% %\arrow[ rd,"\proj{x_{t}}"]
+% %\arrow[ lu,"\proj{\expct{x_{t+1}}}", near end,crossing over ]
+% \arrow[ r,"\eqnFunc"]
+% &\mathbf{0}
+% \\
+% \begin{bmatrix}\epsilon_t\end{bmatrix}
+% &
+% % \genSlvrIn 
+% % \arrow["\genSlvr",to=bip, near start]
+% % \arrow[d,"\proj{\xzFuncGuess}"]
+% % \arrow[ld,"\proj{\eqnFunc}"]
+% &\begin{bmatrix}z_t\end{bmatrix}
+% \\
+% &
+% % \genSlvrIn 
+% % \arrow["\genSlvr",to=bip]
+% % \arrow[d,"\proj{\xzFuncGuess}"]
+% % \arrow[ld,"\proj{\eqnFunc}"]
+% &
+% \slvrOut
+% \arrow[r,"\proj{x_{t}}"]
+% \arrow[u,"\proj{z_{t}}" right]
+% &\begin{bmatrix}x_t\end{bmatrix}
+% \\
+% &
 % \genSlvrIn 
 % \arrow["\genSlvr",to=bip]
 % \arrow[d,"\proj{\xzFuncGuess}"]
 % \arrow[ld,"\proj{\eqnFunc}"]
-&
-\slvrOut
-\arrow[r,"\proj{x_{t}}"]
-\arrow[u,"\proj{z_{t}}" right]
-&\begin{bmatrix}x_t\end{bmatrix}
-\\
-&
-\genSlvrIn 
-\arrow["\genSlvr",to=bip]
-\arrow[d,"\proj{\xzFuncGuess}"]
-\arrow[ld,"\proj{\eqnFunc}"]
-&
-&\XZFunc
-\arrow["\genXZFunc", from=bip,  bend right=50]
-&\genxzFuncGuessIn 
-\arrow[ "gen_{\xzFuncGuess}", to=rip] 
-\arrow[llld,"gen_{\xzFuncGuess}"] 
-\arrow[ld,"\proj{\linMod}"]
-\arrow[l,"\proj{\XZFunc}"]
-\arrow[lu,"\proj{x_t}"]
-\\
-\eqnFunc&\xzFuncGuess&&\linMod\\
-   \end{tikzcd}
+% &
+% &\XZFunc
+% \arrow["\genXZFunc", from=bip,  bend right=50]
+% &\genxzFuncGuessIn 
+% \arrow[ "gen_{\xzFuncGuess}", to=rip] 
+% \arrow[llld,"gen_{\xzFuncGuess}"] 
+% \arrow[ld,"\proj{\linMod}"]
+% \arrow[l,"\proj{\XZFunc}"]
+% \arrow[lu,"\proj{x_t}"]
+% \\
+% \eqnFunc&\xzFuncGuess&&\linMod\\
+%    \end{tikzcd}
 
-}
+% }
 
-\end{frame}
+% \end{frame}
 
 
 
-\begin{frame}[fragile]
-\frametitle{do generic Fixed Point algorithm}
-{\small 
+% \begin{frame}[fragile]
+% \frametitle{do generic Fixed Point algorithm}
+% {\small 
 
-   \begin{tikzcd}
-\begin{bmatrix}\epsilon_t\end{bmatrix}&\fpfIn
-\arrow[l,"\proj{\epsilon_t}"]
-\arrow[ld,"\proj{x_{t-1}}"]
-\arrow[r,"\fpf"{name=hip,below}]
-&\fpfOut
-\arrow[r,"\proj{x_{t}}"]
-\arrow[rd,"\proj{z_{t}}"]
-&\begin{bmatrix}x_t\end{bmatrix}
-\\
-\begin{bmatrix}x_{t-1}\end{bmatrix}
-&&&\begin{bmatrix}z_t\end{bmatrix}
-\\
-&\genFpfIn 
-\arrow["\genFpf",to=hip]
-\arrow[ld,"\proj{\genSlvr}"]
-\arrow[d,"\proj{\linMod}"]
-\arrow[rd,"\proj{\XZFunc}"]
-\arrow[rrd,"\proj{\eqnFunc}"]
-\\
-\genSlvr &\linMod&\XZFunc&\eqnFunc
-   \end{tikzcd}
+%    \begin{tikzcd}
+% \begin{bmatrix}\epsilon_t\end{bmatrix}&\fpfIn
+% \arrow[l,"\proj{\epsilon_t}"]
+% \arrow[ld,"\proj{x_{t-1}}"]
+% \arrow[r,"\fpf"{name=hip,below}]
+% &\fpfOut
+% \arrow[r,"\proj{x_{t}}"]
+% \arrow[rd,"\proj{z_{t}}"]
+% &\begin{bmatrix}x_t\end{bmatrix}
+% \\
+% \begin{bmatrix}x_{t-1}\end{bmatrix}
+% &&&\begin{bmatrix}z_t\end{bmatrix}
+% \\
+% &\genFpfIn 
+% \arrow["\genFpf",to=hip]
+% \arrow[ld,"\proj{\genSlvr}"]
+% \arrow[d,"\proj{\linMod}"]
+% \arrow[rd,"\proj{\XZFunc}"]
+% \arrow[rrd,"\proj{\eqnFunc}"]
+% \\
+% \genSlvr &\linMod&\XZFunc&\eqnFunc
+%    \end{tikzcd}
 
-}
+% }
 
-\end{frame}
-
-\section{Support Vector Machine Regression}
-\subsection{The Quadratic Programming Problem}
-
-\begin{frame}
-  \frametitle{Support Vector Machine Regression}
-  
-{\small
-
-Consider models of the form 
-\begin{gather}
-y_t=E[y|x_t]+ \epsilon_t\\
-E[y|x_t]= \sum_{i=1}^L\theta_ik(x_i,x)+b
-\end{gather}
-\begin{itemize}
-\item $k(x_i,x)$ generalizes the idea of a dot product.\cite{hofmann06kernelreview}.
-% This ``kernel trick'' provides  flexible array of functional forms
-\item the weights obtained by solving a (dual) quadratic programming problem
-\end{itemize}
-\begin{gather}
-L=\frac{1}{2}||w||^2 + C \sum_{i=1}^L (\xi_i+\xi_i^\ast) - \sum_{i=1}^L (\eta_i\xi_i+\eta_i^\ast \xi_i^\ast) -\\
-\sum_{i=1}^L \alpha_i(\epsilon_i +\xi_i - y_i + k(x_i,x) +b)- 
-\sum_{i=1}^L \alpha_i^\ast(\epsilon_i +\xi_i^\ast + y_i - k(x_i,x) -b)\nonumber
-\end{gather}
-}
-\end{frame}
-
-\begin{frame}
-  
-
-As a result, analagous to a  hinge loss function, 
-errors near the predicted value are ``costless'' while those further away
-impact cost in proportion to their linear distance from the prediction.
-\end{frame}
-
-\subsection{Kernels}
-\begin{frame}
-  \frametitle{Kernels}
-
-\label{sec:kernels}
-\cite{Ruping01svmkernels} suggests a number of interesting kernels for 
-time series analysis.
-\begin{itemize}
-\item linear
-\item RBF
-\item Fourier
-\item Subsequence
-\item pair hidden markov model
-\end{itemize}
-
-\end{frame}
+% \end{frame}
 
 
 \appendix
 
-\begin{frame}
+
+% \begin{frame}
+%   \frametitle{The QP dual}
+% \begin{gather}
+% L=\frac{1}{2}||w||^2 + C \sum_{i=1}^L (\xi_i+\xi_i^\ast) - \sum_{i=1}^L (\eta_i\xi_i+\eta_i^\ast \xi_i^\ast) -\\
+% \sum_{i=1}^L \alpha_i(\epsilon_i +\xi_i - y_i + k(x_i,x) +b)- 
+% \sum_{i=1}^L \alpha_i^\ast(\epsilon_i +\xi_i^\ast + y_i - k(x_i,x) -b)\nonumber
+% \end{gather}
+
+
+% \end{frame}
+
+
+
   \frametitle{Bibliography}
   \bibliographystyle{plainnat}
 \bibliography{../../bibFiles/anderson,../../bibFiles/files}
 
-\end{frame}
+
 
 
 \end{document}
