@@ -90,11 +90,11 @@ Consider a family of functions:
  \item  $(x_{-1},\epsilon)$ index individual trajectories for  state vectors.  
  \item No continuity, monotonicity or smoothness required  -- just boundedness
  \item Later will require measurable so that integrals exist
-  \item \href{http://math.stackexchange.com/questions/176379/approximation-of-bounded-measurable-functions-with-continuous-functions}{measurable functions seems like a reasonable requirement for the decision rules}
-  \item \href{http://math.stackexchange.com/questions/76931/finding-simple-step-and-continuous-functions-to-satisfy-lebesgue-integral-cond}{integrable function representation}
-  \item \href{http://math.stackexchange.com/questions/434239/measurable-function-approximated-by-borel-function}{borel function and measurable function}
-  \item \href{http://math.stackexchange.com/questions/573158/approximate-a-complex-measurable-function-pointwisely-almost-everywhere-by-polyn}{polynomials and measurable}
-  \item Lusin's theorem one of \href{https://faculty.etsu.edu/gardnerr/5210/notes/3-3.pdf}{littlewood's 3 principles}   and \href{https://www.youtube.com/watch?v=-jOcbJpWttc}{a you tube video}  \href{http://web.maths.unsw.edu.au/~potapov/5825_2013/}{measure theory course }
+  % \item \href{http://math.stackexchange.com/questions/176379/approximation-of-bounded-measurable-functions-with-continuous-functions}{measurable functions seems like a reasonable requirement for the decision rules}
+  % \item \href{http://math.stackexchange.com/questions/76931/finding-simple-step-and-continuous-functions-to-satisfy-lebesgue-integral-cond}{integrable function representation}
+  % \item \href{http://math.stackexchange.com/questions/434239/measurable-function-approximated-by-borel-function}{borel function and measurable function}
+  % \item \href{http://math.stackexchange.com/questions/573158/approximate-a-complex-measurable-function-pointwisely-almost-everywhere-by-polyn}{polynomials and measurable}
+  % \item Lusin's theorem one of \href{https://faculty.etsu.edu/gardnerr/5210/notes/3-3.pdf}{littlewood's 3 principles}   and \href{https://www.youtube.com/watch?v=-jOcbJpWttc}{a you tube video}  \href{http://web.maths.unsw.edu.au/~potapov/5825_2013/}{measure theory course }
  \end{itemize}
 
 \end{frame}
@@ -181,7 +181,7 @@ $\sum_{s=k+1}^{\infty} F^s \phi \psi_z = (I -F)^{-1} F^{k+1}\phi \psi_z$}
  	 \begin{gather}
  	 \xWargK \equiv B x_{t-1}+ \phi \psi_\epsilon\epsilon + \sum_{s=0}^k F^s \phi z_{t}(x_{t-1},\epsilon) + (I - F)^{-1} \phi \psi_c \label{theTruncSeries}\\
       \label{eq:1}
-\infNorm{\xWarg-\xWargK} \le\\ \infNorm{(I -F)^{-1} F^{k+1}\phi \psi_z} \left ( \infNorm{H_{-1} }+ \infNorm{H_{0} }+ \infNorm{H_{1} } \right )\bar{\mathcal{X}}
+\infNorm{\xWarg-\xWargK} \le\\ \infNorm{(I -F)^{-1} F^{k+1}\phi \psi_z} \left ( \infNorm{H_{-1} }+ \infNorm{H_{0} }+ \infNorm{H_{1} } \right )\bar{\mathcal{Z}}
     \end{gather}
 
 \item Discretization Error
@@ -207,15 +207,15 @@ $\sum_{s=k+1}^{\infty} F^s \phi \psi_z = (I -F)^{-1} F^{k+1}\phi \psi_z$}
   \begin{bmatrix}
 H_{-1}&H_{0}&H_{1} 
   \end{bmatrix}=
-\vcenter{\hbox{\includegraphics{refHmat.pdf}}}\intertext{with $\psi_c=\psi_\epsilon=0, \,\,  \psi_z=I$.
+\vcenter{\hbox{\includegraphics{../../../AMASeriesRepresentation/AMASeriesRepresentation/refHmat.pdf}}}\intertext{with $\psi_c=\psi_\epsilon=0, \,\,  \psi_z=I$.
 the series representation requires that the linear model
 have a unique stable solution.}
   B=
-\vcenter{\hbox{\includegraphics{refBmat.pdf}}}\\
+\vcenter{\hbox{\includegraphics{../../../AMASeriesRepresentation/AMASeriesRepresentation/refBmat.pdf}}}\\
 \phi=
-\vcenter{\hbox{\includegraphics{refPhimat.pdf}}}\\
+\vcenter{\hbox{\includegraphics{../../../AMASeriesRepresentation/AMASeriesRepresentation/refPhimat.pdf}}}\\
 F=
-\vcenter{\hbox{\includegraphics{refFmat.pdf}}}
+\vcenter{\hbox{\includegraphics{../../../AMASeriesRepresentation/AMASeriesRepresentation/refFmat.pdf}}}
 \end{gather} 
 }
 \end{frame}
@@ -229,7 +229,7 @@ F=
 \includegraphics[width=1.1in]{pseudoPath.pdf}
 
 \includegraphics[width=2in]{theZs.pdf}
-\includegraphics[width=2in]{arbTruncErr.pdf}  
+\includegraphics[width=2in]{../../../AMASeriesRepresentation/AMASeriesRepresentation/arbTruncErr.pdf}  
 \caption{RBC Truncation Error Bound Versus Actual}
   \caption{State Variables and the  z's Corresponding to  $x_{-1}=(1,2,3),\epsilon=(2,1,2)$} \label{arbFig}
 \end{figure}
@@ -324,8 +324,8 @@ c_{t+s}(k_{t-1},\theta_t,\epsilon_t)\\k_{t+s}(k_{t-1},\theta_t,\epsilon_t)    \\
 
 \begin{figure}[H]
   \centering
-\includegraphics[width=2in]{arbTruncErrSimp.pdf}  
-\includegraphics[width=2in]{truncErrSimp.pdf}  
+\includegraphics[width=2in]{../../../AMASeriesRepresentation/AMASeriesRepresentation/arbTruncErrSimp.pdf}  
+\includegraphics[width=2in]{../../../AMASeriesRepresentation/AMASeriesRepresentation/truncErrSimp.pdf}  
 \caption{RBC Model Series Truncation Error Bounds Versus Actual}
   \caption{ $x_{-1}=( {{0.2}, {0.18}, {1.1}}), \epsilon=0.01$} \label{arbFig}
 \end{figure}
