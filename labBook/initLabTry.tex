@@ -16,6 +16,34 @@
 
 \mainmatter
 
+\labday{Tuesday October 31, 2017}
+
+\begin{itemize}
+\item manchester computer science
+  \begin{itemize}
+  \item ssh -X kilburn.cs.manchester.ac.uk
+  \item ssh -X mcore48.cs.manchester.ac.uk
+  \end{itemize}
+5
+\end{itemize}
+\labday{Monday October 30, 2017}
+
+\begin{itemize}
+\item /opt/local/bin   useful arc programs like ubpeakload for finding unloaded machines
+\end{itemize}
+
+\labday{Saturday October 27, 2017}
+
+\begin{itemize}
+\item \href{someParallel-node001a.6990135simple.out}{job arrays slurm}
+\end{itemize}
+
+\labday{Friday October 27, 2017}
+
+\begin{itemize}
+\item /msu/res2/m1gsa00/aim/cpNLMods/  canada mod
+\item SetOptions["stdout",PageWidth->Infinity]
+\end{itemize}
 
 \labday{Friday October 6, 2017}
 \begin{verbatim}
@@ -2726,6 +2754,31 @@ With this said, you would be better off using operator new - an idiomatic way of
 And you would be even better off (much better off) using std::vector instead of using raw pointers and new.
 
 \end{verbatim}
+\begin{verbatim}
+lam[t] -1/cc[t],
+cc[t] + kk[t]-((theta[t])*(kk[t-1]^alpha)),
+nlPart[t] -(nlPartRHS=lam[t]*theta[t]),
+theta[t]-E^(rho*Log[theta[t-1]] + eps[theta][t]),
+lam[t] +mu1[t] - (alpha*kk[t]^(-1+alpha)*delta*nlPart[t+1]+
+lam[t+1]*delta*(1-dd)+mu1Sqrt[t+1]*delta*(1-dd)),
+II[t] -(kk[t]-(1-dd)*kk[t-1]),
+mu1[t]*(kk[t]-(1-dd)*kk[t-1]-upsilon*IIss)
+}
+rbcEqnsNotBinding={
+lam[t] -1/cc[t],
+cc[t] + kk[t]-((theta[t])*(kk[t-1]^alpha)),
+nlPart[t] -(nlPartRHS=lam[t]*theta[t]),
+theta[t]-E^(rho*Log[theta[t-1]] + eps[theta][t]),
+lam[t] +mu1[t] - (alpha*kk[t]^(-1+alpha)*delta*nlPart[t+1]+lam[t+1]*delta*(1-dd)+mu1[t+1]*delta*(1-dd)),
+II[t] -(kk[t]-(1-dd)*kk[t-1]),
+mu1[t]*(kk[t]-(1-dd)*kk[t-1]-upsilon*IIss)
+}
+\end{verbatim}
+
+
+
+
+
 \href{http://www.acodersjourney.com/2016/05/top-10-c-header-file-mistakes-and-how-to-fix-them/}{best practice .h files}
 \bibliographystyle{plainnat}
 \bibliography{files.bib}
