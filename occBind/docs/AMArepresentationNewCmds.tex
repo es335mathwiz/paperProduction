@@ -9,10 +9,13 @@
 
 \usepackage{tikz-cd}
 \usepackage{amsmath}
+\usepackage[most]{tcolorbox}
+
+
 \DeclareMathOperator*{\argmin}{arg\,min}
 
 
-\usepackage{algorithm2e}
+\usepackage[linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
 %\usepackage{algorithmicx}
 \usepackage{algpseudocode}
 \algrenewcommand\algorithmicwhile{\textbf{until}}
@@ -132,10 +135,15 @@ B x_{t-1}+ \phi \psi_\epsilon\epsilon + (I - F)^{-1} \phi \psi_c
 \newcommand{\solverSig}{{
 \frfpnsRegimeFuncHelp
 }}
+\newcommand{\allArgs}{(x_{t-1},\epsilon,x_t,\expct{x_{t+1}})}
 \newcommand{\proj}[1]{{\pi_{#1}}}
 \newcommand{\eqnArg}{\mathbf{m}_{in}}
 \newcommand{\eqnOut}{\mathbf{m}_{err}}
 \newcommand{\eqnFunc}{\mathbb{M}}
+\newcommand{\gate}{\mathbf{b}}
+\newcommand{\eqnFuncSysIExpl}[1]{\{(\mathbf{b}_{#1}\allArgs,\eqnFunc_{#1}\allArgs=0) \}}
+\newcommand{\eqnFuncSysI}[1]{\mathbb{C}_{#1}}
+\newcommand{\eqnFuncSys}{\{\eqnFuncSysI{1},\ldots,\eqnFuncSysI{M}\}}
 \newcommand{\eqnErrs}{{{m}_e}}
 \newcommand{\eqnFuncSig}{{\Rn{3\numX+\numEps+\numZ}\rightarrow\Rn{\numX}}}
 
@@ -170,10 +178,27 @@ B x_{t-1}+ \phi \psi_\epsilon\epsilon + (I - F)^{-1} \phi \psi_c
 \newcommand{\linModMats}{{\{H,\psi_\epsilon,\psi_c;B,\phi,F\}}}
 \newcommand{\sForSum}{{\nu}}
 
-\newcommand{\xWOarg}{   \mathcal{X}_{t}}
-\newcommand{\xWarg}{   \mathcal{X}_{t}(x_{-1},\epsilon)}
-\newcommand{\xWargK}{   \hat{\mathcal{X}}_{t}(x_{-1},\epsilon,k)}
-\newcommand{\xWOargK}{   \hat{\mathcal{X}}_{t}}
+\newcommand{\xWOarg}{   \mathbf{x}}
+\newcommand{\xWarg}{   \mathbf{x}(x_{t-1},\epsilon)}
+\newcommand{\xWargK}{   \hat{\mathbf{x}}(x_{t-1},\epsilon,k)}
+\newcommand{\xWOargK}{   \hat{\mathbf{x}}}
+
+
+\newcommand{\XWOarg}{   \mathbf{X}}
+\newcommand{\XWarg}{   \mathbf{X}(x_{t-1},\epsilon)}
+\newcommand{\XWargK}{   \hat{\mathbf{X}}(x_{t-1},\epsilon,k)}
+\newcommand{\XWOargK}{   \hat{\mathbf{X}}}
+
+\newcommand{\zWOarg}{   \mathbf{z}}
+\newcommand{\zWarg}{   \mathbf{z}(x_{t-1},\epsilon)}
+\newcommand{\zWargK}{   \hat{\mathbf{z}}(x_{t-1},\epsilon,k)}
+\newcommand{\zWOargK}{   \hat{\mathbf{z}}}
+
+
+\newcommand{\ZWOarg}{   \mathbf{Z}}
+\newcommand{\ZWarg}{   \mathbf{Z}(x_{-1},\epsilon)}
+\newcommand{\ZWargK}{   \hat{\mathbf{Z}}(x_{-1},\epsilon,k)}
+\newcommand{\ZWOargK}{   \hat{\mathbf{Z}}}
 
 
 \newcommand{\xIter}[2]{\mathcal{X}^{#1}(#2)}
@@ -232,6 +257,19 @@ M_\varpi^{det}(#1,#2,\epsilon_#4)E_#4(#3)
 \newcommand{\initXEN}{(x_,\epsilon_t)}
 \newcommand{\detComp}[1]{{\detF{K-\nu}( \cdots \detF{K-1}(\detF{K}(#1))))}}
 \newcommand{\tArg}{(x_{t-1},\epsilon_t)}
+\newcommand{\tNo}{(x_{t-1})}
 
 
 \newtheorem{theorem}{Theorem}[section]
+
+
+\newcommand{\fSum}{\mathcal{F}}
+\newcommand{\modArgs}{\mathbb{X}}
+
+\newcommand{\aSmolPoly}{p(x,\epsilon)}
+\newcommand{\smolRngs}{\{(\underbar{x}_1,\bar{x}_1),\ldots,(\underbar{x}_L,\bar{x}_L),(\underbar{$\epsilon$}_1,\bar{\epsilon}_1),\ldots,(\underbar{$\epsilon$}_L,\bar{\epsilon}_K)\}}
+\newcommand{\distribSpec}{\{f_1,\ldots,f_K\}}
+
+
+%
+\newcommand{\eulerE}{\mathbb{E}}
