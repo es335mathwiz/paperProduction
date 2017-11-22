@@ -64,8 +64,13 @@
 \newcommand{\numPts}{{N_{points}}}
 \newcommand{\thePoints}{{\{(x_{t-1},\epsilon_t)^{1} \ldots (x_{t-1},\epsilon_t)^{\numPts}\}}}
 \newcommand{\thePts}{{\mathcal{P}}}
-\newcommand{\ADRCE}{{\bf ADRCE}}
-\newcommand{\ADR}{{\bf ADR}}
+%\newcommand{\ADRCE}{{\bf ADRCE}}
+%\newcommand{\ADR}{{\bf ADR}}
+\newcommand{\ADRCE}{\XZFunc}
+\newcommand{\ADR}{\xzFunc}
+
+
+
 
 \newcommand{\xtmEpsArg}{{x_{t-1},\epsilon_t}} 
 \newcommand{\xtArg}{{x_{t} }}
@@ -183,11 +188,29 @@ B x_{t-1}+ \phi \psi_\epsilon\epsilon + (I - F)^{-1} \phi \psi_c
 \newcommand{\xWargK}{   \hat{\mathbf{x}}(x_{t-1},\epsilon,k)}
 \newcommand{\xWOargK}{   \hat{\mathbf{x}}}
 
+\newcommand{\xpWOarg}{   \mathbf{x}^p}
+\newcommand{\xpWarg}{   \mathbf{x}^p(x_{t-1},\epsilon)}
+\newcommand{\xpWargK}{   \hat{\mathbf{x}}^p(x_{t-1},\epsilon,k)}
+\newcommand{\xpWOargK}{   \hat{\mathbf{x}^p}}
+
+
+\newcommand{\xppWOarg}{   \mathbf{x}^{p'}}
+\newcommand{\xppWarg}{   \mathbf{x}^{p'}(x_{t-1},\epsilon)}
+\newcommand{\xppWargK}{   \hat{\mathbf{x}}^{p'}(x_{t-1},\epsilon,k)}
+\newcommand{\xppWOargK}{   \hat{\mathbf{x}^{p'}}}
+
+
 
 \newcommand{\XWOarg}{   \mathbf{X}}
 \newcommand{\XWarg}{   \mathbf{X}(x_{t-1},\epsilon)}
 \newcommand{\XWargK}{   \hat{\mathbf{X}}(x_{t-1},\epsilon,k)}
 \newcommand{\XWOargK}{   \hat{\mathbf{X}}}
+
+
+\newcommand{\XpWOarg}{   \mathbf{X}^p}
+\newcommand{\XpWarg}{   \mathbf{X}^p(x_{t-1},\epsilon)}
+\newcommand{\XpWargK}{   \hat{\mathbf{X}^p}(x_{t-1},\epsilon,k)}
+\newcommand{\XpWOargK}{   \hat{\mathbf{X}^p}}
 
 \newcommand{\zWOarg}{   \mathbf{z}}
 \newcommand{\zWarg}{   \mathbf{z}(x_{t-1},\epsilon)}
@@ -199,6 +222,25 @@ B x_{t-1}+ \phi \psi_\epsilon\epsilon + (I - F)^{-1} \phi \psi_c
 \newcommand{\ZWarg}{   \mathbf{Z}(x_{-1},\epsilon)}
 \newcommand{\ZWargK}{   \hat{\mathbf{Z}}(x_{-1},\epsilon,k)}
 \newcommand{\ZWOargK}{   \hat{\mathbf{Z}}}
+
+
+\newcommand{\zpWOarg}{   \mathbf{z}^p}
+\newcommand{\zpWarg}{   \mathbf{z}^p(x_{t-1},\epsilon)}
+\newcommand{\zpWargK}{   \hat{\mathbf{z}^p}(x_{t-1},\epsilon,k)}
+\newcommand{\zpWOargK}{   \hat{\mathbf{z}^p}}
+
+
+
+\newcommand{\zppWOarg}{   \mathbf{z}^{p'}}
+\newcommand{\zppWarg}{   \mathbf{z}^{p'}(x_{t-1},\epsilon)}
+\newcommand{\zppWargK}{   \hat{\mathbf{z}^{p'}}(x_{t-1},\epsilon,k)}
+\newcommand{\zppWOargK}{   \hat{\mathbf{z}^{p'}}}
+
+
+\newcommand{\ZpWOarg}{   \mathbf{Z}^p}
+\newcommand{\ZpWarg}{   \mathbf{Z}^p(x_{-1},\epsilon)}
+\newcommand{\ZpWargK}{   \hat{\mathbf{Z}^p}(x_{-1},\epsilon,k)}
+\newcommand{\ZpWOargK}{   \hat{\mathbf{Z}^p}}
 
 
 \newcommand{\xIter}[2]{\mathcal{X}^{#1}(#2)}
@@ -272,4 +314,4 @@ M_\varpi^{det}(#1,#2,\epsilon_#4)E_#4(#3)
 
 
 %
-\newcommand{\eulerE}{\mathbb{E}}
+\newcommand{\eulerE}{\mathbf{e}}
