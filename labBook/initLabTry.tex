@@ -16,6 +16,25 @@
 
 \mainmatter
 
+\labday{Wednesday November 15, 2017}
+
+\begin{itemize}
+\item NUMA information
+  \begin{itemize}
+  \item lscpu
+  \item lstopo
+  \item \href{https://www.open-mpi.org/projects/hwloc/doc/hwloc-v1.11.8-letter.pdf}{hwloc} hwloc-calc -I pu --physical-input --logical-output pu:3
+  \item lstopo-no-graphics (not available on FRB cluster)
+  \item cat /sys/devices/system/cpu/cpu0/cache/index2/size
+  \item dmidecode -t cache  (not available on FRB cluster)
+  \item free -h
+  \item dmesg | grep cache
+  \item cat /proc/cpuinfo
+  \item cat /proc/meminfo
+  \end{itemize}
+
+\end{itemize}
+
 \labday{Tuesday October 31, 2017}
 
 \begin{itemize}
