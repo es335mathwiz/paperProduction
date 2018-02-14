@@ -44,6 +44,10 @@
 %\usepackage{datetime}
 \usepackage{amsfonts}
 
+
+
+\newcommand{\pdrv}[2]{\frac{\partial #1}{\partial #2}}
+
 \newcommand{\xgusst}[1]{x^{guess}_{#1}}
 \newcommand{\xnxt}[1]{x^{next}_{#1}}
 \newcommand{\znxt}[1]{z^{next}_{#1}}
@@ -157,6 +161,7 @@ B x_{t-1}+ \phi \psi_\epsilon\epsilon + (I - F)^{-1} \phi \psi_c
 \newcommand{\eqnFuncSys}{\{\eqnFuncSysI{1},\ldots,\eqnFuncSysI{M}\}}
 \newcommand{\eqnErrs}{{{m}_e}}
 \newcommand{\eqnFuncSig}{{\Rn{3\numX+\numEps+\numZ}\rightarrow\Rn{\numX}}}
+
 
 
 \newcommand{\lilXFuncSig}{{fix lilXFuncSig}}
